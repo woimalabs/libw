@@ -23,20 +23,28 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_CLASS
-#define LIBW_CLASS
+#include <w/AudioEngine.hpp>
+#include "AudioEnginePrivate.hpp"
 
 namespace w
 {
-    #define COPYABLE(ClassName) \
-        ClassName(ClassName const& instance); \
-        ClassName& operator=(ClassName const& r);
+    AudioEngine::AudioEngine(float volumeAtStart, const std::string& assetsPath):
+        private_(new AudioEnginePrivate(volumeAtStart, assetsPath))
+    {
+    }
 
-    #define UNCOPYABLE(ClassName) \
-    private: \
-        ClassName(const ClassName&); \
-        ClassName& operator=(const ClassName&); \
-    public:
+    AudioEngine::~AudioEngine()
+    {
+        delete private_;
+    }
+
+    void AudioEngine::setVolume(float volume)
+    {
+        AudioEnginePrivate::setVolume(volume);
+    }
+
+    float AudioEngine::volume()
+    {
+        return AudioEnginePrivate::volume();
+    }
 }
-
-#endif

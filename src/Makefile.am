@@ -3,8 +3,11 @@ libw_la_SOURCES = \
 	AudioEngine.cpp \
 	AudioEnginePrivate-Pulse.cpp
 
+libw_la_CPPFLAGS = -I$(top_srcdir)/include
+
 library_includedir = $(includedir)/w
 
 library_include_HEADERS = \
-	AudioEngine.hpp \
-	AudioAsset.hpp
+	../include/w/Class.hpp \
+	../include/w/AudioEngine.hpp \
+	../include/w/AudioAsset.hpp

@@ -27,6 +27,7 @@
 #define LIBW_AUDIOENGINE
 
 #include <w/Class.hpp>
+#include <string>
 
 /**
  * AudioEngine is a class that manages audio.
