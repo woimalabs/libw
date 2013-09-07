@@ -1,0 +1,11 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: libw
+Description: Audio library
+Version: 0.1
+Libs: -L${libdir} -lw -lpthread -lrt -lsigc-2.0 -lpthread
+Cflags: -I${includedir}
+Requires: sigc++-2.0

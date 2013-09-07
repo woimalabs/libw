@@ -11,14 +11,14 @@
  * commercial applications, and to alter it and redistribute it freely, subject to
  * the following restrictions:
  *
- *  * The origin of this software must not be misrepresented; you must not claim
+ * 1) The origin of this software must not be misrepresented; you must not claim
  *    that you wrote the original software. If you use this software in a product,
  *    an acknowledgment in the product documentation is appreciated.
  *
- *  * Altered source versions must be plainly marked as such, and must not be
+ * 2) Altered source versions must be plainly marked as such, and must not be
  *    misrepresented as being the original software.
  *
- *  * This notice may not be removed or altered from any source distribution.
+ * 3) This notice may not be removed or altered from any source distribution.
  *
  * @author antti.peuhkurinen@woimasolutions.com
  */
@@ -38,7 +38,14 @@ namespace w
     public:
         UNCOPYABLE(AudioEngine)
 
-        AudioEngine(float volumeAtStart = 1.0f, const char* assetsPath = "./");
+        /**
+         * Creates AudioEngine instance which makes possible to play AudioAssets.
+         *
+         * @param [in]  volumeAtStart   Master volume level when starting.
+         *                              Value is checked and limited between [0.0 - 1.0].
+         * @param [in]  assetsPath      Path to audio files.
+         */
+        AudioEngine(float volumeAtStart, const std::string& assetsPath);
         ~AudioEngine();
         static void setVolume(float volume);
         static float volume();
