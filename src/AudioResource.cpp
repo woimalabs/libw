@@ -24,6 +24,7 @@
  */
 
 #include "AudioResource.hpp"
+#include <w/Log.hpp>
 #include <w/Exception.hpp>
 #include <string.h>
 
@@ -255,7 +256,7 @@ namespace w
         }
         else
         {
-            LOGE("No file:%s\n", file.c());
+            LOGE("No file:%s\n", file.c_str());
         }
         return;
 

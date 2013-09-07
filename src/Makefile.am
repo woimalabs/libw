@@ -1,7 +1,8 @@
 lib_LTLIBRARIES = libw.la
 libw_la_SOURCES = \
 	AudioEngine.cpp \
-	AudioEnginePrivate-Pulse.cpp
+	AudioEnginePrivate-Pulse.cpp \
+	AudioResource.cpp
 
 libw_la_CPPFLAGS = -I$(top_srcdir)/include
 
