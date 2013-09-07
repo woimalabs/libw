@@ -1,0 +1,5 @@
+LINUX
+=====
+
+autoreconf -i; ./configure; sudo make install
+
