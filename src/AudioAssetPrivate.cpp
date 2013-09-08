@@ -35,7 +35,7 @@ namespace w
     {
     }
 
-    void AudioAssetPrivate::play(float volume = 1.0f)
+    void AudioAssetPrivate::play(float volume)
     {
     }
 
@@ -43,7 +43,7 @@ namespace w
     {
     }
 
-    void AudioAssetPrivate::fadeOut(unsigned int fadeOutTimeMilliseconds = 0)
+    void AudioAssetPrivate::fadeOut(unsigned int fadeOutTimeMilliseconds)
     {
     }
 }

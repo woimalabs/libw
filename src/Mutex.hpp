@@ -36,7 +36,6 @@ namespace w
         Mutex();
         ~Mutex();
         int lock();
-        int tryLock();
         int unlock();
 
     private:

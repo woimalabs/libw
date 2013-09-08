@@ -34,9 +34,20 @@ namespace w
     class Resource: public Referenced
     {
     public:
-        Resource(const std::string& filename);
-        virtual ~Resource();
-        const std::string& path() const;
+        Resource(const std::string& filename):
+            Referenced(),
+            filename_(filename)
+        {
+        }
+
+        virtual ~Resource()
+        {
+        }
+
+        const std::string& filename()  const
+        {
+            return filename_;
+        }
 
     private:
         std::string filename_;

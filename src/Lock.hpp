@@ -26,7 +26,9 @@
 #ifndef LIBW_LOCK
 #define LIBW_LOCK
 
-#include "w/Mutex.hpp"
+#include "Mutex.hpp"
+
+#define LOCK w::Lock lock(mutex_);
 
 namespace w
 {

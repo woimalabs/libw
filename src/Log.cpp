@@ -111,7 +111,7 @@ namespace w
             delete[] buf;
         }
 
-        #ifndef DEBUG
+        #ifdef DEBUG
             void Log::D(const char *fmt, ...)
             {
                 va_list ap;
@@ -138,7 +138,7 @@ namespace w
         }
     #endif
     #ifdef __ANDROID__
-        #ifndef DEBUG
+        #ifdef DEBUG
             void Log::D(const char *fmt, ...)
             {
                 va_list ap;

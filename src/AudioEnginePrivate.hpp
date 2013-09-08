@@ -26,7 +26,12 @@
 #ifndef LIBW_AUDIOENGINEPRIVATE
 #define LIBW_AUDIOENGINEPRIVATE
 
+#include "Mutex.hpp"
+#include "AudioResource.hpp"
 #include <w/Class.hpp>
+#include <sigc++/connection.h>
+#include <string>
+#include <map>
 
 namespace w
 {
@@ -35,13 +40,35 @@ namespace w
     public:
         UNCOPYABLE(AudioEnginePrivate)
 
+        struct State
+        {
+            enum Enum
+            {
+                Start,
+                Starting,
+                Run,
+                ShuttingDown,
+                End
+            };
+        };
+
         AudioEnginePrivate(float volumeAtStart, const std::string& assetsPath);
         ~AudioEnginePrivate();
+        static State::Enum state();
         static void setVolume(float volume);
         static float volume();
+        static AudioResource* get(const std::string& file);
 
     private:
-        // TODO
+        static AudioEnginePrivate* singleton_;
+        static State::Enum state_;
+
+        Mutex mutex_;
+        std::map<std::string, AudioResource*> resources_;
+        std::map<unsigned int, sigc::connection> resourcesConnections_;
+        void handleResourceDestroy(unsigned int);
+        float volumeAtStart_;
+        std::string assetsPath_;
     };
 }
 

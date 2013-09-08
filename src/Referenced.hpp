@@ -26,6 +26,7 @@
 #ifndef LIBW_REFERENCED
 #define LIBW_REFERENCED
 
+#include "Lock.hpp"
 #include <cstddef>
 using std::ptrdiff_t; // NOTE: sigc++ needs this line
 #include <sigc++/signal.h>
@@ -67,8 +68,10 @@ namespace w
     protected:
         Referenced():
             referenceCount_(0),
-            id_(lastId_++)
+            id_(0)
         {
+            Lock lock(mutex_);
+            id_ = ++lastId_;
         }
 
         virtual ~Referenced()
@@ -79,7 +82,7 @@ namespace w
         unsigned int referenceCount_;
         unsigned int id_;
 
-        // TODO: locking for thread safety
+        static Mutex mutex_;
         static unsigned int lastId_;
     };
 }

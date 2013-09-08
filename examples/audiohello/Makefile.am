@@ -1,0 +1,4 @@
+bin_PROGRAMS = audiohello
+audiohello_SOURCES = main.cpp
+audiohello_LDADD = $(AUDIOHELLO_DEPENDENCIES_LIBS)
+audiohello_CPPFLAGS = $(AUDIOHELLO_DEPENDENCIES_CPPFLAGS)
