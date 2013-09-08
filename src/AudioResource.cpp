@@ -112,7 +112,7 @@ namespace w
     {
         FILE* fp = NULL;
 
-        LOGI("Loading \"%s\"\n", file.c_str());
+        LOGI("Loading \"%s\"", file.c_str());
 
         fp = fopen(file.c_str(), "rb");
         if (fp != NULL)
@@ -123,35 +123,35 @@ namespace w
             // Header
             if (fread(buf, 1, 4, fp) != 4)
             {
-                LOGE("Error in reading RIFF.\n");
+                LOGE("Error in reading RIFF.");
                 goto error;
             }
 
             if (strncmp((char*)buf, "RIFF", 4) != 0)
             {
-                LOGI("RIFF not found.\n");
+                LOGI("RIFF not found.");
             }
 
             if (fread(buf, 1, 4, fp) != 4)
             {
-                LOGE("Error in reading file size.\n");
+                LOGE("Error in reading file size.");
                 goto error;
             }
 
             if (fread(buf, 1, 8, fp) != 8)
             {
-                LOGE("WAVEfmt could not be read.\n");
+                LOGE("WAVEfmt could not be read.");
                 goto error;
             }
 
             if (strncmp((char*)buf, "WAVEfmt", 7) != 0)
             {
-                LOGI("WAVEfmt not found\n");
+                LOGI("WAVEfmt not found.");
             }
 
             if (fread(buf, 1, 4, fp) != 4)
             {
-                LOGE("Header size could not be read.\n");
+                LOGE("Header size could not be read.");
                 goto error;
             }
             unsigned int headerSize = getUnsigned(buf);
@@ -165,7 +165,7 @@ namespace w
             // WORD  cbSize;
             if (fread(buf, 1, headerSize, fp) != headerSize)
             {
-                LOGE("Error in reading header.\n");
+                LOGE("Error in reading header.");
                 goto error;
             }
 
@@ -186,7 +186,7 @@ namespace w
             {
                 if (fread(buf,1,4,fp) != 4)
                 {
-                    printf("Error while waiting for data.\n");
+                    printf("Error while waiting for data.");
                     goto error;
                 }
 
@@ -198,18 +198,18 @@ namespace w
                 }
                 else
                 {
-                    LOGI("Skipping block \"%c%c%c%c\"\n", buf[0], buf[1], buf[2], buf[3]);
+                    LOGI("Skipping block \"%c%c%c%c\"", buf[0], buf[1], buf[2], buf[3]);
 
                     if (fread(buf, 1, 4, fp)!=4)
                     {
-                        LOGE("Skipping unknown block failed!\n");
+                        LOGE("Skipping unknown block failed!");
                         goto error;
                     }
 
                     l = getUnsigned(buf);
                     if (fread(buf, 1, l, fp) != l)
                     {
-                        LOGE("Skipping unknown block failed!\n");
+                        LOGE("Skipping unknown block failed!");
                         goto error;
                     }
                 }
@@ -217,14 +217,14 @@ namespace w
 
             if (fread(buf, 1, 4, fp) != 4)
             {
-                LOGE("Data size could not be read.\n");
+                LOGE("Data size could not be read.");
                 goto error;
             }
             unsigned int dataSize = getUnsigned(buf);
 
             if (data_ != NULL)
             {
-                LOGI("Replacing earlier data\n");
+                LOGI("Replacing earlier data.");
                 delete data_;
                 data_ = NULL;
             }
@@ -232,8 +232,8 @@ namespace w
             data_ = new unsigned char [dataSize];
             if ((l = fread(data_, 1, dataSize, fp)) != dataSize)
             {
-                LOGI("File ended before reading all data.\n");
-                LOGI("%d (0x%x) bytes have been read.\n", l, l);
+                LOGI("File ended before reading all data.");
+                LOGI("%d (0x%x) bytes have been read.", l, l);
             }
 
             channels_ = channels;
@@ -256,7 +256,7 @@ namespace w
         }
         else
         {
-            LOGE("No file:%s\n", file.c_str());
+            LOGE("No file: \"%s\"", file.c_str());
         }
         return;
 
@@ -265,6 +265,7 @@ namespace w
         {
             fclose(fp);
         }
-        throw Exception("Could not load audio asset!\n");
+
+        throw Exception("Could not load audio asset!");
     }
 }

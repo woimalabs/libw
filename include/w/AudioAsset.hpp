@@ -27,6 +27,7 @@
 #define LIBW_AUDIOASSET
 
 #include <w/Class.hpp>
+#include <string>
 
 /**
  * AudioAsset is a class for sound samples.
@@ -49,7 +50,7 @@ namespace w
          *
          * @param [in]  filename    filename asset
          */
-        AudioAsset(const char* filename);
+        AudioAsset(const std::string& filename);
         ~AudioAsset();
 
         /**
@@ -76,7 +77,7 @@ namespace w
         void fadeOut(unsigned int fadeOutTimeMilliseconds = 0);
 
     private:
-        class AudioAssetPrivate* private_;
+        class AudioResource* resource_;
     };
 }
 

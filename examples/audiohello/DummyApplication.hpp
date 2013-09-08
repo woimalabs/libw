@@ -23,38 +23,32 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_LOG
-#define LIBW_LOG
+#ifndef AUDIOHELLO_DUMMYAPPLICATION
+#define AUDIOHELLO_DUMMYAPPLICATION
 
-// Continuation of a previous log message on the same line.
-#define LOG_CONTINUE "\x10"
+#include <w/AudioEngine.hpp>
+#include <w/AudioAsset.hpp>
 
-#ifdef __APPLE__
-#include <stdio.h>
-#else
-#include <cstdio>
-#endif
-
-#define DEBUG 1
-
-#define LOG w::Log::D("%s:%s:%d", __FILE__, __FUNCTION__, __LINE__);
-#define LOGD(...) w::Log::D(__VA_ARGS__);
-#define LOGI(...) w::Log::I(__VA_ARGS__);
-#define LOGE(...) w::Log::E(__VA_ARGS__);
-
-namespace w
+class DummyApplication
 {
-    class Log
+public:
+    DummyApplication():
+        audioEngine_(1.0f, "./")
     {
-    public:
-#ifdef DEBUG
-        static void D(const char *fmt, ...);
-#else
-        static void D(const char *fmt, ...) {}
-#endif
-        static void I(const char *fmt, ...);
-        static void E(const char *fmt, ...);
-    };
-}
+    }
+
+    ~DummyApplication()
+    {
+    }
+
+    void run()
+    {
+        w::AudioAsset tmp("teleport.wav");
+        tmp.play();
+    }
+
+private:
+    w::AudioEngine audioEngine_;
+};
 
 #endif

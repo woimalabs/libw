@@ -23,49 +23,33 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_AUDIOENGINEPRIVATE
-#define LIBW_AUDIOENGINEPRIVATE
+#ifndef LIBW_AUDIORESOURCEMANAGER
+#define LIBW_AUDIORESOURCEMANAGER
 
 #include "Mutex.hpp"
-#include "AudioResourceManager.hpp"
+#include "AudioResource.hpp"
 #include <w/Class.hpp>
+#include <sigc++/connection.h>
 #include <string>
+#include <map>
 
 namespace w
 {
-    class AudioEnginePrivate
+    class AudioResourceManager
     {
     public:
-        friend class AudioEngine;
+        UNCOPYABLE(AudioResourceManager)
 
-        UNCOPYABLE(AudioEnginePrivate)
-
-        struct State
-        {
-            enum Enum
-            {
-                Start,
-                Starting,
-                Run,
-                ShuttingDown,
-                End
-            };
-        };
-
-
-        static State::Enum state();
-        static void setVolume(float volume);
-        static float volume();
-        static AudioResource* get(const std::string& file);
+        AudioResourceManager(const std::string& assetPath);
+        ~AudioResourceManager();
+        AudioResource* get(const std::string& file);
 
     private:
-        AudioEnginePrivate(float volumeAtStart, const std::string& assetPath);
-        ~AudioEnginePrivate();
-        static AudioEnginePrivate* singleton_;
-        AudioResourceManager audioResourceManager_;
-        State::Enum state_;
         Mutex mutex_;
-        float volumeAtStart_;
+        std::map<std::string, AudioResource*> resources_;
+        std::map<unsigned int, sigc::connection> resourcesConnections_;
+        void handleResourceDestroy(unsigned int);
+        std::string assetPath_;
     };
 }
 

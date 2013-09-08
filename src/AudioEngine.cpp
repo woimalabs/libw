@@ -23,19 +23,23 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
+#include <w/Log.hpp>
 #include <w/AudioEngine.hpp>
 #include "AudioEnginePrivate.hpp"
 
 namespace w
 {
-    AudioEngine::AudioEngine(float volumeAtStart, const std::string& assetsPath):
-        private_(new AudioEnginePrivate(volumeAtStart, assetsPath))
+    AudioEngine::AudioEngine(float volumeAtStart, const std::string& assetPath):
+        private_(new AudioEnginePrivate(volumeAtStart, assetPath))
     {
+        LOGI("Created AudioEngine.")
     }
 
     AudioEngine::~AudioEngine()
     {
+        LOGI("Shutting down AudioEngine...")
         delete private_;
+        LOGI("Shutdown AudioEngine.")
     }
 
     void AudioEngine::setVolume(float volume)

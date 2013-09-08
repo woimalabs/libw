@@ -5,6 +5,7 @@ libw_la_SOURCES = \
 	AudioEnginePrivate-Pulse.cpp \
 	AudioAsset.cpp \
 	AudioAssetPrivate.cpp \
+	AudioResourceManager.cpp \
 	AudioResource.cpp \
 	Mutex.cpp \
 	Log.cpp \
