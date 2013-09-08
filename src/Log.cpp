@@ -111,13 +111,15 @@ namespace w
             delete[] buf;
         }
 
-        void Log::D(const char *fmt, ...)
-        {
-            va_list ap;
-            va_start (ap, fmt);
-            prefixMessage (stdout, terminalColorBrown, "DEBUG", fmt, ap);
-            va_end (ap);
-        }
+        #ifndef DEBUG
+            void Log::D(const char *fmt, ...)
+            {
+                va_list ap;
+                va_start (ap, fmt);
+                prefixMessage (stdout, terminalColorBrown, "DEBUG", fmt, ap);
+                va_end (ap);
+            }
+        #endif
 
         void Log::I(const char *fmt, ...)
         {
@@ -136,13 +138,15 @@ namespace w
         }
     #endif
     #ifdef __ANDROID__
-        void Log::D(const char *fmt, ...)
-        {
-            va_list ap;
-            va_start(ap, fmt);
-            __android_log_vprint(ANDROID_LOG_DEBUG, ANDROID_LOG_TAG, fmt, ap);
-            va_end(ap);
-        }
+        #ifndef DEBUG
+            void Log::D(const char *fmt, ...)
+            {
+                va_list ap;
+                va_start(ap, fmt);
+                __android_log_vprint(ANDROID_LOG_DEBUG, ANDROID_LOG_TAG, fmt, ap);
+                va_end(ap);
+            }
+        #endif
 
         void Log::I(const char *fmt, ...)
         {

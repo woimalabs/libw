@@ -1,5 +1,8 @@
 LINUX
 =====
 
-autoreconf -i; ./configure; sudo make install
+Install basic development tools:
+$ sudo apt-get install autoconf libtool build-essential libsigc++-2.0-dev libglib2.0-dev
 
+Build and install libw
+$ autoreconf -i; ./configure; sudo make install

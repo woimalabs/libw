@@ -1,14 +1,21 @@
 lib_LTLIBRARIES = libw.la
+
 libw_la_SOURCES = \
 	AudioEngine.cpp \
 	AudioEnginePrivate-Pulse.cpp \
-	AudioResource.cpp
+	AudioAsset.cpp \
+	AudioResource.cpp \
+	Mutex.cpp
 
 libw_la_CPPFLAGS = -I$(top_srcdir)/include
 
 library_includedir = $(includedir)/w
 
 library_include_HEADERS = \
-	../include/w/Class.hpp \
 	../include/w/AudioEngine.hpp \
-	../include/w/AudioAsset.hpp
+	../include/w/AudioAsset.hpp \
+	../include/w/Class.hpp \
+	../include/w/Exception.hpp  \
+	../include/w/Log.hpp
+
+libw_la_LDFLAGS = -shared -version-info 0:1:0
