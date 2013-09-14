@@ -33,7 +33,8 @@ class DummyApplication
 {
 public:
     DummyApplication():
-        audioEngine_(1.0f, "./")
+        audioEngine_(1.0f, "./"),
+        audioAsset_("teleport.wav")
     {
     }
 
@@ -43,12 +44,15 @@ public:
 
     void run()
     {
-        w::AudioAsset tmp("teleport.wav");
-        tmp.play();
+        audioAsset_.play();
+        while(1)
+        {
+        }
     }
 
 private:
     w::AudioEngine audioEngine_;
+    w::AudioAsset audioAsset_;
 };
 
 #endif

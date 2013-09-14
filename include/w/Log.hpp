@@ -26,9 +26,6 @@
 #ifndef LIBW_LOG
 #define LIBW_LOG
 
-// Continuation of a previous log message on the same line.
-#define LOG_CONTINUE "\x10"
-
 #ifdef __APPLE__
 #include <stdio.h>
 #else

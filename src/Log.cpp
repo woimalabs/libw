@@ -32,6 +32,9 @@
     #include <unistd.h>
 #endif
 
+// Continuation of a previous log message on the same line.
+#define LOG_CONTINUE "\x10"
+
 namespace w
 {
     #ifdef __ANDROID__

@@ -30,6 +30,9 @@
 #include "AudioResourceManager.hpp"
 #include <w/Class.hpp>
 #include <string>
+#ifdef __linux__
+    #include <pulse/pulseaudio.h>
+#endif
 
 namespace w
 {
@@ -58,6 +61,9 @@ namespace w
         static float volume();
         static AudioResource* get(const std::string& file);
 
+        // pulse
+        void writeCallback(size_t size);
+
     private:
         AudioEnginePrivate(float volumeAtStart, const std::string& assetPath);
         ~AudioEnginePrivate();
@@ -66,6 +72,12 @@ namespace w
         State::Enum state_;
         Mutex mutex_;
         float volumeAtStart_;
+
+        // pulse
+        void configureStream();
+        pa_threaded_mainloop* mainloop_;
+        pa_context* context_;
+        pa_stream* stream_;
     };
 }
 
