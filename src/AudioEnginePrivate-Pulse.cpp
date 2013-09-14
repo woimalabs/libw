@@ -63,7 +63,6 @@ static void stream_write_callback(pa_stream* stream, size_t size, void* ptr)
 {
     w::AudioEnginePrivate* self = (w::AudioEnginePrivate*)ptr;
     self->writeCallback(size);
-
 }
 
 namespace w
@@ -72,6 +71,7 @@ namespace w
 
     AudioEnginePrivate::AudioEnginePrivate(float volumeAtStart, const std::string& assetPath):
         audioResourceManager_(assetPath),
+        tracker_(1.0f),
         volumeAtStart_(volumeAtStart)
     {
         if (singleton_ != NULL)
@@ -214,11 +214,9 @@ failed:
 
     void AudioEnginePrivate::writeCallback(size_t size)
     {
-        LOGD("write wanted: %d", size);
-
-        char* data = new char[size];
+        unsigned char* data = new unsigned char[size];
+        tracker_.data(size, data);
         pa_stream_write(stream_, data, size, pa_xfree, 0, PA_SEEK_RELATIVE);
-
         pa_threaded_mainloop_signal(mainloop_, 0);
     }
 
@@ -234,11 +232,17 @@ failed:
 
     float AudioEnginePrivate::volume()
     {
-        return 0.0f; // TODO
+        return 1.0f; // TODO
     }
 
     AudioResource* AudioEnginePrivate::get(const std::string& file)
     {
         return singleton_->audioResourceManager_.get(file);
     }
+
+    void AudioEnginePrivate::play(TrackerSample* trackerSample)
+    {
+        singleton_->tracker_.place(trackerSample);
+    }
+
 }

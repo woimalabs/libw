@@ -77,7 +77,7 @@ namespace w
         void fadeOut(unsigned int fadeOutTimeMilliseconds = 0);
 
     private:
-        class AudioResource* resource_;
+        class AudioAssetPrivate* private_;
     };
 }
 

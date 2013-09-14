@@ -23,37 +23,46 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_AUDIOASSETPRIVATE
-#define LIBW_AUDIOASSETPRIVATE
+#ifndef LIBW_TRACKER
+#define LIBW_TRACKER
 
-#include "w/Class.hpp"
-#include "AudioResource.hpp"
-#include "Referenced.hpp"
 #include "TrackerSample.hpp"
-#include <string>
-#include <sigc++/connection.h>
+#include "Mutex.hpp"
+#include <stdint.h>
 
 namespace w
 {
-    class AudioAssetPrivate: public Referenced
+    class Tracker
     {
     public:
-        UNCOPYABLE(AudioAssetPrivate)
+        static unsigned int const TrackAmount = 4;
+        static unsigned int const VolumeTransitionMilliSeconds = 450;
+        static float const VolumeOffThreshold = 0.001f;
 
-        AudioAssetPrivate(const std::string& filename);
-        ~AudioAssetPrivate();
-        bool play(float volume);
+
+        Tracker(float volumeAtStart);
+        ~Tracker();
+
+        /**
+         * Ends playing of TrackerSamples on Tracks so that eventually
+         * no TrackerSamples exist and AudioSystemPrivate destructor
+         * can proceed.
+         */
+        void shutdown();
+        bool shutdownIsDone();
+        bool place(TrackerSample* trackerSample);
+        unsigned int data(unsigned int size, unsigned char* data);
         void setVolume(float volume);
-        void fadeOut(unsigned int fadeOutTimeMilliseconds);
+        float volume();
 
     private:
-        void handleDestroy(unsigned int);
-        AudioResource* resource_;
+
         Mutex mutex_;
-        bool parallerPlay_;
-        bool looping_;
-        std::list<TrackerSample*> playing_;
-        std::list<sigc::connection> playingConnections_;
+        TrackerSample* tracks_[TrackAmount];
+        bool shutdownStarted_;
+        bool shutdownDone_;
+
+        //int16_t buffer_[MaxBuffer];
     };
 }
 

@@ -9,7 +9,10 @@ libw_la_SOURCES = \
 	AudioResource.cpp \
 	Mutex.cpp \
 	Log.cpp \
-	Referenced.cpp
+	Referenced.cpp \
+	Tracker.cpp \ \
+	TrackerSample.cpp \
+	Timer.cpp
 
 libw_la_CPPFLAGS = -I$(top_srcdir)/include
 

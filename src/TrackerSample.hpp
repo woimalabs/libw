@@ -23,34 +23,41 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef AUDIOHELLO_DUMMYAPPLICATION
-#define AUDIOHELLO_DUMMYAPPLICATION
+#ifndef LIBW_TRACKERSAMPLE
+#define LIBW_TRACKERSAMPLE
 
-#include <w/AudioEngine.hpp>
-#include <w/AudioAsset.hpp>
+#include "AudioResource.hpp"
+#include "Referenced.hpp"
+#include <stdint.h>
 
-class DummyApplication
+namespace w
 {
-public:
-    DummyApplication():
-        audioEngine_(1.0f, "./"),
-        audioAsset_("teleport.wav")
+    class TrackerSample: public Referenced
     {
-    }
+    public:
+        static unsigned int const BytesPerSample = 2;
 
-    ~DummyApplication()
-    {
-    }
+        TrackerSample(AudioResource* resource, float volume, bool looping);
+        ~TrackerSample();
+        float volume();
+        void setVolume(float volume);
+        int16_t sample(bool& end);
+        void fadeOut(unsigned int fadeTimeMilliseconds);
 
-    void run()
-    {
-        audioAsset_.play();
-        sleep(3);
-    }
+    protected:
+        float volume_;
+        AudioResource* resource_;
+        unsigned int byteSize_;
+        unsigned int byteLocation_;
+        bool looping_;
 
-private:
-    w::AudioEngine audioEngine_;
-    w::AudioAsset audioAsset_;
-};
+        struct FadeOut
+        {
+            bool on_;
+            unsigned int start_;
+            float ramp_; // applied every sample() call to volume_ during fadeout
+        } fadeOut_;
+    };
+}
 
 #endif

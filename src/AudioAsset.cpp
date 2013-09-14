@@ -26,49 +26,50 @@
 #include "w/Log.hpp"
 #include "w/AudioAsset.hpp"
 #include "AudioEnginePrivate.hpp"
+#include "AudioAssetPrivate.hpp"
 
 namespace w
 {
     AudioAsset::AudioAsset(const std::string& filename):
-        resource_(AudioEnginePrivate::get(filename))
+        private_(new AudioAssetPrivate(filename))
     {
-        resource_->increment();
+        private_->increment();
     }
 
     AudioAsset::AudioAsset(AudioAsset const& r):
-        resource_(r.resource_)
+        private_(r.private_)
     {
-        resource_->increment();
+        private_->increment();
     }
 
     AudioAsset::~AudioAsset()
     {
-        resource_->decrement();
-        resource_ = NULL;
+        private_->decrement();
+        private_ = NULL;
     }
 
     AudioAsset& AudioAsset::operator=(AudioAsset const& r)
     {
         if (this != &r)
         {
-            resource_ = r.resource_;
-            resource_->increment();
+            private_ = r.private_;
+            private_->increment();
         }
         return *this;
     }
 
     void AudioAsset::play(float volume)
     {
-        // TODO: create tracker sample from this resource
+        private_->play(volume);
     }
 
     void AudioAsset::setVolume(float volume)
     {
-        // TODO: set volume to all playing tracker samples from this asset
+        private_->setVolume(volume);
     }
 
-    void AudioAsset::fadeOut(unsigned int fadeOutTime)
+    void AudioAsset::fadeOut(unsigned int fadeOutTimeMilliseconds)
     {
-        // TODO: fade all playing tracker samples from this asset
+        private_->fadeOut(fadeOutTimeMilliseconds);
     }
 }

@@ -23,34 +23,37 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef AUDIOHELLO_DUMMYAPPLICATION
-#define AUDIOHELLO_DUMMYAPPLICATION
+#ifndef LIBW_TIMER
+#define LIBW_TIMER
 
-#include <w/AudioEngine.hpp>
-#include <w/AudioAsset.hpp>
+#include <time.h>
+#include <stdint.h> // For uint64_t
 
-class DummyApplication
+namespace w
 {
-public:
-    DummyApplication():
-        audioEngine_(1.0f, "./"),
-        audioAsset_("teleport.wav")
+    class Timer
     {
-    }
+    public:
+        Timer();
+        ~Timer();
 
-    ~DummyApplication()
-    {
-    }
+        /**
+         * @return milliseconds. NOTE: start time undefined. Values
+         *     are useful only for example when looking time differences.
+         */
+        static unsigned int milliseconds();
 
-    void run()
-    {
-        audioAsset_.play();
-        sleep(3);
-    }
+        /**
+         * @return nanoseconds. NOTE: start time undefined. Values
+         *     are useful only for example when looking time differences.
+         */
+        static uint64_t nanoseconds();
 
-private:
-    w::AudioEngine audioEngine_;
-    w::AudioAsset audioAsset_;
-};
+        static void sleep(unsigned int milliseconds);
+
+    private:
+        static void nanoSleepFromMilliseconds(unsigned int milliseconds);
+    };
+}
 
 #endif

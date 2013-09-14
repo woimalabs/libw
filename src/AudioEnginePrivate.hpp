@@ -28,6 +28,8 @@
 
 #include "Mutex.hpp"
 #include "AudioResourceManager.hpp"
+#include "Tracker.hpp"
+#include "TrackerSample.hpp"
 #include <w/Class.hpp>
 #include <string>
 #ifdef __linux__
@@ -60,6 +62,7 @@ namespace w
         static void setVolume(float volume);
         static float volume();
         static AudioResource* get(const std::string& file);
+        static void play(TrackerSample* trackerSample);
 
         // pulse
         void writeCallback(size_t size);
@@ -69,6 +72,7 @@ namespace w
         ~AudioEnginePrivate();
         static AudioEnginePrivate* singleton_;
         AudioResourceManager audioResourceManager_;
+        Tracker tracker_;
         State::Enum state_;
         Mutex mutex_;
         float volumeAtStart_;
