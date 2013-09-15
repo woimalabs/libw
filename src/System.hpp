@@ -34,17 +34,19 @@ namespace w
 {
     namespace System
     {
-        std::string home()
-        {
-            char* tmp = getenv("HOME");
-            if (tmp == NULL)
+        #ifdef __linux__
+            std::string home()
             {
-                LOGE("System: $HOME has not been set, returning NULL.\n");
-                return std::string();
-            }
+                char* tmp = getenv("HOME");
+                if (tmp == NULL)
+                {
+                    LOGE("System: $HOME has not been set, returning NULL.\n");
+                    return std::string();
+                }
 
-            return std::string(tmp);
-        }
+                return std::string(tmp);
+            }
+        #endif
     }
 }
 

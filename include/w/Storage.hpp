@@ -27,12 +27,15 @@
 #define LIBW_STORAGE
 
 #include <string>
+#include "w/Class.hpp"
 
 namespace w
 {
     class Storage
     {
     public:
+        UNCOPYABLE(Storage);
+
         /**
          * Creates storage with given name.
          *
