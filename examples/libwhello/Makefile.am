@@ -1,0 +1,4 @@
+bin_PROGRAMS = libwhello
+libwhello_SOURCES = main.cpp
+libwhello_LDADD = $(LIBWHELLO_DEPENDENCIES_LIBS)
+libwhello_CPPFLAGS = $(LIBWHELLO_DEPENDENCIES_CPPFLAGS)

@@ -83,7 +83,8 @@ namespace w
         tim.tv_sec = milliseconds / 1000;
         tim.tv_nsec = (milliseconds % 1000) * 1000000LL;
 
-        if (nanosleep(&tim , &tim2) < 0 ) {
+        if (nanosleep(&tim , &tim2) < 0)
+        {
             throw Exception("Timer::nanoSleep call to nanosleep() failed.");
         }
     }

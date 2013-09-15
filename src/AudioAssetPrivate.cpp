@@ -28,11 +28,11 @@
 
 namespace w
 {
-    AudioAssetPrivate::AudioAssetPrivate(const std::string& filename):
+    AudioAssetPrivate::AudioAssetPrivate(const std::string& filename, bool parallelPlay, bool looping):
         Referenced(),
         resource_(AudioEnginePrivate::get(filename)),
-        parallerPlay_(false),
-        looping_(false)
+        parallerPlay_(parallelPlay),
+        looping_(looping)
     {
     }
 
@@ -80,7 +80,7 @@ namespace w
                 playingConnections_.push_back(connection);
 
             }
-            AudioEnginePrivate::play(trackerSample);
+            r = AudioEnginePrivate::play(trackerSample);
 
             // TrackerSample is destroyed now if it was not added to Tracker
             trackerSample->decrement();

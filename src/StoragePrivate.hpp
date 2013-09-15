@@ -23,37 +23,37 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_AUDIOASSETPRIVATE
-#define LIBW_AUDIOASSETPRIVATE
+#ifndef LIBW_STORAGEPRIVATE
+#define LIBW_STORAGEPRIVATE
 
-#include "w/Class.hpp"
-#include "AudioResource.hpp"
-#include "Referenced.hpp"
-#include "TrackerSample.hpp"
+#include "StorageItem.hpp"
 #include <string>
-#include <sigc++/connection.h>
+#include <list>
 
 namespace w
 {
-    class AudioAssetPrivate: public Referenced
+    class StoragePrivate
     {
     public:
-        UNCOPYABLE(AudioAssetPrivate)
+        static const std::string BlockHeaderStart;
+        static const std::string BlockHeaderEnd;
 
-        AudioAssetPrivate(const std::string& filename, bool parallelPlay, bool looping);
-        ~AudioAssetPrivate();
-        bool play(float volume);
-        void setVolume(float volume);
-        void fadeOut(unsigned int fadeOutTimeMilliseconds);
+        StoragePrivate(const std::string& id);
+        ~StoragePrivate();
+        bool hasInt(const std::string& key);
+        void setInt(const std::string& key, int value);
+        int getInt(const std::string& key);
+        void load();
+        void save();
 
     private:
-        void handleDestroy(unsigned int);
-        AudioResource* resource_;
-        Mutex mutex_;
-        bool parallerPlay_;
-        bool looping_;
-        std::list<TrackerSample*> playing_;
-        std::list<sigc::connection> playingConnections_;
+        bool has(StorageItem::Type::Enum type, const std::string& key);
+        void loadFile(char** target, unsigned int& length);
+        void saveFile(const char* data, unsigned int length);
+        std::string filePath();
+        std::string serialize();
+        std::list<StorageItem*> list_;
+        std::string id_;
     };
 }
 

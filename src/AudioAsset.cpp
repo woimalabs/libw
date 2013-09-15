@@ -30,8 +30,8 @@
 
 namespace w
 {
-    AudioAsset::AudioAsset(const std::string& filename):
-        private_(new AudioAssetPrivate(filename))
+    AudioAsset::AudioAsset(const std::string& filename, bool parallelPlay, bool looping):
+        private_(new AudioAssetPrivate(filename, parallelPlay, looping))
     {
         private_->increment();
     }
@@ -58,9 +58,9 @@ namespace w
         return *this;
     }
 
-    void AudioAsset::play(float volume)
+    bool AudioAsset::play(float volume)
     {
-        private_->play(volume);
+        return private_->play(volume);
     }
 
     void AudioAsset::setVolume(float volume)

@@ -23,38 +23,29 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_AUDIOASSETPRIVATE
-#define LIBW_AUDIOASSETPRIVATE
+#ifndef LIBW_SYSTEM
+#define LIBW_SYSTEM
 
-#include "w/Class.hpp"
-#include "AudioResource.hpp"
-#include "Referenced.hpp"
-#include "TrackerSample.hpp"
+#include "w/Log.hpp"
+#include <stdlib.h>
 #include <string>
-#include <sigc++/connection.h>
 
 namespace w
 {
-    class AudioAssetPrivate: public Referenced
+    namespace System
     {
-    public:
-        UNCOPYABLE(AudioAssetPrivate)
+        std::string home()
+        {
+            char* tmp = getenv("HOME");
+            if (tmp == NULL)
+            {
+                LOGE("System: $HOME has not been set, returning NULL.\n");
+                return std::string();
+            }
 
-        AudioAssetPrivate(const std::string& filename, bool parallelPlay, bool looping);
-        ~AudioAssetPrivate();
-        bool play(float volume);
-        void setVolume(float volume);
-        void fadeOut(unsigned int fadeOutTimeMilliseconds);
-
-    private:
-        void handleDestroy(unsigned int);
-        AudioResource* resource_;
-        Mutex mutex_;
-        bool parallerPlay_;
-        bool looping_;
-        std::list<TrackerSample*> playing_;
-        std::list<sigc::connection> playingConnections_;
-    };
+            return std::string(tmp);
+        }
+    }
 }
 
 #endif

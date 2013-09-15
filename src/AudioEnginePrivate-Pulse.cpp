@@ -240,9 +240,9 @@ failed:
         return singleton_->audioResourceManager_.get(file);
     }
 
-    void AudioEnginePrivate::play(TrackerSample* trackerSample)
+    bool AudioEnginePrivate::play(TrackerSample* trackerSample)
     {
-        singleton_->tracker_.place(trackerSample);
+        return singleton_->tracker_.place(trackerSample);
     }
 
 }

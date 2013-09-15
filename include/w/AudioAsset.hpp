@@ -50,17 +50,19 @@ namespace w
          *
          * @param [in]  filename    filename asset
          */
-        AudioAsset(const std::string& filename);
+        AudioAsset(const std::string& filename, bool parallelPlay = false, bool looping = false);
         ~AudioAsset();
 
         /**
          * Plays the sample.
          *
          * @param [in]  volume      Volume level [0.0 - 1.0], value is checked & limited.
+         * @return                  TRUE if sample started to play.
+         *                          FALSE if tracks were full and sample could not be played.
          *
          * @note AudioEngine must exist to succesfully make a play() call.
          */
-        void play(float volume = 1.0f);
+        bool play(float volume = 1.0f);
 
         /**
          * Set volume level.

@@ -28,14 +28,36 @@
 
 #include <w/AudioEngine.hpp>
 #include <w/AudioAsset.hpp>
+#include <w/Storage.hpp>
+#include <w/Log.hpp>
 
 class DummyApplication
 {
 public:
     DummyApplication():
         audioEngine_(1.0f, "./"),
-        audioAsset_("teleport.wav")
+        audioAsset_("teleport.wav"),
+        storage_("libwhello")
     {
+        std::string storageTestIntKey1("testInt1");
+        int storageTestIntValue1 = 10;
+        storage_.setInt(storageTestIntKey1, storageTestIntValue1);
+        if (storage_.hasInt(storageTestIntKey1) == true)
+        {
+            LOGD("storage test, %s:&d (should be %s:&d)",
+                storageTestIntKey1.c_str(), storage_.getInt(storageTestIntKey1),
+                storageTestIntKey1.c_str(), storageTestIntValue1);
+        }
+
+        std::string storageTestIntKey2("testInt2");
+        int storageTestIntValue2 = 22;
+        storage_.setInt(storageTestIntKey2, storageTestIntValue2);
+        if (storage_.hasInt(storageTestIntKey2) == true)
+        {
+            LOGD("storage test, %s:&d (should be %s:&d)",
+                storageTestIntKey2.c_str(), storage_.getInt(storageTestIntKey2),
+                storageTestIntKey2.c_str(), storageTestIntValue2);
+        }
     }
 
     ~DummyApplication()
@@ -45,12 +67,13 @@ public:
     void run()
     {
         audioAsset_.play();
-        sleep(3);
+        sleep(1);
     }
 
 private:
     w::AudioEngine audioEngine_;
     w::AudioAsset audioAsset_;
+    w::Storage storage_;
 };
 
 #endif
