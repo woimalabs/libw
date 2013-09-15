@@ -92,7 +92,7 @@ namespace w
 
             if (negative)
             {
-                r.insert(0, sizeof(char), '-');
+                r = std::string("-") + r;
             }
 
             return r;

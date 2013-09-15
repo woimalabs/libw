@@ -32,7 +32,9 @@
 #include "TrackerSample.hpp"
 #include <w/Class.hpp>
 #include <string>
-#ifdef __linux__
+#ifdef __ANDROID__
+
+#elif __linux__
     #include <pulse/pulseaudio.h>
 #endif
 
@@ -77,11 +79,15 @@ namespace w
         Mutex mutex_;
         float volumeAtStart_;
 
-        // pulse
-        void configureStream();
-        pa_threaded_mainloop* mainloop_;
-        pa_context* context_;
-        pa_stream* stream_;
+        #ifdef __ANDROID__
+
+        #elif __linux__
+            // pulse
+            void configureStream();
+            pa_threaded_mainloop* mainloop_;
+            pa_context* context_;
+            pa_stream* stream_;
+        #endif
     };
 }
 
