@@ -25,6 +25,7 @@
 
 #include "AudioAssetPrivate.hpp"
 #include "AudioEnginePrivate.hpp"
+#include "w/Log.hpp"
 
 namespace w
 {
@@ -34,59 +35,36 @@ namespace w
         parallerPlay_(parallelPlay),
         looping_(looping)
     {
+        // AudioEnginePrivate::get() return always either != NULL or throws Exception
+        resource_->increment();
     }
 
     AudioAssetPrivate::~AudioAssetPrivate()
     {
         LOCK
-
-        // Stop listening destroy signals
-        std::list<sigc::connection>::iterator i = playingConnections_.begin();
-        for(; i != playingConnections_.end(); ++i)
-        {
-            sigc::connection connection = *i;
-            connection.disconnect();
-        }
-        playingConnections_.empty();
-
-        // Not interested from what we are playing, so empty the playing_ list
-        playing_.clear();
-
+        LOG
         // Unreference related resource
         resource_->decrement();
+        resource_ = NULL;
+        LOG
     }
 
     bool AudioAssetPrivate::play(float volume)
     {
+        LOGD("play S");
+
         // Sanity check for volume value
         if (volume > 1.0f)
-            volume = 1.0f;
-        else if (volume < 0.0f)
-            volume = 0.0f;
-
-        bool r = false;
-        TrackerSample* trackerSample = NULL;
-
-        if (playing_.size() == 0)
         {
-            trackerSample = new TrackerSample(resource_, volume, looping_);
-            trackerSample->increment();
-            {
-                // Add trackerSample to playing list. NOTE: in case tracker
-                // cannot take trackerSample, handleDestroy is OK to proceed
-                LOCK
-                sigc::connection connection = trackerSample->destroy.connect(sigc::mem_fun(this, &AudioAssetPrivate::handleDestroy));
-                playing_.push_back(trackerSample);
-                playingConnections_.push_back(connection);
-
-            }
-            r = AudioEnginePrivate::play(trackerSample);
-
-            // TrackerSample is destroyed now if it was not added to Tracker
-            trackerSample->decrement();
+            volume = 1.0f;
         }
+        else if (volume < 0.0f)
+        {
+            volume = 0.0f;
+        }
+        LOGD("play E");
 
-        return r;
+        return AudioEnginePrivate::play(resource_, volume, looping_);
     }
 
     void AudioAssetPrivate::setVolume(float volume)
@@ -95,53 +73,27 @@ namespace w
 
         // Sanity check for volume value
         if (volume > 1.0f)
-            volume = 1.0f;
-        else if (volume < 0.0f)
-            volume = 0.0f;
-
-        for (std::list<TrackerSample*>::iterator i = playing_.begin(); i != playing_.end(); ++i)
         {
-            TrackerSample* tmp = *i;
-            tmp->setVolume(volume);
+            volume = 1.0f;
         }
+        else if (volume < 0.0f)
+        {
+            volume = 0.0f;
+        }
+
+        // TODO: inform audioengine private to tune volume of this assets trackersamples
     }
 
     void AudioAssetPrivate::fadeOut(unsigned int fadeOutTimeMilliseconds)
     {
         LOCK
 
-        for(std::list<TrackerSample*>::iterator i = playing_.begin(); i != playing_.end(); ++i)
+        // Sanity check for volume value
+        if (fadeOutTimeMilliseconds > 2000)
         {
-            TrackerSample* tmp = *i;
-            tmp->fadeOut(fadeOutTimeMilliseconds);
+            fadeOutTimeMilliseconds = 2000;
         }
-    }
 
-    void AudioAssetPrivate::handleDestroy(unsigned int id)
-    {
-        LOCK
-
-        // List sizes match
-        std::list<TrackerSample*>::iterator i = playing_.begin();
-        std::list<sigc::connection>::iterator i2 = playingConnections_.begin();
-
-        for(; i != playing_.end(); ++i, ++i2)
-        {
-
-            TrackerSample* tmp = *i;
-            if (tmp->id() == id)
-            {
-                // TrackerSample was consumed, stop listening it
-                sigc::connection connection = *i2;
-                connection.disconnect();
-                playingConnections_.erase(i2);
-
-                // TrackerSample is deleted after this function call
-                playing_.erase(i);
-
-                // tmp->id() == id, so this was the one destroyed
-                break;
-            }
-        }
+        // TODO: inform audioengine private to tune volume of this assets trackersamples
     }
 }

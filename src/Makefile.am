@@ -10,8 +10,10 @@ libw_la_SOURCES = \
 	Mutex.cpp \
 	Log.cpp \
 	Referenced.cpp \
-	Tracker.cpp \ \
+	Tracker.cpp \
+	TrackerProducerThread.cpp \
 	TrackerSample.cpp \
+	Thread.cpp \
 	Timer.cpp \
 	Storage.cpp \
 	StoragePrivate.cpp

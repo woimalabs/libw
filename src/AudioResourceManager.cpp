@@ -36,6 +36,16 @@ namespace w
 
     AudioResourceManager::~AudioResourceManager()
     {
+        LOCK
+
+        if (resources_.size() == 0)
+        {
+            LOGI("All audio resources freed.");
+        }
+        else
+        {
+            LOGE("All audio resources NOT freed: %d still exists.", resources_.size())
+        }
     }
 
     AudioResource* AudioResourceManager::get(const std::string& file)

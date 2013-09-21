@@ -72,7 +72,7 @@ namespace w
     #endif
     }
 
-    void Timer::sleep(unsigned int ms)
+    void Timer::sleepMilliseconds(unsigned int ms)
     {
         nanoSleepFromMilliseconds(ms);
     }

@@ -181,6 +181,11 @@ failed:
 
     AudioEnginePrivate::~AudioEnginePrivate()
     {
+        tracker_.shutdown();
+        while (tracker_.shutdownIsDone() == false)
+        {
+        }
+
         if (mainloop_)
         {
             pa_threaded_mainloop_lock(mainloop_);
@@ -215,7 +220,7 @@ failed:
     void AudioEnginePrivate::writeCallback(size_t size)
     {
         unsigned char* data = new unsigned char[size];
-        tracker_.data(size, data);
+        tracker_.getData(size, data);
         pa_stream_write(stream_, data, size, pa_xfree, 0, PA_SEEK_RELATIVE);
         pa_threaded_mainloop_signal(mainloop_, 0);
     }
@@ -240,9 +245,14 @@ failed:
         return singleton_->audioResourceManager_.get(file);
     }
 
-    bool AudioEnginePrivate::play(TrackerSample* trackerSample)
+    bool AudioEnginePrivate::play(AudioResource* resource, bool volume, bool looping)
     {
-        return singleton_->tracker_.place(trackerSample);
-    }
+        TrackerSample* tmp = new TrackerSample(resource, volume, looping);
 
+        tmp->increment();
+        bool r = singleton_->tracker_.place(tmp);
+        tmp->decrement();
+
+        return r;
+    }
 }

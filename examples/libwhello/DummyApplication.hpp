@@ -30,6 +30,7 @@
 #include <w/AudioAsset.hpp>
 #include <w/Storage.hpp>
 #include <w/Log.hpp>
+#include <unistd.h>
 
 class DummyApplication
 {
@@ -66,6 +67,11 @@ public:
 
     void run()
     {
+        audioAsset_.play();
+        audioAsset_.play();
+        audioAsset_.play();
+        audioAsset_.play();
+        sleep(1);
         audioAsset_.play();
         sleep(1);
     }

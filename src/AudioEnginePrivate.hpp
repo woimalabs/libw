@@ -64,7 +64,7 @@ namespace w
         static void setVolume(float volume);
         static float volume();
         static AudioResource* get(const std::string& file);
-        static bool play(TrackerSample* trackerSample);
+        static bool play(AudioResource* resource, bool volume, bool looping);
 
         // pulse
         void writeCallback(size_t size);

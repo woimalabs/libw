@@ -28,13 +28,17 @@
 #include "Lock.hpp"
 #include "w/Exception.hpp"
 #include "w/Log.hpp"
+#include <stdint.h>
 
 namespace w
 {
     Tracker::Tracker(float volume):
         shutdownStarted_(false),
-        shutdownDone_(false)
+        shutdownDone_(false),
+        ringBuffer_(44100 * 2 / 10), /* one second divided by 10 to have max 100ms lag here */
+        producerThread_(this)
     {
+        producerThread_.start();
     }
 
     Tracker::~Tracker()
@@ -50,7 +54,9 @@ namespace w
             for (unsigned int i = 0; i < Tracker::TrackAmount; i++)
             {
                 if (tracks_[i] != NULL)
+                {
                     tracks_[i]->fadeOut(100);
+                }
             }
 
             shutdownStarted_ = true;
@@ -67,6 +73,7 @@ namespace w
         bool r = false;
 
         LOCK
+
         if (shutdownStarted_ == false)
         {
             for (unsigned int i = 0; i < Tracker::TrackAmount; i++)
@@ -74,6 +81,7 @@ namespace w
                 if (tracks_[i] == NULL)
                 {
                     tracks_[i] = trackerSample;
+                    tracks_[i]->increment();
                     r = true;
                     break;
                 }
@@ -83,7 +91,86 @@ namespace w
         return r;
     }
 
-    unsigned int Tracker::data(unsigned int size, unsigned char* data)
+    unsigned int Tracker::getData(unsigned int size, unsigned char* data)
+    {
+        unsigned int r = 0;
+
+        for (unsigned int i = 0; i < size; i += 2)
+        {
+            int16_t a = 0;
+            while (ringBuffer_.get(a) == false)
+            {
+                if (shutdownStarted_ == true)
+                {
+                    LOG
+                    break;
+                }
+            }
+            data[i] = ((char*)&a)[0];
+            data[i+1] = ((char*)&a)[1];
+            r = i;
+        }
+
+        return r;
+    }
+
+    bool Tracker::produceData()
+    {
+        LOCK
+
+        bool r = true;
+        unsigned int bytesProduced = 0;
+
+        while (true)
+        {
+            if (ringBuffer_.full() == true)
+            {
+                //LOGD("Tracker::produceData(), ring buffer is full.");
+                break;
+            }
+
+            int a = 0;
+            bool tracksWithAudio = false;
+            for (unsigned int t = 0; t < Tracker::TrackAmount; t++)
+            {
+                if (tracks_[t] != NULL)
+                {
+                    tracksWithAudio = true;
+                    bool end = false;
+                    a += tracks_[t]->sample(end);
+                    if (end == true)
+                    {
+                        tracks_[t]->decrement();
+                        tracks_[t] = NULL;
+                    }
+                }
+            }
+            a = (float)a / (float)Tracker::TrackAmount;
+
+            // Put to data
+            int16_t data = a;
+            bytesProduced += 2;
+
+            if (shutdownStarted_ && tracksWithAudio == false)
+            {
+                LOG
+                r = false;
+                shutdownDone_ = true;
+                break; // buffer is full OR we are shutting down
+            }
+
+            if (ringBuffer_.put(data) == false)
+            {
+                throw Exception("Tracker::produceData(), ring buffer was full even if we checked that it is not!");
+                break;
+            }
+        }
+
+        //LOGD("bytes produced: %d", bytesProduced);
+        return r;
+    }
+/*
+    unsigned int Tracker::data2(unsigned int size, unsigned char* data)
     {
         LOCK
 
@@ -120,7 +207,7 @@ namespace w
 
         return size;
     }
-
+*/
     void Tracker::setVolume(float volume)
     {
         // TODO

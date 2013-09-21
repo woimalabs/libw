@@ -47,13 +47,10 @@ namespace w
         void fadeOut(unsigned int fadeOutTimeMilliseconds);
 
     private:
-        void handleDestroy(unsigned int);
         AudioResource* resource_;
         Mutex mutex_;
         bool parallerPlay_;
         bool looping_;
-        std::list<TrackerSample*> playing_;
-        std::list<sigc::connection> playingConnections_;
     };
 }
 

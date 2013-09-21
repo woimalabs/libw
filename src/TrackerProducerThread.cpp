@@ -23,37 +23,29 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_TIMER
-#define LIBW_TIMER
-
-#include <time.h>
-#include <stdint.h> // For uint64_t
+#include "TrackerProducerThread.hpp"
+#include "Tracker.hpp"
+#include "Timer.hpp"
+#include "w/Log.hpp"
 
 namespace w
 {
-    class Timer
+    TrackerProducerThread::TrackerProducerThread(Tracker* tracker):
+        tracker_(tracker)
     {
-    public:
-        Timer();
-        ~Timer();
+    }
 
-        /**
-         * @return milliseconds. NOTE: start time undefined. Values
-         *     are useful only for example when looking time differences.
-         */
-        static unsigned int milliseconds();
+    TrackerProducerThread::~TrackerProducerThread()
+    {
+    }
 
-        /**
-         * @return nanoseconds. NOTE: start time undefined. Values
-         *     are useful only for example when looking time differences.
-         */
-        static uint64_t nanoseconds();
-
-        static void sleepMilliseconds(unsigned int milliseconds);
-
-    private:
-        static void nanoSleepFromMilliseconds(unsigned int milliseconds);
-    };
+    void TrackerProducerThread::run()
+    {
+        LOGD("TrackerProducerThread::run(), start");
+        while (tracker_->produceData() == true)
+        {
+            Timer::sleepMilliseconds(10);
+        }
+        LOGD("TrackerProducerThread::run(), end");
+    }
 }
-
-#endif

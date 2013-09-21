@@ -26,6 +26,7 @@
 #include "TrackerSample.hpp"
 #include "AudioResource.hpp"
 #include "Timer.hpp"
+#include "w/Log.hpp"
 
 namespace w
 {
@@ -44,6 +45,7 @@ namespace w
 
     TrackerSample::~TrackerSample()
     {
+        LOG
         if (resource_ != NULL)
         {
             resource_->decrement();

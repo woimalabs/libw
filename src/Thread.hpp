@@ -23,36 +23,43 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_TIMER
-#define LIBW_TIMER
+#ifndef LIBW_THREAD
+#define LIBW_THREAD
 
-#include <time.h>
-#include <stdint.h> // For uint64_t
+#include <pthread.h>
+#include <string>
 
 namespace w
 {
-    class Timer
+    struct ThreadCppWrapper;
+
+    /**
+     * @class Thread
+     *
+     * Base class for thread classes.
+     */
+    class Thread
     {
     public:
-        Timer();
-        ~Timer();
+        void start();
+        void join();
+        virtual void run() = 0;
 
-        /**
-         * @return milliseconds. NOTE: start time undefined. Values
-         *     are useful only for example when looking time differences.
-         */
-        static unsigned int milliseconds();
-
-        /**
-         * @return nanoseconds. NOTE: start time undefined. Values
-         *     are useful only for example when looking time differences.
-         */
-        static uint64_t nanoseconds();
-
-        static void sleepMilliseconds(unsigned int milliseconds);
+    protected:
+        Thread();
+        virtual ~Thread();
 
     private:
-        static void nanoSleepFromMilliseconds(unsigned int milliseconds);
+        pthread_t thread_;
+        friend struct ThreadCToCppWrapper;
+    };
+
+    struct ThreadCppWrapper
+    {
+        static void protectedCppRun(Thread* other)
+        {
+            other->run();
+        }
     };
 }
 
