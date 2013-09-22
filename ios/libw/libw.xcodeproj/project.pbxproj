@@ -1,0 +1,243 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FBB114F717EF2A8300E913BA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBB114F617EF2A8300E913BA /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FBB114F117EF2A8300E913BA /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		FBB114F317EF2A8300E913BA /* liblibw.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibw.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		FBB114F617EF2A8300E913BA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FBB114FA17EF2A8300E913BA /* libw-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libw-Prefix.pch"; sourceTree = "<group>"; };
+		FBB1150417EF2AA000E913BA /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; name = src; path = ../../src; sourceTree = "<group>"; };
+		FBB1150517EF2AB900E913BA /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; name = include; path = ../../include; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FBB114F017EF2A8300E913BA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FBB114F717EF2A8300E913BA /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FBB114EA17EF2A8300E913BA = {
+			isa = PBXGroup;
+			children = (
+				FBB1150517EF2AB900E913BA /* include */,
+				FBB1150417EF2AA000E913BA /* src */,
+				FBB114F817EF2A8300E913BA /* libw */,
+				FBB114F517EF2A8300E913BA /* Frameworks */,
+				FBB114F417EF2A8300E913BA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FBB114F417EF2A8300E913BA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FBB114F317EF2A8300E913BA /* liblibw.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FBB114F517EF2A8300E913BA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FBB114F617EF2A8300E913BA /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FBB114F817EF2A8300E913BA /* libw */ = {
+			isa = PBXGroup;
+			children = (
+				FBB114F917EF2A8300E913BA /* Supporting Files */,
+			);
+			path = libw;
+			sourceTree = "<group>";
+		};
+		FBB114F917EF2A8300E913BA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FBB114FA17EF2A8300E913BA /* libw-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FBB114F217EF2A8300E913BA /* libw */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FBB1150117EF2A8300E913BA /* Build configuration list for PBXNativeTarget "libw" */;
+			buildPhases = (
+				FBB114EF17EF2A8300E913BA /* Sources */,
+				FBB114F017EF2A8300E913BA /* Frameworks */,
+				FBB114F117EF2A8300E913BA /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = libw;
+			productName = libw;
+			productReference = FBB114F317EF2A8300E913BA /* liblibw.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FBB114EB17EF2A8300E913BA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Woima Solutions Oy";
+			};
+			buildConfigurationList = FBB114EE17EF2A8300E913BA /* Build configuration list for PBXProject "libw" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = FBB114EA17EF2A8300E913BA;
+			productRefGroup = FBB114F417EF2A8300E913BA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FBB114F217EF2A8300E913BA /* libw */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FBB114EF17EF2A8300E913BA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		FBB114FF17EF2A8300E913BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		FBB1150017EF2A8300E913BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FBB1150217EF2A8300E913BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/libw.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libw/libw-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		FBB1150317EF2A8300E913BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/libw.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libw/libw-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FBB114EE17EF2A8300E913BA /* Build configuration list for PBXProject "libw" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FBB114FF17EF2A8300E913BA /* Debug */,
+				FBB1150017EF2A8300E913BA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FBB1150117EF2A8300E913BA /* Build configuration list for PBXNativeTarget "libw" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FBB1150217EF2A8300E913BA /* Debug */,
+				FBB1150317EF2A8300E913BA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FBB114EB17EF2A8300E913BA /* Project object */;
+}
