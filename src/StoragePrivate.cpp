@@ -31,6 +31,8 @@
     #import <Foundation/Foundation.h>
 #endif
 
+using w::String;
+
 namespace w
 {
     const std::string StoragePrivate::BlockHeaderStart("[");
@@ -183,7 +185,8 @@ namespace w
             std::string storageItemBlock = item->serialize();
 
             std::string blockHeader(BlockHeaderStart);
-            blockHeader += std::string(String::toString(storageItemBlock.length()));
+            unsigned int tmp = storageItemBlock.length();
+            blockHeader += String::toString(tmp);
             blockHeader += BlockHeaderEnd;
 
             r += blockHeader + storageItemBlock;
@@ -219,7 +222,7 @@ namespace w
         NSArray* appDocumentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString* docsDirectory = [appDocumentPaths objectAtIndex: 0];
         const char* path = [docsDirectory UTF8String];
-        fullPath = std::string(path) + std::string("/") + id_;
+        r = std::string(path) + std::string("/") + id_;
 #elif __linux__
         r = System::home() + std::string("/") + id_;
 #endif
