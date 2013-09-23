@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FBB114F217EF2A8300E913BA"
-               BuildableName = "liblibw.a"
+               BuildableName = "libw.a"
                BlueprintName = "w"
                ReferencedContainer = "container:libw.xcodeproj">
             </BuildableReference>

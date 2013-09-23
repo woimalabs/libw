@@ -11,7 +11,6 @@
 		FBB1157817EF30E600E913BA /* AudioAsset.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBB1155117EF30E600E913BA /* AudioAsset.cpp */; };
 		FBB1157917EF30E600E913BA /* AudioAssetPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBB1155217EF30E600E913BA /* AudioAssetPrivate.cpp */; };
 		FBB1157A17EF30E600E913BA /* AudioEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBB1155417EF30E600E913BA /* AudioEngine.cpp */; };
-		FBB1157B17EF30E600E913BA /* AudioEnginePrivate-Pulse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBB1155517EF30E600E913BA /* AudioEnginePrivate-Pulse.cpp */; };
 		FBB1157C17EF30E600E913BA /* AudioResource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBB1155717EF30E600E913BA /* AudioResource.cpp */; };
 		FBB1157D17EF30E600E913BA /* AudioResourceManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBB1155917EF30E600E913BA /* AudioResourceManager.cpp */; };
 		FBB1157E17EF30E600E913BA /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBB1155D17EF30E600E913BA /* Log.cpp */; };
@@ -26,6 +25,16 @@
 		FBB1158717EF30E600E913BA /* TrackerSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBB1157617EF30E600E913BA /* TrackerSample.cpp */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		FB852F0917F0D77200B15B66 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FB852F0517F0D77200B15B66 /* sigc.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FBA302B215F3CAF000C9B2EC;
+			remoteInfo = "sigc++";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		FBB114F117EF2A8300E913BA /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -39,6 +48,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FB852F0517F0D77200B15B66 /* sigc.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = sigc.xcodeproj; path = ../../../libsigcpp/ios/sigc/sigc.xcodeproj; sourceTree = "<group>"; };
 		FBB114F317EF2A8300E913BA /* libw.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libw.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBB114F617EF2A8300E913BA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FBB114FA17EF2A8300E913BA /* libw-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libw-Prefix.pch"; sourceTree = "<group>"; };
@@ -46,7 +56,6 @@
 		FBB1155217EF30E600E913BA /* AudioAssetPrivate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioAssetPrivate.cpp; sourceTree = "<group>"; };
 		FBB1155317EF30E600E913BA /* AudioAssetPrivate.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioAssetPrivate.hpp; sourceTree = "<group>"; };
 		FBB1155417EF30E600E913BA /* AudioEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioEngine.cpp; sourceTree = "<group>"; };
-		FBB1155517EF30E600E913BA /* AudioEnginePrivate-Pulse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "AudioEnginePrivate-Pulse.cpp"; sourceTree = "<group>"; };
 		FBB1155617EF30E600E913BA /* AudioEnginePrivate.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioEnginePrivate.hpp; sourceTree = "<group>"; };
 		FBB1155717EF30E600E913BA /* AudioResource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioResource.cpp; sourceTree = "<group>"; };
 		FBB1155817EF30E600E913BA /* AudioResource.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AudioResource.hpp; sourceTree = "<group>"; };
@@ -97,9 +106,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FB852F0617F0D77200B15B66 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FB852F0A17F0D77200B15B66 /* libsigc++.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		FBB114EA17EF2A8300E913BA = {
 			isa = PBXGroup;
 			children = (
+				FB852F0517F0D77200B15B66 /* sigc.xcodeproj */,
 				FBB1158917EF311600E913BA /* include */,
 				FBB1155017EF30E600E913BA /* src */,
 				FBB114F817EF2A8300E913BA /* libw */,
@@ -147,7 +165,6 @@
 				FBB1155217EF30E600E913BA /* AudioAssetPrivate.cpp */,
 				FBB1155317EF30E600E913BA /* AudioAssetPrivate.hpp */,
 				FBB1155417EF30E600E913BA /* AudioEngine.cpp */,
-				FBB1155517EF30E600E913BA /* AudioEnginePrivate-Pulse.cpp */,
 				FBB1155617EF30E600E913BA /* AudioEnginePrivate.hpp */,
 				FBB1155717EF30E600E913BA /* AudioResource.cpp */,
 				FBB1155817EF30E600E913BA /* AudioResource.hpp */,
@@ -244,12 +261,28 @@
 			mainGroup = FBB114EA17EF2A8300E913BA;
 			productRefGroup = FBB114F417EF2A8300E913BA /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = FB852F0617F0D77200B15B66 /* Products */;
+					ProjectRef = FB852F0517F0D77200B15B66 /* sigc.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				FBB114F217EF2A8300E913BA /* w */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		FB852F0A17F0D77200B15B66 /* libsigc++.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libsigc++.a";
+			remoteRef = FB852F0917F0D77200B15B66 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FBB114EF17EF2A8300E913BA /* Sources */ = {
@@ -259,7 +292,6 @@
 				FBB1157817EF30E600E913BA /* AudioAsset.cpp in Sources */,
 				FBB1157917EF30E600E913BA /* AudioAssetPrivate.cpp in Sources */,
 				FBB1157A17EF30E600E913BA /* AudioEngine.cpp in Sources */,
-				FBB1157B17EF30E600E913BA /* AudioEnginePrivate-Pulse.cpp in Sources */,
 				FBB1157C17EF30E600E913BA /* AudioResource.cpp in Sources */,
 				FBB1157D17EF30E600E913BA /* AudioResourceManager.cpp in Sources */,
 				FBB1157E17EF30E600E913BA /* Log.cpp in Sources */,
@@ -332,9 +364,14 @@
 		FBB1150217EF2A8300E913BA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				DSTROOT = /tmp/libw.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "libw/libw-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					../../include,
+					"../../../libsigcpp/libsigc++-2.2.10/**",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -344,9 +381,14 @@
 		FBB1150317EF2A8300E913BA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				DSTROOT = /tmp/libw.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "libw/libw-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					../../include,
+					"../../../libsigcpp/libsigc++-2.2.10/**",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -372,6 +414,7 @@
 				FBB1150317EF2A8300E913BA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
