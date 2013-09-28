@@ -43,9 +43,9 @@ namespace w
     class AudioEnginePrivate
     {
     public:
-        friend class AudioEngine;
-
         UNCOPYABLE(AudioEnginePrivate)
+        friend class AudioEngine;
+        float const VolumeOffThreshold = 0.001f;
 
         struct State
         {
@@ -59,15 +59,19 @@ namespace w
             };
         };
 
-
         static State::Enum state();
         static void setVolume(float volume);
         static float volume();
         static AudioResource* get(const std::string& file);
         static bool play(AudioResource* resource, bool volume, bool looping);
 
-        // pulse
+#ifdef __linux__
+        // pulse callback
         void writeCallback(size_t size);
+#elif __ANDROID__
+
+#elif __APPLE__
+#endif
 
     private:
         AudioEnginePrivate(float volumeAtStart, const std::string& assetPath);

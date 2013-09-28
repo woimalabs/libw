@@ -57,6 +57,7 @@ namespace w
         bool place(TrackerSample* trackerSample);
         unsigned int getData(unsigned int size, unsigned char* data);
         bool produceData();
+        float volumeZeroProcess();
         void setVolume(float volume);
         float volume();
 

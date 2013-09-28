@@ -169,45 +169,12 @@ namespace w
         //LOGD("bytes produced: %d", bytesProduced);
         return r;
     }
-/*
-    unsigned int Tracker::data2(unsigned int size, unsigned char* data)
+
+    float volumeZeroProcess()
     {
-        LOCK
-
-        bool tracksWithAudio = false;
-
-        for (unsigned int i = 0; i < size; i += 2)
-        {
-            int a = 0;
-            for (unsigned int t = 0; t < Tracker::TrackAmount; t++)
-            {
-                if (tracks_[t] != NULL)
-                {
-                    tracksWithAudio = true;
-                    bool end = false;
-                    a += tracks_[t]->sample(end);
-                    if (end == true)
-                    {
-                        tracks_[t]->decrement();
-                        tracks_[t] = NULL;
-                    }
-                }
-            }
-            a = (float)a / (float)Tracker::TrackAmount;
-
-            // Put to data
-            data[i] = ((char*)&a)[0];
-            data[i+1] = ((char*)&a)[1];
-        }
-
-        if (shutdownStarted_ && tracksWithAudio == false)
-        {
-            shutdownDone_ = true;
-        }
-
-        return size;
+        // TODO
     }
-*/
+
     void Tracker::setVolume(float volume)
     {
         // TODO
