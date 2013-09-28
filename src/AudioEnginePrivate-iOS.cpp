@@ -23,48 +23,23 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "AudioMixer.hpp"
+#include "AudioEnginePrivate.hpp"
 #include <w/Log.hpp>
 #include <w/Exception.hpp>
-#include <w/Timer.hpp>
+#include "Timer.hpp"
+
 
 namespace w
 {
-    static OSStatus playbackCallback(void* self, AudioUnitRenderActionFlags* ioActionFlags,
+    //float AudioEnginePrivate::VolumeOffThreshold = 0.001f;
+
+    static OSStatus playbackCallback(void* selfPointer, AudioUnitRenderActionFlags* ioActionFlags,
         const AudioTimeStamp* inTimeStamp, UInt32 inBusNumber, UInt32 inNumberFrames,
         AudioBufferList* ioData)
     {
-        AudioEnginePrivate::AudioEnginePrivate* enginePrivate = (AudioEnginePrivate::AudioEnginePrivate*)self;
-        float volume = enginePrivate->volume();
+        AudioEnginePrivate::AudioEnginePrivate* self = (AudioEnginePrivate::AudioEnginePrivate*)selfPointer;
         SInt16* outSamples = (SInt16*)ioData->mBuffers[0].mData;
-
-        // Create output
-        if (mixer->numberOfTrackerSamples() == 0)
-        {
-            // If we have no tracks we output silence
-            for (UInt32 i = 0; i < inNumberFrames; i++)
-            {
-                volumeCheck(volume);
-                outSamples[i] = (SInt16)0;
-            }
-        }
-        else if (volume->current_ < AudioEnginePrivate::VolumeOffThreshold)
-        {
-            // In case when volume is zero AND we have tracks:
-            // we need to process fadeouts from samples playing
-            tracker_.volumeZeroProcess(size);
-        }
-        else
-        {
-            // Else... we look our tracks through and create output samples
-            tracker_.getData(size, outSamples);
-        }
-
-        // Check shutdown
-        if (mixer->state() == AudioMixer::State::ShuttingDown && mixer->numberOfTrackerSamples() == 0)
-        {
-            mixer->setState(AudioMixer::State::ShutdownCompleted);
-        }
+        self->writeCallback(inNumberFrames * 2 /* 2 bytes per sample */, outSamples);
         return noErr;
     }
 
@@ -80,38 +55,33 @@ namespace w
 
     AudioEnginePrivate::AudioEnginePrivate(float volume, const std::string& assetPath):
         audioResourceManager_(assetPath),
-        tracker_(1.0f),
-        volumeAtStart_(volumeAtStart)
+        tracker_(volume)
     {
         // iOS's AudioUnit initialization
         setupAudioUnitSession();
-        setupAudioGraph(trackCount);
+        setupAudioGraph(1);
     }
 
-    AudioMixer::~AudioMixer()
+    AudioEnginePrivate::~AudioEnginePrivate()
     {
-        LOGI("AppleMixer::shutting down...\n");
-        state_ = AudioMixer::State::ShuttingDown;
-
+        LOGI("AudioEnginePrivate::shutting down...\n");
         OSStatus status = AudioOutputUnitStop(ioUnit_);
         if (noErr != status)
         {
             throw Exception("AudioOutputUnitStop failed");
         }
 
-        while (state_ == AudioMixer::State::ShuttingDown)
-        {
-            Timer::sleep(50); // wait until shutdown is completed
-        }
+        //while (state_ == AudioMixer::State::ShuttingDown) // TODO
+        //{
+            Timer::sleepMilliseconds(500); // wait until shutdown is completed
+        //}
 
         AudioComponentInstanceDispose(ioUnit_);
-        LOGI("AppleMixer::shutdown completed.\n");
+        LOGI("AudioEnginePrivate::shutdown completed.\n");
     }
 
-    AudioComponentInstance* AudioMixer::ioUnit()
-    {
-        return &ioUnit_;
-    }
+    void writeCallback(size_t size);
+
     void AudioEnginePrivate::setVolume(float volume)
     {
         // TODO
@@ -122,7 +92,7 @@ namespace w
         return 1.0f; // TODO
     }
 
-    void AudioMixer::setupAudioUnitSession()
+    void AudioEnginePrivate::setupAudioUnitSession()
     {
         AVAudioSession* session = [AVAudioSession sharedInstance];
 
@@ -147,7 +117,7 @@ namespace w
         }
     }
 
-    void AudioMixer::setupAudioGraph(UInt32 busCount)
+    void AudioEnginePrivate::setupAudioGraph(UInt32 busCount)
     {
         OSStatus result = noErr;
 
@@ -234,7 +204,7 @@ namespace w
         // Set input callback
         AURenderCallbackStruct callbackStruct;
         callbackStruct.inputProc = recordingCallback;
-        callbackStruct.inputProcRefCon = tracks_;
+        callbackStruct.inputProcRefCon = this; // THIS
         result = AudioUnitSetProperty(ioUnit_,
             kAudioOutputUnitProperty_SetInputCallback,
             kAudioUnitScope_Global,
@@ -312,6 +282,11 @@ namespace w
         LOGD("IO Buffer Duration is %f\n", realIOBufferDuration);
     }
 
+    void AudioEnginePrivate::writeCallback(size_t size, SInt16* targetBuffer)
+    {
+        tracker_.getData(size, (unsigned char*)targetBuffer);
+    }
+    
     void audioRouteChangeListenerCallback (void *inUserData,
         AudioSessionPropertyID inPropertyID, UInt32 inPropertyValueSize,
         const void* inPropertyValue)

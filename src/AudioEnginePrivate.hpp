@@ -32,10 +32,12 @@
 #include "TrackerSample.hpp"
 #include <w/Class.hpp>
 #include <string>
-#ifdef __ANDROID__
-
-#elif __linux__
+#ifdef __linux__
     #include <pulse/pulseaudio.h>
+#elif __ANDROID__
+#elif __APPLE__
+    #import <AudioToolbox/AudioToolbox.h>
+    #import <AVFoundation/AVFoundation.h>
 #endif
 
 namespace w
@@ -45,8 +47,12 @@ namespace w
     public:
         UNCOPYABLE(AudioEnginePrivate)
         friend class AudioEngine;
-        float const VolumeOffThreshold = 0.001f;
-
+#if __APPLE__
+        constexpr static float const VolumeOffThreshold = 0.001f;
+#else
+        static float const VolumeOffThreshold = 0.001f;
+#endif
+        
         struct State
         {
             enum Enum
@@ -66,11 +72,11 @@ namespace w
         static bool play(AudioResource* resource, bool volume, bool looping);
 
 #ifdef __linux__
-        // pulse callback
         void writeCallback(size_t size);
 #elif __ANDROID__
 
 #elif __APPLE__
+        void writeCallback(size_t size, SInt16* targetBuffer);
 #endif
 
     private:
@@ -84,7 +90,15 @@ namespace w
         float volumeAtStart_;
 
         #ifdef __ANDROID__
-
+            //
+        #elif __APPLE__
+            void setupAudioUnitSession();
+            void setupAudioGraph(UInt32 busCount);
+            void audioRouteChangeListenerCallback (void* inUserData,
+                AudioSessionPropertyID inPropertyID, UInt32 inPropertyValueSize,
+                const void* inPropertyValue);
+            AudioStreamBasicDescription streamFormat_;
+            AudioComponentInstance ioUnit_;
         #elif __linux__
             // pulse
             void configureStream();

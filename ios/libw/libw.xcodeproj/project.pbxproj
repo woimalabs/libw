@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FB4A9D7E17F758C000595501 /* AudioEnginePrivate-iOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB4A9D7D17F758C000595501 /* AudioEnginePrivate-iOS.cpp */; };
 		FBB114F717EF2A8300E913BA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBB114F617EF2A8300E913BA /* Foundation.framework */; };
 		FBB1157817EF30E600E913BA /* AudioAsset.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBB1155117EF30E600E913BA /* AudioAsset.cpp */; };
 		FBB1157917EF30E600E913BA /* AudioAssetPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBB1155217EF30E600E913BA /* AudioAssetPrivate.cpp */; };
@@ -48,6 +49,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FB4A9D7D17F758C000595501 /* AudioEnginePrivate-iOS.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; path = "AudioEnginePrivate-iOS.cpp"; sourceTree = "<group>"; };
 		FB852F0517F0D77200B15B66 /* sigc.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = sigc.xcodeproj; path = ../../../libsigcpp/ios/sigc/sigc.xcodeproj; sourceTree = "<group>"; };
 		FBB114F317EF2A8300E913BA /* libw.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libw.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBB114F617EF2A8300E913BA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -161,6 +163,7 @@
 		FBB1155017EF30E600E913BA /* src */ = {
 			isa = PBXGroup;
 			children = (
+				FB4A9D7D17F758C000595501 /* AudioEnginePrivate-iOS.cpp */,
 				FBB1155117EF30E600E913BA /* AudioAsset.cpp */,
 				FBB1155217EF30E600E913BA /* AudioAssetPrivate.cpp */,
 				FBB1155317EF30E600E913BA /* AudioAssetPrivate.hpp */,
@@ -295,6 +298,7 @@
 				FBB1157C17EF30E600E913BA /* AudioResource.cpp in Sources */,
 				FBB1157D17EF30E600E913BA /* AudioResourceManager.cpp in Sources */,
 				FBB1157E17EF30E600E913BA /* Log.cpp in Sources */,
+				FB4A9D7E17F758C000595501 /* AudioEnginePrivate-iOS.cpp in Sources */,
 				FBB1157F17EF30E600E913BA /* Mutex.cpp in Sources */,
 				FBB1158017EF30E600E913BA /* Referenced.cpp in Sources */,
 				FBB1158117EF30E600E913BA /* Storage.cpp in Sources */,

@@ -47,13 +47,11 @@ namespace w
             static const char *terminalColorNormal ("");
             static const char *terminalColorRed ("");
             static const char *terminalColorBlue ("");
-            static const char *terminalColorViolet ("");
             static const char *terminalColorBrown ("");
         #else // LINUX
             static const char *terminalColorNormal ("\033[0m");
             static const char *terminalColorRed ("\033[1;31m");
             static const char *terminalColorBlue ("\033[34m");
-            static const char *terminalColorViolet ("\033[35m");
             static const char *terminalColorBrown ("\033[33m");
         #endif
 

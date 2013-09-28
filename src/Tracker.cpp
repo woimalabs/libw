@@ -170,7 +170,7 @@ namespace w
         return r;
     }
 
-    float volumeZeroProcess()
+    void volumeZeroProcess()
     {
         // TODO
     }
