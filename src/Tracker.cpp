@@ -106,7 +106,7 @@ namespace w
             {
                 if (shutdownStarted_ == true)
                 {
-                    LOG
+                    //LOG
                     break;
                 }
             }

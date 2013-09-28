@@ -49,6 +49,21 @@ namespace w
             return filename_;
         }
 
+        std::string& Resource::basePath()
+        {
+            char const* r = 0;
+
+            #ifdef __APPLE__
+                NSBundle *b = [NSBundle mainBundle];
+                NSString *dir = [b resourcePath];
+                r = [dir UTF8String];
+            #elif __linux__
+                r = ".";
+            #endif
+
+            return std::string(r) + std::string("/");
+        }
+
     private:
         std::string filename_;
     };
