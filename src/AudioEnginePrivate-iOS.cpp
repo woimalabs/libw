@@ -273,15 +273,15 @@ namespace w
         UInt32 datasize = 4;
 
         u.propertyResult = AudioSessionGetProperty(kAudioSessionProperty_PreferredHardwareIOBufferDuration, &datasize, &realIOBufferDuration);
-        LOGD("Get IO Duration Time %ld %lx %c%c%c%c\n", u.propertyResult, u.propertyResult, u.a[3], u.a[2], u.a[1], u.a[0]);
-        LOGD("IO Buffer Duration is %f\n", realIOBufferDuration);
+        //LOGD("Get IO Duration Time %ld %lx %c%c%c%c", u.propertyResult, u.propertyResult, u.a[3], u.a[2], u.a[1], u.a[0]);
+        //LOGD("IO Buffer Duration is %f", realIOBufferDuration);
 
         u.propertyResult = AudioSessionSetProperty(kAudioSessionProperty_PreferredHardwareIOBufferDuration, sizeof(requestedIOBufferDuration), &requestedIOBufferDuration);
-        LOGD("Set IO Duration Time %ld %lx %c%c%c%c\n", u.propertyResult, u.propertyResult, u.a[3], u.a[2], u.a[1], u.a[0]);
+        //LOGD("Set IO Duration Time %ld %lx %c%c%c%c", u.propertyResult, u.propertyResult, u.a[3], u.a[2], u.a[1], u.a[0]);
 
         u.propertyResult = AudioSessionGetProperty(kAudioSessionProperty_PreferredHardwareIOBufferDuration, &datasize, &realIOBufferDuration);
-        LOGD("Get IO Duration Time %ld %lx %c%c%c%c\n", u.propertyResult, u.propertyResult, u.a[3], u.a[2], u.a[1], u.a[0]);
-        LOGD("IO Buffer Duration is %f\n", realIOBufferDuration);
+        //LOGD("Get IO Duration Time %ld %lx %c%c%c%c", u.propertyResult, u.propertyResult, u.a[3], u.a[2], u.a[1], u.a[0]);
+        //LOGD("IO Buffer Duration is %f", realIOBufferDuration);
     }
     
     AudioResource* AudioEnginePrivate::get(const std::string& file)

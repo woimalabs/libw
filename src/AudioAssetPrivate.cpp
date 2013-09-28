@@ -42,17 +42,14 @@ namespace w
     AudioAssetPrivate::~AudioAssetPrivate()
     {
         LOCK
-        LOG
+
         // Unreference related resource
         resource_->decrement();
         resource_ = NULL;
-        LOG
     }
 
     bool AudioAssetPrivate::play(float volume)
     {
-        LOGD("play S");
-
         // Sanity check for volume value
         if (volume > 1.0f)
         {
@@ -62,7 +59,6 @@ namespace w
         {
             volume = 0.0f;
         }
-        LOGD("play E");
 
         return AudioEnginePrivate::play(resource_, volume, looping_);
     }

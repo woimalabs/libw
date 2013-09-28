@@ -45,7 +45,6 @@ namespace w
 
     TrackerSample::~TrackerSample()
     {
-        LOG
         if (resource_ != NULL)
         {
             resource_->decrement();
