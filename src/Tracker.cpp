@@ -38,6 +38,10 @@ namespace w
         ringBuffer_(44100 * 2 / 10), /* one second divided by 10 to have max 100ms lag here */
         producerThread_(this)
     {
+        for (unsigned int i = 0; i < Tracker::TrackAmount; i++)
+        {
+            tracks_[i] = NULL;
+        }
         producerThread_.start();
     }
 

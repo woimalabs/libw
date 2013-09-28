@@ -44,7 +44,7 @@ namespace w
         LOGD("TrackerProducerThread::run(), start");
         while (tracker_->produceData() == true)
         {
-            Timer::sleepMilliseconds(10);
+            Timer::sleepMilliseconds(5); // TODO, signal etc replacing the sleep
         }
         LOGD("TrackerProducerThread::run(), end");
     }
