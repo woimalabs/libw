@@ -59,7 +59,7 @@ namespace w
         i = resources_.find(key);
         if (i == resources_.end())
         {
-            r = new AudioResource(file);
+            r = new AudioResource(key);
             sigc::connection connection = r->destroy.connect(sigc::mem_fun(this, &AudioResourceManager::handleResourceDestroy));
             resources_.insert(std::make_pair(key, r));
             resourcesConnections_.insert(std::make_pair(r->id(), connection));
