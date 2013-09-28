@@ -25,6 +25,7 @@
 
 #include "AudioResourceManager.hpp"
 #include "Lock.hpp"
+#include "System.hpp"
 #include "w/Log.hpp"
 
 namespace w
@@ -53,7 +54,7 @@ namespace w
         LOCK
 
         AudioResource* r = NULL;
-        std::string key = assetPath_ + std::string("/") + file;
+        std::string key = System::basePath() + assetPath_ + std::string("/") + file;
 
         std::map<std::string, AudioResource*>::const_iterator i;
         i = resources_.find(key);

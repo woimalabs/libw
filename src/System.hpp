@@ -34,19 +34,20 @@ namespace w
 {
     namespace System
     {
-        #ifdef __linux__
-            std::string home()
-            {
-                char* tmp = getenv("HOME");
-                if (tmp == NULL)
-                {
-                    LOGE("System: $HOME has not been set, returning NULL.\n");
-                    return std::string();
-                }
-
-                return std::string(tmp);
-            }
-        #endif
+        std::string basePath()
+        {
+            char const* r = 0;
+            
+#ifdef __APPLE__
+            NSBundle *b = [NSBundle mainBundle];
+            NSString *dir = [b resourcePath];
+            r = [dir UTF8String];
+#elif __linux__
+            r = ".";
+#endif
+            
+            return std::string(r) + std::string("/");
+        }
     }
 }
 
