@@ -37,7 +37,7 @@ namespace w
         std::string basePath()
         {
             char const* r = 0;
-            
+
 #ifdef __APPLE__
             NSBundle *b = [NSBundle mainBundle];
             NSString *dir = [b resourcePath];
@@ -45,8 +45,24 @@ namespace w
 #elif __linux__
             r = ".";
 #endif
-            
+
             return std::string(r) + std::string("/");
+        }
+
+        std::string home()
+        {
+            std::string r;
+#ifdef __linux__
+            const char* tmp = getenv("HOME");
+            if (tmp == NULL)
+            {
+                LOGE("System: $HOME has not been set, returning NULL.\n");
+            }
+            r = std::string(tmp);
+#else
+            r = basePath();
+#endif
+            return r;
         }
     }
 }

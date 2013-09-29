@@ -32,12 +32,12 @@
 #include "TrackerSample.hpp"
 #include <w/Class.hpp>
 #include <string>
-#ifdef __linux__
-    #include <pulse/pulseaudio.h>
-#elif __ANDROID__
+#ifdef __ANDROID__
 #elif __APPLE__
     #import <AudioToolbox/AudioToolbox.h>
     #import <AVFoundation/AVFoundation.h>
+#elif __linux__
+    #include <pulse/pulseaudio.h>
 #endif
 
 namespace w
@@ -52,7 +52,7 @@ namespace w
 #else
         static float const VolumeOffThreshold = 0.001f;
 #endif
-        
+
         struct State
         {
             enum Enum

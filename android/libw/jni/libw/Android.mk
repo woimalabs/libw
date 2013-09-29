@@ -30,7 +30,6 @@ $(SOURCE)/AudioResource.cpp
 # Dependencies
 LOCAL_SHARED_LIBRARIES := libsigcpp
 LOCAL_STATIC_LIBRARY   := libgnustl
-#LOCAL_SRC_FILES        := libsigcpp.so
 LOCAL_LDLIBS           := -llog -lz -landroid
 
 include $(BUILD_SHARED_LIBRARY)
