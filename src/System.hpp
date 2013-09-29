@@ -32,39 +32,54 @@
 
 namespace w
 {
-    namespace System
+    class System
     {
-        std::string basePath()
+    public:
+        static std::string basePath()
         {
             char const* r = 0;
 
-#ifdef __APPLE__
-            NSBundle *b = [NSBundle mainBundle];
-            NSString *dir = [b resourcePath];
-            r = [dir UTF8String];
-#elif __linux__
-            r = ".";
-#endif
+            #ifdef __ANDROID__
+                r = ".";
+            #elif __APPLE__
+                NSBundle *b = [NSBundle mainBundle];
+                NSString *dir = [b resourcePath];
+                r = [dir UTF8String];
+            #elif __linux__
+                r = ".";
+            #endif
 
             return std::string(r) + std::string("/");
         }
 
-        std::string home()
+        static std::string home()
         {
             std::string r;
-#ifdef __linux__
-            const char* tmp = getenv("HOME");
-            if (tmp == NULL)
-            {
-                LOGE("System: $HOME has not been set, returning NULL.\n");
-            }
-            r = std::string(tmp);
-#else
-            r = basePath();
-#endif
+
+            #ifdef __ANDROID__
+                r = System::basePath();
+            #elif __APPLE__
+                r = System::basePath();
+            #elif __linux__
+                const char* tmp = getenv("HOME");
+                if (tmp == NULL)
+                {
+                    LOGE("System: $HOME has not been set, returning NULL.\n");
+                }
+                r = std::string(tmp);
+            #endif
+
             return r;
         }
-    }
+
+    private:
+        System()
+        {
+        }
+        ~System()
+        {
+        }
+    };
 }
 
 #endif
