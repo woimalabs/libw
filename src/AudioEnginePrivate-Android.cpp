@@ -134,11 +134,13 @@ namespace w
 
         // Configure audio source
         SLDataLocator_AndroidSimpleBufferQueue loc_bufq = {SL_DATALOCATOR_ANDROIDSIMPLEBUFFERQUEUE, 2};
-        SLDataFormat_PCM format_pcm = {SL_DATAFORMAT_PCM, 1, SL_SAMPLINGRATE_8,
+
+        // Configure data format.
+        SLDataFormat_PCM format_pcm = {SL_DATAFORMAT_PCM, 1, SL_SAMPLINGRATE_44_1,
             SL_PCMSAMPLEFORMAT_FIXED_16, SL_PCMSAMPLEFORMAT_FIXED_16,
             SL_SPEAKER_FRONT_CENTER, SL_BYTEORDER_LITTLEENDIAN};
 
-        SLDataSource audioSrc = {&loc_bufq, &format_pcm};
+         SLDataSource audioSrc = {&loc_bufq, &format_pcm};
 
         // Configure audio sink
         SLDataLocator_OutputMix loc_outmix = {SL_DATALOCATOR_OUTPUTMIX, outputMixObject_};
