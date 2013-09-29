@@ -33,10 +33,14 @@
 #include <w/Class.hpp>
 #include <string>
 #ifdef __ANDROID__
+    // OpenSL ES is used on Android for audio
+    #include <SLES/OpenSLES.h>
+    #include <SLES/OpenSLES_Android.h>
 #elif __APPLE__
     #import <AudioToolbox/AudioToolbox.h>
     #import <AVFoundation/AVFoundation.h>
 #elif __linux__
+    // Linux uses pulse audio
     #include <pulse/pulseaudio.h>
 #endif
 
@@ -71,10 +75,10 @@ namespace w
         static AudioResource* get(const std::string& file);
         static bool play(AudioResource* resource, bool volume, bool looping);
 
-#ifdef __linux__
+#ifdef __ANDROID__
+        void writeCallback();
+#elif __linux__
         void writeCallback(size_t size);
-#elif __ANDROID__
-
 #elif __APPLE__
         void writeCallback(size_t size, SInt16* targetBuffer);
 #endif
@@ -90,21 +94,44 @@ namespace w
         float volumeAtStart_;
 
         #ifdef __ANDROID__
-            //
+            void createEngine();
+            void createBufferQueueAudioPlayer();
+            void shutdown();
+            void test();
+
+            // Engine interfaces
+            SLObjectItf engineObject_;
+            SLEngineItf engineEngine_;
+
+            // Output mix interfaces
+            SLObjectItf outputMixObject_;
+            SLEnvironmentalReverbItf outputMixEnvironmentalReverb_;
+
+            // Buffer queue player interfaces
+            SLObjectItf bqPlayerObject_;
+            SLPlayItf bqPlayerPlay_;
+            SLAndroidSimpleBufferQueueItf bqPlayerBufferQueue_;
+            SLEffectSendItf bqPlayerEffectSend_;
+            SLMuteSoloItf bqPlayerMuteSolo_;
+            SLVolumeItf bqPlayerVolume_;
+
+            unsigned char buffer_[44100];
+
         #elif __APPLE__
             void setupAudioUnitSession();
             void setupAudioGraph(UInt32 busCount);
-            void audioRouteChangeListenerCallback (void* inUserData,
+            void audioRouteChangeListenerCallback(void* inUserData,
                 AudioSessionPropertyID inPropertyID, UInt32 inPropertyValueSize,
                 const void* inPropertyValue);
             AudioStreamBasicDescription streamFormat_;
             AudioComponentInstance ioUnit_;
+
         #elif __linux__
-            // pulse
             void configureStream();
             pa_threaded_mainloop* mainloop_;
             pa_context* context_;
             pa_stream* stream_;
+
         #endif
     };
 }

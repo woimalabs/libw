@@ -32,6 +32,6 @@ $(SOURCE)/Tracker.cpp
 # Dependencies
 LOCAL_SHARED_LIBRARIES := libsigcpp
 LOCAL_STATIC_LIBRARY   := libgnustl
-LOCAL_LDLIBS           := -llog -lz
+LOCAL_LDLIBS           := -llog -lz -lOpenSLES
 
 include $(BUILD_SHARED_LIBRARY)
