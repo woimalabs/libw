@@ -163,12 +163,12 @@
 		FBB1155017EF30E600E913BA /* src */ = {
 			isa = PBXGroup;
 			children = (
+				FBB1155617EF30E600E913BA /* AudioEnginePrivate.hpp */,
 				FB4A9D7D17F758C000595501 /* AudioEnginePrivate-iOS.cpp */,
 				FBB1155117EF30E600E913BA /* AudioAsset.cpp */,
 				FBB1155217EF30E600E913BA /* AudioAssetPrivate.cpp */,
 				FBB1155317EF30E600E913BA /* AudioAssetPrivate.hpp */,
 				FBB1155417EF30E600E913BA /* AudioEngine.cpp */,
-				FBB1155617EF30E600E913BA /* AudioEnginePrivate.hpp */,
 				FBB1155717EF30E600E913BA /* AudioResource.cpp */,
 				FBB1155817EF30E600E913BA /* AudioResource.hpp */,
 				FBB1155917EF30E600E913BA /* AudioResourceManager.cpp */,

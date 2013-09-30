@@ -82,18 +82,6 @@ namespace w
         LOGI("AudioEnginePrivate::shutdown completed.\n");
     }
 
-    void writeCallback(size_t size);
-
-    void AudioEnginePrivate::setVolume(float volume)
-    {
-        // TODO
-    }
-
-    float AudioEnginePrivate::volume()
-    {
-        return 1.0f; // TODO
-    }
-
     void AudioEnginePrivate::setupAudioUnitSession()
     {
         AVAudioSession* session = [AVAudioSession sharedInstance];
@@ -283,23 +271,7 @@ namespace w
         //LOGD("Get IO Duration Time %ld %lx %c%c%c%c", u.propertyResult, u.propertyResult, u.a[3], u.a[2], u.a[1], u.a[0]);
         //LOGD("IO Buffer Duration is %f", realIOBufferDuration);
     }
-    
-    AudioResource* AudioEnginePrivate::get(const std::string& file)
-    {
-        return singleton_->audioResourceManager_.get(file);
-    }
-    
-    bool AudioEnginePrivate::play(AudioResource* resource, bool volume, bool looping)
-    {
-        TrackerSample* tmp = new TrackerSample(resource, volume, looping);
         
-        tmp->increment();
-        bool r = singleton_->tracker_.place(tmp);
-        tmp->decrement();
-        
-        return r;
-    }
-    
     void AudioEnginePrivate::writeCallback(size_t size, SInt16* targetBuffer)
     {
         tracker_.getData(size, (unsigned char*)targetBuffer);
