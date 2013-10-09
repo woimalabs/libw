@@ -29,26 +29,48 @@
 
 namespace w
 {
-    AudioEngine::AudioEngine(float volumeAtStart, const std::string& assetPath):
-        private_(new AudioEnginePrivate(volumeAtStart, assetPath))
+    AudioEngine::AudioEngine(float volumeAtStart, const std::string& assetPath)
     {
+        private_ = new AudioEnginePrivate(volumeAtStart, assetPath);
         LOGI("Created AudioEngine.")
     }
 
     AudioEngine::~AudioEngine()
     {
         LOGI("Shutting down AudioEngine...")
-        delete private_;
+        if (private_ != NULL)
+        {
+            delete private_;
+            private_ = NULL;
+        }
+        else
+        {
+            LOGE("AudioEngine::~AudioEngine(), private == NULL, AudioEngine in corrupted state!")
+        }
         LOGI("Shutdown AudioEngine.")
     }
 
     void AudioEngine::setVolume(float volume)
     {
-        AudioEnginePrivate::setVolume(volume);
+        if (private_ != NULL)
+        {
+            private_->setVolume(volume);
+        }
+        else
+        {
+            throw Exception("AudioEngine::setVolume(), AudioEngine does not exist.");
+        }
     }
 
     float AudioEngine::volume()
     {
-        return AudioEnginePrivate::volume();
+        if (private_ != NULL)
+        {
+            return private_->volume();
+        }
+        else
+        {
+            throw Exception("AudioEngine::volume(), AudioEngine does not exist.");
+        }
     }
 }

@@ -52,7 +52,7 @@ namespace w
         static float volume();
 
     private:
-        class AudioEnginePrivate* private_;
+        static class AudioEnginePrivate* private_;
     };
 }
 

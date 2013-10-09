@@ -73,25 +73,25 @@ namespace w
         {
             // TODO
         }
-        
+
         float volume()
         {
             return 1.0f; // TODO
         }
-        
-        AudioResource* get(const std::string& file)
+
+        static AudioResource* get(const std::string& file)
         {
             return singleton_->audioResourceManager_.get(file);
         }
-        
-        bool play(AudioResource* resource, bool volume, bool looping)
+
+        static bool play(AudioResource* resource, bool volume, bool looping)
         {
             TrackerSample* tmp = new TrackerSample(resource, volume, looping);
-            
+
             tmp->increment();
             bool r = singleton_->tracker_.place(tmp);
             tmp->decrement();
-            
+
             return r;
         }
 

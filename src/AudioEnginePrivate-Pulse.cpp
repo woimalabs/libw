@@ -224,35 +224,4 @@ failed:
         pa_stream_write(stream_, data, size, pa_xfree, 0, PA_SEEK_RELATIVE);
         pa_threaded_mainloop_signal(mainloop_, 0);
     }
-
-    AudioEnginePrivate::State::Enum AudioEnginePrivate::state()
-    {
-        return singleton_->state_;
-    }
-
-    void AudioEnginePrivate::setVolume(float volume)
-    {
-        // TODO
-    }
-
-    float AudioEnginePrivate::volume()
-    {
-        return 1.0f; // TODO
-    }
-
-    AudioResource* AudioEnginePrivate::get(const std::string& file)
-    {
-        return singleton_->audioResourceManager_.get(file);
-    }
-
-    bool AudioEnginePrivate::play(AudioResource* resource, bool volume, bool looping)
-    {
-        TrackerSample* tmp = new TrackerSample(resource, volume, looping);
-
-        tmp->increment();
-        bool r = singleton_->tracker_.place(tmp);
-        tmp->decrement();
-
-        return r;
-    }
 }
