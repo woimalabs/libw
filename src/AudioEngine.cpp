@@ -23,15 +23,22 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include <w/Log.hpp>
 #include <w/AudioEngine.hpp>
+#include <w/Log.hpp>
+#include <w/Exception.hpp>
 #include "AudioEnginePrivate.hpp"
 
 namespace w
 {
-    AudioEngine::AudioEngine(float volumeAtStart, const std::string& assetPath)
+    AudioEnginePrivate* AudioEngine::private_ = NULL;
+
+    AudioEngine::AudioEngine(float volumeAtStart, ResourceManager& resourceManager)
     {
-        private_ = new AudioEnginePrivate(volumeAtStart, assetPath);
+        if (private_ != NULL)
+        {
+            throw Exception("Only one AudioEngine can exist once.");
+        }
+        private_ = new AudioEnginePrivate(volumeAtStart, resourceManager);
         LOGI("Created AudioEngine.")
     }
 

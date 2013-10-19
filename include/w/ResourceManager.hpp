@@ -23,37 +23,30 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_AUDIOENGINE
-#define LIBW_AUDIOENGINE
+#ifndef LIBW_RESOURCEMANAGER
+#define LIBW_RESOURCEMANAGER
 
-#include <w/ResourceManager.hpp>
-#include <w/Class.hpp>
 #include <string>
+#ifdef ANDROID
+    #include <jni.h>
+    #include <sys/types.h>
+    #include <android/asset_manager.h>
+    #include <android/asset_manager_jni.h>
+#endif
 
-/**
- * AudioEngine is a class that manages audio.
- */
 namespace w
 {
-    class AudioEngine
+    class ResourceManager
     {
     public:
-        UNCOPYABLE(AudioEngine)
-
-        /**
-         * Creates AudioEngine instance which makes possible to play AudioAssets.
-         *
-         * @param [in]  volumeAtStart   Master volume level when starting.
-         *                              Value is checked and limited between [0.0 - 1.0].
-         * @param [in]  resourceManager Manages loading of files
-         */
-        AudioEngine(float volumeAtStart, ResourceManager& resourceManager);
-        ~AudioEngine();
-        static void setVolume(float volume);
-        static float volume();
+        ResourceManager(const std::string& basePath);
+        virtual ~ResourceManager();
+        #ifdef ANDROID
+            static void setAndroidAssetManager(AAssetManager* androidAssetManager);
+        #endif
 
     private:
-        static class AudioEnginePrivate* private_;
+        class ResourceManagerPrivate* private_;
     };
 }
 

@@ -23,33 +23,44 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_AUDIORESOURCEMANAGER
-#define LIBW_AUDIORESOURCEMANAGER
+#ifndef LIBW_FILEHANDLE
+#define LIBW_FILEHANDLE
 
-#include "Mutex.hpp"
-#include "AudioResource.hpp"
-#include <w/Class.hpp>
-#include <sigc++/connection.h>
+#include "w/Exception.hpp"
+#include <stdio.h>
+#include <unistd.h>
 #include <string>
-#include <map>
 
 namespace w
 {
-    class AudioResourceManager
+    class FileHandle
     {
     public:
-        UNCOPYABLE(AudioResourceManager)
-
-        AudioResourceManager(const std::string& assetPath);
-        ~AudioResourceManager();
-        AudioResource* get(const std::string& file);
+        ~FileHandle();
+        unsigned int read(char* targetBuffer, unsigned int byteAmountToRead);
+        std::string filename();
+        #ifdef ANDROID
+            AAsset* pointer();
+        #else // linux
+            FILE* pointer();
+        #endif
 
     private:
-        Mutex mutex_;
-        std::map<std::string, AudioResource*> resources_;
-        std::map<unsigned int, sigc::connection> resourcesConnections_;
-        void handleResourceDestroy(unsigned int);
-        std::string assetPath_;
+        friend class ResourceManagerPrivate;
+
+        void open();
+        void close();
+        std::string filename_;
+        unsigned int currentReadIndex_;
+        unsigned int byteSize_;
+        #ifdef ANDROID
+            FileHandle(const std::string& filename, AAssetManager* androidAssetManager);
+            AAssetManager* androidAssetManager_;
+            AAsset* file_;
+        #else // linux
+            FileHandle(const std::string& filename);
+            FILE *file_;
+        #endif
     };
 }
 

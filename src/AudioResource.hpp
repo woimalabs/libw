@@ -27,6 +27,7 @@
 #define LIBW_AUDIORESOURCE
 
 #include "Resource.hpp"
+#include "FileHandle.hpp"
 #include <string>
 #include <stdint.h>
 
@@ -35,7 +36,7 @@ namespace w
     class AudioResource: public Resource
     {
     public:
-        AudioResource(const std::string& file);
+        AudioResource(FileHandle* fileHandle);
         ~AudioResource();
         unsigned int channels() const;
         unsigned int bitPerSample(void) const;
@@ -47,7 +48,7 @@ namespace w
         int16_t sample(unsigned int location, bool& end) const;
 
     private:
-        void load(const std::string&);
+        void load(FileHandle*);
         bool channels_;
         unsigned int bit_;
         unsigned int bytesPerSample_;

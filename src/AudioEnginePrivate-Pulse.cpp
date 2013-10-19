@@ -69,8 +69,8 @@ namespace w
 {
     AudioEnginePrivate* AudioEnginePrivate::singleton_ = NULL;
 
-    AudioEnginePrivate::AudioEnginePrivate(float volumeAtStart, const std::string& assetPath):
-        audioResourceManager_(assetPath),
+    AudioEnginePrivate::AudioEnginePrivate(float volumeAtStart, ResourceManager& resourceManager):
+        resourceManager_(resourceManager),
         tracker_(1.0f),
         volumeAtStart_(volumeAtStart)
     {

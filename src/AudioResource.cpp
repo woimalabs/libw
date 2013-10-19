@@ -40,8 +40,8 @@ namespace w
         return buf[0] + (buf[1] * 0x100);
     }
 
-    AudioResource::AudioResource(const std::string& file):
-        Resource(file),
+    AudioResource::AudioResource(FileHandle* fileHandle):
+        Resource(fileHandle->filename()),
         channels_(false),
         bit_(0),
         bytesPerSample_(0),
@@ -50,7 +50,7 @@ namespace w
         isSigned_(false),
         data_(NULL)
     {
-        load(file);
+        load(fileHandle);
     }
 
     AudioResource::~AudioResource()
@@ -108,13 +108,13 @@ namespace w
         return r;
     }
 
-    void AudioResource::load(const std::string& file)
+    void AudioResource::load(FileHandle* fileHandle)
     {
         FILE* fp = NULL;
 
-        LOGI("Loading \"%s\"", file.c_str());
+        //LOGI("Loading \"%s\"", file.c_str());
 
-        fp = fopen(file.c_str(), "rb");
+        fp = fileHandle->pointer(); //fopen(FileHandle* fileHandle) file.c_str(), "rb");
         if (fp != NULL)
         {
             unsigned char buf[256] = {0};
@@ -251,19 +251,19 @@ namespace w
                 isSigned_= true;
             }
 
-            fclose(fp);
+            //fclose(fp);
             return;
         }
         else
         {
-            LOGE("No file: \"%s\"", file.c_str());
+            //LOGE("No file: \"%s\"", file.c_str());
         }
         return;
 
     error:
         if (fp != NULL)
         {
-            fclose(fp);
+            //fclose(fp);
         }
 
         throw Exception("Could not load audio asset!");

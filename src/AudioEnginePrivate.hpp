@@ -26,8 +26,11 @@
 #ifndef LIBW_AUDIOENGINEPRIVATE
 #define LIBW_AUDIOENGINEPRIVATE
 
+#include "FileHandle.hpp"
+#include "w/Log.hpp"
 #include "Mutex.hpp"
-#include "AudioResourceManager.hpp"
+#include "w/ResourceManager.hpp"
+#include "ResourceManagerPrivate.hpp"
 #include "Tracker.hpp"
 #include "TrackerSample.hpp"
 #include <w/Class.hpp>
@@ -49,7 +52,7 @@ namespace w
     class AudioEnginePrivate
     {
     public:
-        UNCOPYABLE(AudioEnginePrivate)
+        // UNCOPYABLE(AudioEnginePrivate)
         friend class AudioEngine;
 #if __APPLE__
         constexpr static float const VolumeOffThreshold = 0.001f;
@@ -79,9 +82,23 @@ namespace w
             return 1.0f; // TODO
         }
 
-        static AudioResource* get(const std::string& file)
+        static AudioResource* get(const std::string& filename)
         {
-            return singleton_->audioResourceManager_.get(file);
+            LOG
+            std::string key = std::string("AudioResource") + filename;
+            AudioResource* r = dynamic_cast<AudioResource*>(ResourceManagerPrivate::getResource(filename));
+            if (r == NULL)
+            {
+                LOG
+                FileHandle* tmp = ResourceManagerPrivate::getFileHandle(filename);
+                if (tmp != NULL)
+                {
+                    r = new AudioResource(tmp);
+                    delete tmp;
+                }
+            }
+            LOG
+            return r;
         }
 
         static bool play(AudioResource* resource, bool volume, bool looping)
@@ -104,10 +121,10 @@ namespace w
 #endif
 
     private:
-        AudioEnginePrivate(float volumeAtStart, const std::string& assetPath);
+        AudioEnginePrivate(float volumeAtStart, ResourceManager& resourceManager);
         ~AudioEnginePrivate();
         static AudioEnginePrivate* singleton_;
-        AudioResourceManager audioResourceManager_;
+        ResourceManager resourceManager_; // Holding a reference so that AudioEnginePrivate can call ResourceManagerPrivate functions safely
         Tracker tracker_;
         State::Enum state_;
         Mutex mutex_;

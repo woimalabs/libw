@@ -26,6 +26,7 @@
 #ifndef AUDIOHELLO_DUMMYAPPLICATION
 #define AUDIOHELLO_DUMMYAPPLICATION
 
+#include <w/ResourceManager.hpp>
 #include <w/AudioEngine.hpp>
 #include <w/AudioAsset.hpp>
 #include <w/Storage.hpp>
@@ -36,10 +37,12 @@ class DummyApplication
 {
 public:
     DummyApplication():
-        audioEngine_(1.0f, "./"),
-        audioAsset_("teleport.wav"),
-        storage_("libwhello")
+        resourceManager_("./"),
+        audioEngine_(1.0f, resourceManager_),
+        audioAsset_("teleport.wav")
+        // storage_("libwhello")
     {
+        /*
         std::string storageTestIntKey1("testInt1");
         int storageTestIntValue1 = 10;
         storage_.setInt(storageTestIntKey1, storageTestIntValue1);
@@ -59,6 +62,7 @@ public:
                 storageTestIntKey2.c_str(), storage_.getInt(storageTestIntKey2),
                 storageTestIntKey2.c_str(), storageTestIntValue2);
         }
+        */
     }
 
     ~DummyApplication()
@@ -77,9 +81,10 @@ public:
     }
 
 private:
+    w::ResourceManager resourceManager_;
     w::AudioEngine audioEngine_;
     w::AudioAsset audioAsset_;
-    w::Storage storage_;
+    //w::Storage storage_;
 };
 
 #endif

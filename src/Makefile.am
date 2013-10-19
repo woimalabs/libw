@@ -1,13 +1,12 @@
 lib_LTLIBRARIES = libw.la
 
 libw_la_SOURCES = \
-	AssetManager.cpp \
-	AssetManagerPrivate.cpp \
+	ResourceManager.cpp \
+	ResourceManagerPrivate.cpp \
 	AudioEngine.cpp \
 	AudioEnginePrivate-Pulse.cpp \
 	AudioAsset.cpp \
 	AudioAssetPrivate.cpp \
-	AudioResourceManager.cpp \
 	AudioResource.cpp \
 	Mutex.cpp \
 	Log.cpp \
@@ -17,20 +16,18 @@ libw_la_SOURCES = \
 	TrackerSample.cpp \
 	Thread.cpp \
 	Timer.cpp \
-	Storage.cpp \
-	StoragePrivate.cpp
+	FileHandle.cpp
 
 libw_la_CPPFLAGS = -I$(top_srcdir)/include
 
 library_includedir = $(includedir)/w
 
 library_include_HEADERS = \
-	../include/w/AssetManager.hpp \
+	../include/w/ResourceManager.hpp \
 	../include/w/AudioEngine.hpp \
 	../include/w/AudioAsset.hpp \
 	../include/w/Class.hpp \
 	../include/w/Exception.hpp \
-	../include/w/Log.hpp  \
-	../include/w/Storage.hpp
+	../include/w/Log.hpp
 
 libw_la_LDFLAGS = -module -avoid-version -shared --disable-static

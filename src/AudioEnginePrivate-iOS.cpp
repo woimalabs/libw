@@ -60,7 +60,7 @@ namespace w
         // iOS's AudioUnit initialization
         setupAudioUnitSession();
         setupAudioGraph(1);
-        
+
         singleton_ = this;
     }
 
@@ -271,12 +271,12 @@ namespace w
         //LOGD("Get IO Duration Time %ld %lx %c%c%c%c", u.propertyResult, u.propertyResult, u.a[3], u.a[2], u.a[1], u.a[0]);
         //LOGD("IO Buffer Duration is %f", realIOBufferDuration);
     }
-        
+
     void AudioEnginePrivate::writeCallback(size_t size, SInt16* targetBuffer)
     {
         tracker_.getData(size, (unsigned char*)targetBuffer);
     }
-    
+
     void audioRouteChangeListenerCallback (void *inUserData,
         AudioSessionPropertyID inPropertyID, UInt32 inPropertyValueSize,
         const void* inPropertyValue)
