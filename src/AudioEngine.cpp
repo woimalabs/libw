@@ -47,7 +47,9 @@ namespace w
         LOGI("Shutting down AudioEngine...")
         if (private_ != NULL)
         {
+            LOG
             delete private_;
+            LOG
             private_ = NULL;
         }
         else
@@ -55,6 +57,7 @@ namespace w
             LOGE("AudioEngine::~AudioEngine(), private == NULL, AudioEngine in corrupted state!")
         }
         LOGI("Shutdown AudioEngine.")
+        LOG
     }
 
     void AudioEngine::setVolume(float volume)

@@ -67,6 +67,7 @@ public:
 
     ~DummyApplication()
     {
+        LOG
     }
 
     void run()

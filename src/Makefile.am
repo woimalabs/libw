@@ -30,4 +30,4 @@ library_include_HEADERS = \
 	../include/w/Exception.hpp \
 	../include/w/Log.hpp
 
-libw_la_LDFLAGS = -module -avoid-version -shared --disable-static
+libw_la_LDFLAGS = -g -module -avoid-version -shared --disable-static

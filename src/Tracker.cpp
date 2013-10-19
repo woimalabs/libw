@@ -47,6 +47,7 @@ namespace w
 
     Tracker::~Tracker()
     {
+        LOG
     }
 
     void Tracker::shutdown()

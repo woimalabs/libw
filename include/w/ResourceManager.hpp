@@ -26,6 +26,7 @@
 #ifndef LIBW_RESOURCEMANAGER
 #define LIBW_RESOURCEMANAGER
 
+#include <w/Class.hpp>
 #include <string>
 #ifdef ANDROID
     #include <jni.h>
@@ -39,6 +40,8 @@ namespace w
     class ResourceManager
     {
     public:
+        COPYABLE(ResourceManager);
+
         ResourceManager(const std::string& basePath);
         virtual ~ResourceManager();
         #ifdef ANDROID

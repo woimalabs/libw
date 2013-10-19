@@ -181,16 +181,17 @@ failed:
 
     AudioEnginePrivate::~AudioEnginePrivate()
     {
+LOG
         tracker_.shutdown();
         while (tracker_.shutdownIsDone() == false)
         {
         }
-
+LOG
         if (mainloop_)
         {
             pa_threaded_mainloop_lock(mainloop_);
         }
-
+LOG
         if (stream_)
         {
             LOGI("disconnecting pulse stream");
@@ -206,7 +207,7 @@ failed:
             pa_context_unref(context_);
             context_ = NULL;
         }
-
+LOG
         if (mainloop_)
         {
             LOGI("disconnecting pulse mainloop");
@@ -215,6 +216,7 @@ failed:
             pa_threaded_mainloop_free(mainloop_);
             mainloop_ = NULL;
         }
+    LOG
     }
 
     void AudioEnginePrivate::writeCallback(size_t size)

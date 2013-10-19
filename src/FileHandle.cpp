@@ -49,6 +49,7 @@ namespace w
 
     FileHandle::~FileHandle()
     {
+        LOG
         close();
     }
 

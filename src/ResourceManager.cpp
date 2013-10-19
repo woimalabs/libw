@@ -34,9 +34,25 @@ namespace w
     {
     }
 
+    ResourceManager::ResourceManager(ResourceManager const& r):
+        private_(r.private_)
+    {
+        private_->increment();
+    }
+
     ResourceManager::~ResourceManager()
     {
-        delete private_;
+        private_->decrement();
+    }
+
+    ResourceManager& ResourceManager::operator=(ResourceManager const& r)
+    {
+        if (this != &r)
+        {
+            private_ = r.private_;
+            private_->increment();
+        }
+        return *this;
     }
 
     #ifdef ANDROID

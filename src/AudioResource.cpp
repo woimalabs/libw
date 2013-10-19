@@ -55,6 +55,7 @@ namespace w
 
     AudioResource::~AudioResource()
     {
+        LOG
     }
 
     unsigned int AudioResource::channels() const
@@ -112,9 +113,7 @@ namespace w
     {
         FILE* fp = NULL;
 
-        //LOGI("Loading \"%s\"", file.c_str());
-
-        fp = fileHandle->pointer(); //fopen(FileHandle* fileHandle) file.c_str(), "rb");
+        fp = fileHandle->pointer();
         if (fp != NULL)
         {
             unsigned char buf[256] = {0};
@@ -155,7 +154,7 @@ namespace w
                 goto error;
             }
             unsigned int headerSize = getUnsigned(buf);
-
+LOGD("headersize:%d", headerSize)
             // WORD  formatTag;
             // WORD  channels;
             // DWORD samplesPerSecond;
@@ -221,6 +220,7 @@ namespace w
                 goto error;
             }
             unsigned int dataSize = getUnsigned(buf);
+LOGD("dataSize:%d", dataSize)
 
             if (data_ != NULL)
             {
@@ -251,21 +251,15 @@ namespace w
                 isSigned_= true;
             }
 
-            //fclose(fp);
             return;
         }
         else
         {
-            //LOGE("No file: \"%s\"", file.c_str());
+            LOGE("No file: \"%s\"", fileHandle->filename().c_str());
         }
         return;
 
     error:
-        if (fp != NULL)
-        {
-            //fclose(fp);
-        }
-
         throw Exception("Could not load audio asset!");
     }
 }

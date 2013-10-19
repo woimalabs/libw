@@ -44,8 +44,10 @@ namespace w
 
     AudioAsset::~AudioAsset()
     {
+        LOG
         private_->decrement();
         private_ = NULL;
+        LOG
     }
 
     AudioAsset& AudioAsset::operator=(AudioAsset const& r)
