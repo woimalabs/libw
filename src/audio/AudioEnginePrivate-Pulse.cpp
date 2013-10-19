@@ -23,7 +23,7 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "w/AudioEngine.hpp"
+#include "w/audio/AudioEngine.hpp"
 #include "w/Exception.hpp"
 #include "AudioEnginePrivate.hpp"
 #include "Lock.hpp"

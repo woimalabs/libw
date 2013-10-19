@@ -28,7 +28,6 @@
 #include <w/Exception.hpp>
 #include "Timer.hpp"
 
-
 namespace w
 {
     AudioEnginePrivate* AudioEnginePrivate::singleton_ = NULL;

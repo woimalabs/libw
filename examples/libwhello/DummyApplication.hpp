@@ -26,11 +26,10 @@
 #ifndef AUDIOHELLO_DUMMYAPPLICATION
 #define AUDIOHELLO_DUMMYAPPLICATION
 
-#include <w/ResourceManager.hpp>
-#include <w/AudioEngine.hpp>
-#include <w/AudioAsset.hpp>
-#include <w/Storage.hpp>
 #include <w/Log.hpp>
+#include <w/ResourceManager.hpp>
+#include <w/audio/AudioEngine.hpp>
+#include <w/audio/AudioAsset.hpp>
 #include <unistd.h>
 
 class DummyApplication

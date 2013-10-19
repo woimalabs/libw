@@ -24,7 +24,7 @@
  */
 
 #include "w/Log.hpp"
-#include "w/AudioAsset.hpp"
+#include "w/audio/AudioAsset.hpp"
 #include "AudioEnginePrivate.hpp"
 #include "AudioAssetPrivate.hpp"
 
