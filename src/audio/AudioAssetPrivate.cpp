@@ -35,8 +35,9 @@ namespace w
         parallerPlay_(parallelPlay),
         looping_(looping)
     {
-        // AudioEnginePrivate::get() return always either != NULL or throws Exception
+        LOG
         resource_->increment();
+        LOG
     }
 
     AudioAssetPrivate::~AudioAssetPrivate()

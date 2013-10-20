@@ -84,17 +84,23 @@ namespace w
 
         static AudioResource* get(const std::string& filename)
         {
+            LOG
+
             std::string key = std::string("AudioResource") + filename;
             AudioResource* r = dynamic_cast<AudioResource*>(ResourceManagerPrivate::getResource(filename));
             if (r == NULL)
             {
+                LOG
                 FileHandle* tmp = ResourceManagerPrivate::getFileHandle(filename);
                 if (tmp != NULL)
                 {
+                    LOG
                     r = new AudioResource(tmp);
                     delete tmp;
                 }
+                LOG
             }
+            LOG
             return r;
         }
 
@@ -139,7 +145,6 @@ namespace w
 
             // Output mix interfaces
             SLObjectItf outputMixObject_;
-            SLEnvironmentalReverbItf outputMixEnvironmentalReverb_;
 
             // Buffer queue player interfaces
             SLObjectItf bqPlayerObject_;

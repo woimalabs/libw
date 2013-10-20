@@ -35,6 +35,6 @@ $(SOURCE)/graphics/WindowPrivate-Android.cpp
 # Dependencies
 LOCAL_SHARED_LIBRARIES := libsigcpp
 LOCAL_STATIC_LIBRARY   := libgnustl
-LOCAL_LDLIBS           := -llog -lz -lOpenSLES -landroid
+LOCAL_LDLIBS           := -llog -lz -lOpenSLES -landroid -lGLESv2
 
 include $(BUILD_SHARED_LIBRARY)

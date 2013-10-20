@@ -24,6 +24,9 @@
  */
 
 #include "WindowPrivate.hpp"
+#include <EGL/egl.h>
+#include <GLES2/gl2.h>
+#include <GLES2/gl2ext.h>
 
 namespace w
 {
@@ -41,9 +44,9 @@ namespace w
 
     void WindowPrivate::clearBuffer()
     {
-        //glClearColor(clearColor_.x(), clearColor_.y(), clearColor_.z(), clearColor_.w());
-        //glClearDepthf(1.0f);
-        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClearColor(clearColor_.x(), clearColor_.y(), clearColor_.z(), clearColor_.w());
+        glClearDepthf(1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
     void WindowPrivate::resize(unsigned int width, unsigned int height)

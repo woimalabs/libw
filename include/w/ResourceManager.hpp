@@ -42,11 +42,12 @@ namespace w
     public:
         COPYABLE(ResourceManager);
 
+#ifdef ANDROID
+        ResourceManager(AAssetManager* androidAssetManager);
+#elif __linux__
         ResourceManager(const std::string& basePath);
+#endif
         virtual ~ResourceManager();
-        #ifdef ANDROID
-            static void setAndroidAssetManager(AAssetManager* androidAssetManager);
-        #endif
 
     private:
         class ResourceManagerPrivate* private_;

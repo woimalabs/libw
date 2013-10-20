@@ -29,9 +29,19 @@
 
 namespace w
 {
-    ResourceManager::ResourceManager(const std::string& basePath):
-        private_(new ResourceManagerPrivate(basePath))
+    #ifdef ANDROID
+        ResourceManager::ResourceManager(AAssetManager* androidAssetManager):
+    #elif linux
+        ResourceManager::ResourceManager(const std::string& basePath):
+    #endif
+        private_(NULL)
     {
+        #ifdef ANDROID
+            private_ = new ResourceManagerPrivate(".");
+            private_->setAndroidAssetManager(androidAssetManager);
+        #elif __linux__
+            private_ = new ResourceManagerPrivate(basePath);
+        #endif
     }
 
     ResourceManager::ResourceManager(ResourceManager const& r):
@@ -54,11 +64,4 @@ namespace w
         }
         return *this;
     }
-
-    #ifdef ANDROID
-        void ResourceManager::setAndroidAssetManager(AAssetManager* assetManager)
-        {
-            ResourceManagerPrivate::setAndroidAssetManager(assetManager);
-        }
-    #endif
 }

@@ -38,8 +38,6 @@ namespace w
     {
         LOGD("bqPlayerCallback");
         AudioEnginePrivate* self = (AudioEnginePrivate*)handle;
-
-        //assert(bq == bqPlayerBufferQueue_);
         if (self == NULL)
         {
             LOGE("bqPlayerCallback, NULL == self");
@@ -66,7 +64,6 @@ namespace w
     void AudioEnginePrivate::createEngine()
     {
         SLresult result;
-        SLEnvironmentalReverbSettings reverbSettings = SL_I3DL2_ENVIRONMENT_PRESET_STONECORRIDOR;
 
         // Create engine
         result = slCreateEngine(&engineObject_, 0, NULL, 0, NULL, NULL);
@@ -92,11 +89,9 @@ namespace w
             return;
         }
 
-        // Create output mix, with environmental reverb specified as a non-required interface
-        const SLInterfaceID ids[1] = {SL_IID_ENVIRONMENTALREVERB};
-        const SLboolean req[1] = {SL_BOOLEAN_FALSE};
-        result = (*engineEngine_)->CreateOutputMix(engineEngine_, &outputMixObject_, 1, ids, req);
-        if (SL_RESULT_SUCCESS != result)
+        // Create OutputMixer.
+        result = (*engineEngine_)->CreateOutputMix(engineEngine_, &outputMixObject_, 0, NULL, NULL);
+        if (result != SL_RESULT_SUCCESS)
         {
             LOGE("createEngine, CreateOutputMix !SL_RESULT_SUCCESS");
             return;
@@ -108,22 +103,6 @@ namespace w
         {
             LOGE("createEngine, Realize ouput !SL_RESULT_SUCCESS");
             return;
-        }
-
-        // Get the environmental reverb interface.
-        // This could fail if the environmental reverb effect is not available,
-        // either because the feature is not present, excessive CPU load, or
-        // the required MODIFY_AUDIO_SETTINGS permission was not requested and granted.
-        result = (*outputMixObject_)->GetInterface(outputMixObject_, SL_IID_ENVIRONMENTALREVERB, &outputMixEnvironmentalReverb_);
-
-        if (SL_RESULT_SUCCESS == result)
-        {
-            result = (*outputMixEnvironmentalReverb_)->SetEnvironmentalReverbProperties(
-                outputMixEnvironmentalReverb_, &reverbSettings);
-        }
-        else
-        {
-            LOGE("createEngine, SetEnvironmentalReverb !SL_RESULT_SUCCESS");
         }
     }
 
@@ -188,21 +167,6 @@ namespace w
             return;
         }
 
-        // Get the effect send interface
-        // NOTE: effects not used currently
-        //result = (*bqPlayerObject_)->GetInterface(bqPlayerObject_, SL_IID_EFFECTSEND, &bqPlayerEffectSend);
-        //assert(SL_RESULT_SUCCESS == result);
-
-    #if 0   // mute/solo is not supported for sources that are known to be mono, as this is
-        // get the mute/solo interface
-        result = (*bqPlayerObject_)->GetInterface(bqPlayerObject_, SL_IID_MUTESOLO, &bqPlayerMuteSolo_);
-        if (SL_RESULT_SUCCESS != result)
-        {
-            LOGE("createBufferQueueAudioPlayer, GetInterface mute/solo !SL_RESULT_SUCCESS");
-            return;
-        }
-    #endif
-
         // Get the volume interface
         result = (*bqPlayerObject_)->GetInterface(bqPlayerObject_, SL_IID_VOLUME, &bqPlayerVolume_);
         if (SL_RESULT_SUCCESS != result)
@@ -240,7 +204,6 @@ namespace w
         {
             (*outputMixObject_)->Destroy(outputMixObject_);
             outputMixObject_ = NULL;
-            outputMixEnvironmentalReverb_ = NULL;
         }
 
         // Destroy engine object, and invalidate all associated interfaces
@@ -287,8 +250,6 @@ namespace w
 
     void AudioEnginePrivate::writeCallback()
     {
-        LOGD("AudioEnginePrivate writeCallback!");
-
         unsigned int gotSize = tracker_.getData(44100, &(buffer_[0]));
         SLresult result = (*bqPlayerBufferQueue_)->Enqueue(bqPlayerBufferQueue_, &(buffer_[0]), gotSize);
 

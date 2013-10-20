@@ -127,9 +127,9 @@ namespace w
     FileHandle* ResourceManagerPrivate::getFileHandle(const std::string& filename)
     {
         #ifdef ANDROID
-            return new FileHandle(singleton_->basePath_ + "/" + filename, androidAssetManager_);
+            return new FileHandle(filename, androidAssetManager_);
         #else // linux
-            return new FileHandle(filename);
+            return new FileHandle(singleton_->basePath_ + "/" +filename);
         #endif
     }
 
