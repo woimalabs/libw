@@ -47,7 +47,6 @@ namespace w
 
     Tracker::~Tracker()
     {
-        LOG
     }
 
     void Tracker::shutdown()
@@ -158,7 +157,6 @@ namespace w
 
             if (shutdownStarted_ && tracksWithAudio == false)
             {
-                LOG
                 r = false;
                 shutdownDone_ = true;
                 break; // buffer is full OR we are shutting down

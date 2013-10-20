@@ -49,14 +49,12 @@ namespace w
 
     FileHandle::~FileHandle()
     {
-        LOG
         close();
     }
 
     // Opens the file and defines byte size
     void FileHandle::open()
     {
-        LOG
         #ifdef ANDROID
             file_ = AAssetManager_open(assetManager_, filename_, AASSET_MODE_STREAMING);
             if (file_ == NULL)
@@ -77,13 +75,10 @@ namespace w
             byteSize_ = ftell(file_);
             rewind (file_);
         #endif
-        LOG
     }
 
     unsigned int FileHandle::read(char* targetBuffer, unsigned int byteAmountToRead)
     {
-                        LOGD("bbyteAmountToReadx: %d", byteAmountToRead);
-
         unsigned int bytesRead = 0;
         unsigned int bytesToBeRead = byteAmountToRead;
         while (bytesToBeRead > 0)

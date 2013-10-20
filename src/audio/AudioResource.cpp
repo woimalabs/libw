@@ -55,7 +55,6 @@ namespace w
 
     AudioResource::~AudioResource()
     {
-        LOG
     }
 
     unsigned int AudioResource::channels() const
@@ -154,7 +153,7 @@ namespace w
                 goto error;
             }
             unsigned int headerSize = getUnsigned(buf);
-LOGD("headersize:%d", headerSize)
+
             // WORD  formatTag;
             // WORD  channels;
             // DWORD samplesPerSecond;
@@ -220,7 +219,6 @@ LOGD("headersize:%d", headerSize)
                 goto error;
             }
             unsigned int dataSize = getUnsigned(buf);
-LOGD("dataSize:%d", dataSize)
 
             if (data_ != NULL)
             {

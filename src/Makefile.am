@@ -17,7 +17,8 @@ libw_la_SOURCES = \
 	audio/Tracker.cpp \
 	audio/TrackerProducerThread.cpp \
 	audio/TrackerSample.cpp \
-	graphics/Window.cpp
+	graphics/Window.cpp \
+	graphics/WindowPrivate-XEGL.cpp
 
 libw_la_CPPFLAGS = -I$(top_srcdir)/include
 
@@ -32,6 +33,10 @@ library_audio_includedir = $(includedir)/w/audio
 library_audio_include_HEADERS = \
 	../include/w/audio/AudioEngine.hpp \
 	../include/w/audio/AudioAsset.hpp
+
+library_math_includedir = $(includedir)/w/math
+library_math_include_HEADERS = \
+	../include/w/math/Vector4.hpp
 
 library_graphics_includedir = $(includedir)/w/graphics
 library_graphics_include_HEADERS = \

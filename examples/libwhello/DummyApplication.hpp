@@ -30,6 +30,7 @@
 #include <w/ResourceManager.hpp>
 #include <w/audio/AudioEngine.hpp>
 #include <w/audio/AudioAsset.hpp>
+#include <w/graphics/Window.hpp>
 #include <unistd.h>
 
 class DummyApplication
@@ -38,8 +39,8 @@ public:
     DummyApplication():
         resourceManager_("./"),
         audioEngine_(1.0f, resourceManager_),
-        audioAsset_("teleport.wav")
-        // storage_("libwhello")
+        audioAsset_("teleport.wav"),
+        window_(std::string("libwhello"), 800, 600, w::Vector4(0.0f, 0.0f, 0.0f, 0.0f))
     {
         /*
         std::string storageTestIntKey1("testInt1");
@@ -66,7 +67,6 @@ public:
 
     ~DummyApplication()
     {
-        LOG
     }
 
     void run()
@@ -84,6 +84,7 @@ private:
     w::ResourceManager resourceManager_;
     w::AudioEngine audioEngine_;
     w::AudioAsset audioAsset_;
+    w::Window window_;
     //w::Storage storage_;
 };
 

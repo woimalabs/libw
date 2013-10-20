@@ -23,27 +23,26 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "TrackerProducerThread.hpp"
-#include "Tracker.hpp"
-#include "Timer.hpp"
-#include "w/Log.hpp"
+#ifndef LIBW_GRAPHICS_WINDOW
+#define LIBW_GRAPHICS_WINDOW
+
+#include "w/math/Vector4.hpp"
+#include <string>
 
 namespace w
 {
-    TrackerProducerThread::TrackerProducerThread(Tracker* tracker):
-        tracker_(tracker)
+    class Window
     {
-    }
+    public:
+        Window(std::string name, unsigned int x, unsigned int y, const Vector4& clearColor);
+        ~Window();
+        void clearBuffer();
+        void swapBuffers();
+        void resize(unsigned int width, unsigned int height);
 
-    TrackerProducerThread::~TrackerProducerThread()
-    {
-    }
-
-    void TrackerProducerThread::run()
-    {
-        while (tracker_->produceData() == true)
-        {
-            Timer::sleepMilliseconds(5); // TODO, signal etc replacing the sleep
-        }
-    }
+    private:
+        class WindowPrivate* private_;
+    };
 }
+
+#endif

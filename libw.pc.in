@@ -6,6 +6,6 @@ includedir=@includedir@
 Name: libw
 Description: Audio library
 Version: 0.1.0
-Libs: -L${libdir} -lw -lpthread -lrt -lsigc-2.0 -lpulse
+Libs: -L${libdir} -lw -lpthread -lrt -lsigc-2.0 -lpulse -lGLESv2 -lEGL
 Cflags: -I${includedir} -I/usr/local/include/w
 Requires: sigc++-2.0

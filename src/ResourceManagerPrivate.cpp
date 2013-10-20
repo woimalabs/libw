@@ -49,7 +49,6 @@ namespace w
 
     ResourceManagerPrivate::~ResourceManagerPrivate()
     {
-        LOG
         if (singleton_->resources_.size() == 0)
         {
             LOGI("ResourceManager: all freed.");
@@ -65,9 +64,7 @@ namespace w
                 LOGI(" -(id:%s)(refcount:%d)", id.c_str(), resource->referenceCount());
             }
         }
-        LOG
         singleton_ = NULL;
-        LOG
     }
 
     Resource* ResourceManagerPrivate::getResource(const std::string& id)
@@ -105,7 +102,6 @@ namespace w
 
     void ResourceManagerPrivate::handleResourceDestroy(unsigned int id)
     {
-        LOG
         Lock lock(singleton_->mutex_);
 
         // Remove Resource from loaded resources list and signal listener list
@@ -130,7 +126,6 @@ namespace w
 
     FileHandle* ResourceManagerPrivate::getFileHandle(const std::string& filename)
     {
-        LOG
         #ifdef ANDROID
             return new FileHandle(basePath_ + "/" + filename, androidAssetManager_);
         #else // linux

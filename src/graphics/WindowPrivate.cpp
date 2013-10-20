@@ -23,53 +23,33 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "w/Log.hpp"
-#include "w/audio/AudioAsset.hpp"
-#include "AudioEnginePrivate.hpp"
-#include "AudioAssetPrivate.hpp"
+#include "WindowPrivate.hpp"
 
 namespace w
 {
-    AudioAsset::AudioAsset(const std::string& filename, bool parallelPlay, bool looping):
-        private_(new AudioAssetPrivate(filename, parallelPlay, looping))
+    WindowPrivate::WindowPrivate(unsigned int width, unsigned int height, Vector4& clearColor):
+        width_(width),
+        height(height),
+        clearColor_(clearColor_)
     {
-        private_->increment();
     }
 
-    AudioAsset::AudioAsset(AudioAsset const& r):
-        private_(r.private_)
+    WindowPrivate::~WindowPrivate()
     {
-        private_->increment();
     }
 
-    AudioAsset::~AudioAsset()
+    void WindowPrivate::clear()
     {
-        private_->decrement();
-        private_ = NULL;
+       // private_->clear();
     }
 
-    AudioAsset& AudioAsset::operator=(AudioAsset const& r)
+    void WindowPrivate::swapBuffers()
     {
-        if (this != &r)
-        {
-            private_ = r.private_;
-            private_->increment();
-        }
-        return *this;
+        //private_->swapBuffers();
     }
 
-    bool AudioAsset::play(float volume)
+    void WindowPrivate::resize(unsigned int width, unsigned int height)
     {
-        return private_->play(volume);
-    }
-
-    void AudioAsset::setVolume(float volume)
-    {
-        private_->setVolume(volume);
-    }
-
-    void AudioAsset::fadeOut(unsigned int fadeOutTimeMilliseconds)
-    {
-        private_->fadeOut(fadeOutTimeMilliseconds);
+        //private_->resize(width, height);
     }
 }
