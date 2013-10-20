@@ -4,7 +4,8 @@ LOCAL_MODULE := libw
 
 LOCAL_C_INCLUDES := \
 $(LOCAL_PATH)/../../../../../libsigcpp/libsigc++-2.2.10 \
-$(LOCAL_PATH)/../../../../include
+$(LOCAL_PATH)/../../../../include \
+$(LOCAL_PATH)/../../../../src
 
 # Application source files:
 SOURCE := ../../../../src
@@ -15,23 +16,25 @@ $(SOURCE)/Timer.cpp  \
 $(SOURCE)/Mutex.cpp \
 $(SOURCE)/Referenced.cpp \
 $(SOURCE)/Thread.cpp \
+$(SOURCE)/FileHandle.cpp \
+$(SOURCE)/ResourceManager.cpp \
+$(SOURCE)/ResourceManagerPrivate.cpp \
 \
-$(SOURCE)/StoragePrivate.cpp \
-$(SOURCE)/Storage.cpp \
+$(SOURCE)/audio/AudioResource.cpp \
+$(SOURCE)/audio/AudioEnginePrivate-Android.cpp \
+$(SOURCE)/audio/AudioEngine.cpp \
+$(SOURCE)/audio/AudioAssetPrivate.cpp \
+$(SOURCE)/audio/AudioAsset.cpp \
+$(SOURCE)/audio/TrackerSample.cpp \
+$(SOURCE)/audio/TrackerProducerThread.cpp \
+$(SOURCE)/audio/Tracker.cpp \
 \
-$(SOURCE)/AudioResourceManager.cpp \
-$(SOURCE)/AudioResource.cpp \
-$(SOURCE)/AudioEnginePrivate-Android.cpp \
-$(SOURCE)/AudioEngine.cpp \
-$(SOURCE)/AudioAssetPrivate.cpp \
-$(SOURCE)/AudioAsset.cpp \
-$(SOURCE)/TrackerSample.cpp \
-$(SOURCE)/TrackerProducerThread.cpp \
-$(SOURCE)/Tracker.cpp
+$(SOURCE)/graphics/Window.cpp \
+$(SOURCE)/graphics/WindowPrivate-Android.cpp
 
 # Dependencies
 LOCAL_SHARED_LIBRARIES := libsigcpp
 LOCAL_STATIC_LIBRARY   := libgnustl
-LOCAL_LDLIBS           := -llog -lz -lOpenSLES
+LOCAL_LDLIBS           := -llog -lz -lOpenSLES -landroid
 
 include $(BUILD_SHARED_LIBRARY)

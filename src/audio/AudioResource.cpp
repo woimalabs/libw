@@ -110,16 +110,13 @@ namespace w
 
     void AudioResource::load(FileHandle* fileHandle)
     {
-        FILE* fp = NULL;
-
-        fp = fileHandle->pointer();
-        if (fp != NULL)
+        if (fileHandle != NULL)
         {
             unsigned char buf[256] = {0};
             unsigned int l = 0;
 
             // Header
-            if (fread(buf, 1, 4, fp) != 4)
+            if (fileHandle->read((char*)&buf[0], 4) != 4)
             {
                 LOGE("Error in reading RIFF.");
                 goto error;
@@ -130,13 +127,13 @@ namespace w
                 LOGI("RIFF not found.");
             }
 
-            if (fread(buf, 1, 4, fp) != 4)
+            if (fileHandle->read((char*)&buf[0], 4) != 4)
             {
                 LOGE("Error in reading file size.");
                 goto error;
             }
 
-            if (fread(buf, 1, 8, fp) != 8)
+            if (fileHandle->read((char*)&buf[0], 8) != 8)
             {
                 LOGE("WAVEfmt could not be read.");
                 goto error;
@@ -147,7 +144,7 @@ namespace w
                 LOGI("WAVEfmt not found.");
             }
 
-            if (fread(buf, 1, 4, fp) != 4)
+            if (fileHandle->read((char*)&buf[0], 4) != 4)
             {
                 LOGE("Header size could not be read.");
                 goto error;
@@ -161,7 +158,7 @@ namespace w
             // WORD  blockAlign;
             // WORD  bitsPerSample;
             // WORD  cbSize;
-            if (fread(buf, 1, headerSize, fp) != headerSize)
+            if (fileHandle->read((char*)&buf[0], headerSize) != headerSize)
             {
                 LOGE("Error in reading header.");
                 goto error;
@@ -182,7 +179,7 @@ namespace w
             // Data
             while (1)
             {
-                if (fread(buf,1,4,fp) != 4)
+                if (fileHandle->read((char*)&buf[0], 4) != 4)
                 {
                     printf("Error while waiting for data.");
                     goto error;
@@ -198,14 +195,14 @@ namespace w
                 {
                     LOGI("Skipping block \"%c%c%c%c\"", buf[0], buf[1], buf[2], buf[3]);
 
-                    if (fread(buf, 1, 4, fp)!=4)
+                    if (fileHandle->read((char*)&buf[0], 4) != 4)
                     {
                         LOGE("Skipping unknown block failed!");
                         goto error;
                     }
 
                     l = getUnsigned(buf);
-                    if (fread(buf, 1, l, fp) != l)
+                    if (fileHandle->read((char*)&buf[0], l) != l)
                     {
                         LOGE("Skipping unknown block failed!");
                         goto error;
@@ -213,7 +210,7 @@ namespace w
                 }
             }
 
-            if (fread(buf, 1, 4, fp) != 4)
+            if (fileHandle->read((char*)&buf[0], 4) != 4)
             {
                 LOGE("Data size could not be read.");
                 goto error;
@@ -228,7 +225,7 @@ namespace w
             }
 
             data_ = new unsigned char [dataSize];
-            if ((l = fread(data_, 1, dataSize, fp)) != dataSize)
+            if ((l = fileHandle->read((char*)data_, dataSize)) != dataSize)
             {
                 LOGI("File ended before reading all data.");
                 LOGI("%d (0x%x) bytes have been read.", l, l);

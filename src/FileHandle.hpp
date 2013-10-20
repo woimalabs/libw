@@ -30,6 +30,12 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string>
+#ifdef ANDROID
+    #include <jni.h>
+    #include <sys/types.h>
+    #include <android/asset_manager.h>
+    #include <android/asset_manager_jni.h>
+#endif
 
 namespace w
 {

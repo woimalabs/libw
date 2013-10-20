@@ -56,9 +56,9 @@ namespace w
     }
 
     #ifdef ANDROID
-        void ResourceManager::setAssetManager(AAssetManager* assetManager)
+        void ResourceManager::setAndroidAssetManager(AAssetManager* assetManager)
         {
-            ResourceManagerPrivate::setAssetManager(assetManager);
+            ResourceManagerPrivate::setAndroidAssetManager(assetManager);
         }
     #endif
 }

@@ -33,7 +33,7 @@ namespace w
 {
     ResourceManagerPrivate* ResourceManagerPrivate::singleton_ = NULL;
     #ifdef ANDROID
-        AAssetManager* ResourceManagerPrivate::assetManager_ = NULL;
+        AAssetManager* ResourceManagerPrivate::androidAssetManager_ = NULL;
     #endif
 
     ResourceManagerPrivate::ResourceManagerPrivate(const std::string& basePath):
@@ -127,16 +127,16 @@ namespace w
     FileHandle* ResourceManagerPrivate::getFileHandle(const std::string& filename)
     {
         #ifdef ANDROID
-            return new FileHandle(basePath_ + "/" + filename, androidAssetManager_);
+            return new FileHandle(singleton_->basePath_ + "/" + filename, androidAssetManager_);
         #else // linux
             return new FileHandle(filename);
         #endif
     }
 
     #ifdef ANDROID
-        void ResourceManagerPrivate::setAssetManager(AAssetManager* assetManager)
+        void ResourceManagerPrivate::setAndroidAssetManager(AAssetManager* assetManager)
         {
-            assetManager_ = assetManager;
+            androidAssetManager_ = assetManager;
         }
     #endif
 }

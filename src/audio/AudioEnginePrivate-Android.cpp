@@ -252,8 +252,8 @@ namespace w
         }
     }
 
-    AudioEnginePrivate::AudioEnginePrivate(float volumeAtStart, const std::string& assetPath):
-        audioResourceManager_(assetPath),
+    AudioEnginePrivate::AudioEnginePrivate(float volumeAtStart, ResourceManager& resourceManager):
+        resourceManager_(resourceManager),
         tracker_(1.0f),
         volumeAtStart_(volumeAtStart)
     {
@@ -304,36 +304,5 @@ namespace w
         {
             LOGE("bqPlayerCallback, Enqueue result !SL_RESULT_SUCCESS");
         }
-    }
-
-    AudioEnginePrivate::State::Enum AudioEnginePrivate::state()
-    {
-        return singleton_->state_;
-    }
-
-    void AudioEnginePrivate::setVolume(float volume)
-    {
-        // TODO
-    }
-
-    float AudioEnginePrivate::volume()
-    {
-        return 1.0f; // TODO
-    }
-
-    AudioResource* AudioEnginePrivate::get(const std::string& file)
-    {
-        return singleton_->audioResourceManager_.get(file);
-    }
-
-    bool AudioEnginePrivate::play(AudioResource* resource, bool volume, bool looping)
-    {
-        TrackerSample* tmp = new TrackerSample(resource, volume, looping);
-
-        tmp->increment();
-        bool r = singleton_->tracker_.place(tmp);
-        tmp->decrement();
-
-        return r;
     }
 }

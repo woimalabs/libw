@@ -28,7 +28,7 @@
 
 namespace w
 {
-    Window::Window(std::string name, unsigned int width, unsigned int height, const Vector4& clearColor):
+    Window::Window(const std::string& name, unsigned int width, unsigned int height, const Vector4& clearColor):
         private_(new WindowPrivate(name, width, height, clearColor))
     {
     }

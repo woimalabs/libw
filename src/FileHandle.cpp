@@ -56,7 +56,7 @@ namespace w
     void FileHandle::open()
     {
         #ifdef ANDROID
-            file_ = AAssetManager_open(assetManager_, filename_, AASSET_MODE_STREAMING);
+            file_ = AAssetManager_open(androidAssetManager_, filename_.c_str(), AASSET_MODE_STREAMING);
             if (file_ == NULL)
             {
                 LOGE("Failed to load filename: %s", filename_.c_str());
@@ -84,10 +84,9 @@ namespace w
         while (bytesToBeRead > 0)
         {
             #ifdef ANDROID
-                unsigned int readAmount = AAsset_read(file_, targetBuffer + currentReadIndex_, bytesToBeRead);
+                unsigned int readAmount = AAsset_read(file_, targetBuffer, bytesToBeRead);
             #else // linux
-                //LOGD("bytes to read: %d, current index: %d", bytesToBeRead, currentReadIndex_);
-                size_t readAmount = fread(targetBuffer + currentReadIndex_, 1, bytesToBeRead, file_);
+                size_t readAmount = fread(targetBuffer, 1, bytesToBeRead, file_);
             #endif
             bytesRead += readAmount;
             bytesToBeRead -= readAmount;

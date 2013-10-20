@@ -23,26 +23,34 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_GRAPHICS_WINDOW
-#define LIBW_GRAPHICS_WINDOW
-
-#include "w/math/Vector4.hpp"
-#include <string>
+#include "WindowPrivate.hpp"
 
 namespace w
 {
-    class Window
+    WindowPrivate::WindowPrivate(const std::string& name, unsigned int width, unsigned int height, const Vector4& clearColor):
+        name_(name),
+        width_(width),
+        height_(height),
+        clearColor_(clearColor)
     {
-    public:
-        Window(const std::string& name, unsigned int x, unsigned int y, const Vector4& clearColor);
-        ~Window();
-        void clearBuffer();
-        void swapBuffers();
-        void resize(unsigned int width, unsigned int height);
+    }
 
-    private:
-        class WindowPrivate* private_;
-    };
+    WindowPrivate::~WindowPrivate()
+    {
+    }
+
+    void WindowPrivate::clearBuffer()
+    {
+        //glClearColor(clearColor_.x(), clearColor_.y(), clearColor_.z(), clearColor_.w());
+        //glClearDepthf(1.0f);
+        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+
+    void WindowPrivate::resize(unsigned int width, unsigned int height)
+    {
+    }
+
+    void WindowPrivate::swapBuffers()
+    {
+    }
 }
-
-#endif
