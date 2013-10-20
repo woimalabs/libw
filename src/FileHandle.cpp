@@ -55,6 +55,8 @@ namespace w
     // Opens the file and defines byte size
     void FileHandle::open()
     {
+        LOGD("opening file: %s", filename_.c_str());
+
         #ifdef ANDROID
             file_ = AAssetManager_open(androidAssetManager_, filename_.c_str(), AASSET_MODE_STREAMING);
             if (file_ == NULL)
@@ -98,6 +100,11 @@ namespace w
     std::string FileHandle::filename()
     {
         return filename_;
+    }
+
+    unsigned int FileHandle::byteSize()
+    {
+        return byteSize_;
     }
 
 #ifdef ANDROID

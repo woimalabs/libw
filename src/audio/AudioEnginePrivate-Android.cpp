@@ -36,7 +36,6 @@ namespace w
     // Callback called when buffer finishes playing
     void bqPlayerCallback(SLAndroidSimpleBufferQueueItf bq, void* handle)
     {
-        LOGD("bqPlayerCallback");
         AudioEnginePrivate* self = (AudioEnginePrivate*)handle;
         if (self == NULL)
         {
