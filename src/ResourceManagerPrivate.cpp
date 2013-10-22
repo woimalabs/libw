@@ -28,6 +28,9 @@
 #include "Lock.hpp"
 #include <w/Exception.hpp>
 #include <w/Log.hpp>
+#include <utility> // std::pair
+#include <functional>
+using std::make_pair;
 
 namespace w
 {
@@ -90,14 +93,15 @@ namespace w
     void ResourceManagerPrivate::setResource(const std::string& id, Resource* resource)
     {
         Lock lock(singleton_->mutex_);
-
-        singleton_->resources_.insert(std::make_pair<std::string, Resource*>(id, resource));
+        std::pair<std::string, Resource*> tmp0 = std::make_pair(id, resource);
+        singleton_->resources_.insert(tmp0);
 
         sigc::connection connection = resource->destroy.connect(
             sigc::mem_fun(singleton_, &ResourceManagerPrivate::handleResourceDestroy));
 
-        singleton_->resourceConnections_.insert(
-            std::make_pair<unsigned int, sigc::connection>(resource->id(), connection));
+        std::pair<unsigned int, sigc::connection> tmp1 = std::make_pair(resource->id(), connection);
+        singleton_->resourceConnections_.insert(tmp1);
+
     }
 
     void ResourceManagerPrivate::handleResourceDestroy(unsigned int id)
@@ -128,8 +132,15 @@ namespace w
     {
         #ifdef ANDROID
             return new FileHandle(filename, androidAssetManager_);
-        #else // linux
+        #elif __linux__
             return new FileHandle(singleton_->basePath_ + "/" +filename);
+        #elif __APPLE__
+            char const* tmp = 0;
+            NSBundle *b = [NSBundle mainBundle];
+            NSString *dir = [b resourcePath];
+            tmp = [dir UTF8String];
+    
+            return new FileHandle(std::string(tmp) + "/" + filename);
         #endif
     }
 

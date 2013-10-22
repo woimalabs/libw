@@ -26,11 +26,14 @@
 #ifndef LIBW_SHADERPROGRAMASSETPRIVATE
 #define LIBW_SHADERPROGRAMASSETPRIVATE
 
-#include <string>
 #include "Referenced.hpp"
 #include <w/Class.hpp>
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
+#ifdef linux
+    #include <GLES2/gl2.h>
+#else // APPLE
+    #include <OpenGLES/ES2/gl.h>
+#endif
+#include <string>
 
 namespace w
 {
