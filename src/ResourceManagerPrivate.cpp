@@ -129,14 +129,56 @@ namespace w
         #ifdef ANDROID
             return new FileHandle(filename, androidAssetManager_);
         #else // linux
-            return new FileHandle(singleton_->basePath_ + "/" +filename);
+            return new FileHandle(singleton_->basePath_ + "/" + filename);
         #endif
     }
 
     #ifdef ANDROID
+        AAssetManager* ResourceManagerPrivate::androidAssetManager()
+        {
+            if (androidAssetManager_ == NULL)
+            {
+                throw Exception("androidAssetManager not set.");
+            }
+            return androidAssetManager_;
+        }
+
         void ResourceManagerPrivate::setAndroidAssetManager(AAssetManager* assetManager)
         {
             androidAssetManager_ = assetManager;
         }
     #endif
+
+    /*
+    std::istream* ResourceManagerPrivate::getFileStream(const std::string& filename)
+    {
+        #ifdef ANDROID
+            std::string tmpPath(path);
+
+            if (tmpPath.size() > 0 && tmpPath[0] == '/')
+            {
+                tmpPath.erase(0, 1);
+            }
+
+            std::stringstream *ss = new std::stringstream;
+            AAsset *asset = AAssetManager_open(singleton_->androidAssetManager(), tmpPath.c_str(), AASSET_MODE_RANDOM);
+
+            if (asset)
+            {
+                ss->write(reinterpret_cast<const char *>(AAsset_getBuffer(asset)), AAsset_getLength(asset));
+                AAsset_close(asset);
+            }
+            else
+            {
+                LOGE("Couldn't load asset %s", tmpPath.c_str());
+            }
+
+            return static_cast<std::istream *>(ss);
+
+        #else // linux & Apple
+            std::string tmp = singleton_->basePath_ + "/" + filename.c_str();
+            std::ifstream *ifs = new std::ifstream(tmp.c_str());
+            return static_cast<std::istream *>(ifs);
+        #endif
+    }*/
 }

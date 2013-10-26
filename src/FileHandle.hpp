@@ -45,6 +45,7 @@ namespace w
         ~FileHandle();
         unsigned int read(char* targetBuffer, unsigned int byteAmountToRead);
         std::string filename();
+        unsigned int byteSize();
         #ifdef ANDROID
             AAsset* pointer();
         #else // linux

@@ -51,6 +51,7 @@ namespace w
         static void setResource(const std::string& id, Resource* resource);
         static FileHandle* getFileHandle(const std::string& filename);
         #ifdef ANDROID
+            static AAssetManager* androidAssetManager();
             static void setAndroidAssetManager(AAssetManager* androidAssetManager);
         #endif
 
@@ -62,7 +63,9 @@ namespace w
         std::string basePath_;
         Mutex mutex_;
         std::map<std::string, Resource*> resources_;
-        // NOTE: We don't hold reference count in ResourceManager
+
+        // resourceConnections_ note:
+        // We don't hold reference count in ResourceManager
         // so we delete the listening connection when resource
         // is freed by the user.
         std::map<unsigned int, sigc::connection> resourceConnections_;

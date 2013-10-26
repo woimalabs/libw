@@ -35,9 +35,7 @@ namespace w
         parallerPlay_(parallelPlay),
         looping_(looping)
     {
-        LOG
         resource_->increment();
-        LOG
     }
 
     AudioAssetPrivate::~AudioAssetPrivate()
