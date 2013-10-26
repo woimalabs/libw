@@ -28,6 +28,9 @@
 #include "Lock.hpp"
 #include <w/Exception.hpp>
 #include <w/Log.hpp>
+#include <utility> // std::pair
+#include <functional>
+using std::make_pair;
 
 namespace w
 {
@@ -90,14 +93,15 @@ namespace w
     void ResourceManagerPrivate::setResource(const std::string& id, Resource* resource)
     {
         Lock lock(singleton_->mutex_);
-
-        singleton_->resources_.insert(std::make_pair<std::string, Resource*>(id, resource));
+        std::pair<std::string, Resource*> tmp0 = std::make_pair(id, resource);
+        singleton_->resources_.insert(tmp0);
 
         sigc::connection connection = resource->destroy.connect(
             sigc::mem_fun(singleton_, &ResourceManagerPrivate::handleResourceDestroy));
 
-        singleton_->resourceConnections_.insert(
-            std::make_pair<unsigned int, sigc::connection>(resource->id(), connection));
+        std::pair<unsigned int, sigc::connection> tmp1 = std::make_pair(resource->id(), connection);
+        singleton_->resourceConnections_.insert(tmp1);
+
     }
 
     void ResourceManagerPrivate::handleResourceDestroy(unsigned int id)
@@ -128,8 +132,13 @@ namespace w
     {
         #ifdef ANDROID
             return new FileHandle(filename, androidAssetManager_);
-        #else // linux
+        #elif __linux__
             return new FileHandle(singleton_->basePath_ + "/" + filename);
+        #elif __APPLE__
+            NSBundle *b = [NSBundle mainBundle];
+            NSString *dir = [b resourcePath];
+            char const* tmp = [dir UTF8String];
+            return new FileHandle(std::string(tmp) + "/" + filename);
         #endif
     }
 
@@ -148,37 +157,4 @@ namespace w
             androidAssetManager_ = assetManager;
         }
     #endif
-
-    /*
-    std::istream* ResourceManagerPrivate::getFileStream(const std::string& filename)
-    {
-        #ifdef ANDROID
-            std::string tmpPath(path);
-
-            if (tmpPath.size() > 0 && tmpPath[0] == '/')
-            {
-                tmpPath.erase(0, 1);
-            }
-
-            std::stringstream *ss = new std::stringstream;
-            AAsset *asset = AAssetManager_open(singleton_->androidAssetManager(), tmpPath.c_str(), AASSET_MODE_RANDOM);
-
-            if (asset)
-            {
-                ss->write(reinterpret_cast<const char *>(AAsset_getBuffer(asset)), AAsset_getLength(asset));
-                AAsset_close(asset);
-            }
-            else
-            {
-                LOGE("Couldn't load asset %s", tmpPath.c_str());
-            }
-
-            return static_cast<std::istream *>(ss);
-
-        #else // linux & Apple
-            std::string tmp = singleton_->basePath_ + "/" + filename.c_str();
-            std::ifstream *ifs = new std::ifstream(tmp.c_str());
-            return static_cast<std::istream *>(ifs);
-        #endif
-    }*/
 }

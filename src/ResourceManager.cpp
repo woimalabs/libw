@@ -31,18 +31,21 @@ namespace w
 {
     #ifdef ANDROID
         ResourceManager::ResourceManager(AAssetManager* androidAssetManager):
+            private_(new ResourceManagerPrivate("."))
+        {
+            private_->setAndroidAssetManager(androidAssetManager);
+        }
     #elif linux
         ResourceManager::ResourceManager(const std::string& basePath):
+            private_(new ResourceManagerPrivate(basePath))
+        {
+        }
+    #elif __APPLE__
+        ResourceManager::ResourceManager():
+            private_(new ResourceManagerPrivate("."))
+        {
+        }
     #endif
-        private_(NULL)
-    {
-        #ifdef ANDROID
-            private_ = new ResourceManagerPrivate(".");
-            private_->setAndroidAssetManager(androidAssetManager);
-        #elif __linux__
-            private_ = new ResourceManagerPrivate(basePath);
-        #endif
-    }
 
     ResourceManager::ResourceManager(ResourceManager const& r):
         private_(r.private_)

@@ -52,8 +52,8 @@ namespace w
         return noErr;
     }
 
-    AudioEnginePrivate::AudioEnginePrivate(float volume, const std::string& assetPath):
-        audioResourceManager_(assetPath),
+    AudioEnginePrivate::AudioEnginePrivate(float volume, ResourceManager& resourceManager):
+        resourceManager_(resourceManager),
         tracker_(volume)
     {
         // iOS's AudioUnit initialization
@@ -72,7 +72,7 @@ namespace w
             throw Exception("AudioOutputUnitStop failed");
         }
 
-        //while (state_ == AudioMixer::State::ShuttingDown) // TODO
+        //while (state_ == ?) // TODO
         //{
             Timer::sleepMilliseconds(500); // wait until shutdown is completed
         //}

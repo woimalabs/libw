@@ -23,35 +23,35 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_SHADERPROGRAMASSETPRIVATE
-#define LIBW_SHADERPROGRAMASSETPRIVATE
-
-
-#include "Referenced.hpp"
-#include <w/Class.hpp>
-#ifdef linux
-    #include <GLES2/gl2.h>
-#else // APPLE
-    #include <OpenGLES/ES2/gl.h>
-#endif
-#include <string>
+#include "WindowPrivate.hpp"
+#include <OpenGLES/ES2/gl.h>
 
 namespace w
 {
-    class ShaderProgramAssetPrivate: public Referenced
+    WindowPrivate::WindowPrivate(const std::string& name, unsigned int width, unsigned int height, const Vector4& clearColor):
+        name_(name),
+        width_(width),
+        height_(height),
+        clearColor_(clearColor)
     {
-    public:
-        UNCOPYABLE(ShaderProgramAssetPrivate)
-
-        ShaderProgramAssetPrivate(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename);
-        ~ShaderProgramAssetPrivate();
-
-    private:
-        // Android, linux, iOS
-        GLuint static createShader(GLenum shaderType, const char* pSource);
-        GLuint static createProgram(const char* vertexSource, const char* fragmentSource);
-        GLuint programId_;
-    };
+    }
+    
+    WindowPrivate::~WindowPrivate()
+    {
+    }
+    
+    void WindowPrivate::clearBuffer()
+    {
+        glClearColor(clearColor_.x(), clearColor_.y(), clearColor_.z(), clearColor_.w());
+        glClearDepthf(1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+    
+    void WindowPrivate::resize(unsigned int width, unsigned int height)
+    {
+    }
+    
+    void WindowPrivate::swapBuffers()
+    {
+    }
 }
-
-#endif

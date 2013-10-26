@@ -46,6 +46,8 @@ namespace w
         ResourceManager(AAssetManager* androidAssetManager);
 #elif __linux__
         ResourceManager(const std::string& basePath);
+#elif __APPLE__
+        ResourceManager();
 #endif
         virtual ~ResourceManager();
 

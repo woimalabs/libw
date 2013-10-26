@@ -25,9 +25,11 @@
 
 #include "w/Class.hpp"
 #include "w/math/Vector4.hpp"
-#include <EGL/egl.h>
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
+#ifdef linux
+    #include <EGL/egl.h>
+    #include <GLES2/gl2.h>
+    #include <GLES2/gl2ext.h>
+#endif
 #include <string>
 
 namespace w
@@ -42,11 +44,11 @@ namespace w
         void clearBuffer();
         void swapBuffers();
         void resize(unsigned int width, unsigned int height);
-#ifdef ANDROID
+        #ifdef ANDROID
 
-#elif linux
-        Display* xDisplay() const;
-#endif
+        #elif linux
+            Display* xDisplay() const;
+        #endif
 
     private:
         std::string name_;
