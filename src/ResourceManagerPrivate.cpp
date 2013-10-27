@@ -81,8 +81,7 @@ namespace w
 
         Resource* r = NULL;
         std::string key(id);
-        std::map<std::string, Resource*>::const_iterator i;
-        i = singleton_->resources_.find(key);
+        std::map<std::string, Resource*>::const_iterator i = singleton_->resources_.find(key);
         if (i != singleton_->resources_.end())
         {
             r = i->second;

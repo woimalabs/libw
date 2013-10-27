@@ -54,6 +54,7 @@ namespace w
         ~ShaderProgramAsset();
 
     private:
+        friend class RendererPrivate;
         class ShaderProgramAssetPrivate* private_;
     };
 }

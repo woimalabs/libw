@@ -29,6 +29,11 @@
 #include <w/Class.hpp>
 #include "Resource.hpp"
 #include <png.h>
+#ifdef __linux__ // & Android
+    #include <GLES2/gl2.h>
+#else // APPLE
+    #include <OpenGLES/ES2/gl.h>
+#endif
 
 namespace w
 {
@@ -41,12 +46,16 @@ namespace w
         ~TextureAssetPrivate();
         unsigned int width();
         unsigned int height();
+        void bind();
 
     private:
         unsigned int bytesPerPixel_;
         unsigned int width_;
         unsigned int height_;
         void load();
+
+        // Android, linux, iOS. All use GLES2
+        GLuint textureId_;
     };
 }
 

@@ -32,6 +32,7 @@
 
 namespace w
 {
+    // Callback function for libpng
     static void read(png_structp p, png_bytep data, png_size_t length);
 
     TextureAssetPrivate::TextureAssetPrivate(const std::string& file):
@@ -68,7 +69,7 @@ namespace w
             throw Exception("Couldn't create libpng info struct.");
         }
 
-        // Errors, TODO: check is this needed!
+        // Errors, TODO: check if this is needed.
         if (setjmp(png_jmpbuf(png)))
         {
             LOGE("libpng error while reading file %s.", filename().c_str());
@@ -86,10 +87,10 @@ namespace w
         // Copy to continous memory
         width_ = png_get_image_width(png, info);
         height_ = png_get_image_height(png, info);
-        char* tmpData = new char[width_ * height_ * bytesPerPixel_];
+        UniquePointer<char> tmpData(new char[width_ * height_ * bytesPerPixel_], true);
         for (unsigned int i = 0; i < height_; i++)
         {
-            memcpy(&tmpData[bytesPerPixel_ * width_ * i], rows[height_ - i - 1], width_ * bytesPerPixel_);
+            memcpy(&(tmpData.pointer())[bytesPerPixel_ * width_ * i], rows[height_ - i - 1], width_ * bytesPerPixel_);
         }
 
         // Set pixel format
@@ -106,6 +107,41 @@ namespace w
             LOGE("Cannot open file %.!", filename().c_str());
             throw Exception("libpng unsupported color type.");
         }
+
+        // Create texture
+        GLenum format = bytesPerPixel_ == 3 ? GL_RGB : GL_RGBA;
+        GLint minFilter = GL_LINEAR_MIPMAP_NEAREST;
+        GLint magFilter = GL_LINEAR;
+
+        glGenTextures(1, &textureId_);
+        glBindTexture(GL_TEXTURE_2D, textureId_);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexImage2D(GL_TEXTURE_2D,
+            0,
+            format,
+            width_,
+            height_,
+            0,
+            format,
+            GL_UNSIGNED_BYTE,
+            tmpData.pointer());
+
+        if ((minFilter != GL_NEAREST && minFilter != GL_LINEAR) || (magFilter != GL_NEAREST && magFilter != GL_LINEAR))
+        {
+            glGenerateMipmap(GL_TEXTURE_2D);
+        }
+        else
+        {
+            LOGE("Error in texture filters!\n");
+        }
+    }
+
+    void TextureAssetPrivate::bind()
+    {
+
     }
 
     void read(png_structp fileHandlePointer, png_bytep data, png_size_t length)

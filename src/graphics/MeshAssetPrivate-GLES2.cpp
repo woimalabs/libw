@@ -91,7 +91,7 @@ namespace w
         glGenBuffers(1, &vbo_);
         glBindBuffer(GL_ARRAY_BUFFER, vbo_);
         glBufferData(GL_ARRAY_BUFFER, 30* sizeof(float), vertices, GL_STATIC_DRAW); // 30: 2 triangles * 3 points * (3 position floats + 2 uv floats)
-        verticesSize_ = 6; // 6: 2 triangles * 3 points each
+        vertexCount_ = 6; // 6: 2 triangles * 3 points each
 
         // Set stride format
         StrideComponent xyz(std::string("xyz"), 5, 0, 3, GL_FLOAT);
@@ -108,20 +108,18 @@ namespace w
         }
     }
 
-    void MeshAssetPrivate::bind()
+    const std::vector<MeshAssetPrivate::StrideComponent>& MeshAssetPrivate::strideComponents() const
     {
-
+        return strideComponents_;
     }
 
-    /*void MeshAssetPrivate::draw()
+    void MeshAssetPrivate::bind()
     {
         glBindBuffer(GL_ARRAY_BUFFER, vbo_);
+    }
 
-        unsigned int position = 0; // ShaderProgramAsset Position location
-        glEnableVertexAttribArray(position);
-        unsigned int vertexStride = 5;
-        glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, vertexStride, 0);
-
-        glDrawArrays(GL_TRIANGLES, 0, verticesSize_);
-    }*/
+    unsigned int MeshAssetPrivate::vertexCount()
+    {
+       return vertexCount_;
+    }
 }

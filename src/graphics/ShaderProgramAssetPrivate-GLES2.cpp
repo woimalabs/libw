@@ -75,6 +75,11 @@ namespace w
         }
     }
 
+    void ShaderProgramAssetPrivate::start()
+    {
+        glUseProgram(programId_);
+    }
+
     GLuint ShaderProgramAssetPrivate::createShader(GLenum shaderType, const char* pSource)
     {
         GLuint shader = glCreateShader(shaderType);

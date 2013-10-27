@@ -24,7 +24,9 @@ libw_la_SOURCES = \
 	graphics/TextureAsset.cpp \
 	graphics/TextureAssetPrivate-GLES2.cpp \
 	graphics/MeshAsset.cpp \
-	graphics/MeshAssetPrivate-GLES2.cpp
+	graphics/MeshAssetPrivate-GLES2.cpp \
+	graphics/Renderer.cpp \
+	graphics/RendererPrivate-GLES2.cpp
 
 libw_la_CPPFLAGS = -I$(top_srcdir)/include
 
@@ -49,6 +51,7 @@ library_graphics_include_HEADERS = \
 	../include/w/graphics/Window.hpp \
 	../include/w/graphics/ShaderProgramAsset.hpp \
 	../include/w/graphics/TextureAsset.hpp \
-	../include/w/graphics/MeshAsset.hpp
+	../include/w/graphics/MeshAsset.hpp \
+	../include/w/graphics/Renderer.hpp
 
 libw_la_LDFLAGS = -g -module -avoid-version -shared --disable-static

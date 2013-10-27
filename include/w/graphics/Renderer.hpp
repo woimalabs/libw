@@ -23,32 +23,27 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_TEXTUREASSET
-#define LIBW_TEXTUREASSET
+#ifndef LIBW_RENDERER
+#define LIBW_RENDERER
 
 #include <w/Class.hpp>
-#include <string>
+#include <w/graphics/TextureAsset.hpp>
+#include <w/graphics/MeshAsset.hpp>
+#include <w/graphics/ShaderProgramAsset.hpp>
 
 namespace w
 {
-    class TextureAsset
+    class Renderer
     {
     public:
-        COPYABLE(TextureAsset)
+        COPYABLE(Renderer)
 
-        /**
-         * Creates shader program.
-         *
-         * @note You must have GL context to create this class!
-         *
-         * @param [in]  filename    Texture filename to load
-         */
-        TextureAsset(const std::string& filename);
-        ~TextureAsset();
+        Renderer();
+        ~Renderer();
+        void draw(TextureAsset const&, MeshAsset const&, ShaderProgramAsset const&);
 
     private:
-        friend class RendererPrivate;
-        class TextureAssetPrivate* private_;
+        class RendererPrivate* private_;
     };
 }
 

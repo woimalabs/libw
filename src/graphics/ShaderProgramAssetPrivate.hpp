@@ -46,11 +46,12 @@ namespace w
         ShaderProgramAssetPrivate(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename);
         ~ShaderProgramAssetPrivate();
 
-        // Android, linux, iOS
+        // Android, linux, iOS. All use GLES2.
         GLint uniform(const std::string& symbolName);
+        void start();
 
     private:
-        // Android, linux, iOS
+        // Android, linux, iOS. All use GLES2.
         GLuint static createShader(GLenum shaderType, const char* pSource);
         GLuint static createProgram(const char* vertexSource, const char* fragmentSource);
         GLuint programId_;

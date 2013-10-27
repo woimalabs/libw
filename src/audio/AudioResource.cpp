@@ -102,7 +102,7 @@ namespace w
         }
         else
         {
-            // TODO: check this cast
+            // TODO: Polish this cast.
             r = *(int*)(&data_[location]);
         }
         return r;
@@ -110,7 +110,6 @@ namespace w
 
     void AudioResource::load(FileHandle* fileHandle)
     {
-        LOGD("AudioResource, load \"%s\"", fileHandle->filename().c_str());
         if (fileHandle != NULL)
         {
             unsigned char buf[256] = {0};

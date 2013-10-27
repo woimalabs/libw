@@ -71,12 +71,13 @@ namespace w
         // Android, linux, iOS. All use GLES2
         const std::vector<StrideComponent>& strideComponents() const;
         void bind();
+        unsigned int vertexCount();
 
     private:
         // Android, linux, iOS. All use GLES2
         GLuint vbo_;
         std::vector<StrideComponent> strideComponents_;
-        unsigned int verticesSize_;
+        unsigned int vertexCount_;
     };
 }
 

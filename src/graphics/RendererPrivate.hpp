@@ -23,32 +23,33 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_TEXTUREASSET
-#define LIBW_TEXTUREASSET
+#ifndef LIBW_RENDERERPRIVATE
+#define LIBW_RENDERERPRIVATE
 
 #include <w/Class.hpp>
-#include <string>
+#include "Referenced.hpp"
+#include <w/graphics/TextureAsset.hpp>
+#include <w/graphics/MeshAsset.hpp>
+#include <w/graphics/ShaderProgramAsset.hpp>
+#ifdef __linux__ // & Android
+    #include <GLES2/gl2.h>
+#else // APPLE
+    #include <OpenGLES/ES2/gl.h>
+#endif
 
 namespace w
 {
-    class TextureAsset
+    class RendererPrivate: public Referenced
     {
     public:
-        COPYABLE(TextureAsset)
+        UNCOPYABLE(RendererPrivate)
 
-        /**
-         * Creates shader program.
-         *
-         * @note You must have GL context to create this class!
-         *
-         * @param [in]  filename    Texture filename to load
-         */
-        TextureAsset(const std::string& filename);
-        ~TextureAsset();
+        RendererPrivate();
+        ~RendererPrivate();
+        void draw(TextureAsset const&, MeshAsset const&, ShaderProgramAsset const&);
 
     private:
-        friend class RendererPrivate;
-        class TextureAssetPrivate* private_;
+
     };
 }
 

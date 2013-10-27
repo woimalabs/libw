@@ -51,6 +51,7 @@ namespace w
         ~MeshAsset();
 
     private:
+        friend class RendererPrivate;
         class MeshAssetPrivate* private_;
     };
 }
