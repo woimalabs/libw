@@ -46,6 +46,9 @@ namespace w
         ShaderProgramAssetPrivate(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename);
         ~ShaderProgramAssetPrivate();
 
+        // Android, linux, iOS
+        GLint uniform(const std::string& symbolName);
+
     private:
         // Android, linux, iOS
         GLuint static createShader(GLenum shaderType, const char* pSource);

@@ -23,16 +23,36 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "w/ShaderProgramAsset.hpp"
+#ifndef LIBW_MESHASSET
+#define LIBW_MESHASSET
+
+#include <w/Class.hpp>
 
 namespace w
 {
-    ShaderProgramAssetPrivate::ShaderProgramAssetPrivate(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename):
-        private_(new ShaderProgramAssetPrivate(vertexShaderFilename, fragmentShaderFilename)
+    class MeshAsset
     {
-    }
+    public:
+        COPYABLE(MeshAsset)
 
-    ShaderProgramAssetPrivate::~ShaderProgramAssetPrivate()
-    {
-    }
+        /**
+         * Creates a rectangular mesh.
+         *
+         * @note You must have GL context to create this class!
+         *
+         * @param [in]  w       Width
+         * @param [in]  h       Height of the created mesh
+         * @param [in]  uStart  Texture u coodinate left
+         * @param [in]  uEnd    Texture u coodinate right
+         * @param [in]  vStart  Texture v coodinate bottom
+         * @param [in]  vEnd    Texture u coodinate ceiling
+         */
+        MeshAsset(float w, float h, float uStart, float uEnd, float vStart, float vEnd);
+        ~MeshAsset();
+
+    private:
+        class MeshAssetPrivate* private_;
+    };
 }
+
+#endif

@@ -27,6 +27,7 @@
 #include "FileHandle.hpp"
 #include "ResourceManagerPrivate.hpp"
 #include "w/Log.hpp"
+#include "UniquePointer.hpp"
 
 namespace w
 {
@@ -42,28 +43,36 @@ namespace w
         Referenced(),
         programId_(0)
     {
-        FileHandle* vertexFileHandle = ResourceManagerPrivate::getFileHandle(vertexShaderFilename);
-        unsigned int vertexSourceLength = vertexFileHandle->byteSize();
-        char* vertexSourceBuffer = new char[vertexSourceLength +1];
-        vertexFileHandle->read(vertexSourceBuffer, vertexSourceLength);
-        vertexSourceBuffer[vertexSourceLength] = 0;
-        delete vertexFileHandle;
+        // Vertex
+        UniquePointer<FileHandle> vertexFileHandle(ResourceManagerPrivate::getFileHandle(vertexShaderFilename));
+        unsigned int vertexSourceLength = vertexFileHandle.pointer()->byteSize();
+        UniquePointer<char> vertexSourceBuffer(new char[vertexSourceLength +1], true);
+        vertexFileHandle.pointer()->read(vertexSourceBuffer.pointer(), vertexSourceLength);
+        vertexSourceBuffer.pointer()[vertexSourceLength] = 0;
 
-        FileHandle* fragmentFileHandle = ResourceManagerPrivate::getFileHandle(fragmentShaderFilename);
-        unsigned int fragmentSourceLength = fragmentFileHandle->byteSize();
-        char* fragmentSourceBuffer = new char[fragmentSourceLength +1];
-        fragmentFileHandle->read(fragmentSourceBuffer, fragmentSourceLength);
-        fragmentSourceBuffer[fragmentSourceLength] = 0;
-        delete fragmentFileHandle;
+        // Fragment
+        UniquePointer<FileHandle> fragmentFileHandle(ResourceManagerPrivate::getFileHandle(fragmentShaderFilename));
+        unsigned int fragmentSourceLength = fragmentFileHandle.pointer()->byteSize();
+        UniquePointer<char> fragmentSourceBuffer(new char[fragmentSourceLength +1], true);
+        fragmentFileHandle.pointer()->read(fragmentSourceBuffer.pointer(), fragmentSourceLength);
+        fragmentSourceBuffer.pointer()[fragmentSourceLength] = 0;
 
-        programId_ = createProgram(vertexSourceBuffer, fragmentSourceBuffer);
-
-        delete [] vertexSourceBuffer;
-        delete [] fragmentSourceBuffer;
+        // Compile to program
+        programId_ = createProgram(vertexSourceBuffer.pointer(), fragmentSourceBuffer.pointer());
     }
 
     ShaderProgramAssetPrivate::~ShaderProgramAssetPrivate()
     {
+    }
+
+    GLint ShaderProgramAssetPrivate::uniform(const std::string& symbolName)
+    {
+        GLint location = glGetUniformLocation(programId_, symbolName.c_str());
+        if (location < 0)
+        {
+            LOGE("ShaderProgramAssetPrivate::uniform(), no symbol: \"%s\"", symbolName.c_str());
+            throw Exception("Failed to get uniform location");
+        }
     }
 
     GLuint ShaderProgramAssetPrivate::createShader(GLenum shaderType, const char* pSource)

@@ -23,54 +23,35 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_UNIQUEPOINTER
-#define LIBW_UNIQUEPOINTER
-
-#include <w/Class.hpp>
+#include "w/graphics/MeshAsset.hpp"
+#include "MeshAssetPrivate.hpp"
 
 namespace w
 {
-    /**
-    * @class UniquePointer
-    *
-    * Class that holds reference to a pointer within lifetime.
-    */
-    template <class T> class UniquePointer
+    MeshAsset::MeshAsset(float w, float h, float uStart, float uEnd, float vStart, float vEnd):
+        private_(new MeshAssetPrivate(w, h, uStart, uEnd, vStart, vEnd))
     {
-    public:
-        UNCOPYABLE(UniquePointer);
+        private_->increment();
+    }
 
-        UniquePointer(T* instance, bool isArray = false):
-            instance_(instance),
-            isArray_(isArray)
+    MeshAsset::MeshAsset(MeshAsset const& r):
+        private_(r.private_)
+    {
+        private_->increment();
+    }
+
+    MeshAsset::~MeshAsset()
+    {
+        private_->decrement();
+    }
+
+    MeshAsset& MeshAsset::operator=(MeshAsset const& r)
+    {
+        if (this != &r)
         {
+            private_ = r.private_;
+            private_->increment();
         }
-
-        ~UniquePointer()
-        {
-            if (instance_ != NULL)
-            {
-                if (isArray_ == false)
-                {
-                    delete instance_;
-                }
-                else
-                {
-                    delete [] instance_;
-                }
-                instance_ = NULL;
-            }
-        }
-
-        T* pointer() const
-        {
-            return instance_;
-        }
-
-    private:
-        T* instance_;
-        bool isArray_;
-    };
+        return *this;
+    }
 }
-
-#endif
