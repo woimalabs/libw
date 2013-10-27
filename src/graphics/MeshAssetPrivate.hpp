@@ -66,7 +66,7 @@ namespace w
             GLenum type;
         };
 
-        MeshAssetPrivate(float w, float h, float uStart, float uEnd, float vStart, float vEnd);
+        MeshAssetPrivate(float width, float height, float uStart, float uEnd, float vStart, float vEnd);
         ~MeshAssetPrivate();
         // Android, linux, iOS. All use GLES2
         const std::vector<StrideComponent>& strideComponents() const;

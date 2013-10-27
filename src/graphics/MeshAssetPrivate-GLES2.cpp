@@ -24,11 +24,13 @@
  */
 
 #include "MeshAssetPrivate.hpp"
+#include "w/Log.hpp"
 
 namespace w
 {
     MeshAssetPrivate::MeshAssetPrivate(float width, float height, float uStart, float uEnd, float vStart, float vEnd)
     {
+        LOGD("w:%f, h:%f, us:%f, ue:%f, vs:%f, ve:%f", width, height, uStart, uEnd, vStart, vEnd);
         /*
          * Rectangle we create has two triangles:
          *
@@ -90,7 +92,7 @@ namespace w
 
         glGenBuffers(1, &vbo_);
         glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-        glBufferData(GL_ARRAY_BUFFER, 30* sizeof(float), vertices, GL_STATIC_DRAW); // 30: 2 triangles * 3 points * (3 position floats + 2 uv floats)
+        glBufferData(GL_ARRAY_BUFFER, 30 * sizeof(float), vertices, GL_STATIC_DRAW); // 30: 2 triangles * 3 points * (3 position floats + 2 uv floats)
         vertexCount_ = 6; // 6: 2 triangles * 3 points each
 
         // Set stride format
