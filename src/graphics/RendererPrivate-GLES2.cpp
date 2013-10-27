@@ -34,6 +34,8 @@
 
 namespace w
 {
+    #define BUFFER_OFFSET(i) ((char *)NULL + (i))
+
     RendererPrivate::RendererPrivate():
         Referenced()
     {
@@ -45,8 +47,6 @@ namespace w
 
     void RendererPrivate::draw(TextureAsset const& texture, MeshAsset const& mesh, ShaderProgramAsset const& shaderProgram)
     {
-        // Use given texture
-        texture.private_->bind();
 
         // Use given mesh
         mesh.private_->bind();
@@ -61,12 +61,28 @@ namespace w
         std::vector<std::string> shaderSymbols;
         for (std::vector<MeshAssetPrivate::StrideComponent>::const_iterator i = uniforms.begin(); i != uniforms.end(); i++)
         {
-            GLint shaderSymbolLocation = shaderProgram.private_->uniform((*i).shaderSymbolName);
-            LOGD("symbol: %s, location: %d", (*i).shaderSymbolName.c_str(), shaderSymbolLocation);
+            GLint shaderSymbolLocation = shaderProgram.private_->attribute((*i).shaderSymbolName);
+            LOGD("name: %s, id: %d", (*i).shaderSymbolName.c_str(), shaderSymbolLocation);
             glEnableVertexAttribArray(shaderSymbolLocation);
-            glVertexAttribPointer(shaderSymbolLocation, (*i).numberOfComponents, (*i).type, GL_TRUE, (*i).strideLength, 0); //(*i).strideOffset);
+            glVertexAttribPointer(shaderSymbolLocation, (*i).numberOfComponents, GL_FLOAT, GL_FALSE, (*i).strideLength * sizeof(float), BUFFER_OFFSET(0));
         }
 
+        // Use given texture
+        texture.private_->bind();
+
+        //LOGD("xyz: %d", xyz);
+        //LOGD("uv: %d", uv);
+/*
+        mesh.private_->bind();
+
+        GLint xyz = shaderProgram.private_->attribute("xyz");
+        glEnableVertexAttribArray(xyz);
+        glVertexAttribPointer(xyz, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), BUFFER_OFFSET(0));
+
+        GLint uv = shaderProgram.private_->attribute("uv");
+        glEnableVertexAttribArray(uv);
+        glVertexAttribPointer(uv, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), BUFFER_OFFSET(3));
+*/
         // Draw
         glDrawArrays(GL_TRIANGLES, 0, mesh.private_->vertexCount());
     }
@@ -78,7 +94,6 @@ namespace w
 
         std::string tmp("xyz");
         GLint positionXyz = shaderProgram.private_->attribute(tmp);
-        LOGD("loc: %d", positionXyz);
 
         GLfloat vertices[] =
         {

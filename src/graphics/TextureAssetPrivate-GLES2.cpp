@@ -84,15 +84,6 @@ namespace w
         png_read_png(png, info, flags, 0);
         png_bytepp rows = png_get_rows(png, info);
 
-        // Copy to continous memory
-        width_ = png_get_image_width(png, info);
-        height_ = png_get_image_height(png, info);
-        UniquePointer<char> tmpData(new char[width_ * height_ * bytesPerPixel_], true);
-        for (unsigned int i = 0; i < height_; i++)
-        {
-            memcpy(&(tmpData.pointer())[bytesPerPixel_ * width_ * i], rows[height_ - i - 1], width_ * bytesPerPixel_);
-        }
-
         // Set pixel format
         if (png_get_color_type(png, info) == PNG_COLOR_TYPE_RGB)
         {
@@ -106,6 +97,15 @@ namespace w
         {
             LOGE("Cannot open file %.!", filename().c_str());
             throw Exception("libpng unsupported color type.");
+        }
+
+        // Copy to continous memory
+        width_ = png_get_image_width(png, info);
+        height_ = png_get_image_height(png, info);
+        UniquePointer<char> tmpData(new char[width_ * height_ * bytesPerPixel_], true);
+        for (unsigned int i = 0; i < height_; i++)
+        {
+            memcpy(&(tmpData.pointer())[bytesPerPixel_ * width_ * i], rows[height_ - i - 1], width_ * bytesPerPixel_);
         }
 
         // Create texture
@@ -137,11 +137,18 @@ namespace w
         {
             LOGE("Error in texture filters!\n");
         }
-        LOGD("TextureAssetPrivate(), created with id:%d", textureId_);
+        LOGD("TextureAssetPrivate(), created with id:%d. Size: %d x %d x %d", textureId_, width_, height_, bytesPerPixel_);
     }
 
     void TextureAssetPrivate::bind()
     {
+/*
+
+GLint location = (*shaderProgramInUse_)["ColorMap"].location();
+                glUniform1i(location, baseNumber);
+                glActiveTexture(GL_TEXTURE0 + baseNumber);
+                glBindTexture(GL_TEXTURE_2D, colorMap.pointer()->id());*/
+
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, textureId_);
     }

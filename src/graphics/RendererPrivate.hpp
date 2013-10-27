@@ -46,7 +46,17 @@ namespace w
 
         RendererPrivate();
         ~RendererPrivate();
+
+        /**
+         * ShaderProgramAsset needs to have next attributes:
+         *  vertex shader: "attribute vec3 xyz;"
+         *  -"attribute vec2 uv;"
+         */
         void draw(TextureAsset const&, MeshAsset const&, ShaderProgramAsset const&);
+
+        /**
+         * ShaderProgramAsset needs to have "attribute vec3 xyz;"
+         */
         void drawLine(float p0x, float p0y, float p1x, float p1y, ShaderProgramAsset const& shaderProgram);
 
     private:
