@@ -42,6 +42,9 @@ namespace w
         ~Renderer();
         void draw(TextureAsset const&, MeshAsset const&, ShaderProgramAsset const&);
 
+        // test
+        void drawLine(float p0x, float p0y, float p1x, float p1y, ShaderProgramAsset const& shaderProgram);
+
     private:
         class RendererPrivate* private_;
     };

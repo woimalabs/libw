@@ -137,11 +137,13 @@ namespace w
         {
             LOGE("Error in texture filters!\n");
         }
+        LOGD("TextureAssetPrivate(), created with id:%d", textureId_);
     }
 
     void TextureAssetPrivate::bind()
     {
-
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, textureId_);
     }
 
     void read(png_structp fileHandlePointer, png_bytep data, png_size_t length)

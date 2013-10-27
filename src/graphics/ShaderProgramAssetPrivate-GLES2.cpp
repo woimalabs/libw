@@ -59,6 +59,7 @@ namespace w
 
         // Compile to program
         programId_ = createProgram(vertexSourceBuffer.pointer(), fragmentSourceBuffer.pointer());
+        LOGD("ShaderProgramAssetPrivate(), created with id:%d", programId_);
     }
 
     ShaderProgramAssetPrivate::~ShaderProgramAssetPrivate()
@@ -67,12 +68,24 @@ namespace w
 
     GLint ShaderProgramAssetPrivate::uniform(const std::string& symbolName)
     {
-        GLint location = glGetUniformLocation(programId_, symbolName.c_str());
-        if (location < 0)
+        GLint r = glGetUniformLocation(programId_, symbolName.c_str());
+        if (r < 0)
         {
             LOGE("ShaderProgramAssetPrivate::uniform(), no symbol: \"%s\"", symbolName.c_str());
             throw Exception("Failed to get uniform location");
         }
+        return r;
+    }
+
+    GLint ShaderProgramAssetPrivate::attribute(const std::string& symbolName)
+    {
+        GLint r = glGetAttribLocation(programId_, symbolName.c_str());
+        if (r < 0)
+        {
+            LOGE("ShaderProgramAssetPrivate::attribute(), no symbol: \"%s\"", symbolName.c_str());
+            throw Exception("Failed to get attribute location");
+        }
+        return r;
     }
 
     void ShaderProgramAssetPrivate::start()

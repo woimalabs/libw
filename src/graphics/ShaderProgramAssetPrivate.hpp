@@ -48,6 +48,7 @@ namespace w
 
         // Android, linux, iOS. All use GLES2.
         GLint uniform(const std::string& symbolName);
+        GLint attribute(const std::string& symbolName);
         void start();
 
     private:

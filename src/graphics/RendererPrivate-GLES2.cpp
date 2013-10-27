@@ -24,6 +24,7 @@
  */
 
 #include "w/graphics/MeshAsset.hpp"
+#include "w/Log.hpp"
 #include "RendererPrivate.hpp"
 #include "TextureAssetPrivate.hpp"
 #include "MeshAssetPrivate.hpp"
@@ -50,6 +51,9 @@ namespace w
         // Use given mesh
         mesh.private_->bind();
 
+        // Use given shaderProgram
+        shaderProgram.private_->start();
+
         // Find out needed data for shader
         const std::vector<MeshAssetPrivate::StrideComponent>& uniforms = mesh.private_->strideComponents();
 
@@ -58,14 +62,44 @@ namespace w
         for (std::vector<MeshAssetPrivate::StrideComponent>::const_iterator i = uniforms.begin(); i != uniforms.end(); i++)
         {
             GLint shaderSymbolLocation = shaderProgram.private_->uniform((*i).shaderSymbolName);
+            LOGD("symbol: %s, location: %d", (*i).shaderSymbolName.c_str(), shaderSymbolLocation);
             glEnableVertexAttribArray(shaderSymbolLocation);
-            //glVertexAttribPointer(shaderSymbolLocation, (*i).numberOfComponents. (*i).type, GL_TRUE, (*i).strideLength, (*i).strideOffset);
+            glVertexAttribPointer(shaderSymbolLocation, (*i).numberOfComponents, (*i).type, GL_TRUE, (*i).strideLength, 0); //(*i).strideOffset);
         }
-
-        // Use given shaderProgram
-        shaderProgram.private_->start();
 
         // Draw
         glDrawArrays(GL_TRIANGLES, 0, mesh.private_->vertexCount());
+    }
+
+    void RendererPrivate::drawLine(float p0x, float p0y, float p1x, float p1y, ShaderProgramAsset const& shaderProgram)
+    {
+        // Use given shaderProgram
+        shaderProgram.private_->start();
+
+        std::string tmp("xyz");
+        GLint positionXyz = shaderProgram.private_->attribute(tmp);
+        LOGD("loc: %d", positionXyz);
+
+        GLfloat vertices[] =
+        {
+            p0x, p0y, 0.0f,
+            p1x, p1y, 0.0f
+        };
+
+        GLuint vbo;
+        glGenBuffers(1, &vbo);
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+        glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), vertices, GL_STATIC_DRAW); // 2 points having each 3 floats
+
+        // Draw
+        glEnableVertexAttribArray(positionXyz);
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+        unsigned int vertexStride = 0; // separate VBOs
+        glVertexAttribPointer(positionXyz, 3, GL_FLOAT, GL_FALSE, 3, 0);
+
+        glDrawArrays(GL_LINES, 0,  2);
+
+        // Delete data
+        glDeleteBuffers(1, &vbo);
     }
 }
