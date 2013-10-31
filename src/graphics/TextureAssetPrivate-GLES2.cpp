@@ -142,13 +142,6 @@ namespace w
 
     void TextureAssetPrivate::bind()
     {
-/*
-
-GLint location = (*shaderProgramInUse_)["ColorMap"].location();
-                glUniform1i(location, baseNumber);
-                glActiveTexture(GL_TEXTURE0 + baseNumber);
-                glBindTexture(GL_TEXTURE_2D, colorMap.pointer()->id());*/
-
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, textureId_);
     }
