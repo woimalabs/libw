@@ -23,9 +23,9 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "Thread.hpp"
-#include "w/Log.hpp"
-#include "w/Exception.hpp"
+#include "w/base/Thread.hpp"
+#include "w/base/Log.hpp"
+#include "w/base/Exception.hpp"
 #include <stdlib.h>
 #include <errno.h>
 #include <stdexcept>

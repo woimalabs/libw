@@ -26,7 +26,8 @@
 #ifndef LIBW_REFERENCEDPOINTER
 #define LIBW_REFERENCEDPOINTER
 
-#include "Referenced.hpp"
+#include "w/base/Referenced.hpp"
+#include "w/base/Exception.hpp"
 
 namespace w
 {

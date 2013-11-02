@@ -23,35 +23,47 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_RESOURCE
-#define LIBW_RESOURCE
+#ifndef LIBW_SCENE_COMPONENTPRIVATE
+#define LIBW_SCENE_COMPONENTPRIVATE
 
-#include "Referenced.hpp"
 #include <string>
+#include "w/base/Class.hpp"
+#include "w/base/Referenced.hpp"
 
 namespace w
 {
-    class Resource: public Referenced
+    namespace scene
     {
-    public:
-        Resource(const std::string& filename):
-            Referenced(),
-            filename_(filename)
+        /**
+         * @class ComponentPrivate
+         *
+         * Inherit Component and ComponentPrivate to
+         * create new component to scene.
+         */
+        class ComponentPrivate: public Referenced
         {
-        }
+        public:
+            UNCOPYABLE(ComponentPrivate)
 
-        virtual ~Resource()
-        {
-        }
+            std::string const& type()
+            {
+                return type_;
+            };
 
-        const std::string& filename()  const
-        {
-            return filename_;
-        }
+        protected:
+            ComponentPrivate(std::string const& type):
+                type_(type)
+            {
+            };
 
-    private:
-        std::string filename_;
-    };
+            virtual ~ComponentPrivate()
+            {
+            };
+
+        private:
+            std::string type_;
+        };
+    }
 }
 
 #endif

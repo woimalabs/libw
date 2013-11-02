@@ -26,10 +26,10 @@
 #ifndef LIBW_RESOURCEMANAGERPRIVATE
 #define LIBW_RESOURCEMANAGERPRIVATE
 
-#include "Resource.hpp"
-#include "Referenced.hpp"
-#include "Mutex.hpp"
-#include "FileHandle.hpp"
+#include "w/base/Resource.hpp"
+#include "w/base/Referenced.hpp"
+#include "w/base/Mutex.hpp"
+#include "w/base/FileHandle.hpp"
 #include <map>
 #include <string>
 #include <sigc++/connection.h>

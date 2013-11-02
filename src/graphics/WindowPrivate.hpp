@@ -23,7 +23,7 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "w/Class.hpp"
+#include "w/base/Class.hpp"
 #include "w/math/Vector4.hpp"
 #ifdef linux
     #include <EGL/egl.h>

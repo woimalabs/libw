@@ -23,11 +23,11 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "ResourceManagerPrivate.hpp"
-#include "File.hpp"
-#include "Lock.hpp"
-#include <w/Exception.hpp>
-#include <w/Log.hpp>
+#include "w/base/ResourceManagerPrivate.hpp"
+#include "w/base/File.hpp"
+#include "w/base/Lock.hpp"
+#include <w/base/Exception.hpp>
+#include <w/base/Log.hpp>
 #include <utility> // std::pair
 #include <functional>
 using std::make_pair;

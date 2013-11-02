@@ -26,8 +26,8 @@
 #ifndef LIBW_AUDIOENGINE
 #define LIBW_AUDIOENGINE
 
-#include <w/ResourceManager.hpp>
-#include <w/Class.hpp>
+#include <w/base/ResourceManager.hpp>
+#include <w/base/Class.hpp>
 #include <string>
 
 /**

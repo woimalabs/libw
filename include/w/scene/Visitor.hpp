@@ -23,54 +23,41 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "Mutex.hpp"
-#include "w/Log.hpp"
-#include "w/Exception.hpp"
-#include <stdlib.h>
-#include <errno.h>
+#ifndef LIBW_SCENE_VISITOR
+#define LIBW_SCENE_VISITOR
+
+#include <w/base/Class.hpp>
 
 namespace w
 {
-    Mutex::Mutex()
+    namespace scene
     {
-        int r = pthread_mutex_init(&mutex_, NULL);
+        class Node;
 
-        if (r == EINVAL)
+        /**
+        * @class Visitor
+        *
+        * Visitor for nodes. Inherit to do your magic.
+        */
+        class Visitor
         {
-            throw Exception("Mutex(), errno:EAGAIN");
-        }
-        else if (r == ENOMEM)
-        {
-            throw Exception("Mutex(), errno:ENOMEM");
-        }
-        else if (r == EPERM)
-        {
-            throw Exception("Mutex(), errno:EPERM");
-        }
-    }
+        public:
+            UNCOPYABLE(Visitor)
 
-    Mutex::~Mutex()
-    {
-        int r = 0;
+            Visitor();
+            virtual ~Visitor();
 
-        r = pthread_mutex_destroy(&mutex_);
-        if (r == EINVAL)
-        {
-            throw Exception("~Mutex, errno:EINVAL");
-        }
-        else if (r == EBUSY)
-        {
-            throw Exception("~Mutex, errno:EBUSY");
-        }
-    }
+            /**
+             * Called when visitor is entering the node.
+             */
+            virtual void enter(Node& node) = 0;
 
-    int Mutex::lock()
-    {
-        return pthread_mutex_lock(&mutex_);
-    }
-
-    int Mutex::unlock()
-    {
-        return pthread_mutex_unlock(&mutex_);
+            /**
+             * Called when visitor is leaving the node.
+             */
+            virtual void leave(Node& node) = 0;
+        };
     }
 }
+
+#endif

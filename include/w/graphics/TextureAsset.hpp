@@ -26,7 +26,7 @@
 #ifndef LIBW_TEXTUREASSET
 #define LIBW_TEXTUREASSET
 
-#include <w/Class.hpp>
+#include <w/base/Class.hpp>
 #include <string>
 
 namespace w

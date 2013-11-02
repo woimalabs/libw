@@ -23,68 +23,54 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_REFERENCED
-#define LIBW_REFERENCED
-
-#include "Lock.hpp"
-#include <cstddef>
-using std::ptrdiff_t; // NOTE: sigc++ needs this line
-#include <sigc++/signal.h>
+#include "w/base/Mutex.hpp"
+#include "w/base/Log.hpp"
+#include "w/base/Exception.hpp"
+#include <stdlib.h>
+#include <errno.h>
 
 namespace w
 {
-    class Referenced
+    Mutex::Mutex()
     {
-    public:
-        sigc::signal<void, int> destroy;
+        int r = pthread_mutex_init(&mutex_, NULL);
 
-        unsigned int increment()
+        if (r == EINVAL)
         {
-            unsigned int r = ++referenceCount_;
-            return r;
+            throw Exception("Mutex(), errno:EAGAIN");
         }
-
-        unsigned int decrement()
+        else if (r == ENOMEM)
         {
-            unsigned int r = --referenceCount_;
-            if (r <= 0)
-            {
-                destroy.emit(id_);
-                delete this;
-            }
-            return r;
+            throw Exception("Mutex(), errno:ENOMEM");
         }
-
-        unsigned int referenceCount()
+        else if (r == EPERM)
         {
-            return referenceCount_;
+            throw Exception("Mutex(), errno:EPERM");
         }
+    }
 
-        unsigned int id()
+    Mutex::~Mutex()
+    {
+        int r = 0;
+
+        r = pthread_mutex_destroy(&mutex_);
+        if (r == EINVAL)
         {
-            return id_;
+            throw Exception("~Mutex, errno:EINVAL");
         }
-
-    protected:
-        Referenced():
-            referenceCount_(0),
-            id_(0)
+        else if (r == EBUSY)
         {
-            Lock lock(mutex_);
-            id_ = ++lastId_;
+            throw Exception("~Mutex, errno:EBUSY");
         }
+    }
 
-        virtual ~Referenced()
-        {
-        }
+    int Mutex::lock()
+    {
+        return pthread_mutex_lock(&mutex_);
+    }
 
-    private:
-        unsigned int referenceCount_;
-        unsigned int id_;
-
-        static Mutex mutex_;
-        static unsigned int lastId_;
-    };
+    int Mutex::unlock()
+    {
+        return pthread_mutex_unlock(&mutex_);
+    }
 }
-
-#endif

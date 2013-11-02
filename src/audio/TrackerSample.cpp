@@ -25,8 +25,8 @@
 
 #include "TrackerSample.hpp"
 #include "AudioResource.hpp"
-#include "Timer.hpp"
-#include "w/Log.hpp"
+#include "w/base/Timer.hpp"
+#include "w/base/Log.hpp"
 
 namespace w
 {

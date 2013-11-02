@@ -27,8 +27,8 @@
 #define LIBW_SHADERPROGRAMASSETPRIVATE
 
 
-#include "Referenced.hpp"
-#include <w/Class.hpp>
+#include <w/base/Referenced.hpp>
+#include <w/base/Class.hpp>
 #ifdef linux
     #include <GLES2/gl2.h>
 #else // APPLE

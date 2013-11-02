@@ -30,7 +30,15 @@ $(SOURCE)/audio/TrackerProducerThread.cpp \
 $(SOURCE)/audio/Tracker.cpp \
 \
 $(SOURCE)/graphics/Window.cpp \
-$(SOURCE)/graphics/WindowPrivate-Android.cpp
+$(SOURCE)/graphics/WindowPrivate-Android.cpp \
+$(SOURCE)/graphics/ShaderProgramAsset.cpp \
+$(SOURCE)/graphics/ShaderProgramAssetPrivate-GLES2.cpp \
+$(SOURCE)/graphics/TextureAsset.cpp \
+$(SOURCE)/graphics/TextureAssetPrivate-GLES2.cpp \
+$(SOURCE)/graphics/MeshAsset.cpp \
+$(SOURCE)/graphics/MeshAssetPrivate-GLES2.cpp \
+$(SOURCE)/graphics/Renderer.cpp \
+$(SOURCE)/graphics/RendererPrivate-GLES2.cpp
 
 # Dependencies
 LOCAL_SHARED_LIBRARIES := libsigcpp

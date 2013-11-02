@@ -26,10 +26,10 @@
 #ifndef LIBW_RENDERER
 #define LIBW_RENDERER
 
-#include <w/Class.hpp>
 #include <w/graphics/TextureAsset.hpp>
 #include <w/graphics/MeshAsset.hpp>
 #include <w/graphics/ShaderProgramAsset.hpp>
+#include <w/base/Class.hpp>
 
 namespace w
 {

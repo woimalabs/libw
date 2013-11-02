@@ -23,7 +23,7 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "w/Log.hpp"
+#include "w/base/Log.hpp"
 #include <cstdio>
 #include <cstdarg>
 #include <string>

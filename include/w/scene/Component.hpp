@@ -23,41 +23,45 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_TRACKERSAMPLE
-#define LIBW_TRACKERSAMPLE
+#ifndef LIBW_SCENE_COMPONENT
+#define LIBW_SCENE_COMPONENT
 
-#include "AudioResource.hpp"
-#include <w/base/Referenced.hpp>
-#include <stdint.h>
+#include "w/scene/ComponentPrivate.hpp"
+#include "w/base/ReferencedPointer.hpp"
+#include <w/base/Class.hpp>
 
 namespace w
 {
-    class TrackerSample: public Referenced
+    namespace scene
     {
-    public:
-        static unsigned int const BytesPerSample = 2;
+        class NodePrivate;
 
-        TrackerSample(AudioResource* resource, float volume, bool looping);
-        ~TrackerSample();
-        float volume();
-        void setVolume(float volume);
-        int16_t sample(bool& end);
-        void fadeOut(unsigned int fadeTimeMilliseconds);
-
-    protected:
-        float volume_;
-        AudioResource* resource_;
-        unsigned int byteSize_;
-        unsigned int byteLocation_;
-        bool looping_;
-
-        struct FadeOut
+        /**
+         * @class Component
+         *
+         * Inherit Component and ComponentPrivate to
+         * create new component to scene.
+         */
+        class Component
         {
-            bool on_;
-            unsigned int start_;
-            float ramp_; // applied every sample() call to volume_ during fadeout
-        } fadeOut_;
-    };
+        public:
+            COPYABLE(Component)
+
+            Component(ComponentPrivate* private_);
+            virtual ~Component();
+            std::string const& type() const;
+            bool isNull() const;
+
+        protected:
+            friend class NodePrivate;
+            ReferencedPointer<ComponentPrivate> private_;
+
+        private:
+            Component();
+        };
+
+        extern Component ComponentNull;
+    }
 }
 
 #endif

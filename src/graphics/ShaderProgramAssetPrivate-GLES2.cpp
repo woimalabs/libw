@@ -24,10 +24,10 @@
  */
 
 #include "ShaderProgramAssetPrivate.hpp"
-#include "FileHandle.hpp"
-#include "ResourceManagerPrivate.hpp"
-#include "w/Log.hpp"
-#include "UniquePointer.hpp"
+#include "w/base/FileHandle.hpp"
+#include "w/base/ResourceManagerPrivate.hpp"
+#include "w/base/Log.hpp"
+#include "w/base/UniquePointer.hpp"
 
 namespace w
 {

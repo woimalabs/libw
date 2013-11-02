@@ -27,10 +27,10 @@
 #define LIBW_TRACKER
 
 #include "TrackerSample.hpp"
-#include "Mutex.hpp"
 #include "TrackerProducerThread.hpp"
-#include "w/Class.hpp"
-#include "RingBuffer.hpp"
+#include "w/base/Mutex.hpp"
+#include "w/base/Class.hpp"
+#include "w/base/RingBuffer.hpp"
 #include <stdint.h>
 
 namespace w

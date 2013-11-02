@@ -24,10 +24,10 @@
  */
 
 #include "TextureAssetPrivate.hpp"
-#include "UniquePointer.hpp"
-#include <w/Log.hpp>
-#include <w/Exception.hpp>
-#include "ResourceManagerPrivate.hpp"
+#include "w/base/UniquePointer.hpp"
+#include <w/base/Log.hpp>
+#include <w/base/Exception.hpp>
+#include "w/base/ResourceManagerPrivate.hpp"
 #include <memory>
 
 namespace w
@@ -142,13 +142,6 @@ namespace w
 
     void TextureAssetPrivate::bind()
     {
-/*
-
-GLint location = (*shaderProgramInUse_)["ColorMap"].location();
-                glUniform1i(location, baseNumber);
-                glActiveTexture(GL_TEXTURE0 + baseNumber);
-                glBindTexture(GL_TEXTURE_2D, colorMap.pointer()->id());*/
-
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, textureId_);
     }

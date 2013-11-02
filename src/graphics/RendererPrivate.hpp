@@ -26,8 +26,8 @@
 #ifndef LIBW_RENDERERPRIVATE
 #define LIBW_RENDERERPRIVATE
 
-#include <w/Class.hpp>
-#include "Referenced.hpp"
+#include <w/base/Class.hpp>
+#include <w/base/Referenced.hpp>
 #include <w/graphics/TextureAsset.hpp>
 #include <w/graphics/MeshAsset.hpp>
 #include <w/graphics/ShaderProgramAsset.hpp>

@@ -23,31 +23,36 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_LOCK
-#define LIBW_LOCK
+#ifndef LIBW_RESOURCEMANAGER
+#define LIBW_RESOURCEMANAGER
 
-#include "Mutex.hpp"
-
-#define LOCK w::Lock lock(mutex_);
+#include <w/base/Class.hpp>
+#include <string>
+#ifdef ANDROID
+    #include <jni.h>
+    #include <sys/types.h>
+    #include <android/asset_manager.h>
+    #include <android/asset_manager_jni.h>
+#endif
 
 namespace w
 {
-    class Lock
+    class ResourceManager
     {
     public:
-        Lock(Mutex& mutex):
-            mutex_(&mutex)
-        {
-            mutex_->lock();
-        }
+        COPYABLE(ResourceManager);
 
-        ~Lock()
-        {
-            mutex_->unlock();
-        }
+#ifdef ANDROID
+        ResourceManager(AAssetManager* androidAssetManager);
+#elif __linux__
+        ResourceManager(const std::string& basePath);
+#elif __APPLE__
+        ResourceManager();
+#endif
+        virtual ~ResourceManager();
 
     private:
-        Mutex* mutex_;
+        class ResourceManagerPrivate* private_;
     };
 }
 

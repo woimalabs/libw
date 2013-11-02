@@ -23,11 +23,54 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "Referenced.hpp"
+#ifndef LIBW_UNIQUEPOINTER
+#define LIBW_UNIQUEPOINTER
+
+#include <w/base/Class.hpp>
 
 namespace w
 {
-    Mutex Referenced::mutex_;
-    unsigned int Referenced::lastId_ = 0;
+    /**
+    * @class UniquePointer
+    *
+    * Class that holds reference to a pointer within lifetime.
+    */
+    template <class T> class UniquePointer
+    {
+    public:
+        UNCOPYABLE(UniquePointer);
+
+        UniquePointer(T* instance, bool isArray = false):
+            instance_(instance),
+            isArray_(isArray)
+        {
+        }
+
+        ~UniquePointer()
+        {
+            if (instance_ != NULL)
+            {
+                if (isArray_ == false)
+                {
+                    delete instance_;
+                }
+                else
+                {
+                    delete [] instance_;
+                }
+                instance_ = NULL;
+            }
+        }
+
+        T* pointer() const
+        {
+            return instance_;
+        }
+
+    private:
+        T* instance_;
+        bool isArray_;
+    };
 }
 
+#endif

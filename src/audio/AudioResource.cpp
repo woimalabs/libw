@@ -24,8 +24,8 @@
  */
 
 #include "AudioResource.hpp"
-#include <w/Log.hpp>
-#include <w/Exception.hpp>
+#include <w/base/Log.hpp>
+#include <w/base/Exception.hpp>
 #include <string.h>
 
 namespace w

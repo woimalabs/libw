@@ -23,36 +23,34 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_RESOURCEMANAGER
-#define LIBW_RESOURCEMANAGER
+#ifndef LIBW_RESOURCE
+#define LIBW_RESOURCE
 
-#include <w/Class.hpp>
+#include "w/base/Referenced.hpp"
 #include <string>
-#ifdef ANDROID
-    #include <jni.h>
-    #include <sys/types.h>
-    #include <android/asset_manager.h>
-    #include <android/asset_manager_jni.h>
-#endif
 
 namespace w
 {
-    class ResourceManager
+    class Resource: public Referenced
     {
     public:
-        COPYABLE(ResourceManager);
+        Resource(const std::string& filename):
+            Referenced(),
+            filename_(filename)
+        {
+        }
 
-#ifdef ANDROID
-        ResourceManager(AAssetManager* androidAssetManager);
-#elif __linux__
-        ResourceManager(const std::string& basePath);
-#elif __APPLE__
-        ResourceManager();
-#endif
-        virtual ~ResourceManager();
+        virtual ~Resource()
+        {
+        }
+
+        const std::string& filename()  const
+        {
+            return filename_;
+        }
 
     private:
-        class ResourceManagerPrivate* private_;
+        std::string filename_;
     };
 }
 

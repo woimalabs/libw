@@ -24,10 +24,10 @@
  */
 
 #include "Tracker.hpp"
-#include "Timer.hpp"
-#include "Lock.hpp"
-#include "w/Exception.hpp"
-#include "w/Log.hpp"
+#include "w/base/Timer.hpp"
+#include "w/base/Lock.hpp"
+#include "w/base/Exception.hpp"
+#include "w/base/Log.hpp"
 #include <stdint.h>
 
 namespace w

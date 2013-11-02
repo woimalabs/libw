@@ -26,7 +26,7 @@
 #ifndef LIBW_AUDIOASSET
 #define LIBW_AUDIOASSET
 
-#include <w/Class.hpp>
+#include <w/base/Class.hpp>
 #include <string>
 
 /**

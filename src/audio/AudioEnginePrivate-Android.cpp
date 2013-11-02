@@ -24,10 +24,10 @@
  */
 
 #include "w/audio/AudioEngine.hpp"
-#include "w/Exception.hpp"
+#include "w/base/Exception.hpp"
 #include "AudioEnginePrivate.hpp"
-#include "Lock.hpp"
-#include "w/Log.hpp"
+#include "w/baseLock.hpp"
+#include "w/base/Log.hpp"
 
 namespace w
 {

@@ -26,10 +26,10 @@
 #ifndef LIBW_AUDIOASSETPRIVATE
 #define LIBW_AUDIOASSETPRIVATE
 
-#include "w/Class.hpp"
 #include "AudioResource.hpp"
-#include "Referenced.hpp"
 #include "TrackerSample.hpp"
+#include "w/base/Class.hpp"
+#include <w/base/Referenced.hpp>
 #include <string>
 #include <sigc++/connection.h>
 

@@ -23,9 +23,9 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "FileHandle.hpp"
-#include "w/Exception.hpp"
-#include "w/Log.hpp"
+#include "w/base/FileHandle.hpp"
+#include "w/base/Exception.hpp"
+#include "w/base/Log.hpp"
 #include <stdio.h>
 #include <unistd.h>
 #include <string>

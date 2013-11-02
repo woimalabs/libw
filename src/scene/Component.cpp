@@ -23,54 +23,52 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_UNIQUEPOINTER
-#define LIBW_UNIQUEPOINTER
-
-#include <w/Class.hpp>
+#include "w/scene/Component.hpp"
+#include "w/base/Exception.hpp"
 
 namespace w
 {
-    /**
-    * @class UniquePointer
-    *
-    * Class that holds reference to a pointer within lifetime.
-    */
-    template <class T> class UniquePointer
+    namespace scene
     {
-    public:
-        UNCOPYABLE(UniquePointer);
+        Component ComponentNull(NULL);
 
-        UniquePointer(T* instance, bool isArray = false):
-            instance_(instance),
-            isArray_(isArray)
+        Component::Component(ComponentPrivate* priv):
+            private_(ReferencedPointer<ComponentPrivate>(priv))
         {
         }
 
-        ~UniquePointer()
+        Component::Component(Component const& r):
+            private_(r.private_)
         {
-            if (instance_ != NULL)
+        }
+
+        Component::Component():
+            private_(NULL)
+        {
+            throw Exception("Component() should not be used");
+        }
+
+        Component::~Component()
+        {
+        }
+
+        Component& Component::operator=(Component const& r)
+        {
+            if (this != &r)
             {
-                if (isArray_ == false)
-                {
-                    delete instance_;
-                }
-                else
-                {
-                    delete [] instance_;
-                }
-                instance_ = NULL;
+                private_ = r.private_;
             }
+            return *this;
         }
 
-        T* pointer() const
+        std::string const& Component::type() const
         {
-            return instance_;
+            return private_.pointer()->type();
         }
 
-    private:
-        T* instance_;
-        bool isArray_;
-    };
+        bool Component::isNull() const
+        {
+            return private_.isNull();
+        }
+    }
 }
-
-#endif

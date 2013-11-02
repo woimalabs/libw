@@ -23,40 +23,32 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_TRACKERSAMPLE
-#define LIBW_TRACKERSAMPLE
+#ifndef LIBW_LOCK
+#define LIBW_LOCK
 
-#include "AudioResource.hpp"
-#include <w/base/Referenced.hpp>
-#include <stdint.h>
+#include "w/base/Mutex.hpp"
+
+#define LOCK w::Lock lock(mutex_);
+#define LOCK_(x) w::Lock lock(x);
 
 namespace w
 {
-    class TrackerSample: public Referenced
+    class Lock
     {
     public:
-        static unsigned int const BytesPerSample = 2;
-
-        TrackerSample(AudioResource* resource, float volume, bool looping);
-        ~TrackerSample();
-        float volume();
-        void setVolume(float volume);
-        int16_t sample(bool& end);
-        void fadeOut(unsigned int fadeTimeMilliseconds);
-
-    protected:
-        float volume_;
-        AudioResource* resource_;
-        unsigned int byteSize_;
-        unsigned int byteLocation_;
-        bool looping_;
-
-        struct FadeOut
+        Lock(Mutex& mutex):
+            mutex_(&mutex)
         {
-            bool on_;
-            unsigned int start_;
-            float ramp_; // applied every sample() call to volume_ during fadeout
-        } fadeOut_;
+            mutex_->lock();
+        }
+
+        ~Lock()
+        {
+            mutex_->unlock();
+        }
+
+    private:
+        Mutex* mutex_;
     };
 }
 

@@ -24,9 +24,9 @@
  */
 
 #include "WindowPrivate.hpp"
-#include "String.hpp"
-#include <w/Exception.hpp>
-#include <w/Log.hpp>
+#include "w/base/String.hpp"
+#include <w/base/Exception.hpp>
+#include <w/base/Log.hpp>
 #include <fstream>
 #include <sstream>
 

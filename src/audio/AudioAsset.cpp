@@ -23,10 +23,10 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "w/Log.hpp"
-#include "w/audio/AudioAsset.hpp"
 #include "AudioEnginePrivate.hpp"
 #include "AudioAssetPrivate.hpp"
+#include "w/audio/AudioAsset.hpp"
+#include "w/base/Log.hpp"
 
 namespace w
 {

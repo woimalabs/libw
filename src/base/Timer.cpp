@@ -23,15 +23,15 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "Timer.hpp"
+#include "w/base/Timer.hpp"
 #include <time.h>
 #include <unistd.h>
 #include <ctime>
 #ifdef __APPLE__
 #include <mach/mach_time.h>
 #endif
-#include "w/Exception.hpp"
-#include "w/Log.hpp"
+#include "w/base/Exception.hpp"
+#include "w/base/Log.hpp"
 
 namespace w
 {

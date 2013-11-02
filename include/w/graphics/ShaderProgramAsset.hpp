@@ -26,7 +26,7 @@
 #ifndef LIBW_SHADERPROGRAMASSET
 #define LIBW_SHADERPROGRAMASSET
 
-#include <w/Class.hpp>
+#include <w/base/Class.hpp>
 #include <string>
 
 /**

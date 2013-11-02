@@ -26,7 +26,7 @@
 #ifndef LIBW_MESHASSET
 #define LIBW_MESHASSET
 
-#include <w/Class.hpp>
+#include <w/base/Class.hpp>
 
 namespace w
 {

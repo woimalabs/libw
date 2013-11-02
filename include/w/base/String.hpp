@@ -26,7 +26,7 @@
 #ifndef LIBW_STRING
 #define LIBW_STRING
 
-#include "w/Exception.hpp"
+#include "w/base/Exception.hpp"
 #include <string>
 #include <cstring>
 

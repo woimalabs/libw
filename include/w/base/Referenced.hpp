@@ -23,62 +23,67 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_SYSTEM
-#define LIBW_SYSTEM
+#ifndef LIBW_REFERENCED
+#define LIBW_REFERENCED
 
-#include "w/Log.hpp"
-#include <stdlib.h>
-#include <string>
+#include "w/base/Lock.hpp"
+#include <cstddef>
+using std::ptrdiff_t; // NOTE: sigc++ needs this line
+#include <sigc++/signal.h>
 
 namespace w
 {
-    class System
+    class Referenced
     {
     public:
-        static std::string basePath()
+        sigc::signal<void, int> destroy;
+
+        unsigned int increment()
         {
-            char const* r = 0;
-
-            #ifdef __ANDROID__
-                r = ".";
-            #elif __APPLE__
-                NSBundle *b = [NSBundle mainBundle];
-                NSString *dir = [b resourcePath];
-                r = [dir UTF8String];
-            #elif __linux__
-                r = ".";
-            #endif
-
-            return std::string(r) + std::string("/");
-        }
-
-        static std::string home()
-        {
-            std::string r;
-
-            #ifdef __ANDROID__
-                r = System::basePath();
-            #elif __APPLE__
-                r = System::basePath();
-            #elif __linux__
-                const char* tmp = getenv("HOME");
-                if (tmp == NULL)
-                {
-                    LOGE("System: $HOME has not been set, returning NULL.\n");
-                }
-                r = std::string(tmp);
-            #endif
-
+            unsigned int r = ++referenceCount_;
             return r;
         }
 
+        unsigned int decrement()
+        {
+            unsigned int r = --referenceCount_;
+            if (r <= 0)
+            {
+                destroy.emit(id_);
+                delete this;
+            }
+            return r;
+        }
+
+        unsigned int referenceCount()
+        {
+            return referenceCount_;
+        }
+
+        unsigned int id()
+        {
+            return id_;
+        }
+
+    protected:
+        Referenced():
+            referenceCount_(0),
+            id_(0)
+        {
+            Lock lock(mutex_);
+            id_ = ++lastId_;
+        }
+
+        virtual ~Referenced()
+        {
+        }
+
     private:
-        System()
-        {
-        }
-        ~System()
-        {
-        }
+        unsigned int referenceCount_;
+        unsigned int id_;
+
+        static Mutex mutex_;
+        static unsigned int lastId_;
     };
 }
 

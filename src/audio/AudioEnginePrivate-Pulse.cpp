@@ -23,11 +23,11 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "w/audio/AudioEngine.hpp"
-#include "w/Exception.hpp"
 #include "AudioEnginePrivate.hpp"
-#include "Lock.hpp"
-#include "w/Log.hpp"
+#include "w/audio/AudioEngine.hpp"
+#include "w/base/Exception.hpp"
+#include "w/base/Lock.hpp"
+#include "w/base/Log.hpp"
 
 static void context_state_callback(pa_context* c, void* ptr)
 {

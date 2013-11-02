@@ -26,14 +26,14 @@
 #ifndef LIBW_AUDIOENGINEPRIVATE
 #define LIBW_AUDIOENGINEPRIVATE
 
-#include "FileHandle.hpp"
-#include "w/Log.hpp"
-#include "Mutex.hpp"
-#include "w/ResourceManager.hpp"
-#include "ResourceManagerPrivate.hpp"
 #include "Tracker.hpp"
 #include "TrackerSample.hpp"
-#include <w/Class.hpp>
+#include "w/base/FileHandle.hpp"
+#include "w/base/Log.hpp"
+#include "w/base/Mutex.hpp"
+#include "w/base/ResourceManager.hpp"
+#include "w/base/ResourceManagerPrivate.hpp"
+#include <w/base/Class.hpp>
 #include <string>
 #ifdef __ANDROID__
     // OpenSL ES is used on Android for audio

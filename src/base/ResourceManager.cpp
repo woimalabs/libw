@@ -23,8 +23,8 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "w/ResourceManager.hpp"
-#include "ResourceManagerPrivate.hpp"
+#include "w/base/ResourceManager.hpp"
+#include "w/base/ResourceManagerPrivate.hpp"
 #include <string>
 
 namespace w

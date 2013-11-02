@@ -23,10 +23,10 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include <w/audio/AudioEngine.hpp>
-#include <w/Log.hpp>
-#include <w/Exception.hpp>
 #include "AudioEnginePrivate.hpp"
+#include <w/audio/AudioEngine.hpp>
+#include <w/base/Log.hpp>
+#include <w/base/Exception.hpp>
 
 namespace w
 {

@@ -26,8 +26,8 @@
 #ifndef LIBW_TRACKERPRODUCERTHREAD
 #define LIBW_TRACKERPRODUCERTHREAD
 
-#include "Thread.hpp"
-#include "w/Class.hpp"
+#include "w/base/Thread.hpp"
+#include "w/base/Class.hpp"
 
 namespace w
 {

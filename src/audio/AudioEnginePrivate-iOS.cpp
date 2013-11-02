@@ -24,9 +24,9 @@
  */
 
 #include "AudioEnginePrivate.hpp"
-#include <w/Log.hpp>
-#include <w/Exception.hpp>
-#include "Timer.hpp"
+#include <w/base/Log.hpp>
+#include <w/base/Exception.hpp>
+#include "w/base/Timer.hpp"
 
 namespace w
 {

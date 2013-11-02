@@ -1,14 +1,14 @@
 lib_LTLIBRARIES = libw.la
 
 libw_la_SOURCES = \
-	Mutex.cpp \
-	Log.cpp \
-	Referenced.cpp \
-	Thread.cpp \
-	Timer.cpp \
-	ResourceManager.cpp \
-	ResourceManagerPrivate.cpp \
-	FileHandle.cpp \
+	base/Log.cpp \
+	base/Thread.cpp \
+	base/Timer.cpp \
+	base/ResourceManager.cpp \
+	base/ResourceManagerPrivate.cpp \
+	base/FileHandle.cpp \
+	base/Mutex.cpp \
+	base/Referenced.cpp \
 	audio/AudioEngine.cpp \
 	audio/AudioEnginePrivate-Pulse.cpp \
 	audio/AudioAsset.cpp \
@@ -26,16 +26,22 @@ libw_la_SOURCES = \
 	graphics/MeshAsset.cpp \
 	graphics/MeshAssetPrivate-GLES2.cpp \
 	graphics/Renderer.cpp \
-	graphics/RendererPrivate-GLES2.cpp
+	graphics/RendererPrivate-GLES2.cpp\
+	scene/Component.cpp \
+	scene/NodePrivate.cpp \
+	scene/Node.cpp
 
 libw_la_CPPFLAGS = -I$(top_srcdir)/include
 
-library_common_includedir = $(includedir)/w
-library_common_include_HEADERS = \
-	../include/w/ResourceManager.hpp \
-	../include/w/Class.hpp \
-	../include/w/Exception.hpp \
-	../include/w/Log.hpp
+library_base_includedir = $(includedir)/w/base
+library_base_include_HEADERS = \
+	../include/w/base/Referenced.hpp \
+	../include/w/base/ReferencedPointer.hpp \
+	../include/w/base/Exception.hpp \
+	../include/w/base/Mutex.hpp \
+	../include/w/base/ResourceManager.hpp \
+	../include/w/base/Class.hpp \
+	../include/w/base/Log.hpp
 
 library_audio_includedir = $(includedir)/w/audio
 library_audio_include_HEADERS = \
@@ -53,5 +59,12 @@ library_graphics_include_HEADERS = \
 	../include/w/graphics/TextureAsset.hpp \
 	../include/w/graphics/MeshAsset.hpp \
 	../include/w/graphics/Renderer.hpp
+
+library_scene_includedir = $(includedir)/w/scene
+library_scene_include_HEADERS = \
+	../include/w/scene/Component.hpp \
+	../include/w/scene/ComponentPrivate.hpp \
+	../include/w/scene/Node.hpp \
+	../include/w/scene/Visitor.hpp
 
 libw_la_LDFLAGS = -g -module -avoid-version -shared --disable-static

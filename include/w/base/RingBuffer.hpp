@@ -26,8 +26,8 @@
 #ifndef LIBW_RINGBUFFER
 #define LIBW_RINGBUFFER
 
-#include "w/Class.hpp"
-#include "w/Exception.hpp"
+#include "w/base/Class.hpp"
+#include "w/base/Exception.hpp"
 
 namespace w
 {

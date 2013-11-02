@@ -26,7 +26,7 @@
 #ifndef LIBW_FILE
 #define LIBW_FILE
 
-#include "w/Exception.hpp"
+#include "w/base/Exception.hpp"
 #include <stdio.h>
 #include <unistd.h>
 #include <string>

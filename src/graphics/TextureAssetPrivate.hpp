@@ -26,8 +26,8 @@
 #ifndef LIBW_TEXTUREASSETPRIVATE
 #define LIBW_TEXTUREASSETPRIVATE
 
-#include <w/Class.hpp>
-#include "Resource.hpp"
+#include <w/base/Class.hpp>
+#include "w/base/Resource.hpp"
 #include <png.h>
 #ifdef __linux__ // & Android
     #include <GLES2/gl2.h>

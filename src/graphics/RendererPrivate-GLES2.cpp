@@ -23,12 +23,12 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "w/graphics/MeshAsset.hpp"
-#include "w/Log.hpp"
 #include "RendererPrivate.hpp"
 #include "TextureAssetPrivate.hpp"
 #include "MeshAssetPrivate.hpp"
 #include "ShaderProgramAssetPrivate.hpp"
+#include "w/graphics/MeshAsset.hpp"
+#include "w/base/Log.hpp"
 #include <vector>
 #include <string>
 

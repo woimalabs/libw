@@ -26,8 +26,8 @@
 #ifndef LIBW_AUDIORESOURCE
 #define LIBW_AUDIORESOURCE
 
-#include "Resource.hpp"
-#include "FileHandle.hpp"
+#include "w/base/Resource.hpp"
+#include "w/base/FileHandle.hpp"
 #include <string>
 #include <stdint.h>
 
