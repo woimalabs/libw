@@ -66,8 +66,6 @@ namespace w
         private:
             ReferencedPointer<NodePrivate> private_;
         };
-
-        extern Node NodeNull;
     }
 }
 

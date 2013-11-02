@@ -23,8 +23,8 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_REFERENCED
-#define LIBW_REFERENCED
+#ifndef LIBW_BASE_REFERENCED
+#define LIBW_BASE_REFERENCED
 
 #include "w/base/Lock.hpp"
 #include <cstddef>

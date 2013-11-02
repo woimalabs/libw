@@ -33,8 +33,6 @@ namespace w
 {
     namespace scene
     {
-        Node NodeNull(NULL);
-
         Node::Node()
         {
         }

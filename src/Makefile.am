@@ -26,7 +26,7 @@ libw_la_SOURCES = \
 	graphics/MeshAsset.cpp \
 	graphics/MeshAssetPrivate-GLES2.cpp \
 	graphics/Renderer.cpp \
-	graphics/RendererPrivate-GLES2.cpp\
+	graphics/RendererPrivate-GLES2.cpp \
 	scene/Component.cpp \
 	scene/NodePrivate.cpp \
 	scene/Node.cpp
@@ -39,9 +39,11 @@ library_base_include_HEADERS = \
 	../include/w/base/ReferencedPointer.hpp \
 	../include/w/base/Exception.hpp \
 	../include/w/base/Mutex.hpp \
+	../include/w/base/Lock.hpp \
 	../include/w/base/ResourceManager.hpp \
 	../include/w/base/Class.hpp \
-	../include/w/base/Log.hpp
+	../include/w/base/Log.hpp \
+	../include/w/base/Lock.hpp
 
 library_audio_includedir = $(includedir)/w/audio
 library_audio_include_HEADERS = \
