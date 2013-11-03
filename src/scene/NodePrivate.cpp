@@ -108,7 +108,9 @@ namespace w
 
             if (i == components_.end())
             {
-                components_.insert(std::make_pair<std::string, ReferencedPointer<ComponentPrivate> >(key, component.private_));
+                std::pair<std::string, ReferencedPointer<ComponentPrivate> > tmp = std::make_pair(key, component.private_);
+                components_.insert(tmp);
+                //components_.insert(std::make_pair<std::string, ReferencedPointer<ComponentPrivate> >(key, component.private_));
             }
             else
             {
