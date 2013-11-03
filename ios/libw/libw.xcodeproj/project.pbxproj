@@ -42,6 +42,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		FB3F7487182672CB00C6F712 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FB3F7481182672CB00C6F712 /* png.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FB3F74521826726D00C6F712;
+			remoteInfo = png;
+		};
+		FB3F7489182672CB00C6F712 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FB3F7481182672CB00C6F712 /* png.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FB3F74621826726D00C6F712;
+			remoteInfo = pngTests;
+		};
 		FB79B613181ABBA000B1758B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FB79B60F181ABBA000B1758B /* box2d.xcodeproj */;
@@ -76,6 +90,7 @@
 		FB19B9EF18146F36001351D2 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		FB19B9F118146F53001351D2 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		FB19B9F318146F59001351D2 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		FB3F7481182672CB00C6F712 /* png.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = png.xcodeproj; path = ../../../libpng/ios/png/png.xcodeproj; sourceTree = "<group>"; };
 		FB79B5F51814722000B1758B /* WindowPrivate-iOS.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = "WindowPrivate-iOS.cpp"; path = "graphics/WindowPrivate-iOS.cpp"; sourceTree = "<group>"; };
 		FB79B60F181ABBA000B1758B /* box2d.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = box2d.xcodeproj; path = ../../../box2d/ios/box2d/box2d.xcodeproj; sourceTree = "<group>"; };
 		FB79B6871826678200B1758B /* FileHandle.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = FileHandle.cpp; path = base/FileHandle.cpp; sourceTree = "<group>"; };
@@ -144,6 +159,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FB3F7482182672CB00C6F712 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FB3F7488182672CB00C6F712 /* libpng.a */,
+				FB3F748A182672CB00C6F712 /* pngTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		FB79B610181ABBA000B1758B /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -189,6 +213,7 @@
 		FBB114EA17EF2A8300E913BA = {
 			isa = PBXGroup;
 			children = (
+				FB3F7481182672CB00C6F712 /* png.xcodeproj */,
 				FB79B60F181ABBA000B1758B /* box2d.xcodeproj */,
 				FB852F0517F0D77200B15B66 /* sigc.xcodeproj */,
 				FBB1158917EF311600E913BA /* include */,
@@ -350,6 +375,10 @@
 					ProjectRef = FB79B60F181ABBA000B1758B /* box2d.xcodeproj */;
 				},
 				{
+					ProductGroup = FB3F7482182672CB00C6F712 /* Products */;
+					ProjectRef = FB3F7481182672CB00C6F712 /* png.xcodeproj */;
+				},
+				{
 					ProductGroup = FB852F0617F0D77200B15B66 /* Products */;
 					ProjectRef = FB852F0517F0D77200B15B66 /* sigc.xcodeproj */;
 				},
@@ -362,6 +391,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		FB3F7488182672CB00C6F712 /* libpng.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libpng.a;
+			remoteRef = FB3F7487182672CB00C6F712 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FB3F748A182672CB00C6F712 /* pngTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = pngTests.xctest;
+			remoteRef = FB3F7489182672CB00C6F712 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		FB79B614181ABBA000B1758B /* libbox2d.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -479,6 +522,7 @@
 				HEADER_SEARCH_PATHS = (
 					../../include,
 					"../../../libsigcpp/libsigc++-2.2.10/**",
+					../../../libpng/src,
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -496,6 +540,7 @@
 				HEADER_SEARCH_PATHS = (
 					../../include,
 					"../../../libsigcpp/libsigc++-2.2.10/**",
+					../../../libpng/src,
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
