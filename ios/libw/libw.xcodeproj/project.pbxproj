@@ -22,6 +22,12 @@
 		FB79B69C182667B800B1758B /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB79B698182667B800B1758B /* Component.cpp */; };
 		FB79B69D182667B800B1758B /* Node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB79B699182667B800B1758B /* Node.cpp */; };
 		FB79B69E182667B800B1758B /* NodePrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB79B69A182667B800B1758B /* NodePrivate.cpp */; };
+		FB79B6BC18266F0400B1758B /* MeshAsset.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB79B6B318266F0400B1758B /* MeshAsset.cpp */; };
+		FB79B6BD18266F0400B1758B /* MeshAssetPrivate-GLES2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB79B6B418266F0400B1758B /* MeshAssetPrivate-GLES2.cpp */; };
+		FB79B6BE18266F0400B1758B /* Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB79B6B618266F0400B1758B /* Renderer.cpp */; };
+		FB79B6BF18266F0400B1758B /* RendererPrivate-GLES2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB79B6B718266F0400B1758B /* RendererPrivate-GLES2.cpp */; };
+		FB79B6C018266F0400B1758B /* TextureAsset.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB79B6B918266F0400B1758B /* TextureAsset.cpp */; };
+		FB79B6C118266F0400B1758B /* TextureAssetPrivate-GLES2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB79B6BA18266F0400B1758B /* TextureAssetPrivate-GLES2.cpp */; };
 		FBF1D49A181465B500B11368 /* AudioAsset.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBF1D48C181465B500B11368 /* AudioAsset.cpp */; };
 		FBF1D49B181465B500B11368 /* AudioAssetPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBF1D48D181465B500B11368 /* AudioAssetPrivate.cpp */; };
 		FBF1D49C181465B500B11368 /* AudioEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBF1D48F181465B500B11368 /* AudioEngine.cpp */; };
@@ -84,6 +90,15 @@
 		FB79B699182667B800B1758B /* Node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Node.cpp; path = scene/Node.cpp; sourceTree = "<group>"; };
 		FB79B69A182667B800B1758B /* NodePrivate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NodePrivate.cpp; path = scene/NodePrivate.cpp; sourceTree = "<group>"; };
 		FB79B69B182667B800B1758B /* NodePrivate.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NodePrivate.hpp; path = scene/NodePrivate.hpp; sourceTree = "<group>"; };
+		FB79B6B318266F0400B1758B /* MeshAsset.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = MeshAsset.cpp; path = graphics/MeshAsset.cpp; sourceTree = "<group>"; };
+		FB79B6B418266F0400B1758B /* MeshAssetPrivate-GLES2.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = "MeshAssetPrivate-GLES2.cpp"; path = "graphics/MeshAssetPrivate-GLES2.cpp"; sourceTree = "<group>"; };
+		FB79B6B518266F0400B1758B /* MeshAssetPrivate.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = MeshAssetPrivate.hpp; path = graphics/MeshAssetPrivate.hpp; sourceTree = "<group>"; };
+		FB79B6B618266F0400B1758B /* Renderer.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = Renderer.cpp; path = graphics/Renderer.cpp; sourceTree = "<group>"; };
+		FB79B6B718266F0400B1758B /* RendererPrivate-GLES2.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = "RendererPrivate-GLES2.cpp"; path = "graphics/RendererPrivate-GLES2.cpp"; sourceTree = "<group>"; };
+		FB79B6B818266F0400B1758B /* RendererPrivate.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = RendererPrivate.hpp; path = graphics/RendererPrivate.hpp; sourceTree = "<group>"; };
+		FB79B6B918266F0400B1758B /* TextureAsset.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = TextureAsset.cpp; path = graphics/TextureAsset.cpp; sourceTree = "<group>"; };
+		FB79B6BA18266F0400B1758B /* TextureAssetPrivate-GLES2.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = "TextureAssetPrivate-GLES2.cpp"; path = "graphics/TextureAssetPrivate-GLES2.cpp"; sourceTree = "<group>"; };
+		FB79B6BB18266F0400B1758B /* TextureAssetPrivate.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = TextureAssetPrivate.hpp; path = graphics/TextureAssetPrivate.hpp; sourceTree = "<group>"; };
 		FB852F0517F0D77200B15B66 /* sigc.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = sigc.xcodeproj; path = ../../../libsigcpp/ios/sigc/sigc.xcodeproj; sourceTree = "<group>"; };
 		FB8DA67418142B5D00725732 /* w */ = {isa = PBXFileReference; lastKnownFileType = folder; path = w; sourceTree = "<group>"; };
 		FBB114F317EF2A8300E913BA /* libw.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libw.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -271,6 +286,15 @@
 		FBF1D4A21814662A00B11368 /* graphics */ = {
 			isa = PBXGroup;
 			children = (
+				FB79B6B318266F0400B1758B /* MeshAsset.cpp */,
+				FB79B6B418266F0400B1758B /* MeshAssetPrivate-GLES2.cpp */,
+				FB79B6B518266F0400B1758B /* MeshAssetPrivate.hpp */,
+				FB79B6B618266F0400B1758B /* Renderer.cpp */,
+				FB79B6B718266F0400B1758B /* RendererPrivate-GLES2.cpp */,
+				FB79B6B818266F0400B1758B /* RendererPrivate.hpp */,
+				FB79B6B918266F0400B1758B /* TextureAsset.cpp */,
+				FB79B6BA18266F0400B1758B /* TextureAssetPrivate-GLES2.cpp */,
+				FB79B6BB18266F0400B1758B /* TextureAssetPrivate.hpp */,
 				FBF1D4A31814663D00B11368 /* ShaderProgramAsset.cpp */,
 				FBF1D4A41814663D00B11368 /* ShaderProgramAssetPrivate-GLES2.cpp */,
 				FBF1D4A61814663D00B11368 /* ShaderProgramAssetPrivate.hpp */,
@@ -365,11 +389,14 @@
 				FB79B6961826678200B1758B /* Timer.cpp in Sources */,
 				FBF1D49A181465B500B11368 /* AudioAsset.cpp in Sources */,
 				FB79B6911826678200B1758B /* Mutex.cpp in Sources */,
+				FB79B6BE18266F0400B1758B /* Renderer.cpp in Sources */,
 				FBF1D49B181465B500B11368 /* AudioAssetPrivate.cpp in Sources */,
 				FB79B6901826678200B1758B /* Log.cpp in Sources */,
 				FB79B6941826678200B1758B /* ResourceManagerPrivate.cpp in Sources */,
 				FB79B68F1826678200B1758B /* FileHandle.cpp in Sources */,
 				FBF1D49C181465B500B11368 /* AudioEngine.cpp in Sources */,
+				FB79B6C118266F0400B1758B /* TextureAssetPrivate-GLES2.cpp in Sources */,
+				FB79B6BF18266F0400B1758B /* RendererPrivate-GLES2.cpp in Sources */,
 				FBF1D49E181465B500B11368 /* AudioResource.cpp in Sources */,
 				FBF1D49F181465B500B11368 /* Tracker.cpp in Sources */,
 				FBF1D4AD1814663D00B11368 /* Window.cpp in Sources */,
@@ -378,9 +405,12 @@
 				FB79B69D182667B800B1758B /* Node.cpp in Sources */,
 				FB79B6931826678200B1758B /* ResourceManager.cpp in Sources */,
 				FB79B69C182667B800B1758B /* Component.cpp in Sources */,
+				FB79B6BC18266F0400B1758B /* MeshAsset.cpp in Sources */,
 				FB79B5F61814722000B1758B /* WindowPrivate-iOS.cpp in Sources */,
+				FB79B6BD18266F0400B1758B /* MeshAssetPrivate-GLES2.cpp in Sources */,
 				FBF1D4AA1814663D00B11368 /* ShaderProgramAsset.cpp in Sources */,
 				FBF1D4A0181465B500B11368 /* TrackerProducerThread.cpp in Sources */,
+				FB79B6C018266F0400B1758B /* TextureAsset.cpp in Sources */,
 				FBF1D49D181465B500B11368 /* AudioEnginePrivate-iOS.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
