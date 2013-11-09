@@ -38,6 +38,16 @@ namespace w
         delete private_;
     }
 
+    unsigned int Window::width()
+    {
+        private_->width();
+    }
+
+    unsigned int Window::height()
+    {
+        private_->height();
+    }
+
     void Window::clearBuffer()
     {
         private_->clearBuffer();

@@ -39,7 +39,6 @@ library_base_include_HEADERS = \
 	../include/w/base/ReferencedPointer.hpp \
 	../include/w/base/Exception.hpp \
 	../include/w/base/Mutex.hpp \
-	../include/w/base/Lock.hpp \
 	../include/w/base/ResourceManager.hpp \
 	../include/w/base/Class.hpp \
 	../include/w/base/Log.hpp \
@@ -52,7 +51,10 @@ library_audio_include_HEADERS = \
 
 library_math_includedir = $(includedir)/w/math
 library_math_include_HEADERS = \
-	../include/w/math/Vector4.hpp
+	../include/w/math/Vector4.hpp \
+	../include/w/math/Ray.hpp \
+	../include/w/math/Math.hpp  \
+	../include/w/math/Eigen.hpp
 
 library_graphics_includedir = $(includedir)/w/graphics
 library_graphics_include_HEADERS = \

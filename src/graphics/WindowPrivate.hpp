@@ -41,6 +41,17 @@ namespace w
 
         WindowPrivate(const std::string& name, unsigned int width, unsigned int height, const Vector4& clearColor);
         ~WindowPrivate();
+
+        unsigned int width()
+        {
+            return width_;
+        }
+
+        unsigned int height()
+        {
+            return height_;
+        }
+
         void clearBuffer();
         void swapBuffers();
         void resize(unsigned int width, unsigned int height);

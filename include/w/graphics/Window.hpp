@@ -36,6 +36,8 @@ namespace w
     public:
         Window(const std::string& name, unsigned int x, unsigned int y, const Vector4& clearColor);
         ~Window();
+        unsigned int width();
+        unsigned int height();
         void clearBuffer();
         void swapBuffers();
         void resize(unsigned int width, unsigned int height);

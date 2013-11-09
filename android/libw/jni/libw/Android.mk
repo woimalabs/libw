@@ -4,6 +4,7 @@ LOCAL_MODULE := libw
 
 LOCAL_C_INCLUDES := \
 $(LOCAL_PATH)/../../../../../libsigcpp/libsigc++-2.2.10 \
+$(LOCAL_PATH)/../../../../../libpng/src \
 $(LOCAL_PATH)/../../../../include \
 $(LOCAL_PATH)/../../../../src
 
@@ -11,14 +12,14 @@ $(LOCAL_PATH)/../../../../src
 SOURCE := ../../../../src
 
 LOCAL_SRC_FILES := \
-$(SOURCE)/Log.cpp \
-$(SOURCE)/Timer.cpp  \
-$(SOURCE)/Mutex.cpp \
-$(SOURCE)/Referenced.cpp \
-$(SOURCE)/Thread.cpp \
-$(SOURCE)/FileHandle.cpp \
-$(SOURCE)/ResourceManager.cpp \
-$(SOURCE)/ResourceManagerPrivate.cpp \
+$(SOURCE)/base/Log.cpp \
+$(SOURCE)/base/Timer.cpp  \
+$(SOURCE)/base/Mutex.cpp \
+$(SOURCE)/base/Referenced.cpp \
+$(SOURCE)/base/Thread.cpp \
+$(SOURCE)/base/FileHandle.cpp \
+$(SOURCE)/base/ResourceManager.cpp \
+$(SOURCE)/base/ResourceManagerPrivate.cpp \
 \
 $(SOURCE)/audio/AudioResource.cpp \
 $(SOURCE)/audio/AudioEnginePrivate-Android.cpp \
@@ -38,10 +39,14 @@ $(SOURCE)/graphics/TextureAssetPrivate-GLES2.cpp \
 $(SOURCE)/graphics/MeshAsset.cpp \
 $(SOURCE)/graphics/MeshAssetPrivate-GLES2.cpp \
 $(SOURCE)/graphics/Renderer.cpp \
-$(SOURCE)/graphics/RendererPrivate-GLES2.cpp
+$(SOURCE)/graphics/RendererPrivate-GLES2.cpp \
+\
+$(SOURCE)/scene/Component.cpp \
+$(SOURCE)/scene/NodePrivate.cpp \
+$(SOURCE)/scene/Node.cpp
 
 # Dependencies
-LOCAL_SHARED_LIBRARIES := libsigcpp
+LOCAL_SHARED_LIBRARIES := libsigcpp libpng
 LOCAL_STATIC_LIBRARY   := libgnustl
 LOCAL_LDLIBS           := -llog -lz -lOpenSLES -landroid -lGLESv2
 
