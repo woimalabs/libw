@@ -43,7 +43,7 @@ namespace w
     public:
         void start();
         void join();
-        virtual void run() = 0;
+        virtual void threadFunction() = 0;
 
     protected:
         Thread();
@@ -58,7 +58,7 @@ namespace w
     {
         static void protectedCppRun(Thread* other)
         {
-            other->run();
+            other->threadFunction();
         }
     };
 }

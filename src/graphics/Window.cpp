@@ -25,17 +25,35 @@
 
 #include "w/graphics/Window.hpp"
 #include "WindowPrivate.hpp"
+#include "w/base/Log.hpp"
 
 namespace w
 {
     Window::Window(const std::string& name, unsigned int width, unsigned int height, const Vector4& clearColor):
         private_(new WindowPrivate(name, width, height, clearColor))
     {
+        private_->increment();
     }
 
     Window::~Window()
     {
-        delete private_;
+        private_->decrement();
+    }
+
+    Window::Window(Window const &r)
+    {
+        private_ = r.private_;
+        private_->increment();
+    }
+
+    Window &Window::operator=(Window const &r)
+    {
+        if (this != &r)
+        {
+            private_ = r.private_;
+            private_->increment();
+        }
+        return *this;
     }
 
     unsigned int Window::width()

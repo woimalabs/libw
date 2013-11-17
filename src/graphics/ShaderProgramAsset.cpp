@@ -51,6 +51,7 @@ namespace w
 
     ShaderProgramAsset::~ShaderProgramAsset()
     {
+        private_->decrement();
     }
 
     ShaderProgramAsset& ShaderProgramAsset::operator=(ShaderProgramAsset const& r)

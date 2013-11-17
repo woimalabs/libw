@@ -32,7 +32,7 @@
 
 namespace w
 {
-    void* threadFunction(void* instance)
+    void* threadFunction_(void* instance)
     {
         try
         {
@@ -68,7 +68,7 @@ namespace w
         }
         pthread_attr_setdetachstate(&type, PTHREAD_CREATE_JOINABLE);
 
-        int result = pthread_create(&thread_, &type, threadFunction, (void*)this);
+        int result = pthread_create(&thread_, &type, threadFunction_, (void*)this);
         if (result == EAGAIN)
         {
             throw Exception("Thread::start, errno:EAGAIN");

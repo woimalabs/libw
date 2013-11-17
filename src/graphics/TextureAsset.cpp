@@ -51,6 +51,7 @@ namespace w
 
     TextureAsset::~TextureAsset()
     {
+        private_->decrement();
     }
 
     TextureAsset& TextureAsset::operator=(TextureAsset const& r)

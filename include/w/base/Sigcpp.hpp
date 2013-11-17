@@ -28,5 +28,6 @@
 
 using std::ptrdiff_t; // NOTE: sigc++ needs this line
 #include <sigc++/signal.h>
+#include <sigc++/connection.h>
 
 #endif

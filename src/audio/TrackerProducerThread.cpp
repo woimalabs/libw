@@ -39,7 +39,7 @@ namespace w
     {
     }
 
-    void TrackerProducerThread::run()
+    void TrackerProducerThread::threadFunction()
     {
         while (tracker_->produceData() == true)
         {

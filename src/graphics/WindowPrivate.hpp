@@ -24,6 +24,7 @@
  */
 
 #include "w/base/Class.hpp"
+#include "w/base/Referenced.hpp"
 #include "w/math/Vector4.hpp"
 #ifdef linux
     #include <EGL/egl.h>
@@ -34,7 +35,7 @@
 
 namespace w
 {
-    class WindowPrivate
+    class WindowPrivate: public Referenced
     {
     public:
         UNCOPYABLE(WindowPrivate)

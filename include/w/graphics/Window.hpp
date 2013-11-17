@@ -26,6 +26,7 @@
 #ifndef LIBW_GRAPHICS_WINDOW
 #define LIBW_GRAPHICS_WINDOW
 
+#include "w/base/Class.hpp"
 #include "w/math/Vector4.hpp"
 #include <string>
 
@@ -34,6 +35,8 @@ namespace w
     class Window
     {
     public:
+        COPYABLE(Window)
+
         Window(const std::string& name, unsigned int x, unsigned int y, const Vector4& clearColor);
         ~Window();
         unsigned int width();

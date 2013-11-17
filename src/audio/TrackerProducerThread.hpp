@@ -39,7 +39,7 @@ namespace w
         UNCOPYABLE(TrackerProducerThread)
 
     protected:
-        void run();
+        void threadFunction();
 
     private:
         friend class Tracker;
