@@ -25,12 +25,21 @@
 
 #include "w/graphics/TextureAsset.hpp"
 #include "TextureAssetPrivate.hpp"
+#include "w/base/ResourceManagerPrivate.hpp"
 
 namespace w
 {
     TextureAsset::TextureAsset(const std::string& filename):
-        private_(new TextureAssetPrivate(filename))
+        private_(NULL)
     {
+        std::string id = "Texture:" + filename;
+        private_ = dynamic_cast<TextureAssetPrivate*>(ResourceManagerPrivate::assetPrivate(id));
+        if (private_ == NULL)
+        {
+            private_ = new TextureAssetPrivate(filename);
+            ResourceManagerPrivate::setAssetPrivate(id, private_);
+        }
+
         private_->increment();
     }
 

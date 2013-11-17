@@ -52,25 +52,25 @@ namespace w
 
     ResourceManagerPrivate::~ResourceManagerPrivate()
     {
-        if (singleton_->resources_.size() == 0)
+        if (singleton_->assetPrivates_.size() == 0)
         {
             LOGI("ResourceManager: all freed.");
         }
         else
         {
             LOGI("ResourceManager: existing references:");
-            std::map<std::string, Resource*>::iterator i;
-            for (i = singleton_->resources_.begin(); i != singleton_->resources_.end(); i++)
+            std::map<std::string, Referenced*>::iterator i;
+            for (i = singleton_->assetPrivates_.begin(); i != singleton_->assetPrivates_.end(); i++)
             {
                 std::string id = i->first;
-                Resource* resource = i->second;
-                LOGI(" -(id:%s)(refcount:%d)", id.c_str(), resource->referenceCount());
+                Referenced* referenced = i->second;
+                LOGI(" -(id:%s)(refcount:%d)", id.c_str(), referenced->referenceCount());
             }
         }
         singleton_ = NULL;
     }
 
-    Resource* ResourceManagerPrivate::getResource(const std::string& id)
+    Referenced* ResourceManagerPrivate::assetPrivate(const std::string& id)
     {
         if (singleton_ == NULL)
         {
@@ -79,28 +79,28 @@ namespace w
 
         Lock lock(singleton_->mutex_);
 
-        Resource* r = NULL;
+        Referenced* r = NULL;
         std::string key(id);
-        std::map<std::string, Resource*>::const_iterator i = singleton_->resources_.find(key);
-        if (i != singleton_->resources_.end())
+        std::map<std::string, Referenced*>::const_iterator i = singleton_->assetPrivates_.find(key);
+        if (i != singleton_->assetPrivates_.end())
         {
             r = i->second;
         }
         return r;
     }
 
-    void ResourceManagerPrivate::setResource(const std::string& id, Resource* resource)
+    void ResourceManagerPrivate::setAssetPrivate(const std::string& id, Referenced* assetPrivate)
     {
         Lock lock(singleton_->mutex_);
-        std::pair<std::string, Resource*> tmp0 = std::make_pair(id, resource);
-        singleton_->resources_.insert(tmp0);
 
-        sigc::connection connection = resource->destroy.connect(
+        std::pair<std::string, Referenced*> tmp0 = std::make_pair(id, assetPrivate);
+        singleton_->assetPrivates_.insert(tmp0);
+
+        sigc::connection connection = assetPrivate->destroy.connect(
             sigc::mem_fun(singleton_, &ResourceManagerPrivate::handleResourceDestroy));
 
-        std::pair<unsigned int, sigc::connection> tmp1 = std::make_pair(resource->id(), connection);
-        singleton_->resourceConnections_.insert(tmp1);
-
+        std::pair<unsigned int, sigc::connection> tmp1 = std::make_pair(assetPrivate->id(), connection);
+        singleton_->assetPrivateConnections_.insert(tmp1);
     }
 
     void ResourceManagerPrivate::handleResourceDestroy(unsigned int id)
@@ -108,19 +108,19 @@ namespace w
         Lock lock(singleton_->mutex_);
 
         // Remove Resource from loaded resources list and signal listener list
-        std::map<std::string, Resource*>::iterator i;
-        for (i = singleton_->resources_.begin(); i != singleton_->resources_.end(); i++)
+        std::map<std::string, Referenced*>::iterator i;
+        for (i = singleton_->assetPrivates_.begin(); i != singleton_->assetPrivates_.end(); i++)
         {
-            Resource* loadedResource = i->second;
-            if (loadedResource->id() == id)
+            Referenced* assetPrivate = i->second;
+            if (assetPrivate->id() == id)
             {
                 // Remove Resource's destroy signal connection
                 std::map<unsigned int, sigc::connection>::iterator i2;
-                i2 = singleton_->resourceConnections_.find(id);
-                singleton_->resourceConnections_.erase(i2);
+                i2 = singleton_->assetPrivateConnections_.find(id);
+                singleton_->assetPrivateConnections_.erase(i2);
 
                 // Resource will delete itself, look Referenced.hpp
-                singleton_->resources_.erase(i);
+                singleton_->assetPrivates_.erase(i);
 
                 break;
             }

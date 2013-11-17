@@ -47,8 +47,8 @@ namespace w
     {
     public:
         ~ResourceManagerPrivate();
-        static Resource* getResource(const std::string& id);
-        static void setResource(const std::string& id, Resource* resource);
+        static Referenced* assetPrivate(const std::string& id);
+        static void setAssetPrivate(const std::string& id, Referenced* resource);
         static FileHandle* getFileHandle(const std::string& filename);
         #ifdef ANDROID
             static AAssetManager* androidAssetManager();
@@ -62,13 +62,13 @@ namespace w
         static ResourceManagerPrivate* singleton_;
         std::string basePath_;
         Mutex mutex_;
-        std::map<std::string, Resource*> resources_;
+        std::map<std::string, Referenced*> assetPrivates_;
 
-        // resourceConnections_ note:
+        // assetPrivateConnections_ note:
         // We don't hold reference count in ResourceManager
-        // so we delete the listening connection when resource
+        // so we delete the listening connection when assetPrivate
         // is freed by the user.
-        std::map<unsigned int, sigc::connection> resourceConnections_;
+        std::map<unsigned int, sigc::connection> assetPrivateConnections_;
         #ifdef ANDROID
             static AAssetManager* androidAssetManager_;
         #endif

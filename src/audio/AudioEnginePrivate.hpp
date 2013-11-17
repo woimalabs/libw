@@ -84,14 +84,15 @@ namespace w
 
         static AudioResource* get(const std::string& filename)
         {
-            std::string key = std::string("AudioResource") + filename;
-            AudioResource* r = dynamic_cast<AudioResource*>(ResourceManagerPrivate::getResource(filename));
+            std::string id = std::string("Audio:") + filename;
+            AudioResource* r = dynamic_cast<AudioResource*>(ResourceManagerPrivate::assetPrivate(id));
             if (r == NULL)
             {
                 FileHandle* tmp = ResourceManagerPrivate::getFileHandle(filename);
                 if (tmp != NULL)
                 {
                     r = new AudioResource(tmp);
+                    ResourceManagerPrivate::setAssetPrivate(id, r);
                     delete tmp;
                 }
             }

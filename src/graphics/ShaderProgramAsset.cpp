@@ -25,12 +25,21 @@
 
 #include "w/graphics/ShaderProgramAsset.hpp"
 #include "ShaderProgramAssetPrivate.hpp"
+#include "w/base/ResourceManagerPrivate.hpp"
 
 namespace w
 {
     ShaderProgramAsset::ShaderProgramAsset(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename):
-        private_(new ShaderProgramAssetPrivate(vertexShaderFilename, fragmentShaderFilename))
+        private_(NULL)
     {
+        std::string id = "ShaderProgram:" + vertexShaderFilename + std::string(",") + fragmentShaderFilename;
+        private_ = dynamic_cast<ShaderProgramAssetPrivate*>(ResourceManagerPrivate::assetPrivate(id));
+        if (private_ == NULL)
+        {
+            private_ = new ShaderProgramAssetPrivate(vertexShaderFilename, fragmentShaderFilename);
+            ResourceManagerPrivate::setAssetPrivate(id, private_);
+        }
+
         private_->increment();
     }
 
