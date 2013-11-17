@@ -23,35 +23,10 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_BASE_LOG
-#define LIBW_BASE_LOG
+#ifndef WORLD_BASE_SIGCPP
+#define WORLD_BASE_SIGCPP
 
-#ifdef __APPLE__
-#include <stdio.h>
-#else
-#include <cstdio>
-#endif
-
-#define DEBUG 1
-
-#define LOG w::Log::D("%s:%s:%d", __FILE__, __FUNCTION__, __LINE__);
-#define LOGD(...) w::Log::D(__VA_ARGS__);
-#define LOGI(...) w::Log::I(__VA_ARGS__);
-#define LOGE(...) w::Log::E(__VA_ARGS__);
-
-namespace w
-{
-    class Log
-    {
-    public:
-#ifdef DEBUG
-        static void D(const char *fmt, ...);
-#else
-        static void D(const char *fmt, ...) {}
-#endif
-        static void I(const char *fmt, ...);
-        static void E(const char *fmt, ...);
-    };
-}
+using std::ptrdiff_t; // NOTE: sigc++ needs this line
+#include <sigc++/signal.h>
 
 #endif
