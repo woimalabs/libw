@@ -51,6 +51,7 @@ namespace w
         mesh.private_->bind();
 
         // Use given shaderProgram
+        ShaderProgramAssetPrivate::stop();
         shaderProgram.private_->start();
 
         // Find out needed data for shader

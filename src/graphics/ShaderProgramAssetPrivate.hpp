@@ -50,6 +50,7 @@ namespace w
         GLint uniform(const std::string& symbolName);
         GLint attribute(const std::string& symbolName);
         void start();
+        static void stop();
 
     private:
         // Android, linux, iOS. All use GLES2.

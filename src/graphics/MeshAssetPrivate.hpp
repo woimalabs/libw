@@ -74,8 +74,12 @@ namespace w
         unsigned int vertexCount();
 
     private:
+        Mutex mutex_;
+        void loadGPUData();
+
         // Android, linux, iOS. All use GLES2
         GLuint vbo_;
+        GLfloat* tmpVertices_;
         std::vector<StrideComponent> strideComponents_;
         unsigned int vertexCount_;
     };

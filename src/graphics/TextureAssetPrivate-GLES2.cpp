@@ -39,16 +39,21 @@ namespace w
         Resource(file),
         bytesPerPixel_(0),
         width_(0),
-        height_(0)
+        height_(0),
+        tmpData_(NULL)
     {
-        load();
+        loadFileData();
     }
 
     TextureAssetPrivate::~TextureAssetPrivate()
     {
+        if (tmpData_ != NULL)
+        {
+            delete [] tmpData_;
+        }
     }
 
-    void TextureAssetPrivate::load()
+    void TextureAssetPrivate::loadFileData()
     {
         static const int flags = PNG_TRANSFORM_STRIP_16 |
         PNG_TRANSFORM_GRAY_TO_RGB | PNG_TRANSFORM_PACKING |
@@ -102,10 +107,28 @@ namespace w
         // Copy to continous memory
         width_ = png_get_image_width(png, info);
         height_ = png_get_image_height(png, info);
-        UniquePointer<char> tmpData(new char[width_ * height_ * bytesPerPixel_], true);
+        tmpData_ = new char[width_ * height_ * bytesPerPixel_];
         for (unsigned int i = 0; i < height_; i++)
         {
-            memcpy(&(tmpData.pointer())[bytesPerPixel_ * width_ * i], rows[height_ - i - 1], width_ * bytesPerPixel_);
+            memcpy(&(tmpData_)[bytesPerPixel_ * width_ * i], rows[height_ - i - 1], width_ * bytesPerPixel_);
+        }
+    }
+
+    void TextureAssetPrivate::bind()
+    {
+        loadGPUData();
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, textureId_);
+    }
+
+    void TextureAssetPrivate::loadGPUData()
+    {
+        LOCK
+
+        if (tmpData_ == NULL)
+        {
+            return;
         }
 
         // Create texture
@@ -127,7 +150,7 @@ namespace w
             0,
             format,
             GL_UNSIGNED_BYTE,
-            tmpData.pointer());
+            tmpData_);
 
         if ((minFilter != GL_NEAREST && minFilter != GL_LINEAR) || (magFilter != GL_NEAREST && magFilter != GL_LINEAR))
         {
@@ -137,13 +160,10 @@ namespace w
         {
             LOGE("Error in texture filters!\n");
         }
-        LOGD("TextureAssetPrivate(), created with id:%d. Size: %d x %d x %d", textureId_, width_, height_, bytesPerPixel_);
-    }
 
-    void TextureAssetPrivate::bind()
-    {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, textureId_);
+        delete [] tmpData_;
+        tmpData_ = NULL;
+        LOGD("TextureAssetPrivate(), created with id:%d. Size: %d x %d x %d", textureId_, width_, height_, bytesPerPixel_);
     }
 
     void read(png_structp fileHandlePointer, png_bytep data, png_size_t length)

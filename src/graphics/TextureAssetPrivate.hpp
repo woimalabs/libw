@@ -49,10 +49,16 @@ namespace w
         void bind();
 
     private:
+        void loadFileData();
+        void loadGPUData();
+
         unsigned int bytesPerPixel_;
         unsigned int width_;
         unsigned int height_;
-        void load();
+
+        // Pointer where loaded data array is kept
+        Mutex mutex_;
+        char* tmpData_;
 
         // Android, linux, iOS. All use GLES2
         GLuint textureId_;
