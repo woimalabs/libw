@@ -33,7 +33,8 @@ namespace w
 {
     namespace scene
     {
-        Node::Node()
+        Node::Node():
+            private_(ReferencedPointer<NodePrivate>(new NodePrivate()))
         {
         }
 
