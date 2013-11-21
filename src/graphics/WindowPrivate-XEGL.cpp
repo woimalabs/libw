@@ -32,7 +32,7 @@
 
 namespace w
 {
-    WindowPrivate::WindowPrivate(const std::string& name, unsigned int width, unsigned int height, const Vector4& clearColor):
+    WindowPrivate::WindowPrivate(const std::string& name, unsigned int width, unsigned int height, const Eigen::Vector4f& clearColor):
         name_(name),
         width_(width),
         height_(height),

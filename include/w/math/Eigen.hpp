@@ -26,15 +26,10 @@
 #ifndef WORLD_MATH_EIGEN
 #define WORLD_MATH_EIGEN
 
-#include <Eigen/Dense>
+#include <Eigen/Core>
 
 namespace w
 {
-    typedef Eigen::Vector3d v3;
-    typedef Eigen::Matrix4d m4;
-    typedef Eigen::Vector2d Vector2;
-    typedef Eigen::Vector3d Vector3;
-    typedef Eigen::Matrix4d Matrix4;
 }
 
 #endif

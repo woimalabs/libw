@@ -25,7 +25,7 @@
 
 #include "w/base/Class.hpp"
 #include "w/base/Referenced.hpp"
-#include "w/math/Vector4.hpp"
+#include "w/math/Eigen.hpp"
 #ifdef linux
     #include <EGL/egl.h>
     #include <GLES2/gl2.h>
@@ -40,7 +40,7 @@ namespace w
     public:
         UNCOPYABLE(WindowPrivate)
 
-        WindowPrivate(const std::string& name, unsigned int width, unsigned int height, const Vector4& clearColor);
+        WindowPrivate(const std::string& name, unsigned int width, unsigned int height, const Eigen::Vector4f& clearColor);
         ~WindowPrivate();
 
         unsigned int width()
@@ -66,7 +66,7 @@ namespace w
         std::string name_;
         unsigned int width_;
         unsigned int height_;
-        Vector4 clearColor_;
+        Eigen::Vector4f clearColor_;
 #ifdef ANDROID
 
 #elif linux

@@ -28,29 +28,29 @@
 
 namespace w
 {
-    WindowPrivate::WindowPrivate(const std::string& name, unsigned int width, unsigned int height, const Vector4& clearColor):
+    WindowPrivate::WindowPrivate(const std::string& name, unsigned int width, unsigned int height, const Eigen::Vector4f& clearColor):
         name_(name),
         width_(width),
         height_(height),
         clearColor_(clearColor)
     {
     }
-    
+
     WindowPrivate::~WindowPrivate()
     {
     }
-    
+
     void WindowPrivate::clearBuffer()
     {
         glClearColor(clearColor_.x(), clearColor_.y(), clearColor_.z(), clearColor_.w());
         glClearDepthf(1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
-    
+
     void WindowPrivate::resize(unsigned int width, unsigned int height)
     {
     }
-    
+
     void WindowPrivate::swapBuffers()
     {
     }

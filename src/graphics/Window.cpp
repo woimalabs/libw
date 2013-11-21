@@ -29,7 +29,7 @@
 
 namespace w
 {
-    Window::Window(const std::string& name, unsigned int width, unsigned int height, const Vector4& clearColor):
+    Window::Window(const std::string& name, unsigned int width, unsigned int height, const Eigen::Vector4f& clearColor):
         private_(new WindowPrivate(name, width, height, clearColor))
     {
         private_->increment();

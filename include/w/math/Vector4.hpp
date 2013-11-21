@@ -28,10 +28,10 @@
 
 namespace w
 {
-    class Vector4
+    class Vector4depr
     {
     public:
-        Vector4(float x, float y, float z, float w):
+        Vector4depr(float x, float y, float z, float w):
             x_(x),
             y_(y),
             z_(z),
@@ -39,7 +39,7 @@ namespace w
         {
         }
 
-        Vector4(Vector4 const& r):
+        Vector4depr(Vector4depr const& r):
             x_(r.x_),
             y_(r.y_),
             z_(r.z_),
@@ -47,11 +47,11 @@ namespace w
         {
         }
 
-        ~Vector4()
+        ~Vector4depr()
         {
         }
 
-        Vector4& operator=(Vector4 const& r)
+        Vector4depr& operator=(Vector4depr const& r)
         {
             if (this != &r)
             {

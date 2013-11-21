@@ -53,7 +53,6 @@ library_audio_include_HEADERS = \
 
 library_math_includedir = $(includedir)/w/math
 library_math_include_HEADERS = \
-	../include/w/math/Vector4.hpp \
 	../include/w/math/Ray.hpp \
 	../include/w/math/Math.hpp  \
 	../include/w/math/Eigen.hpp

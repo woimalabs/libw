@@ -35,7 +35,7 @@ namespace w
     class Ray
     {
     public:
-        Ray(const Eigen::Vector3d & location, const Eigen::Vector3d & directionUnit):
+        Ray(const Eigen::Vector3f & location, const Eigen::Vector3f & directionUnit):
             location_(location),
             directionUnit_(directionUnit_)
         {
@@ -52,8 +52,8 @@ namespace w
         }
 
     private:
-        Eigen::Vector3d location_;
-        Eigen::Vector3d directionUnit_;
+        Eigen::Vector3f location_;
+        Eigen::Vector3f directionUnit_;
     };
 }
 
