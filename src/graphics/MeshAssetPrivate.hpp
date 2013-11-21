@@ -23,8 +23,8 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_MESHASSETPRIVATE
-#define LIBW_MESHASSETPRIVATE
+#ifndef LIBW_GRAPHICS_MESHASSETPRIVATE
+#define LIBW_GRAPHICS_MESHASSETPRIVATE
 
 #include <w/base/Referenced.hpp>
 #include <w/base/Class.hpp>

@@ -23,8 +23,8 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_RENDERERPRIVATE
-#define LIBW_RENDERERPRIVATE
+#ifndef LIBW_GRAPHICS_RENDERERPRIVATE
+#define LIBW_GRAPHICS_RENDERERPRIVATE
 
 #include <w/base/Class.hpp>
 #include <w/base/Referenced.hpp>

@@ -23,8 +23,8 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_TEXTUREASSETPRIVATE
-#define LIBW_TEXTUREASSETPRIVATE
+#ifndef LIBW_GRAPHICS_TEXTUREASSETPRIVATE
+#define LIBW_GRAPHICS_TEXTUREASSETPRIVATE
 
 #include <w/base/Class.hpp>
 #include "w/base/Resource.hpp"

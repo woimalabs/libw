@@ -23,8 +23,8 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_TEXTUREASSET
-#define LIBW_TEXTUREASSET
+#ifndef LIBW_GRAPHICS_TEXTUREASSET
+#define LIBW_GRAPHICS_TEXTUREASSET
 
 #include <w/base/Class.hpp>
 #include <string>

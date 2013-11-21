@@ -23,8 +23,8 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_SHADERPROGRAMASSET
-#define LIBW_SHADERPROGRAMASSET
+#ifndef LIBW_GRAPHICS_SHADERPROGRAMASSET
+#define LIBW_GRAPHICS_SHADERPROGRAMASSET
 
 #include <w/base/Class.hpp>
 #include <string>

@@ -23,9 +23,8 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_SHADERPROGRAMASSETPRIVATE
-#define LIBW_SHADERPROGRAMASSETPRIVATE
-
+#ifndef LIBW_GRAPHICS_SHADERPROGRAMASSETPRIVATE
+#define LIBW_GRAPHICS_SHADERPROGRAMASSETPRIVATE
 
 #include <w/base/Referenced.hpp>
 #include <w/base/Class.hpp>

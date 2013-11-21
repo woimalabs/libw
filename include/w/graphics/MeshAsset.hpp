@@ -23,8 +23,8 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_MESHASSET
-#define LIBW_MESHASSET
+#ifndef LIBW_GRAPHICS_MESHASSET
+#define LIBW_GRAPHICS_MESHASSET
 
 #include <w/base/Class.hpp>
 
