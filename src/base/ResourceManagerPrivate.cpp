@@ -47,6 +47,10 @@ namespace w
             LOGE("ResourceManagerPrivate (==ResourceManager in public API!) exists already.");
             throw Exception("ResourceManagerPrivate exists already.");
         }
+        else
+        {
+            //LOGI("ResourceManagerPrivate created.");
+        }
         singleton_ = this;
     }
 

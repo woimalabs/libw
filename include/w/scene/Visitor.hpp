@@ -44,8 +44,13 @@ namespace w
         public:
             UNCOPYABLE(Visitor)
 
-            Visitor();
-            virtual ~Visitor();
+            Visitor()
+            {
+            }
+
+            virtual ~Visitor()
+            {
+            }
 
             /**
              * Called when visitor is entering the node.

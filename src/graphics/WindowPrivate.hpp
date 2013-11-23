@@ -39,6 +39,7 @@ namespace w
     {
     public:
         UNCOPYABLE(WindowPrivate)
+        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
         WindowPrivate(const std::string& name, unsigned int width, unsigned int height, const Eigen::Vector4f& clearColor);
         ~WindowPrivate();
