@@ -28,7 +28,6 @@
 #include "w/scene/Node.hpp"
 #include "w/base/Class.hpp"
 #include "w/base/Lock.hpp"
-#include "w/base/Log.hpp"
 
 namespace w
 {
@@ -118,7 +117,6 @@ namespace w
 
         ReferencedPointer<ComponentPrivate> Node::componentPrivate(std::string const& type)
         {
-            LOG
             return private_.pointer()->component(type);
         }
 
