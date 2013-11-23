@@ -26,8 +26,9 @@
 #include "NodePrivate.hpp"
 #include "w/scene/Visitor.hpp"
 #include "w/scene/Node.hpp"
-#include <w/base/Class.hpp>
+#include "w/base/Class.hpp"
 #include "w/base/Lock.hpp"
+#include "w/base/Log.hpp"
 
 namespace w
 {
@@ -42,7 +43,8 @@ namespace w
         {
         }
 
-        Node::Node(Node const& r)
+        Node::Node(Node const& r):
+            private_(r.private_)
         {
         }
 
@@ -112,6 +114,12 @@ namespace w
             {
                 return ComponentNull;
             }
+        }
+
+        ReferencedPointer<ComponentPrivate> Node::componentPrivate(std::string const& type)
+        {
+            LOG
+            return private_.pointer()->component(type);
         }
 
         /*std::vector<Node> Node::children()
