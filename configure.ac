@@ -8,7 +8,11 @@ AC_ENABLE_SHARED
 AC_DISABLE_STATIC
 LT_INIT
 
-CPPFLAGS="$CPPFLAGS -I/usr/include/sigc++-2.0 -I/usr/local/include/sigc++-2.0 -I/usr/local/lib/sigc++-2.0/include  -I/usr/include/eigen2"
+CPPFLAGS="$CPPFLAGS \
+    -I/usr/include/sigc++-2.0 \
+    -I/usr/local/include/sigc++-2.0 \
+    -I/usr/local/lib/sigc++-2.0/include \
+    -I/usr/local/include/eigen3"
 
 AC_CONFIG_FILES([Makefile
     src/Makefile

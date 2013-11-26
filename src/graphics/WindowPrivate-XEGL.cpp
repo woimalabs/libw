@@ -27,6 +27,7 @@
 #include "w/base/String.hpp"
 #include <w/base/Exception.hpp>
 #include <w/base/Log.hpp>
+#include <w/math/Eigen.hpp>
 #include <fstream>
 #include <sstream>
 

@@ -26,7 +26,7 @@
 #ifndef WORLD_MATH_EIGEN
 #define WORLD_MATH_EIGEN
 
-#include <Eigen/Core>
+#include <Eigen/Dense>
 
 namespace w
 {

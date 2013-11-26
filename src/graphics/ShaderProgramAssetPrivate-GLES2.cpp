@@ -28,6 +28,7 @@
 #include "w/base/ResourceManagerPrivate.hpp"
 #include "w/base/Log.hpp"
 #include "w/base/UniquePointer.hpp"
+#include <w/math/Eigen.hpp>
 
 namespace w
 {
@@ -86,6 +87,18 @@ namespace w
             throw Exception("Failed to get attribute location");
         }
         return r;
+    }
+
+    void ShaderProgramAssetPrivate::setUniform(const std::string& symbolName, float value)
+    {
+        GLint id = uniform(symbolName.c_str());
+        glUniform1f(id, value);
+    }
+
+    void ShaderProgramAssetPrivate::setUniform(const std::string& symbolName, const Eigen::Matrix4f& values)
+    {
+        GLint id = uniform(symbolName.c_str());
+        glUniformMatrix4fv(id, 1, false, values.data());
     }
 
     void ShaderProgramAssetPrivate::start()

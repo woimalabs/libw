@@ -26,6 +26,7 @@
 #include "w/graphics/ShaderProgramAsset.hpp"
 #include "ShaderProgramAssetPrivate.hpp"
 #include "w/base/ResourceManagerPrivate.hpp"
+#include <w/math/Eigen.hpp>
 
 namespace w
 {
@@ -62,5 +63,15 @@ namespace w
             private_->increment();
         }
         return *this;
+    }
+
+    void ShaderProgramAsset::setUniform(const std::string& symbolName, float value)
+    {
+        private_->setUniform(symbolName, value);
+    }
+
+    void ShaderProgramAsset::setUniform(const std::string& symbolName, const Eigen::Matrix4f& value)
+    {
+        private_->setUniform(symbolName, value);
     }
 }

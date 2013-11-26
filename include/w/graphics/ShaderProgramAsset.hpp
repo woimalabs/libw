@@ -27,6 +27,7 @@
 #define LIBW_GRAPHICS_SHADERPROGRAMASSET
 
 #include <w/base/Class.hpp>
+#include <w/math/Eigen.hpp>
 #include <string>
 
 /**
@@ -52,6 +53,8 @@ namespace w
          */
         ShaderProgramAsset(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename);
         ~ShaderProgramAsset();
+        void setUniform(const std::string& symbolName, float value);
+        void setUniform(const std::string& symbolName, const Eigen::Matrix4f& value);
 
     private:
         friend class RendererPrivate;

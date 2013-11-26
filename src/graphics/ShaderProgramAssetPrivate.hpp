@@ -28,6 +28,7 @@
 
 #include <w/base/Referenced.hpp>
 #include <w/base/Class.hpp>
+#include <w/math/Eigen.hpp>
 #ifdef linux
     #include <GLES2/gl2.h>
 #else // APPLE
@@ -42,12 +43,17 @@ namespace w
     public:
         UNCOPYABLE(ShaderProgramAssetPrivate)
 
+        // Android, linux, iOS. All use GLES2.
+        typedef GLint ShaderId;
+
         ShaderProgramAssetPrivate(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename);
         ~ShaderProgramAssetPrivate();
 
         // Android, linux, iOS. All use GLES2.
-        GLint uniform(const std::string& symbolName);
-        GLint attribute(const std::string& symbolName);
+        ShaderId uniform(const std::string& symbolName);
+        ShaderId attribute(const std::string& symbolName);
+        void setUniform(const std::string& symbolName, float value);
+        void setUniform(const std::string& symbolName, const Eigen::Matrix4f& value);
         void start();
         static void stop();
 

@@ -23,9 +23,41 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include <Eigen/Dense>
+#include <w/math/Eigen.hpp>
 
 namespace w
 {
-    float Pi = 3.1415;
+    const float Pi = 3.1415;
+
+    namespace Math
+    {
+        static Eigen::Matrix4f lookAt(const Eigen::Vector3f& position, const Eigen::Vector3f& target, const Eigen::Vector3f& up)
+        {
+            Eigen::Matrix3f tmp;
+            tmp.col(2) = (position-target).normalized();
+            tmp.col(0) = up.cross(tmp.col(2)).normalized();
+            tmp.col(1) = tmp.col(2).cross(tmp.col(0));
+
+            Eigen::Matrix4f r;
+            r.topLeftCorner<3, 3>() = tmp.transpose();
+            r.topRightCorner<3, 1>() = -tmp.transpose() * position;
+            return r;
+        }
+
+        static Eigen::Matrix4f perspective(float fovY, float aspect, float near, float far)
+        {
+            float theta = fovY * 0.5f;
+            float range = far - near;
+            float invtan = 1.0f / tan(theta);
+
+            Eigen::Matrix4f r;
+            r(0, 0) = invtan / aspect;
+            r(1, 1) = invtan;
+            r(2, 2) = -(near + far) / range;
+            r(3, 2) = -1;
+            r(2, 3) = -2 * near * far / range;
+            r(3, 3) = 0;
+            return r;
+        }
+    }
 }
