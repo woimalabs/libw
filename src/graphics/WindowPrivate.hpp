@@ -25,6 +25,7 @@
 
 #include "w/base/Class.hpp"
 #include "w/base/Referenced.hpp"
+#include "w/base/Log.hpp"
 #include "w/math/Eigen.hpp"
 #ifdef linux
     #include <EGL/egl.h>
@@ -44,13 +45,15 @@ namespace w
         WindowPrivate(const std::string& name, unsigned int width, unsigned int height, const Eigen::Vector4f& clearColor);
         ~WindowPrivate();
 
-        unsigned int width()
+        unsigned int width() const
         {
+            LOGD("width: %d", width_);
             return width_;
         }
 
-        unsigned int height()
+        unsigned int height() const
         {
+            LOGD("height: %d", height_);
             return height_;
         }
 

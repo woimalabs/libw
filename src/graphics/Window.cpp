@@ -32,17 +32,19 @@ namespace w
     Window::Window(const std::string& name, unsigned int width, unsigned int height, const Eigen::Vector4f& clearColor):
         private_(new WindowPrivate(name, width, height, clearColor))
     {
+        LOGD("window!: %d, %d", private_->width(), private_->height());
         private_->increment();
     }
 
     Window::~Window()
     {
         private_->decrement();
+        private_ = NULL;
     }
 
-    Window::Window(Window const &r)
+    Window::Window(Window const &r):
+        private_(r.private_)
     {
-        private_ = r.private_;
         private_->increment();
     }
 
@@ -56,14 +58,14 @@ namespace w
         return *this;
     }
 
-    unsigned int Window::width()
+    unsigned int Window::width() const
     {
-        private_->width();
+        return private_->width();
     }
 
-    unsigned int Window::height()
+    unsigned int Window::height() const
     {
-        private_->height();
+        return private_->height();
     }
 
     void Window::clearBuffer()

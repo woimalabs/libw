@@ -45,6 +45,8 @@ namespace w
         xWindow_(0),
         xDisplay_(0)
     {
+        LOGD("windowpriv: %d, %d", width_, height_);
+
         xDisplay_ = XOpenDisplay(NULL);
         if (!xDisplay_)
         {
@@ -70,6 +72,7 @@ namespace w
 
     WindowPrivate::~WindowPrivate()
     {
+        LOGE("~WindowPrivate()");
         eglMakeCurrent(EGLDisplay_, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
         eglDestroyContext(EGLDisplay_, EGLContext_);
         eglDestroySurface(EGLDisplay_, EGLContext_);
@@ -85,8 +88,7 @@ namespace w
 
     void WindowPrivate::resize(unsigned int width, unsigned int height)
     {
-        width_ = width;
-        height_ = height;
+        LOGD("resize %d, %d", width, height);
 
         // Window and size change
         if (xWindow_)
@@ -105,6 +107,8 @@ namespace w
         // Ensure window
         width_ = width;
         height_ = height;
+        LOGD("resize2 %d, %d", width, height);
+
         if (!ensureXWindow())
         {
             throw Exception("Couldn't create X Window!");

@@ -39,8 +39,8 @@ namespace w
 
         Window(const std::string& name, unsigned int x, unsigned int y, const Eigen::Vector4f& clearColor);
         ~Window();
-        unsigned int width();
-        unsigned int height();
+        unsigned int width() const;
+        unsigned int height() const;
         void clearBuffer();
         void swapBuffers();
         void resize(unsigned int width, unsigned int height);

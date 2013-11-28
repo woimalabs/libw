@@ -41,13 +41,11 @@ namespace w
     class Thread
     {
     public:
+        Thread();
+        virtual ~Thread();
         void start();
         void join();
         virtual void threadFunction() = 0;
-
-    protected:
-        Thread();
-        virtual ~Thread();
 
     private:
         pthread_t thread_;
