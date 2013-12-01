@@ -80,7 +80,7 @@ struct TouchEvent
 
 /// Keyboard
 
-struct InputKey
+struct KeyboardSymbol
 {
     enum Enum
     {
@@ -98,7 +98,7 @@ struct KeyboardEvent
 
     bool keydown; // For caps & numlock: set when 1st pressed, unset when pressed again
     bool pressed;
-    InputKey::Enum symbol;
+    KeyboardSymbol::Enum symbol;
 };
 
 union Event

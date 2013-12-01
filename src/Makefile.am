@@ -46,7 +46,8 @@ library_base_include_HEADERS = \
 	../include/w/base/Lock.hpp \
 	../include/w/base/Thread.hpp \
 	../include/w/base/Timer.hpp \
-	../include/w/base/Sigcpp.hpp
+	../include/w/base/Sigcpp.hpp \
+	../include/w/base/UniquePointer.hpp
 
 library_audio_includedir = $(includedir)/w/audio
 library_audio_include_HEADERS = \
@@ -76,6 +77,7 @@ library_scene_include_HEADERS = \
 
 library_scene_includedir = $(includedir)/w/events
 library_scene_include_HEADERS = \
-	../include/w/events/EventBuffer.hpp
+	../include/w/events/EventBuffer.hpp \
+	../include/w/events/Event.hpp
 
 libw_la_LDFLAGS = -g -module -avoid-version -shared --disable-static

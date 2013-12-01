@@ -24,6 +24,7 @@
  */
 
 #include "w/events/EventBuffer.hpp"
+#include <w/base/Log.hpp>
 #include <w/base/Lock.hpp>
 #include <w/graphics/Window.hpp>
 
@@ -50,6 +51,10 @@ namespace w
     Event* EventBuffer::pop()
     {
         LOCK
+
+        #if defined(linux) && !defined(__ANDROID__)
+            pollXEvent();
+        #endif
 
         Event* r = NULL;
         if (events_.empty() == false)
@@ -78,30 +83,31 @@ namespace w
         if (xEvent.type == KeyPress)
         {
             event->type = EventType::Keyboard;
-            if (XLookupKeysym(&xEvent.xkey, 0) == XK_Escape)
+            if(XLookupKeysym(&xEvent.xkey, 0) == XK_Escape)
             {
-                event->keyboard.symbol = InputKey::Escape;
+                event->keyboard.symbol = KeyboardSymbol::Escape;
             }
-            else if (XLookupKeysym(&xEvent.xkey, 0) == XK_Up)
+            else if(XLookupKeysym(&xEvent.xkey, 0) == XK_Up)
             {
-                event->keyboard.symbol = InputKey::ArrowUp;
+                event->keyboard.symbol = KeyboardSymbol::ArrowUp;
             }
-            else if (XLookupKeysym(&xEvent.xkey, 0) == XK_Down)
+            else if(XLookupKeysym(&xEvent.xkey, 0) == XK_Down)
             {
-                event->keyboard.symbol = InputKey::ArrowDown;
+                event->keyboard.symbol = KeyboardSymbol::ArrowDown;
             }
-            else if (XLookupKeysym(&xEvent.xkey, 0) == XK_Left)
+            else if(XLookupKeysym(&xEvent.xkey, 0) == XK_Left)
             {
-                event->keyboard.symbol = InputKey::ArrowLeft;
+                event->keyboard.symbol = KeyboardSymbol::ArrowLeft;
             }
-            else if (XLookupKeysym(&xEvent.xkey, 0) == XK_Right)
+            else if(XLookupKeysym(&xEvent.xkey, 0) == XK_Right)
             {
-                event->keyboard.symbol = InputKey::ArrowRight;
+                event->keyboard.symbol = KeyboardSymbol::ArrowRight;
             }
         }
         else if (xEvent.type == ClientMessage)
         {
-
+            event->type = EventType::System;
+            event->system.flags = SystemFlags::Closed;
         }
         else if (xEvent.type == MotionNotify || xEvent.type == ButtonPress || xEvent.type == ButtonRelease)
         {
@@ -142,7 +148,12 @@ namespace w
             lastY = xEvent.xmotion.y;
             lastTouchAvailable = true;
         }
+        else
+        {
+            LOG
+        }
 
-        add(event);
+        // Here we have always an event
+        events_.push_back(event);
     }
 }

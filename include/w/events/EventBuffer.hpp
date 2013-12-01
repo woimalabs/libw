@@ -24,7 +24,7 @@
  */
 
 #ifndef LIBW_EVENTS_EVENTBUFFER
-#define W_EVENTS_EVENTBUFFER
+#define LIBW_EVENTS_EVENTBUFFER
 
 #include <w/base/Mutex.hpp>
 #include <w/graphics/Window.hpp>
@@ -47,15 +47,12 @@ namespace w
         Event* pop();
 
     private:
-        #if defined(linux) && !defined(__ANDROID__)
-            void pollXEvent();
-        #endif
         Mutex mutex_;
         std::list<Event*> events_;
-        #ifdef __ANDROID__
-        #elif __linux
+
+        #if defined(linux) && !defined(__ANDROID__)
+            void pollXEvent();
             Display* xDisplay_;
-        #elif __APPLE__
         #endif
     };
 }
