@@ -68,6 +68,11 @@ namespace w
         return private_->height();
     }
 
+    void Window::setClearColor(const Eigen::Vector4f& clearColor)
+    {
+        private_->setClearColor(clearColor);
+    }
+
     void Window::clearBuffer()
     {
         private_->clearBuffer();

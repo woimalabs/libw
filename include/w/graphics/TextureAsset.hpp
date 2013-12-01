@@ -46,6 +46,9 @@ namespace w
         TextureAsset(const std::string& filename);
         ~TextureAsset();
 
+        unsigned int width() const;
+        unsigned int height() const;
+
     private:
         friend class RendererPrivate;
         class TextureAssetPrivate* private_;

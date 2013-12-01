@@ -46,6 +46,7 @@ namespace w
         ~Window();
         unsigned int width() const;
         unsigned int height() const;
+        void setClearColor(const Eigen::Vector4f& clearColor);
         void clearBuffer();
         void swapBuffers();
         void resize(unsigned int width, unsigned int height);

@@ -44,8 +44,17 @@ namespace w
 
         TextureAssetPrivate(const std::string & filename);
         ~TextureAssetPrivate();
-        unsigned int width();
-        unsigned int height();
+
+        unsigned int width() const
+        {
+            return width_;
+        }
+
+        unsigned int height() const
+        {
+            return height_;
+        }
+
         void bind();
 
     private:

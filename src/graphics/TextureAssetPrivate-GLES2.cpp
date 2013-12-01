@@ -163,7 +163,7 @@ namespace w
 
         delete [] tmpData_;
         tmpData_ = NULL;
-        LOGD("TextureAssetPrivate(), created with id:%d. Size: %d x %d x %d", textureId_, width_, height_, bytesPerPixel_);
+        LOGD("TextureAssetPrivate(), created with id:%d, size: %d x %d, bpp: %d", textureId_, width_, height_, bytesPerPixel_);
     }
 
     void read(png_structp fileHandlePointer, png_bytep data, png_size_t length)

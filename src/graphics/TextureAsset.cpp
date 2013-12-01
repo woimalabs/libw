@@ -63,4 +63,14 @@ namespace w
         }
         return *this;
     }
+
+    unsigned int TextureAsset::width() const
+    {
+        return private_->width();
+    }
+
+    unsigned int TextureAsset::height() const
+    {
+        return private_->height();
+    }
 }

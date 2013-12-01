@@ -55,6 +55,11 @@ namespace w
             return height_;
         }
 
+        void setClearColor(const Eigen::Vector4f& clearColor)
+        {
+            clearColor_ = clearColor;
+        }
+
         void clearBuffer();
         void swapBuffers();
         void resize(unsigned int width, unsigned int height);

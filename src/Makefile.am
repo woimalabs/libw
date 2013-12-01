@@ -45,6 +45,7 @@ library_base_include_HEADERS = \
 	../include/w/base/Log.hpp \
 	../include/w/base/Lock.hpp \
 	../include/w/base/Thread.hpp \
+	../include/w/base/Timer.hpp \
 	../include/w/base/Sigcpp.hpp
 
 library_audio_includedir = $(includedir)/w/audio
