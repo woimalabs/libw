@@ -29,7 +29,8 @@ libw_la_SOURCES = \
 	graphics/RendererPrivate-GLES2.cpp \
 	scene/Component.cpp \
 	scene/NodePrivate.cpp \
-	scene/Node.cpp
+	scene/Node.cpp \
+	events/EventBuffer.cpp
 
 libw_la_CPPFLAGS = -I$(top_srcdir)/include
 
@@ -71,5 +72,9 @@ library_scene_include_HEADERS = \
 	../include/w/scene/ComponentPrivate.hpp \
 	../include/w/scene/Node.hpp \
 	../include/w/scene/Visitor.hpp
+
+library_scene_includedir = $(includedir)/w/events
+library_scene_include_HEADERS = \
+	../include/w/events/EventBuffer.hpp
 
 libw_la_LDFLAGS = -g -module -avoid-version -shared --disable-static

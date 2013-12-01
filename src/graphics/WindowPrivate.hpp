@@ -61,7 +61,7 @@ namespace w
         void swapBuffers();
         void resize(unsigned int width, unsigned int height);
         #ifdef ANDROID
-
+            //
         #elif linux
             Display* xDisplay() const;
         #endif

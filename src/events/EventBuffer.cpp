@@ -23,40 +23,41 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_GRAPHICS_WINDOW
-#define LIBW_GRAPHICS_WINDOW
-
-#include "w/base/Class.hpp"
-#include "w/math/Eigen.hpp"
-#include <string>
-#if defined(linux) && !defined(__ANDROID__)
-    #include <EGL/egl.h>
-    #include <GLES2/gl2.h>
-    #include <GLES2/gl2ext.h>
-#endif
+#include "w/events/EventBuffer.hpp"
+#include <w/base/Lock.hpp>
+#include <w/graphics/Window.hpp>
 
 namespace w
 {
-    class Window
+    #if __ANDROID__
+        EventBuffer::EventBuffer(const Window& window)
+    #elif __linux__
+        EventBuffer::EventBuffer(const Window& window):
+            xDisplay_(window.xDisplay())
+    #elif __APPLE__
+        EventBuffer::EventBuffer(const Window& window)
+    #endif
     {
-    public:
-        COPYABLE(Window)
+    }
 
-        Window(const std::string& name, unsigned int x, unsigned int y, const Eigen::Vector4f& clearColor);
-        ~Window();
-        unsigned int width() const;
-        unsigned int height() const;
-        void clearBuffer();
-        void swapBuffers();
-        void resize(unsigned int width, unsigned int height);
+    void EventBuffer::add(Event* event)
+    {
+        LOCK
 
-        #if defined(linux) && !defined(__ANDROID__)
-            Display* xDisplay() const;
-        #endif
+        events_.push_back(event);
+    }
 
-    private:
-        class WindowPrivate* private_;
-    };
+    Event* EventBuffer::pop()
+    {
+        LOCK
+
+        Event* r = NULL;
+        if (events_.empty() == false)
+        {
+            r = events_.front();
+            events_.pop_front();
+        }
+
+        return r;
+    }
 }
-
-#endif

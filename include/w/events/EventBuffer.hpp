@@ -23,40 +23,39 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_GRAPHICS_WINDOW
-#define LIBW_GRAPHICS_WINDOW
+#ifndef LIBW_EVENTS_EVENTBUFFER
+#define W_EVENTS_EVENTBUFFER
 
-#include "w/base/Class.hpp"
-#include "w/math/Eigen.hpp"
-#include <string>
-#if defined(linux) && !defined(__ANDROID__)
-    #include <EGL/egl.h>
-    #include <GLES2/gl2.h>
-    #include <GLES2/gl2ext.h>
+#include <w/base/Mutex.hpp>
+#include <w/graphics/Window.hpp>
+#include "w/events/Event.hpp"
+#if __ANDROID
+#elif __linux__
+    #include <X11/keysym.h>
+    #include <X11/Xlib.h>
+    #include <X11/Xutil.h>
 #endif
+#include <list>
 
 namespace w
 {
-    class Window
+    class EventBuffer
     {
     public:
-        COPYABLE(Window)
-
-        Window(const std::string& name, unsigned int x, unsigned int y, const Eigen::Vector4f& clearColor);
-        ~Window();
-        unsigned int width() const;
-        unsigned int height() const;
-        void clearBuffer();
-        void swapBuffers();
-        void resize(unsigned int width, unsigned int height);
-
-        #if defined(linux) && !defined(__ANDROID__)
-            Display* xDisplay() const;
-        #endif
+        EventBuffer(Window const& window);
+        void add(Event* event);
+        Event* pop();
 
     private:
-        class WindowPrivate* private_;
-    };
+        Mutex mutex_;
+        std::list<Event*> events_;
+    #ifdef __ANDROID__
+    #elif __linux
+        Display* xDisplay_;
+    #elif __APPLE__
+    #endif
+};
+
 }
 
 #endif
