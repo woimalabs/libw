@@ -47,15 +47,17 @@ namespace w
         Event* pop();
 
     private:
+        #if defined(linux) && !defined(__ANDROID__)
+            void pollXEvent();
+        #endif
         Mutex mutex_;
         std::list<Event*> events_;
-    #ifdef __ANDROID__
-    #elif __linux
-        Display* xDisplay_;
-    #elif __APPLE__
-    #endif
-};
-
+        #ifdef __ANDROID__
+        #elif __linux
+            Display* xDisplay_;
+        #elif __APPLE__
+        #endif
+    };
 }
 
 #endif

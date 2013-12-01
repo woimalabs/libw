@@ -26,18 +26,6 @@
 #ifndef LIBW_EVENTS_EVENT
 #define LIBW_EVENTS_EVENT
 
-struct InputKey
-{
-    enum Enum
-    {
-        Escape,
-        ArrowUp,
-        ArrowDown,
-        ArrowRight,
-        ArrowLeft
-    };
-};
-
 struct EventType
 {
     enum Enum
@@ -91,6 +79,18 @@ struct TouchEvent
 };
 
 /// Keyboard
+
+struct InputKey
+{
+    enum Enum
+    {
+        Escape,
+        ArrowUp,
+        ArrowDown,
+        ArrowRight,
+        ArrowLeft
+    };
+};
 
 struct KeyboardEvent
 {

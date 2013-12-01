@@ -57,7 +57,92 @@ namespace w
             r = events_.front();
             events_.pop_front();
         }
-
         return r;
+    }
+
+    void EventBuffer::pollXEvent()
+    {
+        if (xDisplay_ == NULL)
+        {
+            return;
+        }
+        else if (!XPending(xDisplay_))
+        {
+            return;
+        }
+
+        XEvent xEvent;
+        XNextEvent(xDisplay_, &xEvent);
+        Event* event = new Event;
+
+        if (xEvent.type == KeyPress)
+        {
+            event->type = EventType::Keyboard;
+            if (XLookupKeysym(&xEvent.xkey, 0) == XK_Escape)
+            {
+                event->keyboard.symbol = InputKey::Escape;
+            }
+            else if (XLookupKeysym(&xEvent.xkey, 0) == XK_Up)
+            {
+                event->keyboard.symbol = InputKey::ArrowUp;
+            }
+            else if (XLookupKeysym(&xEvent.xkey, 0) == XK_Down)
+            {
+                event->keyboard.symbol = InputKey::ArrowDown;
+            }
+            else if (XLookupKeysym(&xEvent.xkey, 0) == XK_Left)
+            {
+                event->keyboard.symbol = InputKey::ArrowLeft;
+            }
+            else if (XLookupKeysym(&xEvent.xkey, 0) == XK_Right)
+            {
+                event->keyboard.symbol = InputKey::ArrowRight;
+            }
+        }
+        else if (xEvent.type == ClientMessage)
+        {
+
+        }
+        else if (xEvent.type == MotionNotify || xEvent.type == ButtonPress || xEvent.type == ButtonRelease)
+        {
+            static bool lastTouchAvailable = false;
+            static unsigned int lastX = 0;
+            static unsigned int lastY = 0;
+
+            event->type = EventType::Touch;
+            event->touch.id = 0;
+            event->touch.x = xEvent.xmotion.x;
+            event->touch.y = xEvent.xmotion.y;
+            if (lastTouchAvailable == true)
+            {
+                event->touch.lastX = lastX;
+                event->touch.lastY = lastY;
+            }
+
+            unsigned int touchFlags;
+            if (xEvent.type == MotionNotify)
+            {
+                touchFlags += TouchFlags::Moved;
+            }
+            if (xEvent.type == ButtonPress)
+            {
+                touchFlags += TouchFlags::Pressed;
+            }
+            if (xEvent.type == ButtonRelease)
+            {
+                touchFlags += TouchFlags::Released;
+            }
+            if (lastX == xEvent.xmotion.x && lastY == xEvent.xmotion.y)
+            {
+                touchFlags += TouchFlags::Stationary;
+            }
+            event->touch.flags = touchFlags;
+
+            lastX = xEvent.xmotion.x;
+            lastY = xEvent.xmotion.y;
+            lastTouchAvailable = true;
+        }
+
+        add(event);
     }
 }

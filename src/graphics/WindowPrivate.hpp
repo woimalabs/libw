@@ -47,13 +47,11 @@ namespace w
 
         unsigned int width() const
         {
-            LOGD("width: %d", width_);
             return width_;
         }
 
         unsigned int height() const
         {
-            LOGD("height: %d", height_);
             return height_;
         }
 
