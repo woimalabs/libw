@@ -29,8 +29,7 @@
 #include <w/base/Mutex.hpp>
 #include <w/graphics/Window.hpp>
 #include "w/events/Event.hpp"
-#if __ANDROID
-#elif __linux__
+#if defined(linux) && !defined(__ANDROID__)
     #include <X11/keysym.h>
     #include <X11/Xlib.h>
     #include <X11/Xutil.h>

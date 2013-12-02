@@ -5,6 +5,7 @@ LOCAL_MODULE := libw
 LOCAL_C_INCLUDES := \
 $(LOCAL_PATH)/../../../../../libsigcpp/libsigc++-2.2.10 \
 $(LOCAL_PATH)/../../../../../libpng/src \
+$(LOCAL_PATH)/../../../../../eigen/eigen-3.2 \
 $(LOCAL_PATH)/../../../../include \
 $(LOCAL_PATH)/../../../../src
 
