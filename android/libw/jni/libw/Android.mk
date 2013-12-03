@@ -9,44 +9,34 @@ $(LOCAL_PATH)/../../../../../eigen/eigen-3.2 \
 $(LOCAL_PATH)/../../../../include \
 $(LOCAL_PATH)/../../../../src
 
-# Application source files:
+# application source files:
 SOURCE := ../../../../src
 
-LOCAL_SRC_FILES := \
-$(SOURCE)/base/Log.cpp \
-$(SOURCE)/base/Timer.cpp  \
-$(SOURCE)/base/Mutex.cpp \
-$(SOURCE)/base/Referenced.cpp \
-$(SOURCE)/base/Thread.cpp \
-$(SOURCE)/base/FileHandle.cpp \
-$(SOURCE)/base/ResourceManager.cpp \
-$(SOURCE)/base/ResourceManagerPrivate.cpp \
-\
-$(SOURCE)/audio/AudioResource.cpp \
-$(SOURCE)/audio/AudioEnginePrivate-Android.cpp \
-$(SOURCE)/audio/AudioEngine.cpp \
-$(SOURCE)/audio/AudioAssetPrivate.cpp \
-$(SOURCE)/audio/AudioAsset.cpp \
-$(SOURCE)/audio/TrackerSample.cpp \
-$(SOURCE)/audio/TrackerProducerThread.cpp \
-$(SOURCE)/audio/Tracker.cpp \
-\
-$(SOURCE)/graphics/Window.cpp \
-$(SOURCE)/graphics/WindowPrivate-Android.cpp \
-$(SOURCE)/graphics/ShaderProgramAsset.cpp \
-$(SOURCE)/graphics/ShaderProgramAssetPrivate-GLES2.cpp \
-$(SOURCE)/graphics/TextureAsset.cpp \
-$(SOURCE)/graphics/TextureAssetPrivate-GLES2.cpp \
-$(SOURCE)/graphics/MeshAsset.cpp \
-$(SOURCE)/graphics/MeshAssetPrivate-GLES2.cpp \
-$(SOURCE)/graphics/Renderer.cpp \
-$(SOURCE)/graphics/RendererPrivate-GLES2.cpp \
-\
-$(SOURCE)/scene/Component.cpp \
-$(SOURCE)/scene/NodePrivate.cpp \
-$(SOURCE)/scene/Node.cpp
+# files - base
+FILES_BASE := $(wildcard $(LOCAL_PATH)/$(SOURCE)/base/*.cpp)
 
-# Dependencies
+# files - audio
+FILES_AUDIO := $(wildcard $(LOCAL_PATH)/$(SOURCE)/audio/*.cpp)
+FILES_AUDIO := $(filter-out %/AudioEnginePrivate-iOS.cpp %/AudioEnginePrivate-Pulse.cpp, $(FILES_AUDIO))
+
+# files - graphics
+FILES_GRAPHICS := $(wildcard $(LOCAL_PATH)/$(SOURCE)/graphics/*.cpp)
+FILES_GRAPHICS := $(filter-out %/WindowPrivate-iOS.cpp %/WindowPrivate-XEGL.cpp, $(FILES_GRAPHICS))
+
+# files - scene
+FILES_SCENE := $(wildcard $(LOCAL_PATH)/$(SOURCE)/scene/*.cpp)
+
+# files - events
+FILES_EVENTS := $(wildcard $(LOCAL_PATH)/$(SOURCE)/events/*.cpp)
+
+# add files to sources
+LOCAL_SRC_FILES := $(FILES_BASE:$(LOCAL_PATH)/%=%)
+LOCAL_SRC_FILES += $(FILES_AUDIO:$(LOCAL_PATH)/%=%)
+LOCAL_SRC_FILES += $(FILES_GRAPHICS:$(LOCAL_PATH)/%=%)
+LOCAL_SRC_FILES += $(FILES_SCENE:$(LOCAL_PATH)/%=%)
+LOCAL_SRC_FILES += $(FILES_EVENTS:$(LOCAL_PATH)/%=%)
+
+# dependencies
 LOCAL_SHARED_LIBRARIES := libsigcpp libpng
 LOCAL_STATIC_LIBRARY   := libgnustl
 LOCAL_LDLIBS           := -llog -lz -lOpenSLES -landroid -lGLESv2
