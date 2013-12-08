@@ -75,16 +75,8 @@ namespace w
         // Use given texture
         texture.private_->bind();
 
-        // Blend need?
-        if (texture.hasAlpha())
-        {
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        }
-        else
-        {
-            glDisable(GL_BLEND);
-        }
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         // TODO: probably some nice API for next lines:
         glDisable(GL_DEPTH_TEST);
