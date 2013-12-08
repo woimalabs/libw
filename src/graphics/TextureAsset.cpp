@@ -73,4 +73,9 @@ namespace w
     {
         return private_->height();
     }
+
+    bool TextureAsset::hasAlpha() const
+    {
+        return private_->hasAlpha();
+    }
 }

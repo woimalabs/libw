@@ -52,7 +52,7 @@ namespace w
             return Eigen::Matrix4f::Identity();
         }
 
-        static Eigen::Matrix4f perspective(float fovY, float aspect, float near, float far)
+        static Eigen::Matrix4f perspectiveProjection(float fovY, float aspect, float near, float far)
         {
             float theta = fovY * 0.5f;
             float range = far - near;
@@ -85,35 +85,14 @@ namespace w
             return o;
         }
 
-        /* (void)loadOrthoMatrix:(GLfloat *)matrix left:(GLfloat)left right:(GLfloat)right bottom:(GLfloat)bottom top:(GLfloat)top near:(GLfloat)near far:(GLfloat)far;
+        static Eigen::Matrix4f scale(float x, float y, float z)
         {
-            GLfloat r_l = right - left;
-            GLfloat t_b = top - bottom;
-            GLfloat f_n = far - near;
-            GLfloat tx = - (right + left) / (right - left);
-            GLfloat ty = - (top + bottom) / (top - bottom);
-            GLfloat tz = - (far + near) / (far - near);
-
-            matrix[0] = 2.0f / r_l;
-            matrix[1] = 0.0f;
-            matrix[2] = 0.0f;
-            matrix[3] = tx;
-
-            matrix[4] = 0.0f;
-            matrix[5] = 2.0f / t_b;
-            matrix[6] = 0.0f;
-            matrix[7] = ty;
-
-            matrix[8] = 0.0f;
-            matrix[9] = 0.0f;
-            matrix[10] = 2.0f / f_n;
-            matrix[11] = tz;
-
-            matrix[12] = 0.0f;
-            matrix[13] = 0.0f;
-            matrix[14] = 0.0f;
-            matrix[15] = 1.0f;
-        }*/
+            Eigen::Matrix4f r = Eigen::Matrix4f::Identity();
+            r(0, 0) = x;
+            r(1, 1) = y;
+            r(2, 2) = z;
+            return r;
+        }
 
         static Eigen::Matrix4f orthogonalProjection(float w, float h, float near, float far)
         {
@@ -124,31 +103,6 @@ namespace w
             r(2, 2) = 1.0f / (far - near);
             r(2, 3) = -near / (far - near);
             r(3, 3) = 1.0f;
-            return r;
-        }
-
-        static Eigen::Matrix4f orthogonal(float left, float right, float bottom, float top, float near, float far)
-        {
-            Eigen::Matrix4f r = Eigen::Matrix4f::Identity();
-
-            float rl = right - left;
-            float tb = top - bottom;
-            float fn = far - near;
-            float tx = -(right + left) / (right - left);
-            float ty = -(top + bottom) / (top - bottom);
-            float tz = -(far + near) / (far - near);
-
-            r(0, 0) = 2.0f / rl;
-            r(0, 3) = tx;
-
-            r(1, 1) = 2.0f / tb;
-            r(1, 3) = ty;
-
-            r(2, 2) = 2.0f / fn;
-            r(2, 3) = tz;
-
-            r(3, 3) = 1.0f;
-
             return r;
         }
     }

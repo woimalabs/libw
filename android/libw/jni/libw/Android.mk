@@ -9,7 +9,7 @@ $(LOCAL_PATH)/../../../../../eigen/eigen-3.2 \
 $(LOCAL_PATH)/../../../../include \
 $(LOCAL_PATH)/../../../../src
 
-# application source files:
+# path to source files:
 SOURCE := ../../../../src
 
 # files - base

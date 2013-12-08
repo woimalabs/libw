@@ -48,6 +48,7 @@ namespace w
 
         unsigned int width() const;
         unsigned int height() const;
+        bool hasAlpha() const;
 
     private:
         friend class RendererPrivate;

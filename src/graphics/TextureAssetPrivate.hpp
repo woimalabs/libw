@@ -55,6 +55,11 @@ namespace w
             return height_;
         }
 
+        bool hasAlpha() const
+        {
+            return bytesPerPixel_ == 4;
+        }
+
         void bind();
 
     private:

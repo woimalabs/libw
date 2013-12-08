@@ -23,48 +23,41 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "EventBufferPrivate.hpp"
-#include "w/events/EventBuffer.hpp"
-#include <w/base/Log.hpp>
-#include <w/base/Lock.hpp>
+#ifndef LIBW_EVENTS_EVENTBUFFERPRIVATE
+#define LIBW_EVENTS_EVENTBUFFERPRIVATE
+
+#include <w/base/Class.hpp>
+#include <w/base/Referenced.hpp>
+#include <w/base/Mutex.hpp>
 #include <w/graphics/Window.hpp>
+#include "w/events/Event.hpp"
+#if defined(linux) && !defined(__ANDROID__)
+    #include <X11/keysym.h>
+    #include <X11/Xlib.h>
+    #include <X11/Xutil.h>
+#endif
+#include <list>
 
 namespace w
 {
-    EventBuffer::EventBuffer(const Window& window):
-        private_(new EventBufferPrivate(window))
+    class EventBufferPrivate: public Referenced
     {
-        private_->increment();
-    }
+    public:
+        UNCOPYABLE(EventBufferPrivate)
 
-    EventBuffer::EventBuffer(EventBuffer const& r):
-        private_(r.private_)
-    {
-        private_->increment();
-    }
+        EventBufferPrivate(Window const& window);
+        void add(Event* event);
+        Event* pop();
 
-    EventBuffer::~EventBuffer()
-    {
-        private_->decrement();
-    }
+    private:
+        Mutex mutex_;
+        std::list<Event*> events_;
 
-    EventBuffer& EventBuffer::operator=(EventBuffer const& r)
-    {
-        if (this != &r)
-        {
-            private_ = r.private_;
-            private_->increment();
-        }
-        return *this;
-    }
-
-    void EventBuffer::add(Event* event)
-    {
-        private_->add(event);
-    }
-
-    Event* EventBuffer::pop()
-    {
-        return private_->pop();
-    }
+        #if defined(linux) && !defined(__ANDROID__)
+            void pollXEvent();
+            Display* xDisplay_;
+        #endif
+    };
 }
+
+#endif
