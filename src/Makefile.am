@@ -30,7 +30,8 @@ libw_la_SOURCES = \
 	scene/Component.cpp \
 	scene/NodePrivate.cpp \
 	scene/Node.cpp \
-	events/EventBuffer.cpp
+	events/EventBuffer.cpp \
+	events/EventBufferPrivate.cpp
 
 libw_la_CPPFLAGS = -I$(top_srcdir)/include
 

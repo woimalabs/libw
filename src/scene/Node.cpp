@@ -28,6 +28,7 @@
 #include "w/scene/Node.hpp"
 #include "w/base/Class.hpp"
 #include "w/base/Lock.hpp"
+#include "w/base/Log.hpp"
 
 namespace w
 {
