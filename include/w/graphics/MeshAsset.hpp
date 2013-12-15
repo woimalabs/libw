@@ -40,7 +40,7 @@ namespace w
          *
          * @note You must have GL context to create this class!
          *
-         * @param [in]  w       Width
+         * @param [in]  w       Width of the created mesh
          * @param [in]  h       Height of the created mesh
          * @param [in]  uStart  Texture u coodinate left
          * @param [in]  uEnd    Texture u coodinate right
@@ -49,6 +49,8 @@ namespace w
          */
         MeshAsset(float w, float h, float uStart, float uEnd, float vStart, float vEnd);
         ~MeshAsset();
+        float width() const;
+        float height() const;
 
     private:
         friend class RendererPrivate;

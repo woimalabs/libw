@@ -68,23 +68,6 @@ namespace w
             return r;
         }
 
-        static Eigen::Matrix4f ortho(float left, float right, float bottom, float top, float near, float far)
-        {
-            float width(right - left);
-            float height(top - bottom);
-            float depth(far - near);
-
-            Eigen::Matrix4f o = Eigen::Matrix4f::Zero();
-            o(0, 0) = 2.0f / width;
-            o(0, 3) = (right + left) / width;
-            o(1, 1) = 2.0f / height;
-            o(1, 3) = (top + bottom) / height;
-            o(2, 2) = -2.0f / depth;
-            o(2, 3) = (far + near) / depth;
-
-            return o;
-        }
-
         static Eigen::Matrix4f scale(float x, float y, float z)
         {
             Eigen::Matrix4f r = Eigen::Matrix4f::Identity();

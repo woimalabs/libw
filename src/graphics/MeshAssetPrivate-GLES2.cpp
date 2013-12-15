@@ -29,6 +29,8 @@
 namespace w
 {
     MeshAssetPrivate::MeshAssetPrivate(float width, float height, float uStart, float uEnd, float vStart, float vEnd):
+        width_(width),
+        height_(height),
         vbo_(0),
         tmpVertices_(NULL),
         vertexCount_(0)
@@ -135,7 +137,7 @@ namespace w
         glBindBuffer(GL_ARRAY_BUFFER, vbo_);
     }
 
-    unsigned int MeshAssetPrivate::vertexCount()
+    unsigned int MeshAssetPrivate::vertexCount() const
     {
        return vertexCount_;
     }
@@ -161,5 +163,15 @@ namespace w
 
         delete [] tmpVertices_;
         tmpVertices_ = NULL;
+    }
+
+    float MeshAssetPrivate::width() const
+    {
+        return width_;
+    }
+
+    float MeshAssetPrivate::height() const
+    {
+        return height_;
     }
 }

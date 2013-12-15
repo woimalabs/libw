@@ -67,15 +67,20 @@ namespace w
         };
 
         MeshAssetPrivate(float width, float height, float uStart, float uEnd, float vStart, float vEnd);
-        ~MeshAssetPrivate();
+        virtual ~MeshAssetPrivate();
         // Android, linux, iOS. All use GLES2
         const std::vector<StrideComponent>& strideComponents() const;
         void bind();
-        unsigned int vertexCount();
+        unsigned int vertexCount() const;
+        float width() const;
+        float height() const;
 
     private:
         Mutex mutex_;
         void loadGPUData();
+
+        float width_;
+        float height_;
 
         // Android, linux, iOS. All use GLES2
         GLuint vbo_;
