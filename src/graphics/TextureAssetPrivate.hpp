@@ -53,12 +53,18 @@ namespace w
         }
 
         void bind();
+        float xUsage() const;
+        float yUsage() const;
 
     private:
+        float xUsage_;
+        float yUsage_;
+
         void loadFileData();
         void loadGPUData();
 
         unsigned int bytesPerPixel_;
+
         unsigned int width_;
         unsigned int height_;
 

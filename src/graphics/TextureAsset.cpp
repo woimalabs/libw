@@ -74,6 +74,16 @@ namespace w
         return private_->height();
     }
 
+    float TextureAsset::xUsage() const
+    {
+        return private_->xUsage();
+    }
+
+    float TextureAsset::yUsage() const
+    {
+        return private_->yUsage();
+    }
+
     bool TextureAsset::hasAlpha() const
     {
         return private_->hasAlpha();

@@ -27,7 +27,8 @@
 #include "w/base/UniquePointer.hpp"
 #include <w/base/Log.hpp>
 #include <w/base/Exception.hpp>
-#include "w/base/ResourceManagerPrivate.hpp"
+#include <w/base/ResourceManagerPrivate.hpp>
+#include <w/math/Math.hpp>
 #include <memory>
 
 namespace w
@@ -115,13 +116,19 @@ namespace w
         }
 
         // Copy to continous memory
-        width_ = png_get_image_width(png, info);
-        height_ = png_get_image_height(png, info);
+        unsigned int imageWidth = png_get_image_width(png, info);
+        unsigned int imageHeight = png_get_image_height(png, info);
+        width_ = math::nextPowerOfTwo(imageWidth);
+        height_ = math::nextPowerOfTwo(imageHeight);
+
+        // LOGD("next POT w x h: %d x %d", textureWidth_, textureHeight_);
+        xUsage_ = (float)imageWidth / (float)width_;
+        yUsage_ = (float)imageHeight / (float)height_;
 
         tmpData_ = new char[width_ * height_ * bytesPerPixel_];
-        for (unsigned int i = 0; i < height_; i++)
+        for (unsigned int i = 0; i < imageHeight; i++)
         {
-            memcpy(&(tmpData_)[bytesPerPixel_ * width_ * i], rows[height_ - i - 1], width_ * bytesPerPixel_);
+            memcpy(&(tmpData_)[width_ * bytesPerPixel_ * i], rows[imageHeight - i - 1], imageWidth * bytesPerPixel_);
         }
     }
 
@@ -131,6 +138,16 @@ namespace w
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, textureId_);
+    }
+
+    float TextureAssetPrivate::xUsage() const
+    {
+        return xUsage_;
+    }
+
+    float TextureAssetPrivate::yUsage() const
+    {
+        return xUsage_;
     }
 
     void TextureAssetPrivate::loadGPUData()

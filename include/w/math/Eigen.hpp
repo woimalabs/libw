@@ -23,8 +23,8 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef WORLD_MATH_EIGEN
-#define WORLD_MATH_EIGEN
+#ifndef LIBW_MATH_EIGEN
+#define LIBW_MATH_EIGEN
 
 #include <Eigen/Dense>
 

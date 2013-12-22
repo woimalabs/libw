@@ -23,6 +23,9 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
+#ifndef LIBW_MATH_MATH
+#define LIBW_MATH_MATH
+
 #include <w/math/Eigen.hpp>
 
 namespace w
@@ -88,5 +91,22 @@ namespace w
             r(3, 3) = 1.0f;
             return r;
         }
+
+        /**
+         * Returns next power of two size for given number.
+         */
+        static unsigned int nextPowerOfTwo(unsigned int n)
+        {
+            n--;
+            n |= n >> 1;
+            n |= n >> 2;
+            n |= n >> 4;
+            n |= n >> 8;
+            n |= n >> 16;
+            n++;
+            return n;
+        }
     }
 }
+
+#endif
