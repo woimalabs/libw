@@ -30,6 +30,7 @@
 #include <cstddef>
 using std::ptrdiff_t; // NOTE: sigc++ needs this line
 #include <sigc++/signal.h>
+#include "w/base/Log.hpp"
 
 namespace w
 {
@@ -40,19 +41,19 @@ namespace w
 
         unsigned int increment()
         {
-            unsigned int r = ++referenceCount_;
-            return r;
+            referenceCount_++;
+            return referenceCount_;
         }
 
         unsigned int decrement()
         {
-            unsigned int r = --referenceCount_;
-            if (r <= 0)
+            referenceCount_--;
+            if (referenceCount_ <= 0)
             {
                 destroy.emit(id_);
                 delete this;
             }
-            return r;
+            return referenceCount_;
         }
 
         unsigned int referenceCount()
