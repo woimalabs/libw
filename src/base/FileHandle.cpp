@@ -55,7 +55,7 @@ namespace w
     // Opens the file and defines byte size
     void FileHandle::open()
     {
-        LOGD("opening file: %s", filename_.c_str());
+        // LOGD("opening file: %s", filename_.c_str());
 
         #ifdef ANDROID
             file_ = AAssetManager_open(androidAssetManager_, filename_.c_str(), AASSET_MODE_STREAMING);

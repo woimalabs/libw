@@ -117,7 +117,7 @@ namespace w
         // Copy to continous memory
         width_ = png_get_image_width(png, info);
         height_ = png_get_image_height(png, info);
-        LOGD("libpng w x h: %d x %d", width_, height_);
+
         tmpData_ = new char[width_ * height_ * bytesPerPixel_];
         for (unsigned int i = 0; i < height_; i++)
         {

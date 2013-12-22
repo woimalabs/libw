@@ -23,41 +23,25 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_THREAD
-#define LIBW_THREAD
-
-#include <pthread.h>
-#include <string>
+#ifndef EVENTS_APPLETOUCHTRACKER
+#define EVENTS_APPLETOUCHTRACKER
 
 namespace w
 {
-    struct ThreadCppWrapper;
-
-    /**
-     * @class Thread
-     *
-     * Base class for thread classes.
-     */
-    class Thread
+    class AppleTouchTracker
     {
     public:
-        Thread();
-        virtual ~Thread();
-        void start();
-        //void join();
-        virtual void threadFunction() = 0;
+        static unsigned int const MaxTouches = 4; // Older iOS devices have max 4, so we limit to that
+        
+        AppleTouchTracker () {};
+        
+        int getId(void* touch);
+        int addNewTouch(void* touch);
+        int endTouch(void* touch);
+        int getTouchesActive();
 
     private:
-        pthread_t thread_;
-        friend struct ThreadCToCppWrapper;
-    };
-
-    struct ThreadCppWrapper
-    {
-        static void protectedCppRun(Thread* other)
-        {
-            other->threadFunction();
-        }
+        void* touches_[MaxTouches];
     };
 }
 

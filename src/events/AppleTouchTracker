@@ -1,0 +1,33 @@
+//
+//  TouchTrackerApple.h
+//  mothership
+//
+//  Created by Antti Peuhkurinen on 7/2/12.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//
+
+#ifndef INPUT_APPLETOUCHTRACKER
+#define INPUT_APPLETOUCHTRACKER
+
+namespace Wm {
+    
+class AppleTouchTracker
+{
+public:
+    static unsigned int const MaxTouches = 4; // Older devices have only 4
+    
+    AppleTouchTracker () {};
+    
+    int getId(void* touch);
+    int addNewTouch(void* touch);
+    int endTouch(void* touch);
+    int getTouchesActive();
+
+private:
+    void* touches_[MaxTouches];
+
+};
+    
+}
+
+#endif

@@ -36,8 +36,17 @@ namespace w
     {
         try
         {
+            #ifdef __APPLE__
+                NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; // Top-level pool
+            #endif
+            
             Thread* tmp = (Thread*)instance;
             ThreadCppWrapper::protectedCppRun(tmp);
+            
+            #ifdef __APPLE__
+                [pool release];  // Release the objects in the pool.
+            #endif
+
         }
         catch (Exception const& e)
         {
@@ -66,7 +75,7 @@ namespace w
         {
             throw Exception("pthread_attr_init failed");
         }
-        pthread_attr_setdetachstate(&type, PTHREAD_CREATE_JOINABLE);
+        pthread_attr_setdetachstate(&type, PTHREAD_CREATE_DETACHED);
 
         int result = pthread_create(&thread_, &type, threadFunction_, (void*)this);
         if (result == EAGAIN)
@@ -83,7 +92,7 @@ namespace w
         }
     }
 
-    void Thread::join()
+    /*void Thread::join()
     {
         int result = pthread_join(thread_, NULL);
         if (result == EINVAL)
@@ -98,5 +107,5 @@ namespace w
         {
             throw Exception("Thread::join, errno:EDEADLK");
         }
-    }
+    }*/
 }
