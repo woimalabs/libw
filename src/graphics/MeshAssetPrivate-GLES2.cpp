@@ -35,7 +35,6 @@ namespace w
         tmpVertices_(NULL),
         vertexCount_(0)
     {
-        LOGD("w:%f, h:%f, us:%f, ue:%f, vs:%f, ve:%f", width, height, uStart, uEnd, vStart, vEnd);
         /*
          * Rectangle we create has two triangles:
          *
