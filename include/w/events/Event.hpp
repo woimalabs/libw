@@ -26,89 +26,92 @@
 #ifndef LIBW_EVENTS_EVENT
 #define LIBW_EVENTS_EVENT
 
-struct EventType
+namespace w
 {
-    enum Enum
+    struct EventType
     {
-        System,
-        Touch,
-        Keyboard,
-        Unknown
+        enum Enum
+        {
+            System,
+            Touch,
+            Keyboard,
+            Unknown
+        };
     };
-};
 
-/// System
+    /// System
 
-struct SystemFlags
-{
-    enum Enum
+    struct SystemFlags
     {
-        Closed = 0x01
-        // TODO
+        enum Enum
+        {
+            Closed = 0x01
+            // TODO
+        };
     };
-};
 
-struct SystemEvent
-{
-    EventType::Enum type;
-    unsigned int flags;
-};
-
-/// Touch
-
-struct TouchFlags
-{
-    enum Enum
+    struct SystemEvent
     {
-        Pressed = 0x01,
-        Moved = 0x02,
-        Stationary = 0x04,
-        Released = 0x08
+        EventType::Enum type;
+        unsigned int flags;
     };
-};
 
-struct TouchEvent
-{
-    EventType::Enum type;
-    unsigned int id;
-    float x;
-    float y;
-    float lastX;
-    float lastY;
-    unsigned int flags;
-};
+    /// Touch
 
-/// Keyboard
-
-struct KeyboardSymbol
-{
-    enum Enum
+    struct TouchFlags
     {
-        Escape,
-        ArrowUp,
-        ArrowDown,
-        ArrowRight,
-        ArrowLeft
+        enum Enum
+        {
+            Pressed = 0x01,
+            Moved = 0x02,
+            Stationary = 0x04,
+            Released = 0x08
+        };
     };
-};
 
-struct KeyboardEvent
-{
-    EventType::Enum type;
+    struct TouchEvent
+    {
+        EventType::Enum type;
+        unsigned int id;
+        float x;
+        float y;
+        float lastX;
+        float lastY;
+        unsigned int flags;
+    };
 
-    bool keydown; // For caps & numlock: set when 1st pressed, unset when pressed again
-    bool pressed;
-    KeyboardSymbol::Enum symbol;
-};
+    /// Keyboard
 
-union Event
-{
-    EventType::Enum type;
+    struct KeyboardSymbol
+    {
+        enum Enum
+        {
+            Escape,
+            ArrowUp,
+            ArrowDown,
+            ArrowRight,
+            ArrowLeft
+        };
+    };
 
-    SystemEvent system;
-    TouchEvent touch;
-    KeyboardEvent keyboard;
-};
+    struct KeyboardEvent
+    {
+        EventType::Enum type;
+
+        bool keydown; // For caps & numlock: set when 1st pressed, unset when pressed again
+        bool pressed;
+        KeyboardSymbol::Enum symbol;
+    };
+
+    union Event
+    {
+        EventType::Enum type;
+
+        SystemEvent system;
+        TouchEvent touch;
+        KeyboardEvent keyboard;
+    };
+}
 
 #endif
 

@@ -45,7 +45,6 @@
 		FBBD024D182692D1009D6386 /* pngwutil.c in Sources */ = {isa = PBXBuildFile; fileRef = FBBD023E182692D1009D6386 /* pngwutil.c */; };
 		FBC49DC9186738A300A13B74 /* EventBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBC49DC6186738A300A13B74 /* EventBuffer.cpp */; };
 		FBC49DCA186738A300A13B74 /* EventBufferPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBC49DC7186738A300A13B74 /* EventBufferPrivate.cpp */; };
-		FBC49DD21867493E00A13B74 /* AppleTouchTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBC49DD01867493E00A13B74 /* AppleTouchTracker.cpp */; };
 		FBF1D49A181465B500B11368 /* AudioAsset.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBF1D48C181465B500B11368 /* AudioAsset.cpp */; };
 		FBF1D49B181465B500B11368 /* AudioAssetPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBF1D48D181465B500B11368 /* AudioAssetPrivate.cpp */; };
 		FBF1D49C181465B500B11368 /* AudioEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBF1D48F181465B500B11368 /* AudioEngine.cpp */; };
@@ -143,8 +142,6 @@
 		FBC49DC6186738A300A13B74 /* EventBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EventBuffer.cpp; path = events/EventBuffer.cpp; sourceTree = "<group>"; };
 		FBC49DC7186738A300A13B74 /* EventBufferPrivate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = EventBufferPrivate.cpp; path = events/EventBufferPrivate.cpp; sourceTree = "<group>"; };
 		FBC49DC8186738A300A13B74 /* EventBufferPrivate.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = EventBufferPrivate.hpp; path = events/EventBufferPrivate.hpp; sourceTree = "<group>"; };
-		FBC49DD01867493E00A13B74 /* AppleTouchTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AppleTouchTracker.cpp; path = events/AppleTouchTracker.cpp; sourceTree = "<group>"; };
-		FBC49DD11867493E00A13B74 /* AppleTouchTracker.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AppleTouchTracker.hpp; path = events/AppleTouchTracker.hpp; sourceTree = "<group>"; };
 		FBF1D48C181465B500B11368 /* AudioAsset.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = AudioAsset.cpp; path = audio/AudioAsset.cpp; sourceTree = "<group>"; };
 		FBF1D48D181465B500B11368 /* AudioAssetPrivate.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = AudioAssetPrivate.cpp; path = audio/AudioAssetPrivate.cpp; sourceTree = "<group>"; };
 		FBF1D48E181465B500B11368 /* AudioAssetPrivate.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = AudioAssetPrivate.hpp; path = audio/AudioAssetPrivate.hpp; sourceTree = "<group>"; };
@@ -325,8 +322,6 @@
 		FBC49DC51867389700A13B74 /* events */ = {
 			isa = PBXGroup;
 			children = (
-				FBC49DD01867493E00A13B74 /* AppleTouchTracker.cpp */,
-				FBC49DD11867493E00A13B74 /* AppleTouchTracker.hpp */,
 				FBC49DC6186738A300A13B74 /* EventBuffer.cpp */,
 				FBC49DC7186738A300A13B74 /* EventBufferPrivate.cpp */,
 				FBC49DC8186738A300A13B74 /* EventBufferPrivate.hpp */,
@@ -471,7 +466,6 @@
 				FBBD0243182692D1009D6386 /* pngpread.c in Sources */,
 				FBBD023F182692D1009D6386 /* png.c in Sources */,
 				FBBD0248182692D1009D6386 /* pngset.c in Sources */,
-				FBC49DD21867493E00A13B74 /* AppleTouchTracker.cpp in Sources */,
 				FBF1D49F181465B500B11368 /* Tracker.cpp in Sources */,
 				FBBD0242182692D1009D6386 /* pngmem.c in Sources */,
 				FBF1D4AD1814663D00B11368 /* Window.cpp in Sources */,
