@@ -55,11 +55,10 @@ namespace w
         void bind();
         float xUsage() const;
         float yUsage() const;
+        unsigned int sourceBitmapWidth() const;
+        unsigned int sourceBitmapHeight() const;
 
     private:
-        float xUsage_;
-        float yUsage_;
-
         void loadFileData();
         void loadGPUData();
 
@@ -67,6 +66,10 @@ namespace w
 
         unsigned int width_;
         unsigned int height_;
+        float xUsage_;
+        float yUsage_;
+        unsigned int sourceBitmapWidth_;
+        unsigned int sourceBitmapHeight_;
 
         // Pointer where loaded data array is kept
         Mutex mutex_;

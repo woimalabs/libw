@@ -41,6 +41,10 @@ namespace w
         bytesPerPixel_(0),
         width_(0),
         height_(0),
+        xUsage_(0.0f),
+        yUsage_(0.0f),
+        sourceBitmapWidth_(0),
+        sourceBitmapHeight_(0),
         tmpData_(NULL)
     {
         loadFileData();
@@ -116,19 +120,19 @@ namespace w
         }
 
         // Copy to continous memory
-        unsigned int imageWidth = png_get_image_width(png, info);
-        unsigned int imageHeight = png_get_image_height(png, info);
-        width_ = math::nextPowerOfTwo(imageWidth);
-        height_ = math::nextPowerOfTwo(imageHeight);
+        sourceBitmapWidth_ = png_get_image_width(png, info);
+        sourceBitmapHeight_ = png_get_image_height(png, info);
+        width_ = math::nextPowerOfTwo(sourceBitmapWidth_);
+        height_ = math::nextPowerOfTwo(sourceBitmapHeight_);
 
         // LOGD("next POT w x h: %d x %d", textureWidth_, textureHeight_);
-        xUsage_ = (float)imageWidth / (float)width_;
-        yUsage_ = (float)imageHeight / (float)height_;
+        xUsage_ = (float)sourceBitmapWidth_ / (float)width_;
+        yUsage_ = (float)sourceBitmapHeight_ / (float)height_;
 
         tmpData_ = new char[width_ * height_ * bytesPerPixel_];
-        for (unsigned int i = 0; i < imageHeight; i++)
+        for (unsigned int i = 0; i < sourceBitmapHeight_; i++)
         {
-            memcpy(&(tmpData_)[width_ * bytesPerPixel_ * i], rows[imageHeight - i - 1], imageWidth * bytesPerPixel_);
+            memcpy(&(tmpData_)[width_ * bytesPerPixel_ * i], rows[sourceBitmapHeight_ - i - 1], sourceBitmapWidth_ * bytesPerPixel_);
         }
     }
 
@@ -147,7 +151,17 @@ namespace w
 
     float TextureAssetPrivate::yUsage() const
     {
-        return xUsage_;
+        return yUsage_;
+    }
+
+    unsigned int TextureAssetPrivate::sourceBitmapWidth() const
+    {
+        return sourceBitmapWidth_;
+    }
+
+    unsigned int TextureAssetPrivate::sourceBitmapHeight() const
+    {
+        return sourceBitmapHeight_;
     }
 
     void TextureAssetPrivate::loadGPUData()

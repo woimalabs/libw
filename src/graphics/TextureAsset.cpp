@@ -84,6 +84,16 @@ namespace w
         return private_->yUsage();
     }
 
+    unsigned int TextureAsset::sourceBitmapWidth() const
+    {
+        return private_->sourceBitmapWidth();
+    }
+
+    unsigned int TextureAsset::sourceBitmapHeight() const
+    {
+        return private_->sourceBitmapHeight();
+    }
+
     bool TextureAsset::hasAlpha() const
     {
         return private_->hasAlpha();

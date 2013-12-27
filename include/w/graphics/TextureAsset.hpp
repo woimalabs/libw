@@ -39,7 +39,12 @@ namespace w
         /**
          * Creates shader program.
          *
-         * @note You must have GL context to create this class!
+         * @note This class can load it self even without GL context. For
+         * drawing GL context is needed.
+         *
+         * @note If non power of two image data is loaded the texture will be
+         * created with up to next power of two size. And upper left corner of
+         * the area will be filled.
          *
          * @param [in]  filename    Texture filename to load
          */
@@ -51,6 +56,8 @@ namespace w
         bool hasAlpha() const;
         float xUsage() const;
         float yUsage() const;
+        unsigned int sourceBitmapWidth() const;
+        unsigned int sourceBitmapHeight() const;
 
     private:
         friend class RendererPrivate;
