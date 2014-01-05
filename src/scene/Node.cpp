@@ -23,7 +23,7 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "NodePrivate.hpp"
+#include "w/scene/NodePrivate.hpp"
 #include "w/scene/Visitor.hpp"
 #include "w/scene/Node.hpp"
 #include "w/base/Class.hpp"
@@ -39,37 +39,42 @@ namespace w
         {
         }
 
+        Node::Node(const ReferencedPointer<NodePrivate> & private__):
+            private_(private__)
+        {
+        }
+
         Node::~Node()
         {
         }
 
-        Node::Node(Node const& r):
+        Node::Node(const Node & r):
             private_(r.private_)
         {
         }
 
-        Node& Node::operator=(Node const& r)
+        Node& Node::operator=(const Node & r)
         {
             private_ = r.private_;
             return *this;
         }
 
-        Node::Node(Component const& c0):
+        Node::Node(const Component & c0):
             private_(ReferencedPointer<NodePrivate>(new NodePrivate(c0)))
         {
         }
 
-        Node::Node(Component const& c0, Component const& c1):
+        Node::Node(const Component & c0, const Component & c1):
             private_(ReferencedPointer<NodePrivate>(new NodePrivate(c0, c1)))
         {
         }
 
-        Node::Node(Component const& c0, Component const& c1, Component const& c2):
+        Node::Node(const Component & c0, const Component & c1, const Component & c2):
             private_(ReferencedPointer<NodePrivate>(new NodePrivate(c0, c1, c2)))
         {
         }
 
-        Node::Node(Component const& c0, Component const& c1, Component const& c2, Component const& c3):
+        Node::Node(const Component & c0, const Component & c1, const Component & c2, const Component & c3):
             private_(ReferencedPointer<NodePrivate>(new NodePrivate(c0, c1, c2, c3)))
         {
         }

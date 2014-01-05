@@ -74,10 +74,11 @@ library_scene_include_HEADERS = \
 	../include/w/scene/Component.hpp \
 	../include/w/scene/ComponentPrivate.hpp \
 	../include/w/scene/Node.hpp \
+	../include/w/scene/NodePrivate.hpp \
 	../include/w/scene/Visitor.hpp
 
-library_scene_includedir = $(includedir)/w/events
-library_scene_include_HEADERS = \
+library_events_includedir = $(includedir)/w/events
+library_events_include_HEADERS = \
 	../include/w/events/EventBuffer.hpp \
 	../include/w/events/Event.hpp
 

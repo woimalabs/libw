@@ -23,7 +23,7 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "NodePrivate.hpp"
+#include "w/scene/NodePrivate.hpp"
 #include "w/scene/Node.hpp"
 #include <w/base/Log.hpp>
 #include "w/base/Lock.hpp"

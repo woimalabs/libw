@@ -64,6 +64,9 @@ namespace w
             Component component(std::string const& type);
             ReferencedPointer<ComponentPrivate> componentPrivate(std::string const& type);
 
+        protected:
+            Node(const ReferencedPointer<NodePrivate> &);
+
         private:
             ReferencedPointer<NodePrivate> private_;
         };
