@@ -71,12 +71,16 @@ namespace w
         {
             if (this != &r)
             {
-                if (instance_ != NULL)
+                if (instance_ != r.instance_)
                 {
-                    instance_->decrement();
-                    instance_ = NULL;
+                    if (instance_ != NULL)
+                    {
+                        instance_->decrement();
+                        instance_ = NULL;
+                    }
                 }
 
+                // Assign r instance if it's other than NULL. NULL is our initial value.
                 if (r.instance_ != NULL)
                 {
                     instance_ = r.instance_;
