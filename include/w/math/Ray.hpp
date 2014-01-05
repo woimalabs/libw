@@ -37,7 +37,7 @@ namespace w
     public:
         Ray(const Eigen::Vector3f & location, const Eigen::Vector3f & directionUnit):
             location_(location),
-            directionUnit_(directionUnit_)
+            directionUnit_(directionUnit)
         {
         }
 
