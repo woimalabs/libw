@@ -45,7 +45,8 @@ namespace w
         yUsage_(0.0f),
         sourceBitmapWidth_(0),
         sourceBitmapHeight_(0),
-        tmpData_(NULL)
+        tmpData_(NULL),
+        textureId_(0)
     {
         loadFileData();
     }
@@ -55,6 +56,13 @@ namespace w
         if (tmpData_ != NULL)
         {
             delete [] tmpData_;
+            tmpData_ = NULL;
+        }
+
+        if (textureId_ != 0)
+        {
+            glDeleteTextures(1, &textureId_);
+            textureId_ = 0;
         }
     }
 
@@ -134,6 +142,8 @@ namespace w
         {
             memcpy(&(tmpData_)[width_ * bytesPerPixel_ * i], rows[sourceBitmapHeight_ - i - 1], sourceBitmapWidth_ * bytesPerPixel_);
         }
+
+        png_destroy_read_struct(&png, &info, 0);
     }
 
     void TextureAssetPrivate::bind()
@@ -166,8 +176,6 @@ namespace w
 
     void TextureAssetPrivate::loadGPUData()
     {
-        LOCK
-
         if (tmpData_ == NULL)
         {
             return;
