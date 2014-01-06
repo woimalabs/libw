@@ -63,7 +63,8 @@ namespace w
             void addComponent(Component const& component);
             Component component(std::string const& type);
             ReferencedPointer<ComponentPrivate> componentPrivate(std::string const& type);
-
+            unsigned int id();
+            
         protected:
             Node(const ReferencedPointer<NodePrivate> &);
 

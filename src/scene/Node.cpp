@@ -55,7 +55,10 @@ namespace w
 
         Node& Node::operator=(const Node & r)
         {
-            private_ = r.private_;
+            if (this != &r)
+            {
+                private_ = r.private_;
+            }
             return *this;
         }
 
@@ -81,14 +84,15 @@ namespace w
 
         void Node::accept(Visitor& visitor)
         {
+            Node dummy;
+
             visitor.enter(*this);
             std::vector<ReferencedPointer<NodePrivate> > tmp = private_.pointer()->children();
             for (std::vector<ReferencedPointer<NodePrivate> >::iterator i = tmp.begin(); i != tmp.end(); i++)
             {
                 ReferencedPointer<NodePrivate> tmp2 = *i;
-                Node tmp3;
-                tmp3.private_ = tmp2.pointer();
-                tmp3.accept(visitor);
+                dummy.private_ = tmp2.pointer();
+                dummy.accept(visitor);
             }
             visitor.leave(*this);
         }
@@ -124,6 +128,11 @@ namespace w
         ReferencedPointer<ComponentPrivate> Node::componentPrivate(std::string const& type)
         {
             return private_.pointer()->component(type);
+        }
+
+        unsigned int Node::id()
+        {
+            return private_.pointer()->id();
         }
 
         /*std::vector<Node> Node::children()

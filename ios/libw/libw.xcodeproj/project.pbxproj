@@ -105,7 +105,6 @@
 		FB79B698182667B800B1758B /* Component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Component.cpp; path = scene/Component.cpp; sourceTree = "<group>"; };
 		FB79B699182667B800B1758B /* Node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Node.cpp; path = scene/Node.cpp; sourceTree = "<group>"; };
 		FB79B69A182667B800B1758B /* NodePrivate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NodePrivate.cpp; path = scene/NodePrivate.cpp; sourceTree = "<group>"; };
-		FB79B69B182667B800B1758B /* NodePrivate.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = NodePrivate.hpp; path = scene/NodePrivate.hpp; sourceTree = "<group>"; };
 		FB79B6B318266F0400B1758B /* MeshAsset.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = MeshAsset.cpp; path = graphics/MeshAsset.cpp; sourceTree = "<group>"; };
 		FB79B6B418266F0400B1758B /* MeshAssetPrivate-GLES2.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = "MeshAssetPrivate-GLES2.cpp"; path = "graphics/MeshAssetPrivate-GLES2.cpp"; sourceTree = "<group>"; };
 		FB79B6B518266F0400B1758B /* MeshAssetPrivate.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = MeshAssetPrivate.hpp; path = graphics/MeshAssetPrivate.hpp; sourceTree = "<group>"; };
@@ -201,9 +200,8 @@
 			isa = PBXGroup;
 			children = (
 				FB79B698182667B800B1758B /* Component.cpp */,
-				FB79B699182667B800B1758B /* Node.cpp */,
 				FB79B69A182667B800B1758B /* NodePrivate.cpp */,
-				FB79B69B182667B800B1758B /* NodePrivate.hpp */,
+				FB79B699182667B800B1758B /* Node.cpp */,
 			);
 			name = scene;
 			sourceTree = "<group>";
