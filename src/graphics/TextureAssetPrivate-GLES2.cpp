@@ -132,17 +132,15 @@ namespace w
         sourceBitmapHeight_ = png_get_image_height(png, info);
         width_ = math::nextPowerOfTwo(sourceBitmapWidth_);
         height_ = math::nextPowerOfTwo(sourceBitmapHeight_);
-
-        // LOGD("next POT w x h: %d x %d", textureWidth_, textureHeight_);
         xUsage_ = (float)sourceBitmapWidth_ / (float)width_;
         yUsage_ = (float)sourceBitmapHeight_ / (float)height_;
-
         tmpData_ = new char[width_ * height_ * bytesPerPixel_];
         for (unsigned int i = 0; i < sourceBitmapHeight_; i++)
         {
             memcpy(&(tmpData_)[width_ * bytesPerPixel_ * i], rows[sourceBitmapHeight_ - i - 1], sourceBitmapWidth_ * bytesPerPixel_);
         }
 
+        // Free libpng's struct
         png_destroy_read_struct(&png, &info, 0);
     }
 
