@@ -25,7 +25,11 @@
 
 #include "w/base/Log.hpp"
 #include <cstdio>
-#include <cstdarg>
+#ifdef __APPLE__
+    #include <stdarg.h>
+#else
+    #include <cstdarg>
+#endif
 #include <string>
 #include <sstream>
 #ifndef __ANDROID__

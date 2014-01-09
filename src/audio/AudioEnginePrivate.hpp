@@ -52,13 +52,11 @@ namespace w
     class AudioEnginePrivate
     {
     public:
-        // UNCOPYABLE(AudioEnginePrivate)
+        UNCOPYABLE(AudioEnginePrivate)
+        
         friend class AudioEngine;
-#if __APPLE__
-        constexpr static float const VolumeOffThreshold = 0.001f;
-#else
+
         static float const VolumeOffThreshold = 0.001f;
-#endif
 
         struct State
         {
