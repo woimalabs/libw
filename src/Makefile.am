@@ -40,8 +40,11 @@ library_base_include_HEADERS = \
 	../include/w/base/Referenced.hpp \
 	../include/w/base/ReferencedPointer.hpp \
 	../include/w/base/Exception.hpp \
+	../include/w/base/FileHandle.hpp \
 	../include/w/base/Mutex.hpp \
+	../include/w/base/Resource.hpp \
 	../include/w/base/ResourceManager.hpp \
+	../include/w/base/ResourceManagerPrivate.hpp \
 	../include/w/base/Class.hpp \
 	../include/w/base/Log.hpp \
 	../include/w/base/Lock.hpp \
