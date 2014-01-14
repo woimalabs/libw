@@ -563,6 +563,7 @@
 					../../../libpng/src,
 					"../../../eigen/eigen-3.2",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -583,6 +584,7 @@
 					../../../libpng/src,
 					"../../../eigen/eigen-3.2",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
