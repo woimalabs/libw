@@ -45,7 +45,7 @@ namespace w
     {
     }
 
-    void RendererPrivate::draw(TextureAsset const& texture, MeshAsset const& mesh, ShaderProgramAsset const& shaderProgram)
+    void RendererPrivate::draw(const TextureAsset & texture, const MeshAsset & mesh, const ShaderProgramAsset & shaderProgram)
     {
         // Use given mesh
         mesh.private_->bind();
@@ -75,10 +75,9 @@ namespace w
         // Use given texture
         texture.private_->bind();
 
+        // TODO: probably some nice API for next lines:
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-        // TODO: probably some nice API for next lines:
         glDisable(GL_DEPTH_TEST);
         glDisable(GL_CULL_FACE);
 
@@ -86,7 +85,11 @@ namespace w
         glDrawArrays(GL_TRIANGLES, 0, mesh.private_->vertexCount());
     }
 
-    void RendererPrivate::drawLine(float p0x, float p0y, float p1x, float p1y, ShaderProgramAsset const& shaderProgram)
+    void RendererPrivate::draw(const PolygonAsset & polygon, const ShaderProgramAsset & shaderProgram)
+    {
+    }
+
+    void RendererPrivate::drawLine(float p0x, float p0y, float p1x, float p1y, const ShaderProgramAsset & shaderProgram)
     {
         // Use given shaderProgram
         shaderProgram.private_->start();

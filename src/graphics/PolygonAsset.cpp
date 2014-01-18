@@ -23,37 +23,35 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_GRAPHICS_MESHASSET
-#define LIBW_GRAPHICS_MESHASSET
-
-#include <w/base/Class.hpp>
+#include "w/graphics/PolygonAsset.hpp"
+#include "PolygonAssetPrivate.hpp"
 
 namespace w
 {
-    class MeshAsset
+    PolygonAsset::PolygonAsset(const std::vector<std::vector<PolygonAsset::Point> > & data):
+        private_(new PolygonAssetPrivate(data))
     {
-    public:
-        COPYABLE(MeshAsset)
+        private_->increment();
+    }
 
-        /**
-         * Creates a rectangular mesh.
-         *
-         * @param [in]  w       Width of the created mesh
-         * @param [in]  h       Height of the created mesh
-         * @param [in]  uStart  Texture u coodinate left
-         * @param [in]  uEnd    Texture u coodinate right
-         * @param [in]  vStart  Texture v coodinate bottom
-         * @param [in]  vEnd    Texture u coodinate ceiling
-         */
-        MeshAsset(float w, float h, float uStart, float uEnd, float vStart, float vEnd);
-        ~MeshAsset();
-        float width() const;
-        float height() const;
+    PolygonAsset::PolygonAsset(PolygonAsset const& r):
+        private_(r.private_)
+    {
+        private_->increment();
+    }
 
-    private:
-        friend class RendererPrivate;
-        class MeshAssetPrivate* private_;
-    };
+    PolygonAsset::~PolygonAsset()
+    {
+        private_->decrement();
+    }
+
+    PolygonAsset& PolygonAsset::operator=(PolygonAsset const& r)
+    {
+        if (this != &r)
+        {
+            private_ = r.private_;
+            private_->increment();
+        }
+        return *this;
+    }
 }
-
-#endif

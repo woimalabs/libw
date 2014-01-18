@@ -25,6 +25,8 @@ libw_la_SOURCES = \
 	graphics/TextureAssetPrivate-GLES2.cpp \
 	graphics/MeshAsset.cpp \
 	graphics/MeshAssetPrivate-GLES2.cpp \
+	graphics/PolygonAsset.cpp \
+	graphics/PolygonAssetPrivate-GLES2.cpp \
 	graphics/Renderer.cpp \
 	graphics/RendererPrivate-GLES2.cpp \
 	scene/Component.cpp \

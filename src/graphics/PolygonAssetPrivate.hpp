@@ -23,48 +23,42 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_GRAPHICS_RENDERERPRIVATE
-#define LIBW_GRAPHICS_RENDERERPRIVATE
+#ifndef LIBW_GRAPHICS_POLYGONASSETPRIVATE
+#define LIBW_GRAPHICS_POLYGONASSETPRIVATE
 
-#include <w/base/Class.hpp>
-#include <w/base/Referenced.hpp>
-#include <w/graphics/TextureAsset.hpp>
-#include <w/graphics/MeshAsset.hpp>
 #include <w/graphics/PolygonAsset.hpp>
-#include <w/graphics/ShaderProgramAsset.hpp>
+#include <w/base/Referenced.hpp>
+#include <w/base/Class.hpp>
 #ifdef __linux__ // & Android
     #include <GLES2/gl2.h>
 #else // APPLE
     #include <OpenGLES/ES2/gl.h>
 #endif
+#include <string>
+#include <vector>
 
 namespace w
 {
-    class RendererPrivate: public Referenced
+    class PolygonAssetPrivate: public Referenced
     {
     public:
-        UNCOPYABLE(RendererPrivate)
+        UNCOPYABLE(PolygonAssetPrivate)
 
-        RendererPrivate();
-        ~RendererPrivate();
+        PolygonAssetPrivate(const std::vector<std::vector<PolygonAsset::Point> > & data);
+        virtual ~PolygonAssetPrivate();
 
-        void draw(const TextureAsset &, const MeshAsset &, const ShaderProgramAsset &);
-
-        /**
-         * ShaderProgramAsset needs to have next attributes:
-         *  vertex shader:
-         *  -"attribute vec3 xyz;"
-         *  -"attribute vec2 uv;"
-         */
-        void draw(const PolygonAsset & polygon, const ShaderProgramAsset & shaderProgram);
-
-        /**
-         * ShaderProgramAsset needs to have "attribute vec3 xyz;"
-         */
-        void drawLine(float p0x, float p0y, float p1x, float p1y, const ShaderProgramAsset & shaderProgram);
+        // Android, linux, iOS. All use GLES2
+        void bind();
 
     private:
+        Mutex mutex_;
+        void loadGPUData();
+        std::vector<std::vector<PolygonAsset::Point> >* tmpData_;
 
+        // Android, linux, iOS. All use GLES2
+        GLuint vbo_;
+        GLfloat* tmpVertices_;
+        unsigned int polygonCount_;
     };
 }
 

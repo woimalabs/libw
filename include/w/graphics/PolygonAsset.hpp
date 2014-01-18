@@ -23,36 +23,30 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_GRAPHICS_MESHASSET
-#define LIBW_GRAPHICS_MESHASSET
+#ifndef LIBW_GRAPHICS_POLYGONASSET
+#define LIBW_GRAPHICS_POLYGONASSET
 
 #include <w/base/Class.hpp>
+#include <vector>
 
 namespace w
 {
-    class MeshAsset
+    class PolygonAsset
     {
     public:
-        COPYABLE(MeshAsset)
+        COPYABLE(PolygonAsset)
 
-        /**
-         * Creates a rectangular mesh.
-         *
-         * @param [in]  w       Width of the created mesh
-         * @param [in]  h       Height of the created mesh
-         * @param [in]  uStart  Texture u coodinate left
-         * @param [in]  uEnd    Texture u coodinate right
-         * @param [in]  vStart  Texture v coodinate bottom
-         * @param [in]  vEnd    Texture u coodinate ceiling
-         */
-        MeshAsset(float w, float h, float uStart, float uEnd, float vStart, float vEnd);
-        ~MeshAsset();
-        float width() const;
-        float height() const;
+        struct Point
+        {
+            float x, y, z;
+        };
+
+        PolygonAsset(const std::vector<std::vector<PolygonAsset::Point> > & data);
+        ~PolygonAsset();
 
     private:
         friend class RendererPrivate;
-        class MeshAssetPrivate* private_;
+        class PolygonAssetPrivate* private_;
     };
 }
 
