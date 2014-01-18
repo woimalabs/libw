@@ -83,15 +83,21 @@ namespace w
     {
         unsigned int bytesRead = 0;
         unsigned int bytesToBeRead = byteAmountToRead;
-        while (bytesToBeRead > 0)
+        while(true)
         {
             #ifdef ANDROID
                 unsigned int readAmount = AAsset_read(file_, targetBuffer, bytesToBeRead);
             #else // linux
                 size_t readAmount = fread(targetBuffer, 1, bytesToBeRead, file_);
             #endif
+
             bytesRead += readAmount;
             bytesToBeRead -= readAmount;
+
+            if(readAmount == 0 || bytesToBeRead <= 0)
+            {
+                break;
+            }
         }
         currentReadIndex_ += bytesRead;
         return bytesRead;
