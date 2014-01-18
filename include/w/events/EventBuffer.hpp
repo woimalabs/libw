@@ -39,19 +39,22 @@
 
 namespace w
 {
-    class EventBuffer
+    namespace events
     {
-    public:
-        COPYABLE(EventBuffer)
+        class EventBuffer
+        {
+        public:
+            COPYABLE(EventBuffer)
 
-        EventBuffer(Window const& window);
-        ~EventBuffer();
-        void add(Event* event);
-        Event* pop();
+            EventBuffer(graphics::Window const& window);
+            ~EventBuffer();
+            void add(Event* event);
+            Event* pop();
 
-    private:
-        class EventBufferPrivate* private_;
-    };
+        private:
+            class EventBufferPrivate* private_;
+        };
+    }
 }
 
 #endif

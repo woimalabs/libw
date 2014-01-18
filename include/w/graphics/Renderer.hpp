@@ -33,21 +33,24 @@
 
 namespace w
 {
-    class Renderer
+    namespace graphics
     {
-    public:
-        COPYABLE(Renderer)
+        class Renderer
+        {
+        public:
+            COPYABLE(Renderer)
 
-        Renderer();
-        ~Renderer();
-        void draw(TextureAsset const&, MeshAsset const&, ShaderProgramAsset const&);
+            Renderer();
+            ~Renderer();
+            void draw(TextureAsset const&, MeshAsset const&, ShaderProgramAsset const&);
 
-        // test
-        void drawLine(float p0x, float p0y, float p1x, float p1y, ShaderProgramAsset const& shaderProgram);
+            // test
+            void drawLine(float p0x, float p0y, float p1x, float p1y, ShaderProgramAsset const& shaderProgram);
 
-    private:
-        class RendererPrivate* private_;
-    };
+        private:
+            class RendererPrivate* private_;
+        };
+    }
 }
 
 #endif

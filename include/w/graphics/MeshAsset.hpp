@@ -30,30 +30,33 @@
 
 namespace w
 {
-    class MeshAsset
+    namespace graphics
     {
-    public:
-        COPYABLE(MeshAsset)
+        class MeshAsset
+        {
+        public:
+            COPYABLE(MeshAsset)
 
-        /**
-         * Creates a rectangular mesh.
-         *
-         * @param [in]  w       Width of the created mesh
-         * @param [in]  h       Height of the created mesh
-         * @param [in]  uStart  Texture u coodinate left
-         * @param [in]  uEnd    Texture u coodinate right
-         * @param [in]  vStart  Texture v coodinate bottom
-         * @param [in]  vEnd    Texture u coodinate ceiling
-         */
-        MeshAsset(float w, float h, float uStart, float uEnd, float vStart, float vEnd);
-        ~MeshAsset();
-        float width() const;
-        float height() const;
+            /**
+             * Creates a rectangular mesh.
+             *
+             * @param [in]  w       Width of the created mesh
+             * @param [in]  h       Height of the created mesh
+             * @param [in]  uStart  Texture u coodinate left
+             * @param [in]  uEnd    Texture u coodinate right
+             * @param [in]  vStart  Texture v coodinate bottom
+             * @param [in]  vEnd    Texture u coodinate ceiling
+             */
+            MeshAsset(float w, float h, float uStart, float uEnd, float vStart, float vEnd);
+            ~MeshAsset();
+            float width() const;
+            float height() const;
 
-    private:
-        friend class RendererPrivate;
-        class MeshAssetPrivate* private_;
-    };
+        private:
+            friend class RendererPrivate;
+            class MeshAssetPrivate* private_;
+        };
+    }
 }
 
 #endif

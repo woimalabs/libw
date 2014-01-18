@@ -33,190 +33,193 @@
 
 namespace w
 {
-    // Callback function for libpng
-    static void read(png_structp p, png_bytep data, png_size_t length);
-
-    TextureAssetPrivate::TextureAssetPrivate(const std::string& file):
-        Resource(file),
-        bytesPerPixel_(0),
-        width_(0),
-        height_(0),
-        xUsage_(0.0f),
-        yUsage_(0.0f),
-        sourceBitmapWidth_(0),
-        sourceBitmapHeight_(0),
-        tmpData_(NULL),
-        textureId_(0)
+    namespace graphics
     {
-        loadFileData();
-    }
+        // Callback function for libpng
+        static void read(png_structp p, png_bytep data, png_size_t length);
 
-    TextureAssetPrivate::~TextureAssetPrivate()
-    {
-        if (tmpData_ != NULL)
+        TextureAssetPrivate::TextureAssetPrivate(const std::string& file):
+            Resource(file),
+            bytesPerPixel_(0),
+            width_(0),
+            height_(0),
+            xUsage_(0.0f),
+            yUsage_(0.0f),
+            sourceBitmapWidth_(0),
+            sourceBitmapHeight_(0),
+            tmpData_(NULL),
+            textureId_(0)
         {
+            loadFileData();
+        }
+
+        TextureAssetPrivate::~TextureAssetPrivate()
+        {
+            if (tmpData_ != NULL)
+            {
+                delete [] tmpData_;
+                tmpData_ = NULL;
+            }
+
+            if (textureId_ != 0)
+            {
+                glDeleteTextures(1, &textureId_);
+                textureId_ = 0;
+            }
+        }
+
+        unsigned int TextureAssetPrivate::width() const
+        {
+            return width_;
+        }
+
+        unsigned int TextureAssetPrivate::height() const
+        {
+            return height_;
+        }
+
+        void TextureAssetPrivate::loadFileData()
+        {
+            static const int flags = PNG_TRANSFORM_STRIP_16 |
+            PNG_TRANSFORM_GRAY_TO_RGB | PNG_TRANSFORM_PACKING |
+            PNG_TRANSFORM_EXPAND;
+
+            // Create libpng structs
+            png_structp png = png_create_read_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
+            if (!png)
+            {
+                LOGE("Cannot open file %.!", filename().c_str());
+                throw Exception("Couldn't create libpng read struct.");
+            }
+
+            png_infop info = png_create_info_struct(png);
+            if (!info)
+            {
+                LOGE("Cannot open file %.!", filename().c_str());
+                throw Exception("Couldn't create libpng info struct.");
+            }
+
+            // Errors, TODO: check if this is needed.
+            if (setjmp(png_jmpbuf(png)))
+            {
+                LOGE("libpng error while reading file %s.", filename().c_str());
+                throw Exception("Could not load png file!");
+            }
+
+            // Start reading the file
+            UniquePointer<FileHandle> fileHandle(ResourceManagerPrivate::getFileHandle(filename()));
+
+            // Read the image header and data
+            png_set_read_fn(png, reinterpret_cast<void*>(fileHandle.pointer()), read);
+            png_read_png(png, info, flags, 0);
+            png_bytepp rows = png_get_rows(png, info);
+
+            // Set pixel format
+            if (png_get_color_type(png, info) == PNG_COLOR_TYPE_RGB)
+            {
+                bytesPerPixel_ = 3;
+            }
+            else if (png_get_color_type(png, info) == PNG_COLOR_TYPE_RGBA)
+            {
+                bytesPerPixel_ = 4;
+            }
+            else
+            {
+                LOGE("Cannot open file %.!", filename().c_str());
+                throw Exception("libpng unsupported color type.");
+            }
+
+            // Copy to continous memory
+            sourceBitmapWidth_ = png_get_image_width(png, info);
+            sourceBitmapHeight_ = png_get_image_height(png, info);
+            width_ = math::nextPowerOfTwo(sourceBitmapWidth_);
+            height_ = math::nextPowerOfTwo(sourceBitmapHeight_);
+            xUsage_ = (float)sourceBitmapWidth_ / (float)width_;
+            yUsage_ = (float)sourceBitmapHeight_ / (float)height_;
+            tmpData_ = new char[width_ * height_ * bytesPerPixel_];
+            for (unsigned int i = 0; i < sourceBitmapHeight_; i++)
+            {
+                memcpy(&(tmpData_)[width_ * bytesPerPixel_ * i], rows[sourceBitmapHeight_ - i - 1], sourceBitmapWidth_ * bytesPerPixel_);
+            }
+
+            // Free libpng's struct
+            png_destroy_read_struct(&png, &info, 0);
+        }
+
+        void TextureAssetPrivate::bind()
+        {
+            loadGPUData();
+
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, textureId_);
+        }
+
+        float TextureAssetPrivate::xUsage() const
+        {
+            return xUsage_;
+        }
+
+        float TextureAssetPrivate::yUsage() const
+        {
+            return yUsage_;
+        }
+
+        unsigned int TextureAssetPrivate::sourceBitmapWidth() const
+        {
+            return sourceBitmapWidth_;
+        }
+
+        unsigned int TextureAssetPrivate::sourceBitmapHeight() const
+        {
+            return sourceBitmapHeight_;
+        }
+
+        void TextureAssetPrivate::loadGPUData()
+        {
+            if (tmpData_ == NULL)
+            {
+                return;
+            }
+
+            // Create texture
+            GLenum format = bytesPerPixel_ == 3 ? GL_RGB : GL_RGBA;
+            GLint minFilter = GL_LINEAR_MIPMAP_NEAREST;
+            GLint magFilter = GL_LINEAR;
+
+            glGenTextures(1, &textureId_);
+            glBindTexture(GL_TEXTURE_2D, textureId_);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            glTexImage2D(GL_TEXTURE_2D,
+                0,
+                format,
+                width_,
+                height_,
+                0,
+                format,
+                GL_UNSIGNED_BYTE,
+                tmpData_);
+
+            if ((minFilter != GL_NEAREST && minFilter != GL_LINEAR) || (magFilter != GL_NEAREST && magFilter != GL_LINEAR))
+            {
+                glGenerateMipmap(GL_TEXTURE_2D);
+            }
+            else
+            {
+                LOGE("Error in texture filters!\n");
+            }
+
             delete [] tmpData_;
             tmpData_ = NULL;
+            LOGD("TextureAssetPrivate()::loadGPUData(), id:%d, %dx%dx%d", textureId_, width_, height_, bytesPerPixel_);
         }
 
-        if (textureId_ != 0)
+        void read(png_structp fileHandlePointer, png_bytep data, png_size_t length)
         {
-            glDeleteTextures(1, &textureId_);
-            textureId_ = 0;
+            FileHandle* fileHandle = reinterpret_cast<FileHandle*>(png_get_io_ptr(fileHandlePointer));
+            fileHandle->read(reinterpret_cast<char*>(data), length);
         }
-    }
-
-    unsigned int TextureAssetPrivate::width() const
-    {
-        return width_;
-    }
-
-    unsigned int TextureAssetPrivate::height() const
-    {
-        return height_;
-    }
-
-    void TextureAssetPrivate::loadFileData()
-    {
-        static const int flags = PNG_TRANSFORM_STRIP_16 |
-        PNG_TRANSFORM_GRAY_TO_RGB | PNG_TRANSFORM_PACKING |
-        PNG_TRANSFORM_EXPAND;
-
-        // Create libpng structs
-        png_structp png = png_create_read_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
-        if (!png)
-        {
-            LOGE("Cannot open file %.!", filename().c_str());
-            throw Exception("Couldn't create libpng read struct.");
-        }
-
-        png_infop info = png_create_info_struct(png);
-        if (!info)
-        {
-            LOGE("Cannot open file %.!", filename().c_str());
-            throw Exception("Couldn't create libpng info struct.");
-        }
-
-        // Errors, TODO: check if this is needed.
-        if (setjmp(png_jmpbuf(png)))
-        {
-            LOGE("libpng error while reading file %s.", filename().c_str());
-            throw Exception("Could not load png file!");
-        }
-
-        // Start reading the file
-        UniquePointer<FileHandle> fileHandle(ResourceManagerPrivate::getFileHandle(filename()));
-
-        // Read the image header and data
-        png_set_read_fn(png, reinterpret_cast<void*>(fileHandle.pointer()), read);
-        png_read_png(png, info, flags, 0);
-        png_bytepp rows = png_get_rows(png, info);
-
-        // Set pixel format
-        if (png_get_color_type(png, info) == PNG_COLOR_TYPE_RGB)
-        {
-            bytesPerPixel_ = 3;
-        }
-        else if (png_get_color_type(png, info) == PNG_COLOR_TYPE_RGBA)
-        {
-            bytesPerPixel_ = 4;
-        }
-        else
-        {
-            LOGE("Cannot open file %.!", filename().c_str());
-            throw Exception("libpng unsupported color type.");
-        }
-
-        // Copy to continous memory
-        sourceBitmapWidth_ = png_get_image_width(png, info);
-        sourceBitmapHeight_ = png_get_image_height(png, info);
-        width_ = math::nextPowerOfTwo(sourceBitmapWidth_);
-        height_ = math::nextPowerOfTwo(sourceBitmapHeight_);
-        xUsage_ = (float)sourceBitmapWidth_ / (float)width_;
-        yUsage_ = (float)sourceBitmapHeight_ / (float)height_;
-        tmpData_ = new char[width_ * height_ * bytesPerPixel_];
-        for (unsigned int i = 0; i < sourceBitmapHeight_; i++)
-        {
-            memcpy(&(tmpData_)[width_ * bytesPerPixel_ * i], rows[sourceBitmapHeight_ - i - 1], sourceBitmapWidth_ * bytesPerPixel_);
-        }
-
-        // Free libpng's struct
-        png_destroy_read_struct(&png, &info, 0);
-    }
-
-    void TextureAssetPrivate::bind()
-    {
-        loadGPUData();
-
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, textureId_);
-    }
-
-    float TextureAssetPrivate::xUsage() const
-    {
-        return xUsage_;
-    }
-
-    float TextureAssetPrivate::yUsage() const
-    {
-        return yUsage_;
-    }
-
-    unsigned int TextureAssetPrivate::sourceBitmapWidth() const
-    {
-        return sourceBitmapWidth_;
-    }
-
-    unsigned int TextureAssetPrivate::sourceBitmapHeight() const
-    {
-        return sourceBitmapHeight_;
-    }
-
-    void TextureAssetPrivate::loadGPUData()
-    {
-        if (tmpData_ == NULL)
-        {
-            return;
-        }
-
-        // Create texture
-        GLenum format = bytesPerPixel_ == 3 ? GL_RGB : GL_RGBA;
-        GLint minFilter = GL_LINEAR_MIPMAP_NEAREST;
-        GLint magFilter = GL_LINEAR;
-
-        glGenTextures(1, &textureId_);
-        glBindTexture(GL_TEXTURE_2D, textureId_);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexImage2D(GL_TEXTURE_2D,
-            0,
-            format,
-            width_,
-            height_,
-            0,
-            format,
-            GL_UNSIGNED_BYTE,
-            tmpData_);
-
-        if ((minFilter != GL_NEAREST && minFilter != GL_LINEAR) || (magFilter != GL_NEAREST && magFilter != GL_LINEAR))
-        {
-            glGenerateMipmap(GL_TEXTURE_2D);
-        }
-        else
-        {
-            LOGE("Error in texture filters!\n");
-        }
-
-        delete [] tmpData_;
-        tmpData_ = NULL;
-        LOGD("TextureAssetPrivate()::loadGPUData(), id:%d, %dx%dx%d", textureId_, width_, height_, bytesPerPixel_);
-    }
-
-    void read(png_structp fileHandlePointer, png_bytep data, png_size_t length)
-    {
-        FileHandle* fileHandle = reinterpret_cast<FileHandle*>(png_get_io_ptr(fileHandlePointer));
-        fileHandle->read(reinterpret_cast<char*>(data), length);
     }
 }

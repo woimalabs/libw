@@ -31,38 +31,41 @@
 
 namespace w
 {
-    class TextureAsset
+    namespace graphics
     {
-    public:
-        COPYABLE(TextureAsset)
+        class TextureAsset
+        {
+        public:
+            COPYABLE(TextureAsset)
 
-        /**
-         * Creates shader program.
-         *
-         * @note This class can load it self even without GL context. For
-         * drawing GL context is needed.
-         *
-         * @note If non power of two image data is loaded the texture will be
-         * created with up to next power of two size. And upper left corner of
-         * the area will be filled.
-         *
-         * @param [in]  filename    Texture filename to load
-         */
-        TextureAsset(const std::string& filename);
-        ~TextureAsset();
+            /**
+             * Creates shader program.
+             *
+             * @note This class can load it self even without GL context. For
+             * drawing GL context is needed.
+             *
+             * @note If non power of two image data is loaded the texture will be
+             * created with up to next power of two size. And upper left corner of
+             * the area will be filled.
+             *
+             * @param [in]  filename    Texture filename to load
+             */
+            TextureAsset(const std::string& filename);
+            ~TextureAsset();
 
-        unsigned int width() const;
-        unsigned int height() const;
-        bool hasAlpha() const;
-        float xUsage() const;
-        float yUsage() const;
-        unsigned int sourceBitmapWidth() const;
-        unsigned int sourceBitmapHeight() const;
+            unsigned int width() const;
+            unsigned int height() const;
+            bool hasAlpha() const;
+            float xUsage() const;
+            float yUsage() const;
+            unsigned int sourceBitmapWidth() const;
+            unsigned int sourceBitmapHeight() const;
 
-    private:
-        friend class RendererPrivate;
-        class TextureAssetPrivate* private_;
-    };
+        private:
+            friend class RendererPrivate;
+            class TextureAssetPrivate* private_;
+        };
+    }
 }
 
 #endif

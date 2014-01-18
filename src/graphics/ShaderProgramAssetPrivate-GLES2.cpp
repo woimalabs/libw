@@ -32,157 +32,160 @@
 
 namespace w
 {
-    static void checkGlError(const char* op)
+    namespace graphics
     {
-        for (GLint error = glGetError(); error; error = glGetError())
+        static void checkGlError(const char* op)
         {
-            LOGE("after %s() glError (0x%x)\n", op, error);
-        }
-    }
-
-    ShaderProgramAssetPrivate::ShaderProgramAssetPrivate(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename):
-        Referenced(),
-        programId_(0)
-    {
-        // Vertex
-        UniquePointer<FileHandle> vertexFileHandle(ResourceManagerPrivate::getFileHandle(vertexShaderFilename));
-        unsigned int vertexSourceLength = vertexFileHandle.pointer()->byteSize();
-        UniquePointer<char> vertexSourceBuffer(new char[vertexSourceLength +1], true);
-        vertexFileHandle.pointer()->read(vertexSourceBuffer.pointer(), vertexSourceLength);
-        vertexSourceBuffer.pointer()[vertexSourceLength] = 0;
-
-        // Fragment
-        UniquePointer<FileHandle> fragmentFileHandle(ResourceManagerPrivate::getFileHandle(fragmentShaderFilename));
-        unsigned int fragmentSourceLength = fragmentFileHandle.pointer()->byteSize();
-        UniquePointer<char> fragmentSourceBuffer(new char[fragmentSourceLength +1], true);
-        fragmentFileHandle.pointer()->read(fragmentSourceBuffer.pointer(), fragmentSourceLength);
-        fragmentSourceBuffer.pointer()[fragmentSourceLength] = 0;
-
-        // Compile to program
-        programId_ = createProgram(vertexSourceBuffer.pointer(), fragmentSourceBuffer.pointer());
-        LOGD("ShaderProgramAssetPrivate(), created with id:%d", programId_);
-    }
-
-    ShaderProgramAssetPrivate::~ShaderProgramAssetPrivate()
-    {
-    }
-
-    GLint ShaderProgramAssetPrivate::uniform(const std::string& symbolName)
-    {
-        GLint r = glGetUniformLocation(programId_, symbolName.c_str());
-        if (r < 0)
-        {
-            LOGE("ShaderProgramAssetPrivate::uniform(), no symbol: \"%s\"", symbolName.c_str());
-            throw Exception("Failed to get uniform location");
-        }
-        return r;
-    }
-
-    GLint ShaderProgramAssetPrivate::attribute(const std::string& symbolName)
-    {
-        GLint r = glGetAttribLocation(programId_, symbolName.c_str());
-        if (r < 0)
-        {
-            LOGE("ShaderProgramAssetPrivate::attribute(), no symbol: \"%s\"", symbolName.c_str());
-            throw Exception("Failed to get attribute location");
-        }
-        return r;
-    }
-
-    void ShaderProgramAssetPrivate::setUniform(const std::string& symbolName, float value)
-    {
-        GLint id = uniform(symbolName.c_str());
-        glUniform1f(id, value);
-    }
-
-    void ShaderProgramAssetPrivate::setUniform(const std::string& symbolName, const Eigen::Matrix4f& values)
-    {
-        GLint id = uniform(symbolName.c_str());
-        glUniformMatrix4fv(id, 1, false, values.data());
-    }
-
-    void ShaderProgramAssetPrivate::start()
-    {
-        glUseProgram(programId_);
-    }
-
-    void ShaderProgramAssetPrivate::stop()
-    {
-        glUseProgram(0);
-    }
-
-    GLuint ShaderProgramAssetPrivate::createShader(GLenum shaderType, const char* pSource)
-    {
-        GLuint shader = glCreateShader(shaderType);
-        if (shader)
-        {
-            glShaderSource(shader, 1, &pSource, NULL);
-            glCompileShader(shader);
-            GLint compiled = 0;
-            glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
-            if (!compiled)
+            for (GLint error = glGetError(); error; error = glGetError())
             {
-                GLint infoLen = 0;
-                glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLen);
-                if (infoLen)
-                {
-                    char* buf = new char[infoLen];
-                    if (buf)
-                    {
-                        glGetShaderInfoLog(shader, infoLen, NULL, buf);
-                        LOGE("Could not compile shader %d: %s", shaderType, buf);
-                        delete [] buf;
-                    }
-                    glDeleteShader(shader);
-                    shader = 0;
-                }
+                LOGE("after %s() glError (0x%x)\n", op, error);
             }
         }
-        return shader;
-    }
 
-    GLuint ShaderProgramAssetPrivate::createProgram(const char* vertexSource, const char* fragmentSource)
-    {
-        GLuint vertexShader = createShader(GL_VERTEX_SHADER, vertexSource);
-        if (!vertexShader)
+        ShaderProgramAssetPrivate::ShaderProgramAssetPrivate(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename):
+            Referenced(),
+            programId_(0)
         {
-            return 0;
+            // Vertex
+            UniquePointer<FileHandle> vertexFileHandle(ResourceManagerPrivate::getFileHandle(vertexShaderFilename));
+            unsigned int vertexSourceLength = vertexFileHandle.pointer()->byteSize();
+            UniquePointer<char> vertexSourceBuffer(new char[vertexSourceLength +1], true);
+            vertexFileHandle.pointer()->read(vertexSourceBuffer.pointer(), vertexSourceLength);
+            vertexSourceBuffer.pointer()[vertexSourceLength] = 0;
+
+            // Fragment
+            UniquePointer<FileHandle> fragmentFileHandle(ResourceManagerPrivate::getFileHandle(fragmentShaderFilename));
+            unsigned int fragmentSourceLength = fragmentFileHandle.pointer()->byteSize();
+            UniquePointer<char> fragmentSourceBuffer(new char[fragmentSourceLength +1], true);
+            fragmentFileHandle.pointer()->read(fragmentSourceBuffer.pointer(), fragmentSourceLength);
+            fragmentSourceBuffer.pointer()[fragmentSourceLength] = 0;
+
+            // Compile to program
+            programId_ = createProgram(vertexSourceBuffer.pointer(), fragmentSourceBuffer.pointer());
+            LOGD("ShaderProgramAssetPrivate(), created with id:%d", programId_);
         }
 
-        GLuint pixelShader = createShader(GL_FRAGMENT_SHADER, fragmentSource);
-        if (!pixelShader)
+        ShaderProgramAssetPrivate::~ShaderProgramAssetPrivate()
         {
-            return 0;
         }
 
-        GLuint program = glCreateProgram();
-        if (program)
+        GLint ShaderProgramAssetPrivate::uniform(const std::string& symbolName)
         {
-            glAttachShader(program, vertexShader);
-            checkGlError("glAttachShader");
-            glAttachShader(program, pixelShader);
-            checkGlError("glAttachShader");
-            glLinkProgram(program);
-            GLint linkStatus = GL_FALSE;
-            glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
-            if (linkStatus != GL_TRUE)
+            GLint r = glGetUniformLocation(programId_, symbolName.c_str());
+            if (r < 0)
             {
-                GLint bufLength = 0;
-                glGetProgramiv(program, GL_INFO_LOG_LENGTH, &bufLength);
-                if (bufLength)
+                LOGE("ShaderProgramAssetPrivate::uniform(), no symbol: \"%s\"", symbolName.c_str());
+                throw Exception("Failed to get uniform location");
+            }
+            return r;
+        }
+
+        GLint ShaderProgramAssetPrivate::attribute(const std::string& symbolName)
+        {
+            GLint r = glGetAttribLocation(programId_, symbolName.c_str());
+            if (r < 0)
+            {
+                LOGE("ShaderProgramAssetPrivate::attribute(), no symbol: \"%s\"", symbolName.c_str());
+                throw Exception("Failed to get attribute location");
+            }
+            return r;
+        }
+
+        void ShaderProgramAssetPrivate::setUniform(const std::string& symbolName, float value)
+        {
+            GLint id = uniform(symbolName.c_str());
+            glUniform1f(id, value);
+        }
+
+        void ShaderProgramAssetPrivate::setUniform(const std::string& symbolName, const Eigen::Matrix4f& values)
+        {
+            GLint id = uniform(symbolName.c_str());
+            glUniformMatrix4fv(id, 1, false, values.data());
+        }
+
+        void ShaderProgramAssetPrivate::start()
+        {
+            glUseProgram(programId_);
+        }
+
+        void ShaderProgramAssetPrivate::stop()
+        {
+            glUseProgram(0);
+        }
+
+        GLuint ShaderProgramAssetPrivate::createShader(GLenum shaderType, const char* pSource)
+        {
+            GLuint shader = glCreateShader(shaderType);
+            if (shader)
+            {
+                glShaderSource(shader, 1, &pSource, NULL);
+                glCompileShader(shader);
+                GLint compiled = 0;
+                glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
+                if (!compiled)
                 {
-                    char* buf = new char[bufLength];
-                    if (buf)
+                    GLint infoLen = 0;
+                    glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLen);
+                    if (infoLen)
                     {
-                        glGetProgramInfoLog(program, bufLength, NULL, buf);
-                        LOGE("Could not link program:\n%s\n", buf);
-                        delete [] buf;
+                        char* buf = new char[infoLen];
+                        if (buf)
+                        {
+                            glGetShaderInfoLog(shader, infoLen, NULL, buf);
+                            LOGE("Could not compile shader %d: %s", shaderType, buf);
+                            delete [] buf;
+                        }
+                        glDeleteShader(shader);
+                        shader = 0;
                     }
                 }
-                glDeleteProgram(program);
-                program = 0;
             }
+            return shader;
         }
-        return program;
+
+        GLuint ShaderProgramAssetPrivate::createProgram(const char* vertexSource, const char* fragmentSource)
+        {
+            GLuint vertexShader = createShader(GL_VERTEX_SHADER, vertexSource);
+            if (!vertexShader)
+            {
+                return 0;
+            }
+
+            GLuint pixelShader = createShader(GL_FRAGMENT_SHADER, fragmentSource);
+            if (!pixelShader)
+            {
+                return 0;
+            }
+
+            GLuint program = glCreateProgram();
+            if (program)
+            {
+                glAttachShader(program, vertexShader);
+                checkGlError("glAttachShader");
+                glAttachShader(program, pixelShader);
+                checkGlError("glAttachShader");
+                glLinkProgram(program);
+                GLint linkStatus = GL_FALSE;
+                glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
+                if (linkStatus != GL_TRUE)
+                {
+                    GLint bufLength = 0;
+                    glGetProgramiv(program, GL_INFO_LOG_LENGTH, &bufLength);
+                    if (bufLength)
+                    {
+                        char* buf = new char[bufLength];
+                        if (buf)
+                        {
+                            glGetProgramInfoLog(program, bufLength, NULL, buf);
+                            LOGE("Could not link program:\n%s\n", buf);
+                            delete [] buf;
+                        }
+                    }
+                    glDeleteProgram(program);
+                    program = 0;
+                }
+            }
+            return program;
+        }
     }
 }

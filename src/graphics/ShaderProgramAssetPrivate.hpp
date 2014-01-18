@@ -38,31 +38,34 @@
 
 namespace w
 {
-    class ShaderProgramAssetPrivate: public Referenced
+    namespace graphics
     {
-    public:
-        UNCOPYABLE(ShaderProgramAssetPrivate)
+        class ShaderProgramAssetPrivate: public Referenced
+        {
+        public:
+            UNCOPYABLE(ShaderProgramAssetPrivate)
 
-        // Android, linux, iOS. All use GLES2.
-        typedef GLint ShaderId;
+            // Android, linux, iOS. All use GLES2.
+            typedef GLint ShaderId;
 
-        ShaderProgramAssetPrivate(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename);
-        ~ShaderProgramAssetPrivate();
+            ShaderProgramAssetPrivate(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename);
+            ~ShaderProgramAssetPrivate();
 
-        // Android, linux, iOS. All use GLES2.
-        ShaderId uniform(const std::string& symbolName);
-        ShaderId attribute(const std::string& symbolName);
-        void setUniform(const std::string& symbolName, float value);
-        void setUniform(const std::string& symbolName, const Eigen::Matrix4f& value);
-        void start();
-        static void stop();
+            // Android, linux, iOS. All use GLES2.
+            ShaderId uniform(const std::string& symbolName);
+            ShaderId attribute(const std::string& symbolName);
+            void setUniform(const std::string& symbolName, float value);
+            void setUniform(const std::string& symbolName, const Eigen::Matrix4f& value);
+            void start();
+            static void stop();
 
-    private:
-        // Android, linux, iOS. All use GLES2.
-        GLuint static createShader(GLenum shaderType, const char* pSource);
-        GLuint static createProgram(const char* vertexSource, const char* fragmentSource);
-        GLuint programId_;
-    };
+        private:
+            // Android, linux, iOS. All use GLES2.
+            GLuint static createShader(GLenum shaderType, const char* pSource);
+            GLuint static createProgram(const char* vertexSource, const char* fragmentSource);
+            GLuint programId_;
+        };
+    }
 }
 
 #endif

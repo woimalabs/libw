@@ -23,154 +23,158 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
+#include "Common.hpp"
 #include "MeshAssetPrivate.hpp"
 #include "w/base/Log.hpp"
 
 namespace w
 {
-    MeshAssetPrivate::MeshAssetPrivate(float width, float height, float uStart, float uEnd, float vStart, float vEnd):
-        width_(width),
-        height_(height),
-        vbo_(0),
-        tmpVertices_(NULL),
-        vertexCount_(0)
+    namespace graphics
     {
-        /*
-         * Rectangle we create has two triangles:
-         *
-         * 1_____2
-         *  |  /|
-         *  | / |
-         *  |/__|
-         * 0     3
-         *
-         */
-
-        // Bottom left corner
-        float p0x = 0.0f;
-        float p0y = 0.0f;
-        float p0u = uStart;
-        float p0v = vStart;
-
-        // Top left corner
-        float p1x = 0.0f;
-        float p1y = height;
-        float p1u = uStart;
-        float p1v = vEnd;
-
-        // Top right corner
-        float p2x = width;
-        float p2y = height;
-        float p2u = uEnd;
-        float p2v = vEnd;
-
-        // Bottom right corner
-        float p3x = width;
-        float p3y = 0.0f;
-        float p3u = uEnd;
-        float p3v = vStart;
-
-        // z is 0.0f in our rectangle
-        tmpVertices_ = new GLfloat[30];
-
-        tmpVertices_[0] = p0x;
-        tmpVertices_[1] = p0y;
-        tmpVertices_[2] = 0.0f;
-        tmpVertices_[3] = p0u;
-        tmpVertices_[4] = p0v;
-
-        tmpVertices_[5] = p1x;
-        tmpVertices_[6] = p1y;
-        tmpVertices_[7] = 0.0f;
-        tmpVertices_[8] = p1u;
-        tmpVertices_[9] = p1v;
-
-        tmpVertices_[10] = p2x;
-        tmpVertices_[11] = p2y;
-        tmpVertices_[12] = 0.0f;
-        tmpVertices_[13] = p2u;
-        tmpVertices_[14] = p2v;
-
-        // Second triangle
-        tmpVertices_[15] = p0x;
-        tmpVertices_[16] = p0y;
-        tmpVertices_[17] = 0.0f;
-        tmpVertices_[18] = p0u;
-        tmpVertices_[19] = p0v;
-
-        tmpVertices_[20] = p2x;
-        tmpVertices_[21] = p2y;
-        tmpVertices_[22] = 0.0f;
-        tmpVertices_[23] = p2u;
-        tmpVertices_[24] = p2v;
-
-        tmpVertices_[25] = p3x;
-        tmpVertices_[26] = p3y;
-        tmpVertices_[27] = 0.0f;
-        tmpVertices_[28] = p3u;
-        tmpVertices_[29] = p3v;
-    }
-
-    MeshAssetPrivate::~MeshAssetPrivate()
-    {
-        if(vbo_ != 0)
+        MeshAssetPrivate::MeshAssetPrivate(float width, float height, float uStart, float uEnd, float vStart, float vEnd):
+            width_(width),
+            height_(height),
+            vbo_(0),
+            tmpVertices_(NULL),
+            vertexCount_(0)
         {
-            glDeleteBuffers(1, &vbo_);
+            /*
+             * Rectangle we create has two triangles:
+             *
+             * 1_____2
+             *  |  /|
+             *  | / |
+             *  |/__|
+             * 0     3
+             *
+             */
+
+            // Bottom left corner
+            float p0x = 0.0f;
+            float p0y = 0.0f;
+            float p0u = uStart;
+            float p0v = vStart;
+
+            // Top left corner
+            float p1x = 0.0f;
+            float p1y = height;
+            float p1u = uStart;
+            float p1v = vEnd;
+
+            // Top right corner
+            float p2x = width;
+            float p2y = height;
+            float p2u = uEnd;
+            float p2v = vEnd;
+
+            // Bottom right corner
+            float p3x = width;
+            float p3y = 0.0f;
+            float p3u = uEnd;
+            float p3v = vStart;
+
+            // z is 0.0f in our rectangle
+            tmpVertices_ = new GLfloat[30];
+
+            tmpVertices_[0] = p0x;
+            tmpVertices_[1] = p0y;
+            tmpVertices_[2] = 0.0f;
+            tmpVertices_[3] = p0u;
+            tmpVertices_[4] = p0v;
+
+            tmpVertices_[5] = p1x;
+            tmpVertices_[6] = p1y;
+            tmpVertices_[7] = 0.0f;
+            tmpVertices_[8] = p1u;
+            tmpVertices_[9] = p1v;
+
+            tmpVertices_[10] = p2x;
+            tmpVertices_[11] = p2y;
+            tmpVertices_[12] = 0.0f;
+            tmpVertices_[13] = p2u;
+            tmpVertices_[14] = p2v;
+
+            // Second triangle
+            tmpVertices_[15] = p0x;
+            tmpVertices_[16] = p0y;
+            tmpVertices_[17] = 0.0f;
+            tmpVertices_[18] = p0u;
+            tmpVertices_[19] = p0v;
+
+            tmpVertices_[20] = p2x;
+            tmpVertices_[21] = p2y;
+            tmpVertices_[22] = 0.0f;
+            tmpVertices_[23] = p2u;
+            tmpVertices_[24] = p2v;
+
+            tmpVertices_[25] = p3x;
+            tmpVertices_[26] = p3y;
+            tmpVertices_[27] = 0.0f;
+            tmpVertices_[28] = p3u;
+            tmpVertices_[29] = p3v;
         }
 
-        if(tmpVertices_ != NULL)
+        MeshAssetPrivate::~MeshAssetPrivate()
         {
+            if(vbo_ != 0)
+            {
+                glDeleteBuffers(1, &vbo_);
+            }
+
+            if(tmpVertices_ != NULL)
+            {
+                delete [] tmpVertices_;
+                tmpVertices_ = NULL;
+            }
+        }
+
+        const std::vector<StrideComponent>& MeshAssetPrivate::strideComponents() const
+        {
+            return strideComponents_;
+        }
+
+        void MeshAssetPrivate::bind()
+        {
+            loadGPUData();
+            glBindBuffer(GL_ARRAY_BUFFER, vbo_);
+        }
+
+        unsigned int MeshAssetPrivate::vertexCount() const
+        {
+           return vertexCount_;
+        }
+
+        void MeshAssetPrivate::loadGPUData()
+        {
+            LOCK
+            if(tmpVertices_ == NULL)
+            {
+                return; // we have created the GPU data already
+            }
+
+            glGenBuffers(1, &vbo_);
+            glBindBuffer(GL_ARRAY_BUFFER, vbo_);
+            glBufferData(GL_ARRAY_BUFFER, 30 * sizeof(float), tmpVertices_, GL_STATIC_DRAW); // 30: 2 triangles * 3 points * (3 position floats + 2 uv floats)
+            vertexCount_ = 6; // 6: 2 triangles * 3 points each
+
+            // Set stride format
+            StrideComponent xyz(std::string("xyz"), 5, 0, 3, GL_FLOAT);
+            StrideComponent uv(std::string("uv"), 5, 3, 2, GL_FLOAT);
+            strideComponents_.push_back(xyz);
+            strideComponents_.push_back(uv);
+
             delete [] tmpVertices_;
             tmpVertices_ = NULL;
         }
-    }
 
-    const std::vector<MeshAssetPrivate::StrideComponent>& MeshAssetPrivate::strideComponents() const
-    {
-        return strideComponents_;
-    }
-
-    void MeshAssetPrivate::bind()
-    {
-        loadGPUData();
-        glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-    }
-
-    unsigned int MeshAssetPrivate::vertexCount() const
-    {
-       return vertexCount_;
-    }
-
-    void MeshAssetPrivate::loadGPUData()
-    {
-        LOCK
-        if(tmpVertices_ == NULL)
+        float MeshAssetPrivate::width() const
         {
-            return; // we have created the GPU data already
+            return width_;
         }
 
-        glGenBuffers(1, &vbo_);
-        glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-        glBufferData(GL_ARRAY_BUFFER, 30 * sizeof(float), tmpVertices_, GL_STATIC_DRAW); // 30: 2 triangles * 3 points * (3 position floats + 2 uv floats)
-        vertexCount_ = 6; // 6: 2 triangles * 3 points each
-
-        // Set stride format
-        StrideComponent xyz(std::string("xyz"), 5, 0, 3, GL_FLOAT);
-        StrideComponent uv(std::string("uv"), 5, 3, 2, GL_FLOAT);
-        strideComponents_.push_back(xyz);
-        strideComponents_.push_back(uv);
-
-        delete [] tmpVertices_;
-        tmpVertices_ = NULL;
-    }
-
-    float MeshAssetPrivate::width() const
-    {
-        return width_;
-    }
-
-    float MeshAssetPrivate::height() const
-    {
-        return height_;
+        float MeshAssetPrivate::height() const
+        {
+            return height_;
+        }
     }
 }

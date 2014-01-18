@@ -36,64 +36,67 @@
 
 namespace w
 {
-    class WindowPrivate: public Referenced
+    namespace graphics
     {
-    public:
-        UNCOPYABLE(WindowPrivate)
-        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-
-        WindowPrivate(const std::string& name, unsigned int width, unsigned int height, const Eigen::Vector4f& clearColor);
-        ~WindowPrivate();
-
-        unsigned int width() const
+        class WindowPrivate: public Referenced
         {
-            return width_;
-        }
+        public:
+            UNCOPYABLE(WindowPrivate)
+            EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
-        unsigned int height() const
-        {
-            return height_;
-        }
+            WindowPrivate(const std::string& name, unsigned int width, unsigned int height, const Eigen::Vector4f& clearColor);
+            ~WindowPrivate();
 
-        void setClearColor(const Eigen::Vector4f& clearColor)
-        {
-            clearColor_ = clearColor;
-        }
+            unsigned int width() const
+            {
+                return width_;
+            }
 
-        void clearBuffer();
-        void swapBuffers();
-        void resize(unsigned int width, unsigned int height);
-        #ifdef ANDROID
-            //
-        #elif linux
-            Display* xDisplay() const;
-        #endif
+            unsigned int height() const
+            {
+                return height_;
+            }
 
-    private:
-        std::string name_;
-        unsigned int width_;
-        unsigned int height_;
-        Eigen::Vector4f clearColor_;
-#ifdef ANDROID
+            void setClearColor(const Eigen::Vector4f& clearColor)
+            {
+                clearColor_ = clearColor;
+            }
 
-#elif linux
-        bool supportsGL2();
-        bool makeCurrentContext();
+            void clearBuffer();
+            void swapBuffers();
+            void resize(unsigned int width, unsigned int height);
+            #ifdef ANDROID
+                //
+            #elif linux
+                Display* xDisplay() const;
+            #endif
 
-        // EGL
-        bool EGLDisplayCheck();
-        bool EGLConfigCheck();
-        bool EGLSurfaceCheck();
-        EGLDisplay EGLDisplay_;
-        EGLSurface EGLSurface_;
-        EGLConfig EGLConfig_;
-        EGLContext EGLContext_;
+        private:
+            std::string name_;
+            unsigned int width_;
+            unsigned int height_;
+            Eigen::Vector4f clearColor_;
+    #ifdef ANDROID
 
-        // X
-        bool ensureXWindow();
-        XVisualInfo *xVisualInfo();
-        Window xWindow_;
-        Display* xDisplay_;
-#endif
-    };
+    #elif linux
+            bool supportsGL2();
+            bool makeCurrentContext();
+
+            // EGL
+            bool EGLDisplayCheck();
+            bool EGLConfigCheck();
+            bool EGLSurfaceCheck();
+            EGLDisplay EGLDisplay_;
+            EGLSurface EGLSurface_;
+            EGLConfig EGLConfig_;
+            EGLContext EGLContext_;
+
+            // X
+            bool ensureXWindow();
+            XVisualInfo *xVisualInfo();
+            Window xWindow_;
+            Display* xDisplay_;
+    #endif
+        };
+    }
 }

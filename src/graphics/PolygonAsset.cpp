@@ -28,30 +28,33 @@
 
 namespace w
 {
-    PolygonAsset::PolygonAsset(const std::vector<std::vector<PolygonAsset::Point> > & data):
-        private_(new PolygonAssetPrivate(data))
+    namespace graphics
     {
-        private_->increment();
-    }
-
-    PolygonAsset::PolygonAsset(PolygonAsset const& r):
-        private_(r.private_)
-    {
-        private_->increment();
-    }
-
-    PolygonAsset::~PolygonAsset()
-    {
-        private_->decrement();
-    }
-
-    PolygonAsset& PolygonAsset::operator=(PolygonAsset const& r)
-    {
-        if (this != &r)
+        PolygonAsset::PolygonAsset(const std::vector<std::vector<PolygonAsset::Point> > & data):
+            private_(new PolygonAssetPrivate(data))
         {
-            private_ = r.private_;
             private_->increment();
         }
-        return *this;
+
+        PolygonAsset::PolygonAsset(PolygonAsset const& r):
+            private_(r.private_)
+        {
+            private_->increment();
+        }
+
+        PolygonAsset::~PolygonAsset()
+        {
+            private_->decrement();
+        }
+
+        PolygonAsset& PolygonAsset::operator=(PolygonAsset const& r)
+        {
+            if (this != &r)
+            {
+                private_ = r.private_;
+                private_->increment();
+            }
+            return *this;
+        }
     }
 }

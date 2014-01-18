@@ -37,47 +37,50 @@
 
 namespace w
 {
-    class TextureAssetPrivate: public Resource
+    namespace graphics
     {
-    public:
-        UNCOPYABLE(TextureAssetPrivate)
-
-        TextureAssetPrivate(const std::string & filename);
-        ~TextureAssetPrivate();
-
-        unsigned int width() const;
-        unsigned int height() const;
-        bool hasAlpha() const
+        class TextureAssetPrivate: public Resource
         {
-            return bytesPerPixel_ == 4;
-        }
+        public:
+            UNCOPYABLE(TextureAssetPrivate)
 
-        void bind();
-        float xUsage() const;
-        float yUsage() const;
-        unsigned int sourceBitmapWidth() const;
-        unsigned int sourceBitmapHeight() const;
+            TextureAssetPrivate(const std::string & filename);
+            ~TextureAssetPrivate();
 
-    private:
-        void loadFileData();
-        void loadGPUData();
+            unsigned int width() const;
+            unsigned int height() const;
+            bool hasAlpha() const
+            {
+                return bytesPerPixel_ == 4;
+            }
 
-        unsigned int bytesPerPixel_;
+            void bind();
+            float xUsage() const;
+            float yUsage() const;
+            unsigned int sourceBitmapWidth() const;
+            unsigned int sourceBitmapHeight() const;
 
-        unsigned int width_;
-        unsigned int height_;
-        float xUsage_;
-        float yUsage_;
-        unsigned int sourceBitmapWidth_;
-        unsigned int sourceBitmapHeight_;
+        private:
+            void loadFileData();
+            void loadGPUData();
 
-        // Pointer where loaded data array is kept
-        Mutex mutex_;
-        char* tmpData_;
+            unsigned int bytesPerPixel_;
 
-        // Android, linux, iOS. All use GLES2
-        GLuint textureId_;
-    };
+            unsigned int width_;
+            unsigned int height_;
+            float xUsage_;
+            float yUsage_;
+            unsigned int sourceBitmapWidth_;
+            unsigned int sourceBitmapHeight_;
+
+            // Pointer where loaded data array is kept
+            Mutex mutex_;
+            char* tmpData_;
+
+            // Android, linux, iOS. All use GLES2
+            GLuint textureId_;
+        };
+    }
 }
 
 #endif

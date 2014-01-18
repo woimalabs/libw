@@ -30,48 +30,51 @@
 
 namespace w
 {
-    ShaderProgramAsset::ShaderProgramAsset(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename):
-        private_(NULL)
+    namespace graphics
     {
-        std::string id = "ShaderProgram:" + vertexShaderFilename + std::string(",") + fragmentShaderFilename;
-        private_ = dynamic_cast<ShaderProgramAssetPrivate*>(ResourceManagerPrivate::assetPrivate(id));
-        if (private_ == NULL)
+        ShaderProgramAsset::ShaderProgramAsset(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename):
+            private_(NULL)
         {
-            private_ = new ShaderProgramAssetPrivate(vertexShaderFilename, fragmentShaderFilename);
-            ResourceManagerPrivate::setAssetPrivate(id, private_);
-        }
+            std::string id = "ShaderProgram:" + vertexShaderFilename + std::string(",") + fragmentShaderFilename;
+            private_ = dynamic_cast<ShaderProgramAssetPrivate*>(ResourceManagerPrivate::assetPrivate(id));
+            if (private_ == NULL)
+            {
+                private_ = new ShaderProgramAssetPrivate(vertexShaderFilename, fragmentShaderFilename);
+                ResourceManagerPrivate::setAssetPrivate(id, private_);
+            }
 
-        private_->increment();
-    }
-
-    ShaderProgramAsset::ShaderProgramAsset(ShaderProgramAsset const& r):
-        private_(r.private_)
-    {
-        private_->increment();
-    }
-
-    ShaderProgramAsset::~ShaderProgramAsset()
-    {
-        private_->decrement();
-    }
-
-    ShaderProgramAsset& ShaderProgramAsset::operator=(ShaderProgramAsset const& r)
-    {
-        if (this != &r)
-        {
-            private_ = r.private_;
             private_->increment();
         }
-        return *this;
-    }
 
-    void ShaderProgramAsset::setUniform(const std::string& symbolName, float value)
-    {
-        private_->setUniform(symbolName, value);
-    }
+        ShaderProgramAsset::ShaderProgramAsset(ShaderProgramAsset const& r):
+            private_(r.private_)
+        {
+            private_->increment();
+        }
 
-    void ShaderProgramAsset::setUniform(const std::string& symbolName, const Eigen::Matrix4f& value)
-    {
-        private_->setUniform(symbolName, value);
+        ShaderProgramAsset::~ShaderProgramAsset()
+        {
+            private_->decrement();
+        }
+
+        ShaderProgramAsset& ShaderProgramAsset::operator=(ShaderProgramAsset const& r)
+        {
+            if (this != &r)
+            {
+                private_ = r.private_;
+                private_->increment();
+            }
+            return *this;
+        }
+
+        void ShaderProgramAsset::setUniform(const std::string& symbolName, float value)
+        {
+            private_->setUniform(symbolName, value);
+        }
+
+        void ShaderProgramAsset::setUniform(const std::string& symbolName, const Eigen::Matrix4f& value)
+        {
+            private_->setUniform(symbolName, value);
+        }
     }
 }

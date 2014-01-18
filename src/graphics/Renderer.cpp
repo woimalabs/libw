@@ -28,40 +28,43 @@
 
 namespace w
 {
-    Renderer::Renderer():
-        private_(new RendererPrivate())
+    namespace graphics
     {
-        private_->increment();
-    }
-
-    Renderer::Renderer(Renderer const& r):
-        private_(r.private_)
-    {
-        private_->increment();
-    }
-
-    Renderer::~Renderer()
-    {
-        private_->decrement();
-    }
-
-    Renderer& Renderer::operator=(Renderer const& r)
-    {
-        if (this != &r)
+        Renderer::Renderer():
+            private_(new RendererPrivate())
         {
-            private_ = r.private_;
             private_->increment();
         }
-        return *this;
-    }
 
-    void Renderer::draw(TextureAsset const& texture, MeshAsset const& mesh, ShaderProgramAsset const& shaderProgram)
-    {
-        private_->draw(texture, mesh, shaderProgram);
-    }
+        Renderer::Renderer(Renderer const& r):
+            private_(r.private_)
+        {
+            private_->increment();
+        }
 
-    void Renderer::drawLine(float p0x, float p0y, float p1x, float p1y, ShaderProgramAsset const& shaderProgram)
-    {
-        private_->drawLine(p0x, p0y, p1x, p1y, shaderProgram);
+        Renderer::~Renderer()
+        {
+            private_->decrement();
+        }
+
+        Renderer& Renderer::operator=(Renderer const& r)
+        {
+            if (this != &r)
+            {
+                private_ = r.private_;
+                private_->increment();
+            }
+            return *this;
+        }
+
+        void Renderer::draw(TextureAsset const& texture, MeshAsset const& mesh, ShaderProgramAsset const& shaderProgram)
+        {
+            private_->draw(texture, mesh, shaderProgram);
+        }
+
+        void Renderer::drawLine(float p0x, float p0y, float p1x, float p1y, ShaderProgramAsset const& shaderProgram)
+        {
+            private_->drawLine(p0x, p0y, p1x, p1y, shaderProgram);
+        }
     }
 }

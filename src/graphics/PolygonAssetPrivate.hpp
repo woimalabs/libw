@@ -26,6 +26,7 @@
 #ifndef LIBW_GRAPHICS_POLYGONASSETPRIVATE
 #define LIBW_GRAPHICS_POLYGONASSETPRIVATE
 
+#include "Common.hpp"
 #include <w/graphics/PolygonAsset.hpp>
 #include <w/base/Referenced.hpp>
 #include <w/base/Class.hpp>
@@ -39,27 +40,34 @@
 
 namespace w
 {
-    class PolygonAssetPrivate: public Referenced
+    namespace graphics
     {
-    public:
-        UNCOPYABLE(PolygonAssetPrivate)
+        class PolygonAssetPrivate: public Referenced
+        {
+        public:
+            UNCOPYABLE(PolygonAssetPrivate)
 
-        PolygonAssetPrivate(const std::vector<std::vector<PolygonAsset::Point> > & data);
-        virtual ~PolygonAssetPrivate();
+            PolygonAssetPrivate(const std::vector<std::vector<PolygonAsset::Point> > & data);
+            virtual ~PolygonAssetPrivate();
 
-        // Android, linux, iOS. All use GLES2
-        void bind();
+            unsigned int pointCount() const;
+            const std::vector<StrideComponent>& strideComponents() const;
 
-    private:
-        Mutex mutex_;
-        void loadGPUData();
-        std::vector<std::vector<PolygonAsset::Point> >* tmpData_;
+            // Android, linux, iOS. All use GLES2
+            void bind();
 
-        // Android, linux, iOS. All use GLES2
-        GLuint vbo_;
-        GLfloat* tmpVertices_;
-        unsigned int polygonCount_;
-    };
+        private:
+            Mutex mutex_;
+            void loadGPUData();
+            std::vector<std::vector<PolygonAsset::Point> >* tmpData_;
+            unsigned int dataSize_;
+
+            // Android, linux, iOS. All use GLES2
+            GLuint vbo_;
+            std::vector<StrideComponent> strideComponents_;
+            unsigned int pointCount_;
+        };
+    }
 }
 
 #endif

@@ -28,40 +28,43 @@
 
 namespace w
 {
-    MeshAsset::MeshAsset(float width, float height, float uStart, float uEnd, float vStart, float vEnd):
-        private_(new MeshAssetPrivate(width, height, uStart, uEnd, vStart, vEnd))
+    namespace graphics
     {
-        private_->increment();
-    }
-
-    MeshAsset::MeshAsset(MeshAsset const& r):
-        private_(r.private_)
-    {
-        private_->increment();
-    }
-
-    MeshAsset::~MeshAsset()
-    {
-        private_->decrement();
-    }
-
-    MeshAsset& MeshAsset::operator=(MeshAsset const& r)
-    {
-        if (this != &r)
+        MeshAsset::MeshAsset(float width, float height, float uStart, float uEnd, float vStart, float vEnd):
+            private_(new MeshAssetPrivate(width, height, uStart, uEnd, vStart, vEnd))
         {
-            private_ = r.private_;
             private_->increment();
         }
-        return *this;
-    }
 
-    float MeshAsset::width() const
-    {
-        return private_->width();
-    }
+        MeshAsset::MeshAsset(MeshAsset const& r):
+            private_(r.private_)
+        {
+            private_->increment();
+        }
 
-    float MeshAsset::height() const
-    {
-        return private_->height();
+        MeshAsset::~MeshAsset()
+        {
+            private_->decrement();
+        }
+
+        MeshAsset& MeshAsset::operator=(MeshAsset const& r)
+        {
+            if (this != &r)
+            {
+                private_ = r.private_;
+                private_->increment();
+            }
+            return *this;
+        }
+
+        float MeshAsset::width() const
+        {
+            return private_->width();
+        }
+
+        float MeshAsset::height() const
+        {
+            return private_->height();
+        }
     }
 }

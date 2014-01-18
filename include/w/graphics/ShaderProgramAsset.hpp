@@ -38,28 +38,31 @@
  */
 namespace w
 {
-    class ShaderProgramAsset
+    namespace graphics
     {
-    public:
-        COPYABLE(ShaderProgramAsset)
+        class ShaderProgramAsset
+        {
+        public:
+            COPYABLE(ShaderProgramAsset)
 
-        /**
-         * Creates shader program.
-         *
-         * @note You must have GL context to create this class!
-         *
-         * @param [in]  vertexShaderFilename    Vertex shader filename to load
-         * @param [in]  fragmentShaderFilename  Fragment shader filename to load
-         */
-        ShaderProgramAsset(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename);
-        ~ShaderProgramAsset();
-        void setUniform(const std::string& symbolName, float value);
-        void setUniform(const std::string& symbolName, const Eigen::Matrix4f& value);
+            /**
+             * Creates shader program.
+             *
+             * @note You must have GL context to create this class!
+             *
+             * @param [in]  vertexShaderFilename    Vertex shader filename to load
+             * @param [in]  fragmentShaderFilename  Fragment shader filename to load
+             */
+            ShaderProgramAsset(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename);
+            ~ShaderProgramAsset();
+            void setUniform(const std::string& symbolName, float value);
+            void setUniform(const std::string& symbolName, const Eigen::Matrix4f& value);
 
-    private:
-        friend class RendererPrivate;
-        class ShaderProgramAssetPrivate* private_;
-    };
+        private:
+            friend class RendererPrivate;
+            class ShaderProgramAssetPrivate* private_;
+        };
+    }
 }
 
 #endif

@@ -40,32 +40,40 @@
 
 namespace w
 {
-    class RendererPrivate: public Referenced
+    namespace graphics
     {
-    public:
-        UNCOPYABLE(RendererPrivate)
+        class RendererPrivate: public Referenced
+        {
+        public:
+            UNCOPYABLE(RendererPrivate)
 
-        RendererPrivate();
-        ~RendererPrivate();
+            RendererPrivate();
+            ~RendererPrivate();
 
-        void draw(const TextureAsset &, const MeshAsset &, const ShaderProgramAsset &);
+            /**
+             * ShaderProgramAsset needs to have next attributes:
+             *  vertex shader:
+             *  -"attribute vec3 xyz;"
+             *  -"attribute vec2 uv;"
+             */
+            void draw(const TextureAsset &, const MeshAsset &, const ShaderProgramAsset &);
 
-        /**
-         * ShaderProgramAsset needs to have next attributes:
-         *  vertex shader:
-         *  -"attribute vec3 xyz;"
-         *  -"attribute vec2 uv;"
-         */
-        void draw(const PolygonAsset & polygon, const ShaderProgramAsset & shaderProgram);
+            /**
+             * ShaderProgramAsset needs to have next attributes:
+             *  vertex shader:
+             *  -"attribute vec3 xyz;"
+             */
+            void draw(const PolygonAsset & polygon, const ShaderProgramAsset & shaderProgram);
 
-        /**
-         * ShaderProgramAsset needs to have "attribute vec3 xyz;"
-         */
-        void drawLine(float p0x, float p0y, float p1x, float p1y, const ShaderProgramAsset & shaderProgram);
+            /**
+             * ShaderProgramAsset needs to have "attribute vec3 xyz;"
+             */
+            void drawLine(float p0x, float p0y, float p1x, float p1y, const ShaderProgramAsset & shaderProgram);
 
-    private:
+        private:
 
-    };
+        };
+    }
 }
 
 #endif

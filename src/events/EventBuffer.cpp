@@ -31,40 +31,43 @@
 
 namespace w
 {
-    EventBuffer::EventBuffer(const Window& window):
-        private_(new EventBufferPrivate(window))
+    namespace events
     {
-        private_->increment();
-    }
-
-    EventBuffer::EventBuffer(EventBuffer const& r):
-        private_(r.private_)
-    {
-        private_->increment();
-    }
-
-    EventBuffer::~EventBuffer()
-    {
-        private_->decrement();
-    }
-
-    EventBuffer& EventBuffer::operator=(EventBuffer const& r)
-    {
-        if (this != &r)
+        EventBuffer::EventBuffer(const graphics::Window& window):
+            private_(new EventBufferPrivate(window))
         {
-            private_ = r.private_;
             private_->increment();
         }
-        return *this;
-    }
 
-    void EventBuffer::add(Event* event)
-    {
-        private_->add(event);
-    }
+        EventBuffer::EventBuffer(EventBuffer const& r):
+            private_(r.private_)
+        {
+            private_->increment();
+        }
 
-    Event* EventBuffer::pop()
-    {
-        return private_->pop();
+        EventBuffer::~EventBuffer()
+        {
+            private_->decrement();
+        }
+
+        EventBuffer& EventBuffer::operator=(EventBuffer const& r)
+        {
+            if (this != &r)
+            {
+                private_ = r.private_;
+                private_->increment();
+            }
+            return *this;
+        }
+
+        void EventBuffer::add(Event* event)
+        {
+            private_->add(event);
+        }
+
+        Event* EventBuffer::pop()
+        {
+            return private_->pop();
+        }
     }
 }

@@ -26,6 +26,7 @@
 #ifndef LIBW_GRAPHICS_MESHASSETPRIVATE
 #define LIBW_GRAPHICS_MESHASSETPRIVATE
 
+#include "Common.hpp"
 #include <w/base/Referenced.hpp>
 #include <w/base/Class.hpp>
 #ifdef __linux__ // & Android
@@ -38,56 +39,36 @@
 
 namespace w
 {
-    class MeshAssetPrivate: public Referenced
+    namespace graphics
     {
-    public:
-        UNCOPYABLE(MeshAssetPrivate)
-
-        struct StrideComponent
+        class MeshAssetPrivate: public Referenced
         {
-            StrideComponent(const std::string& shaderSymbolName,
-                GLsizei strideLength,
-                GLsizei strideOffset,
-                GLint numberOfComponents,
-                GLenum type):
+        public:
+            UNCOPYABLE(MeshAssetPrivate)
 
-                shaderSymbolName(shaderSymbolName),
-                strideLength(strideLength),
-                strideOffset(strideOffset),
-                numberOfComponents(numberOfComponents),
-                type(type)
-            {
-            }
+            MeshAssetPrivate(float width, float height, float uStart, float uEnd, float vStart, float vEnd);
+            virtual ~MeshAssetPrivate();
+            // Android, linux, iOS. All use GLES2
+            const std::vector<StrideComponent>& strideComponents() const;
+            void bind();
+            unsigned int vertexCount() const;
+            float width() const;
+            float height() const;
 
-            std::string shaderSymbolName;
-            GLsizei strideLength;
-            GLsizei strideOffset;
-            GLint numberOfComponents;
-            GLenum type;
+        private:
+            Mutex mutex_;
+            void loadGPUData();
+
+            float width_;
+            float height_;
+
+            // Android, linux, iOS. All use GLES2
+            GLuint vbo_;
+            GLfloat* tmpVertices_;
+            std::vector<StrideComponent> strideComponents_;
+            unsigned int vertexCount_;
         };
-
-        MeshAssetPrivate(float width, float height, float uStart, float uEnd, float vStart, float vEnd);
-        virtual ~MeshAssetPrivate();
-        // Android, linux, iOS. All use GLES2
-        const std::vector<StrideComponent>& strideComponents() const;
-        void bind();
-        unsigned int vertexCount() const;
-        float width() const;
-        float height() const;
-
-    private:
-        Mutex mutex_;
-        void loadGPUData();
-
-        float width_;
-        float height_;
-
-        // Android, linux, iOS. All use GLES2
-        GLuint vbo_;
-        GLfloat* tmpVertices_;
-        std::vector<StrideComponent> strideComponents_;
-        unsigned int vertexCount_;
-    };
+    }
 }
 
 #endif

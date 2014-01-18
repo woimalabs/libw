@@ -37,27 +37,30 @@
 
 namespace w
 {
-    class Window
+    namespace graphics
     {
-    public:
-        COPYABLE(Window)
+        class Window
+        {
+        public:
+            COPYABLE(Window)
 
-        Window(const std::string& name, unsigned int x, unsigned int y, const Eigen::Vector4f& clearColor);
-        ~Window();
-        unsigned int width() const;
-        unsigned int height() const;
-        void setClearColor(const Eigen::Vector4f& clearColor);
-        void clearBuffer();
-        void swapBuffers();
-        void resize(unsigned int width, unsigned int height);
+            Window(const std::string& name, unsigned int x, unsigned int y, const Eigen::Vector4f& clearColor);
+            ~Window();
+            unsigned int width() const;
+            unsigned int height() const;
+            void setClearColor(const Eigen::Vector4f& clearColor);
+            void clearBuffer();
+            void swapBuffers();
+            void resize(unsigned int width, unsigned int height);
 
-        #if defined(linux) && !defined(__ANDROID__)
-            Display* xDisplay() const;
-        #endif
+            #if defined(linux) && !defined(__ANDROID__)
+                Display* xDisplay() const;
+            #endif
 
-    private:
-        class WindowPrivate* private_;
-    };
+        private:
+            class WindowPrivate* private_;
+        };
+    }
 }
 
 #endif

@@ -23,32 +23,42 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_GRAPHICS_POLYGONASSET
-#define LIBW_GRAPHICS_POLYGONASSET
+#ifndef LIBW_GRAPHICS_COMMON
+#define LIBW_GRAPHICS_COMMON
 
-#include <w/base/Class.hpp>
-#include <vector>
+#ifdef __linux__ // & Android
+    #include <GLES2/gl2.h>
+#else // APPLE
+    #include <OpenGLES/ES2/gl.h>
+#endif
+#include <string>
 
 namespace w
 {
     namespace graphics
     {
-        class PolygonAsset
+        struct StrideComponent
         {
-        public:
-            COPYABLE(PolygonAsset)
+            // Android, linux, iOS. All use GLES2
+            StrideComponent(const std::string& shaderSymbolName,
+                GLsizei strideLength,
+                GLsizei strideOffset,
+                GLint numberOfComponents,
+                GLenum type):
 
-            struct Point
+                shaderSymbolName(shaderSymbolName),
+                strideLength(strideLength),
+                strideOffset(strideOffset),
+                numberOfComponents(numberOfComponents),
+                type(type)
             {
-                float x, y, z;
-            };
+            }
 
-            PolygonAsset(const std::vector<std::vector<PolygonAsset::Point> > & data);
-            ~PolygonAsset();
-
-        private:
-            friend class RendererPrivate;
-            class PolygonAssetPrivate* private_;
+            std::string shaderSymbolName;
+            GLsizei strideLength;
+            GLsizei strideOffset;
+            GLint numberOfComponents;
+            GLenum type;
         };
     }
 }

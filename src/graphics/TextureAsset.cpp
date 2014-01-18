@@ -29,73 +29,76 @@
 
 namespace w
 {
-    TextureAsset::TextureAsset(const std::string& filename):
-        private_(NULL)
+    namespace graphics
     {
-        std::string id = "Texture:" + filename;
-        private_ = dynamic_cast<TextureAssetPrivate*>(ResourceManagerPrivate::assetPrivate(id));
-        if (private_ == NULL)
+        TextureAsset::TextureAsset(const std::string& filename):
+            private_(NULL)
         {
-            private_ = new TextureAssetPrivate(filename);
-            ResourceManagerPrivate::setAssetPrivate(id, private_);
-        }
+            std::string id = "Texture:" + filename;
+            private_ = dynamic_cast<TextureAssetPrivate*>(ResourceManagerPrivate::assetPrivate(id));
+            if (private_ == NULL)
+            {
+                private_ = new TextureAssetPrivate(filename);
+                ResourceManagerPrivate::setAssetPrivate(id, private_);
+            }
 
-        private_->increment();
-    }
-
-    TextureAsset::TextureAsset(TextureAsset const& r):
-        private_(r.private_)
-    {
-        private_->increment();
-    }
-
-    TextureAsset::~TextureAsset()
-    {
-        private_->decrement();
-    }
-
-    TextureAsset& TextureAsset::operator=(TextureAsset const& r)
-    {
-        if (this != &r)
-        {
-            private_ = r.private_;
             private_->increment();
         }
-        return *this;
-    }
 
-    unsigned int TextureAsset::width() const
-    {
-        return private_->width();
-    }
+        TextureAsset::TextureAsset(TextureAsset const& r):
+            private_(r.private_)
+        {
+            private_->increment();
+        }
 
-    unsigned int TextureAsset::height() const
-    {
-        return private_->height();
-    }
+        TextureAsset::~TextureAsset()
+        {
+            private_->decrement();
+        }
 
-    float TextureAsset::xUsage() const
-    {
-        return private_->xUsage();
-    }
+        TextureAsset& TextureAsset::operator=(TextureAsset const& r)
+        {
+            if (this != &r)
+            {
+                private_ = r.private_;
+                private_->increment();
+            }
+            return *this;
+        }
 
-    float TextureAsset::yUsage() const
-    {
-        return private_->yUsage();
-    }
+        unsigned int TextureAsset::width() const
+        {
+            return private_->width();
+        }
 
-    unsigned int TextureAsset::sourceBitmapWidth() const
-    {
-        return private_->sourceBitmapWidth();
-    }
+        unsigned int TextureAsset::height() const
+        {
+            return private_->height();
+        }
 
-    unsigned int TextureAsset::sourceBitmapHeight() const
-    {
-        return private_->sourceBitmapHeight();
-    }
+        float TextureAsset::xUsage() const
+        {
+            return private_->xUsage();
+        }
 
-    bool TextureAsset::hasAlpha() const
-    {
-        return private_->hasAlpha();
+        float TextureAsset::yUsage() const
+        {
+            return private_->yUsage();
+        }
+
+        unsigned int TextureAsset::sourceBitmapWidth() const
+        {
+            return private_->sourceBitmapWidth();
+        }
+
+        unsigned int TextureAsset::sourceBitmapHeight() const
+        {
+            return private_->sourceBitmapHeight();
+        }
+
+        bool TextureAsset::hasAlpha() const
+        {
+            return private_->hasAlpha();
+        }
     }
 }

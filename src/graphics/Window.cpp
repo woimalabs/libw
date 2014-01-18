@@ -29,69 +29,72 @@
 
 namespace w
 {
-    Window::Window(const std::string& name, unsigned int width, unsigned int height, const Eigen::Vector4f& clearColor):
-        private_(new WindowPrivate(name, width, height, clearColor))
+    namespace graphics
     {
-        LOGD("window!: %d, %d", private_->width(), private_->height());
-        private_->increment();
-    }
-
-    Window::~Window()
-    {
-        private_->decrement();
-        private_ = NULL;
-    }
-
-    Window::Window(Window const &r):
-        private_(r.private_)
-    {
-        private_->increment();
-    }
-
-    Window &Window::operator=(Window const &r)
-    {
-        if (this != &r)
+        Window::Window(const std::string& name, unsigned int width, unsigned int height, const Eigen::Vector4f& clearColor):
+            private_(new WindowPrivate(name, width, height, clearColor))
         {
-            private_ = r.private_;
+            LOGD("window!: %d, %d", private_->width(), private_->height());
             private_->increment();
         }
-        return *this;
-    }
 
-    unsigned int Window::width() const
-    {
-        return private_->width();
-    }
-
-    unsigned int Window::height() const
-    {
-        return private_->height();
-    }
-
-    void Window::setClearColor(const Eigen::Vector4f& clearColor)
-    {
-        private_->setClearColor(clearColor);
-    }
-
-    void Window::clearBuffer()
-    {
-        private_->clearBuffer();
-    }
-
-    void Window::swapBuffers()
-    {
-        private_->swapBuffers();
-    }
-
-    void Window::resize(unsigned int width, unsigned int height)
-    {
-        private_->resize(width, height);
-    }
-
-    #if defined(linux) && !defined(__ANDROID__)
-        Display* Window::xDisplay() const
+        Window::~Window()
         {
-            return private_->xDisplay();
+            private_->decrement();
+            private_ = NULL;
         }
-    #endif
+
+        Window::Window(Window const &r):
+            private_(r.private_)
+        {
+            private_->increment();
+        }
+
+        Window &Window::operator=(Window const &r)
+        {
+            if (this != &r)
+            {
+                private_ = r.private_;
+                private_->increment();
+            }
+            return *this;
+        }
+
+        unsigned int Window::width() const
+        {
+            return private_->width();
+        }
+
+        unsigned int Window::height() const
+        {
+            return private_->height();
+        }
+
+        void Window::setClearColor(const Eigen::Vector4f& clearColor)
+        {
+            private_->setClearColor(clearColor);
+        }
+
+        void Window::clearBuffer()
+        {
+            private_->clearBuffer();
+        }
+
+        void Window::swapBuffers()
+        {
+            private_->swapBuffers();
+        }
+
+        void Window::resize(unsigned int width, unsigned int height)
+        {
+            private_->resize(width, height);
+        }
+
+        #if defined(linux) && !defined(__ANDROID__)
+            Display* Window::xDisplay() const
+            {
+                return private_->xDisplay();
+            }
+        #endif
+    }
 }

@@ -28,53 +28,66 @@
 
 namespace w
 {
-    PolygonAssetPrivate::PolygonAssetPrivate(const std::vector<std::vector<PolygonAsset::Point> > & data):
-        vbo_(0),
-        tmpData_(new std::vector<std::vector<PolygonAsset::Point> >(data))
+    namespace graphics
     {
-    }
-
-    PolygonAssetPrivate::~PolygonAssetPrivate()
-    {
-        if(vbo_ != 0)
+        PolygonAssetPrivate::PolygonAssetPrivate(const std::vector<std::vector<PolygonAsset::Point> > & data):
+            vbo_(0),
+            tmpData_(new std::vector<std::vector<PolygonAsset::Point> >(data)),
+            pointCount_(0)
         {
-            glDeleteBuffers(1, &vbo_);
         }
 
-        if(tmpData_ != NULL)
+        PolygonAssetPrivate::~PolygonAssetPrivate()
         {
-            delete [] tmpData_;
+            if(vbo_ != 0)
+            {
+                glDeleteBuffers(1, &vbo_);
+            }
+
+            if(tmpData_ != NULL)
+            {
+                delete [] tmpData_;
+                tmpData_ = NULL;
+            }
+        }
+
+        unsigned int PolygonAssetPrivate::pointCount() const
+        {
+           return pointCount_;
+        }
+
+        const std::vector<StrideComponent>& PolygonAssetPrivate::strideComponents() const
+        {
+            return strideComponents_;
+        }
+
+        void PolygonAssetPrivate::bind()
+        {
+            loadGPUData();
+            glBindBuffer(GL_ARRAY_BUFFER, vbo_);
+        }
+
+
+        void PolygonAssetPrivate::loadGPUData()
+        {
+            LOCK
+
+            if(tmpData_ == NULL)
+            {
+                return; // we have created the GPU data already
+            }
+
+            glGenBuffers(1, &vbo_);
+            glBindBuffer(GL_ARRAY_BUFFER, vbo_);
+            glBufferData(GL_ARRAY_BUFFER, tmpData_->size() * 3 * sizeof(float), tmpData_, GL_STATIC_DRAW); // point count * 3 position floats
+            pointCount_ = tmpData_->size();
+
+            // Set stride format
+            StrideComponent xyz(std::string("xyz"), 3, 0, 3, GL_FLOAT);
+            strideComponents_.push_back(xyz);
+
+            delete tmpData_;
             tmpData_ = NULL;
         }
-    }
-
-    void PolygonAssetPrivate::bind()
-    {
-        loadGPUData();
-        glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-    }
-
-    void PolygonAssetPrivate::loadGPUData()
-    {
-        LOCK
-
-        if(tmpData_ == NULL)
-        {
-            return; // we have created the GPU data already
-        }
-/*
-        glGenBuffers(1, &vbo_);
-        glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-        glBufferData(GL_ARRAY_BUFFER, 30 * sizeof(float), tmpVertices_, GL_STATIC_DRAW); // 30: 2 triangles * 3 points * (3 position floats + 2 uv floats)
-        vertexCount_ = 6; // 6: 2 triangles * 3 points each
-
-        // Set stride format
-        StrideComponent xyz(std::string("xyz"), 5, 0, 3, GL_FLOAT);
-        StrideComponent uv(std::string("uv"), 5, 3, 2, GL_FLOAT);
-        strideComponents_.push_back(xyz);
-        strideComponents_.push_back(uv);
-
-        delete [] tmpVertices_;
-        tmpVertices_ = NULL;*/
     }
 }

@@ -40,24 +40,27 @@
 
 namespace w
 {
-    class EventBufferPrivate: public Referenced
+    namespace events
     {
-    public:
-        UNCOPYABLE(EventBufferPrivate)
+        class EventBufferPrivate: public Referenced
+        {
+        public:
+            UNCOPYABLE(EventBufferPrivate)
 
-        EventBufferPrivate(Window const& window);
-        void add(Event* event);
-        Event* pop();
+            EventBufferPrivate(graphics::Window const& window);
+            void add(Event* event);
+            Event* pop();
 
-    private:
-        Mutex mutex_;
-        std::list<Event*> events_;
+        private:
+            Mutex mutex_;
+            std::list<Event*> events_;
 
-        #if defined(linux) && !defined(__ANDROID__)
-            void pollXEvent();
-            Display* xDisplay_;
-        #endif
-    };
+            #if defined(linux) && !defined(__ANDROID__)
+                void pollXEvent();
+                Display* xDisplay_;
+            #endif
+        };
+    }
 }
 
 #endif

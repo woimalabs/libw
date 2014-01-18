@@ -23,9 +23,11 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
+#include "Common.hpp"
 #include "RendererPrivate.hpp"
 #include "TextureAssetPrivate.hpp"
 #include "MeshAssetPrivate.hpp"
+#include "PolygonAssetPrivate.hpp"
 #include "ShaderProgramAssetPrivate.hpp"
 #include "w/graphics/MeshAsset.hpp"
 #include "w/base/Log.hpp"
@@ -34,89 +36,125 @@
 
 namespace w
 {
-    #define BUFFER_OFFSET(i) ((char*)NULL + (i))
-
-    RendererPrivate::RendererPrivate():
-        Referenced()
+    namespace graphics
     {
-    }
+        #define BUFFER_OFFSET(i) ((char*)NULL + (i))
 
-    RendererPrivate::~RendererPrivate()
-    {
-    }
-
-    void RendererPrivate::draw(const TextureAsset & texture, const MeshAsset & mesh, const ShaderProgramAsset & shaderProgram)
-    {
-        // Use given mesh
-        mesh.private_->bind();
-
-        // Use given shaderProgram
-        ShaderProgramAssetPrivate::stop();
-        shaderProgram.private_->start();
-
-        // Find out needed data for shader
-        const std::vector<MeshAssetPrivate::StrideComponent>& uniforms = mesh.private_->strideComponents();
-
-        // Bind shader symbols to mesh data
-        std::vector<std::string> shaderSymbols;
-        for (std::vector<MeshAssetPrivate::StrideComponent>::const_iterator i = uniforms.begin(); i != uniforms.end(); i++)
+        RendererPrivate::RendererPrivate():
+            Referenced()
         {
-            GLint shaderSymbolLocation = shaderProgram.private_->attribute((*i).shaderSymbolName);
-            glEnableVertexAttribArray(shaderSymbolLocation);
-            glVertexAttribPointer(
-                shaderSymbolLocation,
-                (*i).numberOfComponents,
-                (*i).type,
-                GL_FALSE,
-                (*i).strideLength * sizeof(GLfloat),
-                (GLvoid*)((*i).strideOffset * sizeof(GLfloat)));
         }
 
-        // Use given texture
-        texture.private_->bind();
-
-        // TODO: probably some nice API for next lines:
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glDisable(GL_DEPTH_TEST);
-        glDisable(GL_CULL_FACE);
-
-        // Draw
-        glDrawArrays(GL_TRIANGLES, 0, mesh.private_->vertexCount());
-    }
-
-    void RendererPrivate::draw(const PolygonAsset & polygon, const ShaderProgramAsset & shaderProgram)
-    {
-    }
-
-    void RendererPrivate::drawLine(float p0x, float p0y, float p1x, float p1y, const ShaderProgramAsset & shaderProgram)
-    {
-        // Use given shaderProgram
-        shaderProgram.private_->start();
-
-        std::string tmp("xyz");
-        GLint positionXyz = shaderProgram.private_->attribute(tmp);
-
-        GLfloat vertices[] =
+        RendererPrivate::~RendererPrivate()
         {
-            p0x, p0y, 0.0f,
-            p1x, p1y, 0.0f
-        };
+        }
 
-        GLuint vbo;
-        glGenBuffers(1, &vbo);
-        glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), vertices, GL_STATIC_DRAW); // 2 points having each 3 floats
+        void RendererPrivate::draw(const TextureAsset & texture, const MeshAsset & mesh, const ShaderProgramAsset & shaderProgram)
+        {
+            // Use given mesh
+            mesh.private_->bind();
 
-        // Draw
-        glEnableVertexAttribArray(positionXyz);
-        glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        unsigned int vertexStride = 0; // separate VBOs
-        glVertexAttribPointer(positionXyz, 3, GL_FLOAT, GL_FALSE, 0, 0);
+            // Use given shaderProgram
+            ShaderProgramAssetPrivate::stop();
+            shaderProgram.private_->start();
 
-        glDrawArrays(GL_LINES, 0,  2);
+            // Find out needed data for shader
+            const std::vector<StrideComponent>& uniforms = mesh.private_->strideComponents();
 
-        // Delete data
-        glDeleteBuffers(1, &vbo);
+            // Bind shader symbols to mesh data
+            std::vector<std::string> shaderSymbols;
+            for (std::vector<StrideComponent>::const_iterator i = uniforms.begin(); i != uniforms.end(); i++)
+            {
+                GLint shaderSymbolLocation = shaderProgram.private_->attribute((*i).shaderSymbolName);
+                glEnableVertexAttribArray(shaderSymbolLocation);
+                glVertexAttribPointer(
+                    shaderSymbolLocation,
+                    (*i).numberOfComponents,
+                    (*i).type,
+                    GL_FALSE,
+                    (*i).strideLength * sizeof(GLfloat),
+                    (GLvoid*)((*i).strideOffset * sizeof(GLfloat)));
+            }
+
+            // Use given texture
+            texture.private_->bind();
+
+            // TODO: probably some nice API for next lines:
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glDisable(GL_DEPTH_TEST);
+            glDisable(GL_CULL_FACE);
+
+            // Draw
+            glDrawArrays(GL_TRIANGLES, 0, mesh.private_->vertexCount());
+        }
+
+        void RendererPrivate::draw(const PolygonAsset & polygon, const ShaderProgramAsset & shaderProgram)
+        {
+            // Use given mesh
+            polygon.private_->bind();
+
+            // Use given shaderProgram
+            ShaderProgramAssetPrivate::stop();
+            shaderProgram.private_->start();
+
+            // Find out needed data for shader
+            const std::vector<StrideComponent>& uniforms = polygon.private_->strideComponents();
+
+            // Bind shader symbols to mesh data
+            std::vector<std::string> shaderSymbols;
+            for (std::vector<StrideComponent>::const_iterator i = uniforms.begin(); i != uniforms.end(); i++)
+            {
+                GLint shaderSymbolLocation = shaderProgram.private_->attribute((*i).shaderSymbolName);
+                glEnableVertexAttribArray(shaderSymbolLocation);
+                glVertexAttribPointer(
+                    shaderSymbolLocation,
+                    (*i).numberOfComponents,
+                    (*i).type,
+                    GL_FALSE,
+                    (*i).strideLength * sizeof(GLfloat),
+                    (GLvoid*)((*i).strideOffset * sizeof(GLfloat)));
+            }
+
+            // TODO: probably some nice API for next lines:
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glDisable(GL_DEPTH_TEST);
+            glDisable(GL_CULL_FACE);
+
+            // Draw
+            glDrawArrays(GL_LINES, 0, polygon.private_->pointCount());
+        }
+
+        void RendererPrivate::drawLine(float p0x, float p0y, float p1x, float p1y, const ShaderProgramAsset & shaderProgram)
+        {
+            // Use given shaderProgram
+            shaderProgram.private_->start();
+
+            std::string tmp("xyz");
+            GLint positionXyz = shaderProgram.private_->attribute(tmp);
+
+            GLfloat vertices[] =
+            {
+                p0x, p0y, 0.0f,
+                p1x, p1y, 0.0f
+            };
+
+            GLuint vbo;
+            glGenBuffers(1, &vbo);
+            glBindBuffer(GL_ARRAY_BUFFER, vbo);
+            glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), vertices, GL_STATIC_DRAW); // 2 points having each 3 floats
+
+            // Draw
+            glEnableVertexAttribArray(positionXyz);
+            glBindBuffer(GL_ARRAY_BUFFER, vbo);
+            unsigned int vertexStride = 0; // separate VBOs
+            glVertexAttribPointer(positionXyz, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+            glDrawArrays(GL_LINES, 0,  2);
+
+            // Delete data
+            glDeleteBuffers(1, &vbo);
+        }
     }
 }
