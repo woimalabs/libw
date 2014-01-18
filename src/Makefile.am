@@ -72,6 +72,7 @@ library_graphics_include_HEADERS = \
 	../include/w/graphics/ShaderProgramAsset.hpp \
 	../include/w/graphics/TextureAsset.hpp \
 	../include/w/graphics/MeshAsset.hpp \
+	../include/w/graphics/PolygonAsset.hpp \
 	../include/w/graphics/Renderer.hpp
 
 library_scene_includedir = $(includedir)/w/scene
