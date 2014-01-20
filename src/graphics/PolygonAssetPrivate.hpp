@@ -1,7 +1,7 @@
 /**
  * libw
  *
- * Copyright (C) 2013 Woima Solutions
+ * Copyright (C) 2013-2014 Woima Solutions
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
@@ -47,7 +47,7 @@ namespace w
         public:
             UNCOPYABLE(PolygonAssetPrivate)
 
-            PolygonAssetPrivate(const std::vector<std::vector<PolygonAsset::Point> > & data);
+            PolygonAssetPrivate(const std::vector<PolygonAsset::Point> & data);
             virtual ~PolygonAssetPrivate();
 
             unsigned int pointCount() const;
@@ -59,7 +59,7 @@ namespace w
         private:
             Mutex mutex_;
             void loadGPUData();
-            std::vector<std::vector<PolygonAsset::Point> >* tmpData_;
+            std::vector<PolygonAsset::Point>* tmpData_;
             unsigned int dataSize_;
 
             // Android, linux, iOS. All use GLES2

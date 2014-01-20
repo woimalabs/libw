@@ -1,7 +1,7 @@
 /**
  * libw
  *
- * Copyright (C) 2013 Woima Solutions
+ * Copyright (C) 2013-2014 Woima Solutions
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
@@ -30,9 +30,9 @@ namespace w
 {
     namespace graphics
     {
-        PolygonAssetPrivate::PolygonAssetPrivate(const std::vector<std::vector<PolygonAsset::Point> > & data):
+        PolygonAssetPrivate::PolygonAssetPrivate(const std::vector<PolygonAsset::Point> & data):
             vbo_(0),
-            tmpData_(new std::vector<std::vector<PolygonAsset::Point> >(data)),
+            tmpData_(new std::vector<PolygonAsset::Point>(data)),
             pointCount_(0)
         {
         }
@@ -67,27 +67,38 @@ namespace w
             glBindBuffer(GL_ARRAY_BUFFER, vbo_);
         }
 
-
         void PolygonAssetPrivate::loadGPUData()
         {
             LOCK
 
-            if(tmpData_ == NULL)
+            /*if(tmpData_ == NULL)
             {
                 return; // we have created the GPU data already
             }
 
+            // fake data
+            float fakeData[12] =
+            {
+                0.0f, 0.0f, 10.0f,
+                10.0f, 2.0f, 10.0f,
+                10.0f, 4.0f, 10.0f,
+                0.0f, 6.0f, 10.0f
+            };
+
+
             glGenBuffers(1, &vbo_);
             glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-            glBufferData(GL_ARRAY_BUFFER, tmpData_->size() * 3 * sizeof(float), tmpData_, GL_STATIC_DRAW); // point count * 3 position floats
-            pointCount_ = tmpData_->size();
+            glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), (const GLvoid*)&(tmpData_->front())  address of first in C++ , GL_STATIC_DRAW);
+            pointCount_ = 2;
+            // glBufferData(GL_ARRAY_BUFFER, tmpData_->size() * 3 * sizeof(float), (const GLvoid*)&(tmpData_->front())  address of first in C++  GL_STATIC_DRAW); // point count * 3 position floats
+            //pointCount_ = tmpData_->size();
 
             // Set stride format
             StrideComponent xyz(std::string("xyz"), 3, 0, 3, GL_FLOAT);
             strideComponents_.push_back(xyz);
 
             delete tmpData_;
-            tmpData_ = NULL;
+            tmpData_ = NULL;*/
         }
     }
 }

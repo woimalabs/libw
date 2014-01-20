@@ -29,6 +29,7 @@
 #include <w/graphics/TextureAsset.hpp>
 #include <w/graphics/MeshAsset.hpp>
 #include <w/graphics/ShaderProgramAsset.hpp>
+#include <w/graphics/PolygonAsset.hpp>
 #include <w/base/Class.hpp>
 
 namespace w
@@ -42,6 +43,7 @@ namespace w
 
             Renderer();
             ~Renderer();
+            void draw(PolygonAsset const&, ShaderProgramAsset const&);
             void draw(TextureAsset const&, MeshAsset const&, ShaderProgramAsset const&);
 
             // test

@@ -1,7 +1,7 @@
 /**
  * libw
  *
- * Copyright (C) 2013 Woima Solutions
+ * Copyright (C) 2013-2014 Woima Solutions
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
@@ -30,7 +30,7 @@ namespace w
 {
     namespace graphics
     {
-        PolygonAsset::PolygonAsset(const std::vector<std::vector<PolygonAsset::Point> > & data):
+        PolygonAsset::PolygonAsset(const std::vector<PolygonAsset::Point> & data):
             private_(new PolygonAssetPrivate(data))
         {
             private_->increment();

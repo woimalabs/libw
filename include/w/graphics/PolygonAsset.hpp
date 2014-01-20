@@ -50,7 +50,7 @@ namespace w
                 float x, y, z;
             };
 
-            PolygonAsset(const std::vector<std::vector<PolygonAsset::Point> > & data);
+            PolygonAsset(const std::vector<PolygonAsset::Point> & data);
             ~PolygonAsset();
 
         private:
