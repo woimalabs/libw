@@ -67,6 +67,11 @@ namespace w
             return *this;
         }
 
+        void ShaderProgramAsset::start()
+        {
+            private_->start();
+        }
+
         void ShaderProgramAsset::setUniform(const std::string& symbolName, float value)
         {
             private_->setUniform(symbolName, value);

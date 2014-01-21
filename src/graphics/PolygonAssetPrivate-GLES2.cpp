@@ -63,8 +63,8 @@ namespace w
 
         void PolygonAssetPrivate::bind()
         {
-            loadGPUData();
-            glBindBuffer(GL_ARRAY_BUFFER, vbo_);
+           // loadGPUData();
+           // glBindBuffer(GL_ARRAY_BUFFER, vbo_);
         }
 
         void PolygonAssetPrivate::loadGPUData()
