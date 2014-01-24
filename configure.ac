@@ -12,7 +12,9 @@ CPPFLAGS="$CPPFLAGS \
     -I/usr/include/sigc++-2.0 \
     -I/usr/local/include/sigc++-2.0 \
     -I/usr/local/lib/sigc++-2.0/include \
-    -I/usr/local/include/eigen3"
+    -I/usr/local/include/eigen3 \
+    -I/usr/include/eigen3 \
+    -I/usr/include/sigc++-2.0/"
 
 AC_CONFIG_FILES([Makefile
     src/Makefile
