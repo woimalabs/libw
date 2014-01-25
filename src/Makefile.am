@@ -1,5 +1,6 @@
 lib_LTLIBRARIES = libw.la
-libw_la_LDFLAGS=-g -O -module -avoid-version -shared --disable-static -Wl,--no-as-needed -ldl
+libw_la_LDFLAGS=-g -O -module -avoid-version -shared --disable-static --no-as-needed
+#-g -O -module -avoid-version -shared --disable-static -Wl,--no-as-needed -ldl
 libw_la_CPPFLAGS=-I$(top_srcdir)/include \
 	-I/usr/include/libpng \
 	-I/usr/include/sigc++-2.0 \

@@ -8,11 +8,6 @@ AC_ENABLE_SHARED
 AC_DISABLE_STATIC
 LT_INIT
 
-#PKG_CHECK_MODULES([libsigcpp], [libsigc++])
-#AC_SUBST([libsigcpp_CPPFLAGS])
-#PKG_CHECK_MODULES([libpng], [libpng])
-#AC_SUBST([libpng_CPPFLAGS])
-
 AC_CONFIG_FILES([Makefile
     src/Makefile
     libw.pc])
