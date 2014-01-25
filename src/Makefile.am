@@ -88,4 +88,4 @@ library_events_include_HEADERS = \
 	../include/w/events/EventBuffer.hpp \
 	../include/w/events/Event.hpp
 
-libw_la_LDFLAGS = -g -module -avoid-version -shared --disable-static
+libw_la_LDFLAGS = -g -O -module -avoid-version -shared --disable-static -Wl,--no-as-needed -ldl

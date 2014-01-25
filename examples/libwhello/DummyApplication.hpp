@@ -26,8 +26,8 @@
 #ifndef AUDIOHELLO_DUMMYAPPLICATION
 #define AUDIOHELLO_DUMMYAPPLICATION
 
-#include <w/Log.hpp>
-#include <w/ResourceManager.hpp>
+#include <w/base/Log.hpp>
+#include <w/base/ResourceManager.hpp>
 #include <w/audio/AudioEngine.hpp>
 #include <w/audio/AudioAsset.hpp>
 #include <w/graphics/Window.hpp>
@@ -40,7 +40,7 @@ public:
         resourceManager_("./"),
         audioEngine_(1.0f, resourceManager_),
         audioAsset_("teleport.wav"),
-        window_(std::string("libwhello"), 800, 600, w::Vector4(0.0f, 0.0f, 0.0f, 0.0f))
+        window_(std::string("libwhello"), 800, 600, Eigen::Vector4f(0.0f, 0.0f, 0.0f, 0.0f))
     {
         /*
         std::string storageTestIntKey1("testInt1");
@@ -84,7 +84,7 @@ private:
     w::ResourceManager resourceManager_;
     w::AudioEngine audioEngine_;
     w::AudioAsset audioAsset_;
-    w::Window window_;
+    w::graphics::Window window_;
     //w::Storage storage_;
 };
 
