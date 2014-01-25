@@ -8,13 +8,10 @@ AC_ENABLE_SHARED
 AC_DISABLE_STATIC
 LT_INIT
 
-CPPFLAGS= \
-    -I/usr/include/sigc++-2.0 \
-    -I/usr/local/include/sigc++-2.0 \
-    -I/usr/local/lib/sigc++-2.0/include \
-    -I/usr/local/include/eigen3 \
-    -I/usr/include/eigen3 \
-    -I/usr/include/sigc++-2.0
+#PKG_CHECK_MODULES([libsigcpp], [libsigc++])
+#AC_SUBST([libsigcpp_CPPFLAGS])
+#PKG_CHECK_MODULES([libpng], [libpng])
+#AC_SUBST([libpng_CPPFLAGS])
 
 AC_CONFIG_FILES([Makefile
     src/Makefile
