@@ -128,7 +128,7 @@ namespace w
             glVertexAttribPointer(positionXyz, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
             // Draw the line
-            glDrawArrays(GL_LINES, 0, pointCount);
+            glDrawArrays(GL_LINE_STRIP, 0, pointCount);
             glDisableVertexAttribArray(positionXyz);
         }
 

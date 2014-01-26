@@ -75,48 +75,25 @@ namespace w
             }
             LOCK
 
-            // Fake test data
-            static const GLfloat g_vertex_buffer_data[] = {
-                0.0f, 0.0f, 0.0f,
-                500.0f, 500.0f, 0.0f
-            };
+            // debug
+            std::vector<PolygonAsset::Point>::const_iterator last = tmpData_->begin();
+            std::vector<PolygonAsset::Point>::const_iterator i = last + 1;
+            for(; last != tmpData_->end(); last = i, i++)
+            {
+                PolygonAsset::Point j0 = *last;
+                PolygonAsset::Point j1 = *i;
+                LOGD("PolygonAssetPrivateoutline:(%f, %f, %f), (%f, %f, %f)", j0.x, j0.y, j0.z, j1.x, j1.y, j1.z)
+            }
 
+            GLfloat* tmpData = (GLfloat*)&(tmpData_->front());
+            unsigned int tmpSize = tmpData_->size() * sizeof(PolygonAsset::Point);
             glGenBuffers(1, &vbo_);
             glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-            pointCount_ = 2;
+            glBufferData(GL_ARRAY_BUFFER, tmpSize, tmpData, GL_STATIC_DRAW);
+            pointCount_ = tmpData_->size();
 
             delete tmpData_;
             tmpData_ = NULL;
-
-            /*if(tmpData_ == NULL)
-            {
-                return; // we have created the GPU data already
-            }
-
-            // fake data
-            float fakeData[12] =
-            {
-                0.0f, 0.0f, 10.0f,
-                10.0f, 2.0f, 10.0f,
-                10.0f, 4.0f, 10.0f,
-                0.0f, 6.0f, 10.0f
-            };
-
-
-            glGenBuffers(1, &vbo_);
-            glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-            glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), (const GLvoid*)&(tmpData_->front())  address of first in C++ , GL_STATIC_DRAW);
-            pointCount_ = 2;
-            // glBufferData(GL_ARRAY_BUFFER, tmpData_->size() * 3 * sizeof(float), (const GLvoid*)&(tmpData_->front())  address of first in C++  GL_STATIC_DRAW); // point count * 3 position floats
-            //pointCount_ = tmpData_->size();
-
-            // Set stride format
-            StrideComponent xyz(std::string("xyz"), 3, 0, 3, GL_FLOAT);
-            strideComponents_.push_back(xyz);
-
-            delete tmpData_;
-            tmpData_ = NULL;*/
         }
     }
 }
