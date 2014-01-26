@@ -92,7 +92,7 @@ namespace w
             // Fake test data
             static const GLfloat g_vertex_buffer_data[] = {
                         0.0f,  0.0f, 0.0f,
-                        1.0f,  1.0f, 0.0f
+                        10.0f,  10.0f, 0.0f
             };
 
             GLuint vertexbuffer;
@@ -126,6 +126,40 @@ namespace w
 
             GLfloat vertices[] =
             {
+                0.0f, 0.0f, 0.0f,
+                10.0f, 10.0f, 0.0f
+            };
+
+            GLuint vbo;
+            glGenBuffers(1, &vbo);
+            glBindBuffer(GL_ARRAY_BUFFER, vbo);
+            glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), vertices, GL_STATIC_DRAW); // 2 points having each 3 floats
+
+            // TODO: probably some nice API for next lines:
+            glDisable(GL_BLEND);
+            glDisable(GL_DEPTH_TEST);
+            glDisable(GL_CULL_FACE);
+
+            // Draw
+            glEnableVertexAttribArray(positionXyz);
+            glBindBuffer(GL_ARRAY_BUFFER, vbo);
+            unsigned int vertexStride = 0; // separate VBOs
+            glVertexAttribPointer(positionXyz, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+            glDrawArrays(GL_LINES, 0,  2);
+
+            // Delete data
+            glDeleteBuffers(1, &vbo);
+        }
+
+        /*void RendererPrivate::drawLine(float p0x, float p0y, float p1x, float p1y, const ShaderProgramAsset & shaderProgram)
+        {
+            LOG
+            std::string tmp("xyz");
+            GLint positionXyz = shaderProgram.private_->attribute(tmp);
+
+            GLfloat vertices[] =
+            {
                 p0x, p0y, 0.0f,
                 p1x, p1y, 0.0f
             };
@@ -150,6 +184,6 @@ namespace w
 
             // Delete data
             glDeleteBuffers(1, &vbo);
-        }
+        }*/
     }
 }
