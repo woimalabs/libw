@@ -43,6 +43,7 @@ library_base_include_HEADERS = \
 	../include/w/base/ReferencedPointer.hpp \
 	../include/w/base/Exception.hpp \
 	../include/w/base/FileHandle.hpp \
+	../include/w/base/String.hpp \
 	../include/w/base/Mutex.hpp \
 	../include/w/base/Resource.hpp \
 	../include/w/base/ResourceManager.hpp \

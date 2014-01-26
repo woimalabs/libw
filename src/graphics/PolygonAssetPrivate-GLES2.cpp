@@ -63,13 +63,31 @@ namespace w
 
         void PolygonAssetPrivate::bind()
         {
-           // loadGPUData();
-           // glBindBuffer(GL_ARRAY_BUFFER, vbo_);
+            loadGPUData();
+            glBindBuffer(GL_ARRAY_BUFFER, vbo_);
         }
 
         void PolygonAssetPrivate::loadGPUData()
         {
+            if(tmpData_ == NULL)
+            {
+                return; // we have created the GPU data already
+            }
             LOCK
+
+            // Fake test data
+            static const GLfloat g_vertex_buffer_data[] = {
+                0.0f, 0.0f, 0.0f,
+                500.0f, 500.0f, 0.0f
+            };
+
+            glGenBuffers(1, &vbo_);
+            glBindBuffer(GL_ARRAY_BUFFER, vbo_);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+            pointCount_ = 2;
+
+            delete tmpData_;
+            tmpData_ = NULL;
 
             /*if(tmpData_ == NULL)
             {

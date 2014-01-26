@@ -57,6 +57,21 @@ namespace w
             return *this;
         }
 
+        void Renderer::setBlend(bool value)
+        {
+            private_->setBlend(value);
+        }
+
+        void Renderer::setDepthTest(bool value)
+        {
+            private_->setDepthTest(value);
+        }
+
+        void Renderer::setCullFace(bool value)
+        {
+            private_->setCullFace(value);
+        }
+
         void Renderer::draw(TextureAsset const& texture, MeshAsset const& mesh, ShaderProgramAsset const& shaderProgram)
         {
             private_->draw(texture, mesh, shaderProgram);

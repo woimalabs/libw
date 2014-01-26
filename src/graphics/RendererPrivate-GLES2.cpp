@@ -49,6 +49,43 @@ namespace w
         {
         }
 
+        void RendererPrivate::setBlend(bool value)
+        {
+            if(value == true)
+            {
+                glEnable(GL_BLEND);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            }
+            else
+            {
+                glDisable(GL_BLEND);
+            }
+        }
+
+        void RendererPrivate::setDepthTest(bool value)
+        {
+            if(value == true)
+            {
+                glEnable(GL_DEPTH_TEST);
+            }
+            else
+            {
+                glDisable(GL_DEPTH_TEST);
+            }
+        }
+
+        void RendererPrivate::setCullFace(bool value)
+        {
+            if(value == true)
+            {
+                glEnable(GL_CULL_FACE);
+            }
+            else
+            {
+                glDisable(GL_CULL_FACE);
+            }
+        }
+
         void RendererPrivate::draw(const TextureAsset & texture, const MeshAsset & mesh, const ShaderProgramAsset & shaderProgram)
         {
             // Use given mesh
@@ -75,84 +112,27 @@ namespace w
             // Use given texture
             texture.private_->bind();
 
-            // TODO: probably some nice API for next lines:
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            glDisable(GL_DEPTH_TEST);
-            glDisable(GL_CULL_FACE);
-
             // Draw
             glDrawArrays(GL_TRIANGLES, 0, mesh.private_->vertexCount());
         }
 
         void RendererPrivate::draw(const PolygonAsset & polygon, const ShaderProgramAsset & shaderProgram)
         {
-            LOG
-
-            // Fake test data
-            static const GLfloat g_vertex_buffer_data[] = {
-                        0.0f,  0.0f, 0.0f,
-                        10.0f,  10.0f, 0.0f
-            };
-
-            GLuint vertexbuffer;
-            glGenBuffers(1, &vertexbuffer);
-            glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+            unsigned int pointCount = polygon.private_->pointCount();
+            polygon.private_->bind();
 
             // Shader attributes
             std::string tmp("xyz");
             GLint positionXyz = shaderProgram.private_->attribute(tmp);
             glEnableVertexAttribArray(positionXyz);
-            glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
             glVertexAttribPointer(positionXyz, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-            // TODO: probably some nice API for next lines:
-            glDisable(GL_BLEND);
-            glDisable(GL_DEPTH_TEST);
-            glDisable(GL_CULL_FACE);
-
             // Draw the line
-            glDrawArrays(GL_LINES, 0, 2);
+            glDrawArrays(GL_LINES, 0, pointCount);
             glDisableVertexAttribArray(positionXyz);
-            glDeleteBuffers(1, &vertexbuffer);
         }
 
         void RendererPrivate::drawLine(float p0x, float p0y, float p1x, float p1y, const ShaderProgramAsset & shaderProgram)
-        {
-            LOG
-            std::string tmp("xyz");
-            GLint positionXyz = shaderProgram.private_->attribute(tmp);
-
-            GLfloat vertices[] =
-            {
-                0.0f, 0.0f, 0.0f,
-                10.0f, 10.0f, 0.0f
-            };
-
-            GLuint vbo;
-            glGenBuffers(1, &vbo);
-            glBindBuffer(GL_ARRAY_BUFFER, vbo);
-            glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), vertices, GL_STATIC_DRAW); // 2 points having each 3 floats
-
-            // TODO: probably some nice API for next lines:
-            glDisable(GL_BLEND);
-            glDisable(GL_DEPTH_TEST);
-            glDisable(GL_CULL_FACE);
-
-            // Draw
-            glEnableVertexAttribArray(positionXyz);
-            glBindBuffer(GL_ARRAY_BUFFER, vbo);
-            unsigned int vertexStride = 0; // separate VBOs
-            glVertexAttribPointer(positionXyz, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-            glDrawArrays(GL_LINES, 0,  2);
-
-            // Delete data
-            glDeleteBuffers(1, &vbo);
-        }
-
-        /*void RendererPrivate::drawLine(float p0x, float p0y, float p1x, float p1y, const ShaderProgramAsset & shaderProgram)
         {
             LOG
             std::string tmp("xyz");
@@ -184,6 +164,6 @@ namespace w
 
             // Delete data
             glDeleteBuffers(1, &vbo);
-        }*/
+        }
     }
 }

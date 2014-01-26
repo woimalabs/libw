@@ -49,6 +49,9 @@ namespace w
 
             RendererPrivate();
             ~RendererPrivate();
+            void setBlend(bool value);
+            void setDepthTest(bool value);
+            void setCullFace(bool value);
 
             /**
              * ShaderProgramAsset needs to have next attributes:
@@ -69,6 +72,7 @@ namespace w
              * ShaderProgramAsset needs to have "attribute vec3 xyz;"
              */
             void drawLine(float p0x, float p0y, float p1x, float p1y, const ShaderProgramAsset & shaderProgram);
+
 
         private:
 
