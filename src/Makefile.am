@@ -4,7 +4,8 @@ libw_la_LDFLAGS=-g -O -module -avoid-version -shared --disable-static --no-as-ne
 libw_la_CPPFLAGS=-I$(top_srcdir)/include \
 	-I/usr/include/libpng \
 	-I/usr/include/sigc++-2.0 \
-	-I/usr/include/eigen3/
+	-I/usr/include/eigen3/ \
+	-I/usr/local/include/eigen3/
 
 libw_la_SOURCES = \
 	base/Log.cpp \
