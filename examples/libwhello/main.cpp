@@ -24,8 +24,8 @@
  */
 
 #include "DummyApplication.hpp"
-#include <w/base/Exception.hpp>
-#include <w/base/Log.hpp>
+#include <w/Exception.hpp>
+#include <w/Log.hpp>
 
 int main(int argc, char *argv[])
 {

@@ -1,11 +1,4 @@
 lib_LTLIBRARIES = libw.la
-libw_la_LDFLAGS=-g -O -module -avoid-version -shared --disable-static --no-as-needed
-#-g -O -module -avoid-version -shared --disable-static -Wl,--no-as-needed -ldl
-libw_la_CPPFLAGS=-I$(top_srcdir)/include \
-	-I/usr/include/libpng \
-	-I/usr/include/sigc++-2.0 \
-	-I/usr/include/eigen3/ \
-	-I/usr/local/include/eigen3/
 
 libw_la_SOURCES = \
 	base/Log.cpp \
@@ -42,6 +35,7 @@ libw_la_SOURCES = \
 	events/EventBuffer.cpp \
 	events/EventBufferPrivate.cpp
 
+libw_la_CPPFLAGS = -I$(top_srcdir)/include
 
 library_base_includedir = $(includedir)/w/base
 library_base_include_HEADERS = \
@@ -93,3 +87,5 @@ library_events_includedir = $(includedir)/w/events
 library_events_include_HEADERS = \
 	../include/w/events/EventBuffer.hpp \
 	../include/w/events/Event.hpp
+
+libw_la_LDFLAGS = -g -module -avoid-version -shared --disable-static
