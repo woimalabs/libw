@@ -106,6 +106,11 @@ namespace w
             n++;
             return n;
         }
+
+        static float cross(const Vector2f & a, const Vector2f & b)
+        {
+            return a.x * b.y - a.y * b.x;
+        }
     }
 }
 
