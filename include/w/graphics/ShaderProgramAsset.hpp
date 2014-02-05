@@ -53,11 +53,12 @@ namespace w
              * @param [in]  vertexShaderFilename    Vertex shader filename to load
              * @param [in]  fragmentShaderFilename  Fragment shader filename to load
              */
-            ShaderProgramAsset(const std::string& vertexShaderFilename, const std::string& fragmentShaderFilename);
+            ShaderProgramAsset(const std::string & vertexShaderFilename, const std::string & fragmentShaderFilename);
             ~ShaderProgramAsset();
             void start();
-            void setUniform(const std::string& symbolName, float value);
-            void setUniform(const std::string& symbolName, const Eigen::Matrix4f& value);
+            void setUniform(const std::string & symbolName, float value);
+            void setUniform(const std::string & symbolName, const Eigen::Matrix4f & value);
+            void setUniform(const std::string & symbolName, const Eigen::Vector4f & value);
 
         private:
             friend class RendererPrivate;

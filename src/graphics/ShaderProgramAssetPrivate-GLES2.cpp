@@ -103,6 +103,12 @@ namespace w
             glUniformMatrix4fv(id, 1, false, values.data());
         }
 
+        void ShaderProgramAssetPrivate::setUniform(const std::string& symbolName, const Eigen::Vector4f& values)
+        {
+            GLint id = uniform(symbolName.c_str());
+            glUniform4fv(id, 1, values.data());
+        }
+
         void ShaderProgramAssetPrivate::start()
         {
             glUseProgram(programId_);

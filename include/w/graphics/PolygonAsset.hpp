@@ -27,6 +27,7 @@
 #define LIBW_GRAPHICS_POLYGONASSET
 
 #include <w/base/Class.hpp>
+#include <w/math/Eigen.hpp>
 #include <vector>
 
 namespace w
@@ -50,8 +51,10 @@ namespace w
                 float x, y, z;
             };
 
-            PolygonAsset(const std::vector<PolygonAsset::Point> & data);
+            PolygonAsset(const std::vector<PolygonAsset::Point> & data,
+                const Eigen::Vector4f & color = Eigen::Vector4f(1.0f, 0.0f, 1.0f, 1.0f));
             ~PolygonAsset();
+            Eigen::Vector4f color();
 
         private:
             friend class RendererPrivate;

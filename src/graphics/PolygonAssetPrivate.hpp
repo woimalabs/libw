@@ -30,6 +30,7 @@
 #include <w/graphics/PolygonAsset.hpp>
 #include <w/base/Referenced.hpp>
 #include <w/base/Class.hpp>
+#include <w/math/Eigen.hpp>
 #ifdef __linux__ // & Android
     #include <GLES2/gl2.h>
 #else // APPLE
@@ -46,12 +47,15 @@ namespace w
         {
         public:
             UNCOPYABLE(PolygonAssetPrivate)
+            EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
-            PolygonAssetPrivate(const std::vector<PolygonAsset::Point> & data);
+            PolygonAssetPrivate(const std::vector<PolygonAsset::Point> & data,
+                const Eigen::Vector4f & color);
             virtual ~PolygonAssetPrivate();
 
             unsigned int pointCount() const;
             const std::vector<StrideComponent>& strideComponents() const;
+            Eigen::Vector4f color();
 
             // Android, linux, iOS. All use GLES2
             void bind();
@@ -59,6 +63,7 @@ namespace w
         private:
             Mutex mutex_;
             void loadGPUData();
+            Eigen::Vector4f color_;
             std::vector<PolygonAsset::Point>* tmpData_;
             unsigned int dataSize_;
 

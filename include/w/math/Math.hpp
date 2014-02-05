@@ -49,6 +49,7 @@ namespace w
 
         static Eigen::Matrix4f view(const Eigen::Vector3f& location, const Eigen::Vector3f& forward, const Eigen::Vector3f& up)
         {
+            // TODO !!!
             //Eigen::Vector3f transformedForward = forward; //rotation.transformVector(forward, forward);
             //Eigen::Vector3f cameraLookAt = location + transformedForward;
             //return lookAt(location, cameraLookAt, Eigen::Vector3f(0.0f, 1.0f, 0.0f));
@@ -107,9 +108,14 @@ namespace w
             return n;
         }
 
-        static float cross(const Vector2f & a, const Vector2f & b)
+        static float cross(const Eigen::Vector2f & a, const Eigen::Vector2f & b)
         {
-            return a.x * b.y - a.y * b.x;
+            return a.x() * b.y() - a.y() * b.x();
+        }
+
+        static Eigen::Vector2f normal(const Eigen::Vector2f & line)
+        {
+            return Eigen::Vector2f(line.y(), -line.x());
         }
     }
 }

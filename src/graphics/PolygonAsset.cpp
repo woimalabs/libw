@@ -30,8 +30,9 @@ namespace w
 {
     namespace graphics
     {
-        PolygonAsset::PolygonAsset(const std::vector<PolygonAsset::Point> & data):
-            private_(new PolygonAssetPrivate(data))
+        PolygonAsset::PolygonAsset(const std::vector<PolygonAsset::Point> & data,
+            const Eigen::Vector4f & color):
+            private_(new PolygonAssetPrivate(data, color))
         {
             private_->increment();
         }
@@ -55,6 +56,11 @@ namespace w
                 private_->increment();
             }
             return *this;
+        }
+
+        Eigen::Vector4f PolygonAsset::color()
+        {
+           return private_->color();
         }
     }
 }

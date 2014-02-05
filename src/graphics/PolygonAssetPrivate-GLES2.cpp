@@ -30,9 +30,11 @@ namespace w
 {
     namespace graphics
     {
-        PolygonAssetPrivate::PolygonAssetPrivate(const std::vector<PolygonAsset::Point> & data):
-            vbo_(0),
+        PolygonAssetPrivate::PolygonAssetPrivate(const std::vector<PolygonAsset::Point> & data,
+            const Eigen::Vector4f & color):
+            color_(color),
             tmpData_(new std::vector<PolygonAsset::Point>(data)),
+            vbo_(0),
             pointCount_(0)
         {
         }
@@ -59,6 +61,11 @@ namespace w
         const std::vector<StrideComponent>& PolygonAssetPrivate::strideComponents() const
         {
             return strideComponents_;
+        }
+
+        Eigen::Vector4f PolygonAssetPrivate::color()
+        {
+            return color_;
         }
 
         void PolygonAssetPrivate::bind()

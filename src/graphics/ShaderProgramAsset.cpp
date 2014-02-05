@@ -81,5 +81,10 @@ namespace w
         {
             private_->setUniform(symbolName, value);
         }
+
+        void ShaderProgramAsset::setUniform(const std::string& symbolName, const Eigen::Vector4f& value)
+        {
+            private_->setUniform(symbolName, value);
+        }
     }
 }
