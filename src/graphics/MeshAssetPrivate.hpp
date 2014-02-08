@@ -46,10 +46,13 @@ namespace w
         public:
             UNCOPYABLE(MeshAssetPrivate)
 
+            MeshAssetPrivate(const std::vector<StrideComponent> & strideComponents, char* tmpVertexData, unsigned int vertexCount);
             MeshAssetPrivate(float width, float height, float uStart, float uEnd, float vStart, float vEnd);
+
             virtual ~MeshAssetPrivate();
             // Android, linux, iOS. All use GLES2
             const std::vector<StrideComponent>& strideComponents() const;
+            unsigned int strideByteSize() const;
             void bind();
             unsigned int vertexCount() const;
             float width() const;
@@ -64,9 +67,10 @@ namespace w
 
             // Android, linux, iOS. All use GLES2
             GLuint vbo_;
-            GLfloat* tmpVertices_;
-            std::vector<StrideComponent> strideComponents_;
+            GLfloat* tmpVertexData_;
             unsigned int vertexCount_;
+            std::vector<StrideComponent> strideComponents_;
+            unsigned int strideByteSize_;
         };
     }
 }

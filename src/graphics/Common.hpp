@@ -41,23 +41,20 @@ namespace w
         {
             // Android, linux, iOS. All use GLES2
             StrideComponent(const std::string& shaderSymbolName,
-                GLsizei strideLength,
-                GLsizei strideOffset,
+                GLsizei byteOffset,
                 GLint numberOfComponents,
                 GLenum type):
 
                 shaderSymbolName(shaderSymbolName),
-                strideLength(strideLength),
-                strideOffset(strideOffset),
+                byteOffset(byteOffset),
                 numberOfComponents(numberOfComponents),
                 type(type)
             {
             }
 
             std::string shaderSymbolName;
-            GLsizei strideLength;
-            GLsizei strideOffset;
-            GLint numberOfComponents;
+            unsigned int byteOffset;
+            unsigned int numberOfComponents;
             GLenum type;
         };
     }

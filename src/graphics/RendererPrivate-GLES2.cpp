@@ -93,6 +93,7 @@ namespace w
 
             // Find out needed data for shader
             const std::vector<StrideComponent>& uniforms = mesh.private_->strideComponents();
+            unsigned int strideByteSize = mesh.private_->strideByteSize();
 
             // Bind shader symbols to mesh data
             std::vector<std::string> shaderSymbols;
@@ -100,13 +101,25 @@ namespace w
             {
                 GLint shaderSymbolLocation = shaderProgram.private_->attribute((*i).shaderSymbolName);
                 glEnableVertexAttribArray(shaderSymbolLocation);
+                //            StrideComponent uv(std::string("uv"), 3* sizeof(GLfloat), 2* sizeof(GLfloat), GL_FLOAT);
+
+
                 glVertexAttribPointer(
                     shaderSymbolLocation,
                     (*i).numberOfComponents,
                     (*i).type,
                     GL_FALSE,
+                    strideByteSize,
+                    (GLvoid*)((*i).byteOffset));
+
+                /*
+                 *                     shaderSymbolLocation,
+                    (*i).numberOfComponents,
+                    (*i).type,
+                    GL_FALSE,
                     (*i).strideLength * sizeof(GLfloat),
                     (GLvoid*)((*i).strideOffset * sizeof(GLfloat)));
+                    * */
             }
 
             // Use given texture
