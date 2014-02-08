@@ -31,7 +31,7 @@ namespace w
 {
     namespace graphics
     {
-        MeshAssetPrivate::MeshAssetPrivate(const std::vector<StrideComponent> & strideComponents, char* tmpVertexData, unsigned int vertexCount):
+        MeshAssetPrivate::MeshAssetPrivate(const std::vector<StrideComponent> & strideComponents, float* tmpVertexData, unsigned int vertexCount):
             strideComponents_(strideComponents),
             tmpVertexData_((GLfloat*)tmpVertexData),
             vertexCount_(vertexCount)
@@ -42,6 +42,17 @@ namespace w
             }
             StrideComponent tmp = strideComponents.back();
             strideByteSize_ = tmp.byteOffset + tmp.numberOfComponents * sizeof(GLfloat);
+
+            /* Debug data
+            LOGD("sbuff:%d", strideByteSize_);
+            for(unsigned int i = 0; i < vertexCount_; i+=strideByteSize_)
+            {
+                LOGD("vertex:%d", i);
+                for(unsigned int i2 = 0; i2 < strideByteSize_; i2++)
+                {
+                    LOGD("f: %f", tmpVertexData_[i2]);
+                }
+            }*/
         }
 
         MeshAssetPrivate::MeshAssetPrivate(float width, float height, float uStart, float uEnd, float vStart, float vEnd):

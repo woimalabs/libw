@@ -46,7 +46,7 @@ namespace w
              * @param [in]  vertexData          Data, MeshAsset has the ownership of the data pointer after this constructor!
              * @param [in]  vertexCount         How many vertex is included in data-> vertexCount / 3 = triangle count
              */
-            MeshAsset(const std::vector<StrideComponent> & strideComponents, char* vertexData, unsigned int vertexCount);
+            MeshAsset(const std::vector<StrideComponent> & strideComponents, float* vertexData, unsigned int vertexCount);
 
             /**
              * Creates a rectangular mesh with "xyz" and "uv" stride components.

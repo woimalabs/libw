@@ -77,6 +77,14 @@ namespace w
             {
             }
 
+            StrideComponent(const StrideComponent & r):
+                shaderSymbolName(r.shaderSymbolName),
+                byteOffset(r.byteOffset),
+                numberOfComponents(r.numberOfComponents),
+                type(r.type)
+            {
+            }
+
             std::string shaderSymbolName;
             unsigned int byteOffset;
             unsigned int numberOfComponents;

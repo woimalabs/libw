@@ -46,7 +46,7 @@ namespace w
         public:
             UNCOPYABLE(MeshAssetPrivate)
 
-            MeshAssetPrivate(const std::vector<StrideComponent> & strideComponents, char* tmpVertexData, unsigned int vertexCount);
+            MeshAssetPrivate(const std::vector<StrideComponent> & strideComponents, float* tmpVertexData, unsigned int vertexCount);
             MeshAssetPrivate(float width, float height, float uStart, float uEnd, float vStart, float vEnd);
 
             virtual ~MeshAssetPrivate();
