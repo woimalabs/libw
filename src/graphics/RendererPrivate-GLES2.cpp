@@ -23,7 +23,7 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "Common.hpp"
+#include "w/graphics/Stride.hpp"
 #include "RendererPrivate.hpp"
 #include "TextureAssetPrivate.hpp"
 #include "MeshAssetPrivate.hpp"
@@ -107,9 +107,12 @@ namespace w
                     case StrideType::Float32:
                     {
                         type = GL_FLOAT;
+                        break;
                     }
                     default:
                     {
+                        throw Exception("StrideType unknown");
+                        break;
                     }
                 }
 

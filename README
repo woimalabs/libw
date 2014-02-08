@@ -3,3 +3,11 @@ libw
 
 Author: Antti Peuhkurinen (antti.peuhkurinen@woimasolutions.com)
 
+Design principles
+=================
+1) Hide platform differences from graphics and audio for next platforms:
+- iOS 5.1 or newer
+- Android 2.3 or newer
+- Linux Desktop: Ubuntu 12.04 LTS with gles2-mesa and pulse API
+
+2) Offer C++ helper classes for libraries using libw

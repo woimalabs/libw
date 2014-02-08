@@ -26,7 +26,7 @@
 #ifndef LIBW_GRAPHICS_MESHASSETPRIVATE
 #define LIBW_GRAPHICS_MESHASSETPRIVATE
 
-#include "Common.hpp"
+#include "w/graphics/Stride.hpp"
 #include <w/base/Referenced.hpp>
 #include <w/base/Class.hpp>
 #ifdef __linux__ // & Android

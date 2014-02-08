@@ -26,8 +26,8 @@
 #ifndef LIBW_GRAPHICS_POLYGONASSETPRIVATE
 #define LIBW_GRAPHICS_POLYGONASSETPRIVATE
 
-#include "Common.hpp"
-#include <w/graphics/PolygonAsset.hpp>
+#include "w/graphics/Stride.hpp"
+#include "w/graphics/PolygonAsset.hpp"
 #include <w/base/Referenced.hpp>
 #include <w/base/Class.hpp>
 #include <w/math/Eigen.hpp>

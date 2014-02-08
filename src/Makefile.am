@@ -74,7 +74,8 @@ library_graphics_include_HEADERS = \
 	../include/w/graphics/TextureAsset.hpp \
 	../include/w/graphics/MeshAsset.hpp \
 	../include/w/graphics/PolygonAsset.hpp \
-	../include/w/graphics/Renderer.hpp
+	../include/w/graphics/Renderer.hpp \
+	../include/w/graphics/Stride.hpp
 
 library_scene_includedir = $(includedir)/w/scene
 library_scene_include_HEADERS = \

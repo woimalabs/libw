@@ -23,8 +23,8 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_GRAPHICS_COMMON
-#define LIBW_GRAPHICS_COMMON
+#ifndef LIBW_GRAPHICS_STRIDE
+#define LIBW_GRAPHICS_STRIDE
 
 #include <w/base/Log.hpp>
 #include <w/base/Exception.hpp>
@@ -50,13 +50,14 @@ namespace w
             {
                 case StrideType::Float32:
                 {
-                    // Linux, Android, iOS GLES2: GL_FLOAT is 4 bytes
                     r = 4;
+                    break;
                 }
                 default:
                 {
                     LOGE("Unknown StrideType with value:%d", (unsigned int)type);
                     throw Exception("Unknown StrideType");
+                    break;
                 }
             }
             return r;
@@ -64,7 +65,6 @@ namespace w
 
         struct StrideComponent
         {
-            // Android, linux, iOS. All use GLES2
             StrideComponent(const std::string& shaderSymbolName,
                 unsigned int byteOffset,
                 unsigned int numberOfComponents,

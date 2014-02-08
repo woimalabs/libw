@@ -23,7 +23,6 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "Common.hpp"
 #include "MeshAssetPrivate.hpp"
 #include "w/base/Log.hpp"
 #include "w/base/Exception.hpp"
@@ -129,7 +128,7 @@ namespace w
 
             // Set stride format
             StrideComponent xyz(std::string("xyz"), 0, 3, StrideType::Float32);
-            StrideComponent uv(std::string("uv"), 3* sizeof(GLfloat), 2, StrideType::Float32);
+            StrideComponent uv(std::string("uv"), 3 * sizeof(GLfloat), 2, StrideType::Float32);
             strideComponents_.push_back(xyz);
             strideComponents_.push_back(uv);
             strideByteSize_ = 5 * sizeof(GLfloat); // 20
@@ -181,7 +180,7 @@ namespace w
 
             glGenBuffers(1, &vbo_);
             glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-            glBufferData(GL_ARRAY_BUFFER, vertexCount_ * strideByteSize_, tmpVertexData_, GL_STATIC_DRAW); // 30: 2 triangles * 3 points * (3 position floats + 2 uv floats)
+            glBufferData(GL_ARRAY_BUFFER, vertexCount_ * strideByteSize_, tmpVertexData_, GL_STATIC_DRAW);
 
             delete [] tmpVertexData_;
             tmpVertexData_ = NULL;

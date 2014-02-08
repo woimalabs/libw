@@ -30,6 +30,12 @@ namespace w
 {
     namespace graphics
     {
+        MeshAsset::MeshAsset(const std::vector<StrideComponent> & strideComponents, char* vertexData, unsigned int vertexCount):
+            private_(new MeshAssetPrivate(strideComponents, vertexData, vertexCount))
+        {
+            private_->increment();
+        }
+
         MeshAsset::MeshAsset(float width, float height, float uStart, float uEnd, float vStart, float vEnd):
             private_(new MeshAssetPrivate(width, height, uStart, uEnd, vStart, vEnd))
         {

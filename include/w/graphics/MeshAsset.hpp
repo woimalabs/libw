@@ -26,7 +26,9 @@
 #ifndef LIBW_GRAPHICS_MESHASSET
 #define LIBW_GRAPHICS_MESHASSET
 
+#include "w/graphics/Stride.hpp"
 #include <w/base/Class.hpp>
+#include <vector>
 
 namespace w
 {
@@ -38,7 +40,16 @@ namespace w
             COPYABLE(MeshAsset)
 
             /**
-             * Creates a rectangular mesh.
+             * Creates a triangle mesh from given data
+             *
+             * @param [in]  strideComponents    Stride components per vertex
+             * @param [in]  vertexData          Data, MeshAsset has the ownership of the data pointer after this constructor!
+             * @param [in]  vertexCount         How many vertex is included in data-> vertexCount / 3 = triangle count
+             */
+            MeshAsset(const std::vector<StrideComponent> & strideComponents, char* vertexData, unsigned int vertexCount);
+
+            /**
+             * Creates a rectangular mesh with "xyz" and "uv" stride components.
              *
              * @param [in]  w       Width of the created mesh
              * @param [in]  h       Height of the created mesh
