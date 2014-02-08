@@ -128,8 +128,8 @@ namespace w
             tmpVertexData_[29] = p3v;
 
             // Set stride format
-            StrideComponent xyz(std::string("xyz"), 0, 3, GL_FLOAT);
-            StrideComponent uv(std::string("uv"), 3* sizeof(GLfloat), 2, GL_FLOAT);
+            StrideComponent xyz(std::string("xyz"), 0, 3, StrideType::Float32);
+            StrideComponent uv(std::string("uv"), 3* sizeof(GLfloat), 2, StrideType::Float32);
             strideComponents_.push_back(xyz);
             strideComponents_.push_back(uv);
             strideByteSize_ = 5 * sizeof(GLfloat); // 20

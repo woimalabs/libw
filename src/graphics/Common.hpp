@@ -26,24 +26,49 @@
 #ifndef LIBW_GRAPHICS_COMMON
 #define LIBW_GRAPHICS_COMMON
 
-#ifdef __linux__ // & Android
-    #include <GLES2/gl2.h>
-#else // APPLE
-    #include <OpenGLES/ES2/gl.h>
-#endif
+#include <w/base/Log.hpp>
+#include <w/base/Exception.hpp>
 #include <string>
 
 namespace w
 {
     namespace graphics
     {
+        struct StrideType
+        {
+            enum Enum
+            {
+                UnDefined = 0,
+                Float32 = 1
+            };
+        };
+
+        static unsigned int sizeOf(StrideType::Enum type)
+        {
+            unsigned int r = 0;
+            switch(type)
+            {
+                case StrideType::Float32:
+                {
+                    // Linux, Android, iOS GLES2: GL_FLOAT is 4 bytes
+                    r = 4;
+                }
+                default:
+                {
+                    LOGE("Unknown StrideType with value:%d", (unsigned int)type);
+                    throw Exception("Unknown StrideType");
+                }
+            }
+            return r;
+        }
+
         struct StrideComponent
         {
             // Android, linux, iOS. All use GLES2
             StrideComponent(const std::string& shaderSymbolName,
-                GLsizei byteOffset,
-                GLint numberOfComponents,
-                GLenum type):
+                unsigned int byteOffset,
+                unsigned int numberOfComponents,
+                StrideType::Enum type):
 
                 shaderSymbolName(shaderSymbolName),
                 byteOffset(byteOffset),
@@ -55,7 +80,7 @@ namespace w
             std::string shaderSymbolName;
             unsigned int byteOffset;
             unsigned int numberOfComponents;
-            GLenum type;
+            StrideType::Enum type;
         };
     }
 }

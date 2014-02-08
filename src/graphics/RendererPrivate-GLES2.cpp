@@ -101,25 +101,25 @@ namespace w
             {
                 GLint shaderSymbolLocation = shaderProgram.private_->attribute((*i).shaderSymbolName);
                 glEnableVertexAttribArray(shaderSymbolLocation);
-                //            StrideComponent uv(std::string("uv"), 3* sizeof(GLfloat), 2* sizeof(GLfloat), GL_FLOAT);
-
+                GLenum type = 0;
+                switch((*i).type)
+                {
+                    case StrideType::Float32:
+                    {
+                        type = GL_FLOAT;
+                    }
+                    default:
+                    {
+                    }
+                }
 
                 glVertexAttribPointer(
                     shaderSymbolLocation,
                     (*i).numberOfComponents,
-                    (*i).type,
+                    type,
                     GL_FALSE,
                     strideByteSize,
                     (GLvoid*)((*i).byteOffset));
-
-                /*
-                 *                     shaderSymbolLocation,
-                    (*i).numberOfComponents,
-                    (*i).type,
-                    GL_FALSE,
-                    (*i).strideLength * sizeof(GLfloat),
-                    (GLvoid*)((*i).strideOffset * sizeof(GLfloat)));
-                    * */
             }
 
             // Use given texture
