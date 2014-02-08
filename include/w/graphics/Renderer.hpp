@@ -23,8 +23,8 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_RENDERER
-#define LIBW_RENDERER
+#ifndef LIBW_GRAPHICS_RENDERER
+#define LIBW_GRAPHICS_RENDERER
 
 #include <w/graphics/TextureAsset.hpp>
 #include <w/graphics/MeshAsset.hpp>
