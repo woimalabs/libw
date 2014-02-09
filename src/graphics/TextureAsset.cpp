@@ -26,19 +26,37 @@
 #include "w/graphics/TextureAsset.hpp"
 #include "TextureAssetPrivate.hpp"
 #include "w/base/ResourceManagerPrivate.hpp"
+#include "w/base/Exception.hpp"
 
 namespace w
 {
     namespace graphics
     {
-        TextureAsset::TextureAsset(const std::string& filename):
+        std::string clampForId(TextureAsset::Clamp::Enum clamp)
+        {
+            switch(clamp)
+            {
+                case TextureAsset::Clamp::ToEdge:
+                {
+                    return "ToEdge";
+                }
+                case TextureAsset::Clamp::Repeat:
+                {
+                    return "Repeat";
+                }
+            }
+            throw w::Exception("Clamp type unknown");
+            return "";
+        }
+
+        TextureAsset::TextureAsset(const std::string& filename, Clamp::Enum clamp):
             private_(NULL)
         {
-            std::string id = "Texture:" + filename;
+            std::string id = "Texture:" + filename + ".clamp:" + clampForId(clamp);
             private_ = dynamic_cast<TextureAssetPrivate*>(ResourceManagerPrivate::assetPrivate(id));
             if (private_ == NULL)
             {
-                private_ = new TextureAssetPrivate(filename);
+                private_ = new TextureAssetPrivate(filename, clamp);
                 ResourceManagerPrivate::setAssetPrivate(id, private_);
             }
 

@@ -38,7 +38,7 @@ namespace w
         // Callback function for libpng
         static void read(png_structp p, png_bytep data, png_size_t length);
 
-        TextureAssetPrivate::TextureAssetPrivate(const std::string& file):
+        TextureAssetPrivate::TextureAssetPrivate(const std::string& file, TextureAsset::Clamp::Enum clamp):
             Resource(file),
             bytesPerPixel_(0),
             width_(0),
@@ -47,6 +47,7 @@ namespace w
             yUsage_(0.0f),
             sourceBitmapWidth_(0),
             sourceBitmapHeight_(0),
+            clamp_(clamp),
             tmpData_(NULL),
             textureId_(0)
         {
@@ -190,8 +191,22 @@ namespace w
             glBindTexture(GL_TEXTURE_2D, textureId_);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+            switch(clamp_)
+            {
+                case TextureAsset::Clamp::Repeat:
+                {
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+                    break;
+                }
+                case TextureAsset::Clamp::ToEdge:
+                {
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                    break;
+                }
+            }
             glTexImage2D(GL_TEXTURE_2D,
                 0,
                 format,

@@ -48,7 +48,7 @@ namespace w
         unsigned int byteSize();
         #ifdef ANDROID
             AAsset* pointer();
-        #else // linux
+        #else // linux or iOS
             FILE* pointer();
         #endif
 
@@ -64,7 +64,7 @@ namespace w
             FileHandle(const std::string& filename, AAssetManager* androidAssetManager);
             AAssetManager* androidAssetManager_;
             AAsset* file_;
-        #else // linux
+        #else // linux or iOS
             FileHandle(const std::string& filename);
             FILE *file_;
         #endif

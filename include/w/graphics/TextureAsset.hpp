@@ -38,6 +38,15 @@ namespace w
         public:
             COPYABLE(TextureAsset)
 
+            struct Clamp
+            {
+                enum Enum
+                {
+                    Repeat = 0,
+                    ToEdge = 1
+                };
+            };
+
             /**
              * Creates shader program.
              *
@@ -50,7 +59,7 @@ namespace w
              *
              * @param [in]  filename    Texture filename to load
              */
-            TextureAsset(const std::string& filename);
+            TextureAsset(const std::string& filename, Clamp::Enum clamp = Clamp::ToEdge);
             ~TextureAsset();
 
             unsigned int width() const;

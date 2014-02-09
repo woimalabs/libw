@@ -28,6 +28,7 @@
 
 #include <w/base/Class.hpp>
 #include "w/base/Resource.hpp"
+#include "w/graphics/TextureAsset.hpp"
 #include <png.h>
 #ifdef __linux__ // & Android
     #include <GLES2/gl2.h>
@@ -44,7 +45,7 @@ namespace w
         public:
             UNCOPYABLE(TextureAssetPrivate)
 
-            TextureAssetPrivate(const std::string & filename);
+            TextureAssetPrivate(const std::string & filename, TextureAsset::Clamp::Enum clamp = TextureAsset::Clamp::ToEdge);
             ~TextureAssetPrivate();
 
             unsigned int width() const;
@@ -72,6 +73,7 @@ namespace w
             float yUsage_;
             unsigned int sourceBitmapWidth_;
             unsigned int sourceBitmapHeight_;
+            TextureAsset::Clamp::Enum clamp_;
 
             // Pointer where loaded data array is kept
             Mutex mutex_;

@@ -51,7 +51,7 @@ namespace w
         {
             return Eigen::Affine3f(Eigen::Translation3f(location)).matrix();
 
-            // TODO !!!
+            // TODO
             //Eigen::Vector3f transformedForward = forward; //rotation.transformVector(forward, forward);
             //Eigen::Vector3f cameraLookAt = location + transformedForward;
             //return lookAt(location, cameraLookAt, Eigen::Vector3f(0.0f, 1.0f, 0.0f));

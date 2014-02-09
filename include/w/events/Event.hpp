@@ -80,6 +80,7 @@ namespace w
             float lastX;
             float lastY;
             unsigned int flags;
+            unsigned int mouseButtonNumber;
         };
 
         /// Keyboard
@@ -108,7 +109,7 @@ namespace w
         union Event
         {
             EventType::Enum type;
-
+            bool handled;
             SystemEvent system;
             TouchEvent touch;
             KeyboardEvent keyboard;

@@ -82,6 +82,7 @@ namespace w
                 XEvent xEvent;
                 XNextEvent(xDisplay_, &xEvent);
                 Event* event = new Event;
+                event->handled = false;
 
                 if (xEvent.type == KeyPress)
                 {
@@ -146,7 +147,7 @@ namespace w
                         touchFlags += TouchFlags::Stationary;
                     }
                     event->touch.flags = touchFlags;
-
+                    event->touch.mouseButtonNumber = xEvent.xbutton.button - 1;
                     lastX = xEvent.xmotion.x;
                     lastY = xEvent.xmotion.y;
                     lastTouchAvailable = true;
