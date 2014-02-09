@@ -48,7 +48,7 @@ namespace w
 
             if(tmpData_ != NULL)
             {
-                delete [] tmpData_;
+                delete tmpData_;
                 tmpData_ = NULL;
             }
         }
@@ -82,7 +82,7 @@ namespace w
             }
             LOCK
 
-            // debug
+            /* Debug
             std::vector<PolygonAsset::Point>::const_iterator last = tmpData_->begin();
             std::vector<PolygonAsset::Point>::const_iterator i = last + 1;
             for(; last != tmpData_->end(); last = i, i++)
@@ -90,7 +90,7 @@ namespace w
                 PolygonAsset::Point j0 = *last;
                 PolygonAsset::Point j1 = *i;
                 LOGD("PolygonAssetPrivateoutline:(%f, %f, %f), (%f, %f, %f)", j0.x, j0.y, j0.z, j1.x, j1.y, j1.z)
-            }
+            }*/
 
             GLfloat* tmpData = (GLfloat*)&(tmpData_->front());
             unsigned int tmpSize = tmpData_->size() * sizeof(PolygonAsset::Point);

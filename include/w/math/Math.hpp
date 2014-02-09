@@ -117,6 +117,36 @@ namespace w
         {
             return Eigen::Vector2f(line.y(), -line.x());
         }
+
+        /**
+         * Returns minimum distance between line segment vw and point p
+         */
+        static float linePointDistance(const Eigen::Vector2f & v, const Eigen::Vector2f & w, const Eigen::Vector2f & p)
+        {
+            Eigen::Vector2f tmp(v - w);
+            float l2 = tmp.dot(tmp);  // i.e. |w-v|^2 -  avoid a sqrt
+            if(l2 == 0.0f)
+            {
+                return (p - v).norm();   // v == w case
+            }
+
+            // v + t (w - v)
+            // Project point p onto the line:
+            // t = [(p-v) . (w-v)] / |w-v|^2
+            const float t = ((p - v).dot(w - v)) / l2;
+            if(t < 0.0)
+            {
+                return (p, v).norm();  // Beyond v end of the segment
+            }
+            else if(t > 1.0)
+            {
+                return (p, w).norm();  // Beyond w end of the segment
+            }
+
+            // Projection falls on the segment
+            const Eigen::Vector2f projection = v + t * (w - v);
+            return (p - projection).norm();
+        }
     }
 }
 
