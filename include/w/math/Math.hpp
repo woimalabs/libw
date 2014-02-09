@@ -49,11 +49,12 @@ namespace w
 
         static Eigen::Matrix4f view(const Eigen::Vector3f& location, const Eigen::Vector3f& forward, const Eigen::Vector3f& up)
         {
+            return Eigen::Affine3f(Eigen::Translation3f(location)).matrix();
+
             // TODO !!!
             //Eigen::Vector3f transformedForward = forward; //rotation.transformVector(forward, forward);
             //Eigen::Vector3f cameraLookAt = location + transformedForward;
             //return lookAt(location, cameraLookAt, Eigen::Vector3f(0.0f, 1.0f, 0.0f));
-            return Eigen::Matrix4f::Identity();
         }
 
         static Eigen::Matrix4f perspectiveProjection(float fovY, float aspect, float near, float far)
