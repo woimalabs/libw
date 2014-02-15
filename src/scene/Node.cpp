@@ -84,17 +84,22 @@ namespace w
 
         void Node::accept(Visitor& visitor)
         {
-            Node dummy;
-
-            visitor.enter(*this);
-            std::vector<ReferencedPointer<NodePrivate> > tmp = private_.pointer()->children();
-            for (std::vector<ReferencedPointer<NodePrivate> >::iterator i = tmp.begin(); i != tmp.end(); i++)
+            if(visitor.canVisit(*this) == true)
             {
-                ReferencedPointer<NodePrivate> tmp2 = *i;
-                dummy.private_ = tmp2.pointer();
-                dummy.accept(visitor);
+                visitor.enter(*this);
+                if(visitor.breaking() == false)
+                {
+                    Node dummy;
+                    std::vector<ReferencedPointer<NodePrivate> > tmp = private_.pointer()->children();
+                    for (std::vector<ReferencedPointer<NodePrivate> >::iterator i = tmp.begin(); i != tmp.end(); i++)
+                    {
+                        ReferencedPointer<NodePrivate> tmp2 = *i;
+                        dummy.private_ = tmp2.pointer();
+                        dummy.accept(visitor);
+                    }
+                }
+                visitor.leave(*this);
             }
-            visitor.leave(*this);
         }
 
         void Node::addChild(Node const& node)

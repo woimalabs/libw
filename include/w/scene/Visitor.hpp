@@ -44,12 +44,21 @@ namespace w
         public:
             UNCOPYABLE(Visitor)
 
-            Visitor()
+            Visitor():
+                break_(false)
             {
             }
 
             virtual ~Visitor()
             {
+            }
+
+            /**
+             * Called before entering the node
+             */
+            virtual bool canVisit(Node& node)
+            {
+                return true;
             }
 
             /**
@@ -61,6 +70,26 @@ namespace w
              * Called when visitor is leaving the node.
              */
             virtual void leave(Node& node) = 0;
+
+            /**
+             * Called when user wants visitor to break out from travelsal.
+             * leave() functions will be called normally when coming out from the
+             * node tree.
+             */
+            inline void setBreak()
+            {
+                break_ = true;
+            }
+
+            /**
+             * Called when visitor is leaving the node.
+             */
+            inline bool breaking()
+            {
+                return break_;
+            }
+        private:
+            bool break_;
         };
     }
 }
