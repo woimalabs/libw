@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		FB19B9EB18146F13001351D2 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB19B9EA18146F13001351D2 /* OpenGLES.framework */; };
 		FB19B9F418146F59001351D2 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FB19B9F318146F59001351D2 /* libz.dylib */; };
+		FB681AF618B10218001D7DA8 /* PolygonAsset.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB681AF318B10218001D7DA8 /* PolygonAsset.cpp */; };
+		FB681AF718B10218001D7DA8 /* PolygonAssetPrivate-GLES2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB681AF418B10218001D7DA8 /* PolygonAssetPrivate-GLES2.cpp */; };
 		FB79B5F61814722000B1758B /* WindowPrivate-iOS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB79B5F51814722000B1758B /* WindowPrivate-iOS.cpp */; };
 		FB79B68F1826678200B1758B /* FileHandle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB79B6871826678200B1758B /* FileHandle.cpp */; };
 		FB79B6901826678200B1758B /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB79B6881826678200B1758B /* Log.cpp */; };
@@ -93,6 +95,9 @@
 		FB19B9EF18146F36001351D2 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		FB19B9F118146F53001351D2 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		FB19B9F318146F59001351D2 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		FB681AF318B10218001D7DA8 /* PolygonAsset.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PolygonAsset.cpp; path = graphics/PolygonAsset.cpp; sourceTree = "<group>"; };
+		FB681AF418B10218001D7DA8 /* PolygonAssetPrivate-GLES2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "PolygonAssetPrivate-GLES2.cpp"; path = "graphics/PolygonAssetPrivate-GLES2.cpp"; sourceTree = "<group>"; };
+		FB681AF518B10218001D7DA8 /* PolygonAssetPrivate.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = PolygonAssetPrivate.hpp; path = graphics/PolygonAssetPrivate.hpp; sourceTree = "<group>"; };
 		FB79B5F51814722000B1758B /* WindowPrivate-iOS.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = "WindowPrivate-iOS.cpp"; path = "graphics/WindowPrivate-iOS.cpp"; sourceTree = "<group>"; };
 		FB79B6871826678200B1758B /* FileHandle.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = FileHandle.cpp; path = base/FileHandle.cpp; sourceTree = "<group>"; };
 		FB79B6881826678200B1758B /* Log.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = Log.cpp; path = base/Log.cpp; sourceTree = "<group>"; };
@@ -351,6 +356,9 @@
 		FBF1D4A21814662A00B11368 /* graphics */ = {
 			isa = PBXGroup;
 			children = (
+				FB681AF318B10218001D7DA8 /* PolygonAsset.cpp */,
+				FB681AF418B10218001D7DA8 /* PolygonAssetPrivate-GLES2.cpp */,
+				FB681AF518B10218001D7DA8 /* PolygonAssetPrivate.hpp */,
 				FB79B6B318266F0400B1758B /* MeshAsset.cpp */,
 				FB79B6B418266F0400B1758B /* MeshAssetPrivate-GLES2.cpp */,
 				FB79B6B518266F0400B1758B /* MeshAssetPrivate.hpp */,
@@ -449,11 +457,13 @@
 				FBBD024C182692D1009D6386 /* pngwtran.c in Sources */,
 				FB79B6911826678200B1758B /* Mutex.cpp in Sources */,
 				FBBD0244182692D1009D6386 /* pngread.c in Sources */,
+				FB681AF718B10218001D7DA8 /* PolygonAssetPrivate-GLES2.cpp in Sources */,
 				FBBD0249182692D1009D6386 /* pngtrans.c in Sources */,
 				FB79B6BE18266F0400B1758B /* Renderer.cpp in Sources */,
 				FBF1D49B181465B500B11368 /* AudioAssetPrivate.cpp in Sources */,
 				FB79B6901826678200B1758B /* Log.cpp in Sources */,
 				FBBD0240182692D1009D6386 /* pngerror.c in Sources */,
+				FB681AF618B10218001D7DA8 /* PolygonAsset.cpp in Sources */,
 				FBC49DC9186738A300A13B74 /* EventBuffer.cpp in Sources */,
 				FB79B6941826678200B1758B /* ResourceManagerPrivate.cpp in Sources */,
 				FB79B68F1826678200B1758B /* FileHandle.cpp in Sources */,
