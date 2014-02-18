@@ -120,33 +120,48 @@ namespace w
         }
 
         /**
-         * Returns minimum distance between line segment vw and point p
+         * Returns minimum distance between line segment vw and point p.
+         * returns the closest point on the line segment.
          */
-        static float linePointDistance(const Eigen::Vector2f & v, const Eigen::Vector2f & w, const Eigen::Vector2f & p)
+        static float pointDistanceToLine(const Eigen::Vector2f & pt, const Eigen::Vector2f & p1, const Eigen::Vector2f & p2, Eigen::Vector2f & closest)
         {
-            Eigen::Vector2f tmp(v - w);
-            float l2 = tmp.dot(tmp);  // i.e. |w-v|^2 -  avoid a sqrt
-            if(l2 == 0.0f)
+            float dx = p2.x() - p1.x();
+            float dy = p2.y() - p1.y();
+            if((dx == 0) && (dy == 0))
             {
-                return (p - v).norm();   // v == w case
+                // Line is a point!
+                closest = p1;
+                dx = pt.x() - p1.x();
+                dy = pt.y() - p1.y();
+            }
+            else
+            {
+                // Calculate the t that minimizes the distance
+                float t = ((pt.x() - p1.x()) * dx + (pt.y() - p1.y()) * dy) / (dx * dx + dy * dy);
+
+                // See if this represents one of the segment's  end points or
+                // a point in the middle.
+                if(t < 0)
+                {
+                    closest = Eigen::Vector2f(p1.x(), p1.y());
+                    dx = pt.x() - p1.x();
+                    dy = pt.y() - p1.y();
+                }
+                else if(t > 1)
+                {
+                    closest = Eigen::Vector2f(p2.x(), p2.y());
+                    dx = pt.x() - p2.x();
+                    dy = pt.y() - p2.y();
+                }
+                else
+                {
+                    closest = Eigen::Vector2f(p1.x() + t * dx, p1.y() + t * dy);
+                    dx = pt.x() - closest.x();
+                    dy = pt.y() - closest.y();
+                }
             }
 
-            // v + t (w - v)
-            // Project point p onto the line:
-            // t = [(p-v) . (w-v)] / |w-v|^2
-            const float t = ((p - v).dot(w - v)) / l2;
-            if(t < 0.0)
-            {
-                return (p, v).norm();  // Beyond v end of the segment
-            }
-            else if(t > 1.0)
-            {
-                return (p, w).norm();  // Beyond w end of the segment
-            }
-
-            // Projection falls on the segment
-            const Eigen::Vector2f projection = v + t * (w - v);
-            return (p - projection).norm();
+            return sqrt(dx * dx + dy * dy);
         }
     }
 }
