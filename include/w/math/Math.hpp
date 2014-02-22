@@ -27,6 +27,7 @@
 #define LIBW_MATH_MATH
 
 #include <w/math/Eigen.hpp>
+#include <vector>
 
 namespace w
 {
@@ -34,30 +35,10 @@ namespace w
 
     namespace math
     {
-        struct Intersection2D
-        {
-            std::vector<Eigen::Vector2f> points;
-
-            void addSolution(float x, float y)
-            {
-                points.push_back(Eigen::Vector2f(x, y));
-            }
-
-            void addSolution(const Eigen::Vector2f & point)
-            {
-                points.push_back(point);
-            }
-
-            int solutions()
-            {
-                return points.size();
-            }
-        };
-
         // Ment to be used only within this namespace
         namespace private_
         {
-            bool lineToLineIntersection(const Eigen::Vector2f & vertex1, const Eigen::Vector2f & vertex2,
+            static bool lineToLineIntersection(const Eigen::Vector2f & vertex1, const Eigen::Vector2f & vertex2,
                 const Eigen::Vector2f & vertex3, const Eigen::Vector2f & vertex4, float & r, float & s);
         }
 
@@ -205,10 +186,10 @@ namespace w
          *
          * returns      Intersection2D having the intersection points
          */
-        Intersection2D rayToLineSegmentIntersection(const Eigen::Vector2f & rayOrigin, const Eigen::Vector2f & rayDirection,
+        static std::vector<Eigen::Vector2f> rayToLineSegmentIntersection(const Eigen::Vector2f & rayOrigin, const Eigen::Vector2f & rayDirection,
             const Eigen::Vector2f & segmentPoint0, const Eigen::Vector2f & segmentPoint1)
         {
-            Intersection2D result;
+            std::vector<Eigen::Vector2f> result;
             float r;
             float s;
             if(private_::lineToLineIntersection(rayOrigin, rayOrigin + rayDirection, segmentPoint0, segmentPoint1, r, s))
@@ -217,17 +198,24 @@ namespace w
                 {
                     if(s >= 0 && s <= 1)
                     {
-                        result.addSolution(rayOrigin + rayDirection * r);
+                        result.push_back(rayOrigin + rayDirection * r);
                     }
                 }
             }
             return result;
         }
 
+        static inline float distance(const Eigen::Vector2f & v0, const Eigen::Vector2f & v1)
+        {
+            return sqrt(
+                (v0.x() - v1.x()) * (v0.x() - v1.x()) +
+                (v0.y() - v1.y()) * (v0.y() - v1.y()));
+        }
+
         // Ment to be used only within this namespace
         namespace private_
         {
-            bool lineToLineIntersection(const Eigen::Vector2f & vertex1, const Eigen::Vector2f & vertex2,
+            static bool lineToLineIntersection(const Eigen::Vector2f & vertex1, const Eigen::Vector2f & vertex2,
                 const Eigen::Vector2f & vertex3, const Eigen::Vector2f & vertex4, float & r, float & s)
             {
                 float d;
