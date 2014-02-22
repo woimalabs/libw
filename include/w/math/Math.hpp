@@ -30,10 +30,37 @@
 
 namespace w
 {
-    const float Pi = 3.1415;
+    const float Pi = M_PI;
 
     namespace math
     {
+        struct Intersection2D
+        {
+            std::vector<Eigen::Vector2f> points;
+
+            void addSolution(float x, float y)
+            {
+                points.push_back(Eigen::Vector2f(x, y));
+            }
+
+            void addSolution(const Eigen::Vector2f & point)
+            {
+                points.push_back(point);
+            }
+
+            int solutions()
+            {
+                return points.size();
+            }
+        };
+
+        // Ment to be used only within this namespace
+        namespace private_
+        {
+            bool lineToLineIntersection(const Eigen::Vector2f & vertex1, const Eigen::Vector2f & vertex2,
+                const Eigen::Vector2f & vertex3, const Eigen::Vector2f & vertex4, float & r, float & s);
+        }
+
         static Eigen::Matrix4f lookAt(const Eigen::Vector3f& position, const Eigen::Vector3f& target, const Eigen::Vector3f& up)
         {
             Eigen::Matrix3f tmp;
@@ -120,10 +147,16 @@ namespace w
         }
 
         /**
+         * param [in]   point       point
+         * param [in]   p1          line segments start
+         * param [in]   p0          line segments end
+         * param [out]  closest     closest point on segment for the point
+         * returns      distance from point to the closest point
+         *
          * Returns minimum distance between line segment vw and point p.
          * returns the closest point on the line segment.
          */
-        static float pointDistanceToLine(const Eigen::Vector2f & pt, const Eigen::Vector2f & p1, const Eigen::Vector2f & p2, Eigen::Vector2f & closest)
+        static float pointDistanceToLine(const Eigen::Vector2f & point, const Eigen::Vector2f & p1, const Eigen::Vector2f & p2, Eigen::Vector2f & closest)
         {
             float dx = p2.x() - p1.x();
             float dy = p2.y() - p1.y();
@@ -131,37 +164,91 @@ namespace w
             {
                 // Line is a point!
                 closest = p1;
-                dx = pt.x() - p1.x();
-                dy = pt.y() - p1.y();
+                dx = point.x() - p1.x();
+                dy = point.y() - p1.y();
             }
             else
             {
                 // Calculate the t that minimizes the distance
-                float t = ((pt.x() - p1.x()) * dx + (pt.y() - p1.y()) * dy) / (dx * dx + dy * dy);
+                float t = ((point.x() - p1.x()) * dx + (point.y() - p1.y()) * dy) / (dx * dx + dy * dy);
 
                 // See if this represents one of the segment's  end points or
                 // a point in the middle.
                 if(t < 0)
                 {
                     closest = Eigen::Vector2f(p1.x(), p1.y());
-                    dx = pt.x() - p1.x();
-                    dy = pt.y() - p1.y();
+                    dx = point.x() - p1.x();
+                    dy = point.y() - p1.y();
                 }
                 else if(t > 1)
                 {
                     closest = Eigen::Vector2f(p2.x(), p2.y());
-                    dx = pt.x() - p2.x();
-                    dy = pt.y() - p2.y();
+                    dx = point.x() - p2.x();
+                    dy = point.y() - p2.y();
                 }
                 else
                 {
                     closest = Eigen::Vector2f(p1.x() + t * dx, p1.y() + t * dy);
-                    dx = pt.x() - closest.x();
-                    dy = pt.y() - closest.y();
+                    dx = point.x() - closest.x();
+                    dy = point.y() - closest.y();
                 }
             }
 
             return sqrt(dx * dx + dy * dy);
+        }
+
+        /**
+         * param [in]   rayOrigin           ray origin
+         * param [in]   rayDirection        ray direction
+         * param [in]   segmentPoint0       line segment point 0
+         * param [in]   segmentPoint1       line segment point 1
+         *
+         * returns      Intersection2D having the intersection points
+         */
+        Intersection2D rayToLineSegmentIntersection(const Eigen::Vector2f & rayOrigin, const Eigen::Vector2f & rayDirection,
+            const Eigen::Vector2f & segmentPoint0, const Eigen::Vector2f & segmentPoint1)
+        {
+            Intersection2D result;
+            float r;
+            float s;
+            if(private_::lineToLineIntersection(rayOrigin, rayOrigin + rayDirection, segmentPoint0, segmentPoint1, r, s))
+            {
+                if(r >= 0)
+                {
+                    if(s >= 0 && s <= 1)
+                    {
+                        result.addSolution(rayOrigin + rayDirection * r);
+                    }
+                }
+            }
+            return result;
+        }
+
+        // Ment to be used only within this namespace
+        namespace private_
+        {
+            bool lineToLineIntersection(const Eigen::Vector2f & vertex1, const Eigen::Vector2f & vertex2,
+                const Eigen::Vector2f & vertex3, const Eigen::Vector2f & vertex4, float & r, float & s)
+            {
+                float d;
+
+                // Check that lines aren't parallel
+                Eigen::Vector2f vertex1to2 = vertex2 - vertex1;
+                Eigen::Vector2f vertex3to4 = vertex4 - vertex3;
+
+                if(vertex1to2.y() / vertex1to2.x() != vertex3to4.y() / vertex3to4.x())
+                {
+                    d = vertex1to2.x() * vertex3to4.y() - vertex1to2.y() * vertex3to4.x();
+                    if(d != 0)
+                    {
+                        Eigen::Vector2f vertex3to1 = vertex1 - vertex3;
+                        r = (vertex3to1.y() * vertex3to4.x() - vertex3to1.x() * vertex3to4.y()) / d;
+                        s = (vertex3to1.y() * vertex1to2.x() - vertex3to1.x() * vertex1to2.y()) / d;
+                        return true;
+                    }
+                }
+                return false;
+            }
         }
     }
 }
