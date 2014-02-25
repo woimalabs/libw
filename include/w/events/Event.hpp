@@ -93,7 +93,8 @@ namespace w
                 ArrowUp,
                 ArrowDown,
                 ArrowRight,
-                ArrowLeft
+                ArrowLeft,
+                d
             };
         };
 

@@ -42,8 +42,42 @@ namespace w
                 const Eigen::Vector2f & vertex3, const Eigen::Vector2f & vertex4, float & r, float & s);
         }
 
-        static Eigen::Matrix4f lookAt(const Eigen::Vector3f& position, const Eigen::Vector3f& target, const Eigen::Vector3f& up)
+        static Eigen::Matrix4f lookAt(const Eigen::Vector3f& position2, const Eigen::Vector3f& target, const Eigen::Vector3f& up)
         {
+            /*
+             *
+             * TODO
+             *
+            Eigen::Vector3f cameraPosition = cameraPositionOrig;
+            Eigen::Vector3f zaxis = (cameraTarget - cameraPosition).normalized();
+            Eigen::Vector3f xaxis = (cameraUpVector.cross(zaxis)).normalized();
+            Eigen::Vector3f yaxis = zaxis.cross(xaxis);
+
+            Eigen::Matrix4f m;
+            m(0,0) = xaxis.x();
+            m(1,0) = xaxis.y();
+            m(2,0) = xaxis.z();
+            m(3,0) = -xaxis.dot(cameraPosition);
+
+            m(0,0) = yaxis.x();
+            m(1,0) = yaxis.y();
+            m(2,0) = yaxis.z();
+            m(3,0) = -yaxis.dot(cameraPosition);
+
+            m(0,0) = zaxis.x();
+            m(1,0) = zaxis.y();
+            m(2,0) = zaxis.z();
+            m(3,0) = -zaxis.dot(cameraPosition);
+
+            m(0,0) = 0.0f;
+            m(1,0) = 0.0f;
+            m(2,0) = 0.0f;
+            m(3,0) = 1.0f;
+
+            return m;*/
+            /*
+            Eigen::Vector3f position = -position2;
+
             Eigen::Matrix3f tmp;
             tmp.col(2) = (position-target).normalized();
             tmp.col(0) = up.cross(tmp.col(2)).normalized();
@@ -52,17 +86,12 @@ namespace w
             Eigen::Matrix4f r;
             r.topLeftCorner<3, 3>() = tmp.transpose();
             r.topRightCorner<3, 1>() = -tmp.transpose() * position;
-            return r;
+            return r;*/
         }
 
         static Eigen::Matrix4f view(const Eigen::Vector3f& location, const Eigen::Vector3f& forward, const Eigen::Vector3f& up)
         {
-            return Eigen::Affine3f(Eigen::Translation3f(location)).matrix();
-
-            // TODO
-            //Eigen::Vector3f transformedForward = forward; //rotation.transformVector(forward, forward);
-            //Eigen::Vector3f cameraLookAt = location + transformedForward;
-            //return lookAt(location, cameraLookAt, Eigen::Vector3f(0.0f, 1.0f, 0.0f));
+            return Eigen::Affine3f(Eigen::Translation3f(-location)).matrix();
         }
 
         static Eigen::Matrix4f perspectiveProjection(float fovY, float aspect, float near, float far)

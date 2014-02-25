@@ -107,6 +107,10 @@ namespace w
                     {
                         event->keyboard.symbol = KeyboardSymbol::ArrowRight;
                     }
+                    else if(XLookupKeysym(&xEvent.xkey, 0) == XK_d)
+                    {
+                        event->keyboard.symbol = KeyboardSymbol::d;
+                    }
                 }
                 else if (xEvent.type == ClientMessage)
                 {
