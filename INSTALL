@@ -4,5 +4,8 @@ LINUX
 Install basic development tools:
 $ sudo apt-get install autoconf libtool build-essential libsigc++-2.0-dev libglib2.0-dev libpulse-dev libeigen3-dev libgles2-mesa-dev libpng12-dev
 
+Copy missing sigc++config.h header file
+sudo cp ../libsigcpp/libsigc++-2.2.10/sigc++config.h /usr/include/
+
 Build and install libw
 $ autoreconf -i; ./configure; sudo make install

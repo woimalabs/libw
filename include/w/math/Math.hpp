@@ -241,6 +241,27 @@ namespace w
                 (v0.y() - v1.y()) * (v0.y() - v1.y()));
         }
 
+        /**
+         * Checks if point is inside rectangle. Rectangle coordinate parameters are
+         * ordered in this check!
+         *
+         * param [in]   p        point
+         * param [in]   r0       lower left corner of rectange
+         * param [in]   r1       upper right corner of rectange
+         *
+         * returns      true if point was inside or at the edge of rectangle,
+         *              false otherwise
+         */
+        static inline bool pointInsideOrderedRectange(const Eigen::Vector2f & p, const Eigen::Vector2f & r0, const Eigen::Vector2f & r1)
+        {
+            if(r0.x() <= p.x() && p.x() <= r1.x() &&
+                r0.y() <= p.y() && p.y() <= r1.y())
+            {
+                return true;
+            }
+            return false;
+        }
+
         // Ment to be used only within this namespace
         namespace private_
         {
