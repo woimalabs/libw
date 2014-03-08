@@ -33,7 +33,9 @@ libw_la_SOURCES = \
 	scene/NodePrivate.cpp \
 	scene/Node.cpp \
 	events/EventBuffer.cpp \
-	events/EventBufferPrivate.cpp
+	events/EventBufferPrivate.cpp \
+	animation/AnimationEngine.cpp \
+	animation/AnimationEnginePrivate.cpp
 
 libw_la_CPPFLAGS = -I$(top_srcdir)/include
 
@@ -89,5 +91,9 @@ library_events_includedir = $(includedir)/w/events
 library_events_include_HEADERS = \
 	../include/w/events/EventBuffer.hpp \
 	../include/w/events/Event.hpp
+
+library_animation_includedir = $(includedir)/w/animation
+library_animation_include_HEADERS = \
+	../include/w/animation/AnimationEngine.hpp
 
 libw_la_LDFLAGS = -g -module -avoid-version -shared --disable-static

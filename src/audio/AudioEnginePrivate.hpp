@@ -53,7 +53,7 @@ namespace w
     {
     public:
         UNCOPYABLE(AudioEnginePrivate)
-        
+
         friend class AudioEngine;
 
         static float const VolumeOffThreshold = 0.001f;
