@@ -37,7 +37,7 @@ namespace w
         AnimationEnginePrivate::AnimationEnginePrivate():
             currentTimeMilliseconds_(0.0f)
         {
-            if (private_ != NULL)
+            if(private_ != NULL)
             {
                 throw Exception("Only one AnimationEnginePrivate can exist once.");
             }
@@ -56,7 +56,7 @@ namespace w
 
         float AnimationEnginePrivate::currentTimeMilliseconds()
         {
-            return currentTimeMilliseconds_;
+            return private_->currentTimeMilliseconds_;
         }
     }
 }

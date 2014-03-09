@@ -23,36 +23,47 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_ANIMATION_ANIMATIONENGINEPRIVATE
-#define LIBW_ANIMATION_ANIMATIONENGINEPRIVATE
+#ifndef LIBW_ANIMATION_ABSTRACTANIMATION
+#define LIBW_ANIMATION_ABSTRACTANIMATION
 
-#include <w/base/ResourceManager.hpp>
-#include <w/base/Class.hpp>
-#include <string>
+#include "w/base/Class.hpp"
+#include "w/base/Referenced.hpp"
 
 namespace w
 {
     namespace animation
     {
         /**
-        * @class AnimationEngine
+        * @class AbstractAnimation
         *
-        * AnimationEngine is a class that times the animations and so keeps them
-        * in sync.
+        * Base class for animations.
+        *
+        * @note     AnimationEngine must exists during lifetime of AbstractAnimation
+        *           instances to work.
         */
-        class AnimationEnginePrivate
+        class AbstractAnimation: public Referenced
         {
         public:
-            UNCOPYABLE(AnimationEnginePrivate)
+            COPYABLE(AbstractAnimation)
 
-            AnimationEnginePrivate();
-            ~AnimationEnginePrivate();
-            void stepMilliseconds(float);
-            static float currentTimeMilliseconds();
+            virtual ~AbstractAnimation();
+            void start();
+            float progress() const;
+
+        protected:
+            /**
+             * Base class for animations.
+             *
+             * @param [in] millisecondLength        Animation length in milliseconds
+             * @param [in] isLooping                Does animation loop: true for yes, false for no
+             */
+            AbstractAnimation(float millisecondLength, bool isLooping = true);
 
         private:
-            static AnimationEnginePrivate* private_;
-            float currentTimeMilliseconds_;
+            float millisecondLength_;
+            float millisecondStart_;
+            bool started_;
+            bool loop_;
         };
     }
 }

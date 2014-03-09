@@ -40,21 +40,21 @@ namespace w
         AnimationEngine::~AnimationEngine()
         {
             LOGI("Shutting down AnimationEngine...")
-            if (private_ != NULL)
+            if(private_ != NULL)
             {
                 delete private_;
                 private_ = NULL;
             }
             else
             {
-                LOGE("AnimationEngine::~AnimationEngine(), private == NULL, AnimationEngine in corrupted state!")
+                LOGE("AnimationEngine::~AnimationEngine(), private == NULL, AnimationEngine is in corrupted state!")
             }
             LOGI("Shutted down AnimationEngine.")
         }
 
         void AnimationEngine::stepMilliseconds(float value)
         {
-            if (private_ != NULL)
+            if(private_ != NULL)
             {
                 return private_->stepMilliseconds(value);
             }

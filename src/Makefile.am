@@ -35,7 +35,9 @@ libw_la_SOURCES = \
 	events/EventBuffer.cpp \
 	events/EventBufferPrivate.cpp \
 	animation/AnimationEngine.cpp \
-	animation/AnimationEnginePrivate.cpp
+	animation/AnimationEnginePrivate.cpp \
+	animation/AbstractAnimation.cpp \
+	animation/PathAnimation.cpp
 
 libw_la_CPPFLAGS = -I$(top_srcdir)/include
 
@@ -94,6 +96,9 @@ library_events_include_HEADERS = \
 
 library_animation_includedir = $(includedir)/w/animation
 library_animation_include_HEADERS = \
-	../include/w/animation/AnimationEngine.hpp
+	../include/w/animation/AbstractAnimation.hpp \
+	../include/w/animation/AnimationEngine.hpp \
+	../include/w/animation/ControlPoint.hpp \
+	../include/w/animation/PathAnimation.hpp
 
 libw_la_LDFLAGS = -g -module -avoid-version -shared --disable-static
