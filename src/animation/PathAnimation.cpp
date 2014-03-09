@@ -30,7 +30,7 @@ namespace w
 {
     namespace animation
     {
-        PathAnimation::PathAnimation(const std::vector<ReferencedPointer<w::animation::ControlPoint> > & points,
+        PathAnimation::PathAnimation(std::vector<ReferencedPointer<w::animation::ControlPoint> > & points,
             float millisecondLength,
             bool loop):
 
@@ -43,41 +43,47 @@ namespace w
         Eigen::Vector3f PathAnimation::location()
         {
             unsigned int i = progressIndex();
-            unsigned int iNext = i + 1;
-            return points_[i].pointer()->location() +
-                (progressOverTheIndex() * points_[iNext].pointer()->location());
+            unsigned int iNext = nextIndex(i);
+            float iNextFactor = progressOverTheIndex() / progressPerPoint_;
+            float iFactor = 1.0f - iNextFactor;
+            return iFactor * points_[i].pointer()->location()
+                + iNextFactor * points_[iNext].pointer()->location();
         }
 
         Eigen::Matrix4f PathAnimation::rotation()
         {
             unsigned int i = progressIndex();
-            unsigned int iNext = i + 1;
-            return points_[i].pointer()->rotation() +
-                (progressOverTheIndex() * points_[iNext].pointer()->rotation());
+            unsigned int iNext = nextIndex(i);
+            Eigen::Quaternionf qI(points_[i].pointer()->rotation());
+            Eigen::Quaternionf qINext(points_[iNext].pointer()->rotation());
+            Eigen::Quaternionf tmp(qI.slerp(progressOverTheIndex()/progressPerPoint_, qINext));
+            return Eigen::Affine3f(tmp).matrix();
         }
 
         Eigen::Vector3f PathAnimation::scale()
         {
             unsigned int i = progressIndex();
-            unsigned int iNext = i + 1;
-            return points_[i].pointer()->scale() +
-                (progressOverTheIndex() * points_[iNext].pointer()->scale());
+            unsigned int iNext = nextIndex(i);
+            float iNextFactor = progressOverTheIndex() / progressPerPoint_;
+            float iFactor = 1.0f - iNextFactor;
+            return iFactor * points_[i].pointer()->scale()
+                + iNextFactor * points_[iNext].pointer()->scale();
         }
 
         float PathAnimation::opacity()
         {
             unsigned int i = progressIndex();
-            unsigned int iNext = i + 1;
+            unsigned int iNext = nextIndex(i);
             return points_[i].pointer()->opacity() +
                 (progressOverTheIndex() * points_[iNext].pointer()->opacity());
         }
 
         inline unsigned int PathAnimation::progressIndex()
         {
-            unsigned int r = progress() * points_.size();
-            if(r == points_.size())
+            unsigned int r = progress() * (float)points_.size();
+            if(r != 0 && r >= points_.size())
             {
-                r--;
+                r = points_.size() - 1;
             }
             return r;
         }
@@ -85,6 +91,16 @@ namespace w
         inline float PathAnimation::progressOverTheIndex()
         {
             return progress() - (progressIndex() * progressPerPoint_);
+        }
+
+        inline unsigned int PathAnimation::nextIndex(unsigned int currentIndex)
+        {
+            unsigned int r = currentIndex + 1;
+            if(r >= points_.size())
+            {
+                r = 0;
+            }
+            return r;
         }
     }
 }

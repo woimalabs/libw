@@ -44,7 +44,7 @@ namespace w
         class AbstractAnimation: public Referenced
         {
         public:
-            COPYABLE(AbstractAnimation)
+            UNCOPYABLE(AbstractAnimation)
 
             virtual ~AbstractAnimation();
             void start();

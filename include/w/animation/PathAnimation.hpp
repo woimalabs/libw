@@ -48,9 +48,9 @@ namespace w
         class PathAnimation: public AbstractAnimation
         {
         public:
-            COPYABLE(PathAnimation)
+            UNCOPYABLE(PathAnimation)
 
-            PathAnimation(const std::vector<w::ReferencedPointer<w::animation::ControlPoint> > & points,
+            PathAnimation(std::vector<w::ReferencedPointer<w::animation::ControlPoint> > & points,
                 float millisecondLength,
                 bool loop = true);
 
@@ -62,6 +62,7 @@ namespace w
         private:
             inline unsigned int progressIndex();
             inline float progressOverTheIndex();
+            inline unsigned int nextIndex(unsigned int currentIndex);
             const std::vector<w::ReferencedPointer<w::animation::ControlPoint> > points_;
             float progressPerPoint_;
         };

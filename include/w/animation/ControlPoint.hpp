@@ -44,7 +44,7 @@ namespace w
 
             ControlPoint(
                 const Eigen::Vector3f & location = Eigen::Vector3f::Zero(),
-                const Eigen::Matrix4f & rotation = Eigen::Matrix4f::Identity(),
+                const Eigen::Quaternionf & rotation = Eigen::Quaternionf(),
                 const Eigen::Vector3f & scale = Eigen::Vector3f::Ones(),
                 float opacity = 1.0f):
 
@@ -60,7 +60,7 @@ namespace w
                 return location_;
             }
 
-            Eigen::Matrix4f rotation() const
+            Eigen::Quaternionf rotation() const
             {
                 return rotation_;
             }
@@ -77,7 +77,7 @@ namespace w
 
         private:
             Eigen::Vector3f location_;
-            Eigen::Matrix4f rotation_;
+            Eigen::Quaternionf rotation_;
             Eigen::Vector3f scale_;
             float opacity_;
         };
