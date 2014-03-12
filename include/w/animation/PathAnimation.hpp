@@ -64,7 +64,7 @@ namespace w
             inline float progressOverTheIndex();
             inline unsigned int nextIndex(unsigned int currentIndex);
             const std::vector<w::ReferencedPointer<w::animation::ControlPoint> > points_;
-            float progressPerPoint_;
+            float progressPerSegment_;
         };
     }
 }

@@ -51,7 +51,7 @@ namespace w
             millisecondStart_ = AnimationEnginePrivate::currentTimeMilliseconds();
         }
 
-        float AbstractAnimation::progress() const
+        float AbstractAnimation::progress()
         {
             float tmp = 0.0f;
             if(started_ == true)
@@ -62,6 +62,7 @@ namespace w
                     if(loop_ == true)
                     {
                         tmp -= millisecondLength_;
+                        millisecondStart_ += millisecondLength_;
                     }
                     else
                     {

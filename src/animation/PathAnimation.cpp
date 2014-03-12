@@ -25,6 +25,7 @@
 
 #include "w/animation/PathAnimation.hpp"
 #include "w/math/Math.hpp"
+#include "w/base/Exception.hpp"
 
 namespace w
 {
@@ -36,15 +37,19 @@ namespace w
 
             AbstractAnimation(millisecondLength, loop),
             points_(points),
-            progressPerPoint_(1.0f / (float)points_.size())
+            progressPerSegment_(1.0f / (float)(points_.size() - 1))
         {
+            if(points_.size() == 0)
+            {
+                throw w::Exception("PathAnimation needs at least 1 point to be constructed!");
+            }
         }
 
         Eigen::Vector3f PathAnimation::location()
         {
             unsigned int i = progressIndex();
             unsigned int iNext = nextIndex(i);
-            float iNextFactor = progressOverTheIndex() / progressPerPoint_;
+            float iNextFactor = progressOverTheIndex() / progressPerSegment_;
             float iFactor = 1.0f - iNextFactor;
             return iFactor * points_[i].pointer()->location()
                 + iNextFactor * points_[iNext].pointer()->location();
@@ -55,16 +60,23 @@ namespace w
             unsigned int i = progressIndex();
             unsigned int iNext = nextIndex(i);
             Eigen::Quaternionf qI(points_[i].pointer()->rotation());
-            Eigen::Quaternionf qINext(points_[iNext].pointer()->rotation());
-            Eigen::Quaternionf tmp(qI.slerp(progressOverTheIndex()/progressPerPoint_, qINext));
-            return Eigen::Affine3f(tmp).matrix();
+            if(iNext != i)
+            {
+                Eigen::Quaternionf qINext(points_[iNext].pointer()->rotation());
+                float factor = progressOverTheIndex() / progressPerSegment_;
+                Eigen::Quaternionf tmp(qI.slerp(factor, qINext));
+                return Eigen::Affine3f(tmp).matrix();
+            }
+
+            // exactly at end
+            return Eigen::Affine3f(qI).matrix();
         }
 
         Eigen::Vector3f PathAnimation::scale()
         {
             unsigned int i = progressIndex();
             unsigned int iNext = nextIndex(i);
-            float iNextFactor = progressOverTheIndex() / progressPerPoint_;
+            float iNextFactor = progressOverTheIndex() / progressPerSegment_;
             float iFactor = 1.0f - iNextFactor;
             return iFactor * points_[i].pointer()->scale()
                 + iNextFactor * points_[iNext].pointer()->scale();
@@ -80,8 +92,8 @@ namespace w
 
         inline unsigned int PathAnimation::progressIndex()
         {
-            unsigned int r = progress() * (float)points_.size();
-            if(r != 0 && r >= points_.size())
+            unsigned int r = progress() * (float)(points_.size() - 1);
+            if(r >= points_.size() && r != 0)
             {
                 r = points_.size() - 1;
             }
@@ -90,15 +102,15 @@ namespace w
 
         inline float PathAnimation::progressOverTheIndex()
         {
-            return progress() - (progressIndex() * progressPerPoint_);
+            return progress() - (progressIndex() * progressPerSegment_);
         }
 
         inline unsigned int PathAnimation::nextIndex(unsigned int currentIndex)
         {
             unsigned int r = currentIndex + 1;
-            if(r >= points_.size())
+            if(r >= points_.size() && r != 0)
             {
-                r = 0;
+                r = points_.size() - 1;
             }
             return r;
         }
