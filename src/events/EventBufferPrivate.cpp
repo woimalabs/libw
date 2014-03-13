@@ -70,6 +70,7 @@ namespace w
         #if defined(linux) && !defined(__ANDROID__)
             void EventBufferPrivate::pollXEvent()
             {
+                static unsigned int pressedCount_ = 0; //TODO: fix!
                 if (xDisplay_ == NULL)
                 {
                     return;
@@ -133,6 +134,7 @@ namespace w
                         event->touch.lastY = lastY;
                     }
 
+                    event->touch.mouseButtonNumber = xEvent.xbutton.button;
                     unsigned int touchFlags;
                     if (xEvent.type == MotionNotify)
                     {
@@ -151,7 +153,6 @@ namespace w
                         touchFlags += TouchFlags::Stationary;
                     }
                     event->touch.flags = touchFlags;
-                    event->touch.mouseButtonNumber = xEvent.xbutton.button - 1;
                     lastX = xEvent.xmotion.x;
                     lastY = xEvent.xmotion.y;
                     lastTouchAvailable = true;
