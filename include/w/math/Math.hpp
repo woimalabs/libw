@@ -241,6 +241,11 @@ namespace w
                 (v0.y() - v1.y()) * (v0.y() - v1.y()));
         }
 
+        static inline float distance(const Eigen::Vector3f & v0, const Eigen::Vector3f & v1)
+        {
+            Eigen::Vector3f tmp = v0 - v1;
+            return sqrt(tmp.x() * tmp.x() + tmp.y() * tmp.y() + tmp.z() * tmp.z());
+        }
         /**
          * Checks if point is inside rectangle. Rectangle coordinate parameters are
          * ordered in this check!

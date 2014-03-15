@@ -56,7 +56,7 @@ namespace w
             void removeComponent(Component const& component);
             void addComponent(Component const& component);
             ReferencedPointer<ComponentPrivate> component(std::string const& type);
-
+            template<class T> ReferencedPointer<T> component();
             void addChild(NodePrivate* node);
             std::vector<ReferencedPointer<NodePrivate> > children();
             ReferencedPointer<NodePrivate> parent();

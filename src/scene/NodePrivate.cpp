@@ -161,5 +161,22 @@ namespace w
             return r;
         }
 
+        template<class T> ReferencedPointer<T> NodePrivate::component()
+        {
+            LOCK_(mutexComponents_);
+
+            std::map<std::string, ReferencedPointer<ComponentPrivate> >::iterator i;
+            for(i = components_.begin(); i != components_.end(); ++i)
+            {
+                ReferencedPointer<ComponentPrivate> tmp = i->second;
+                T* tmp2 = dynamic_cast<T*>(tmp.pointer());
+                if(tmp2 != NULL)
+                {
+                    return ReferencedPointer<T>(tmp2);
+                }
+            }
+
+            return ReferencedPointer<T>(NULL);
+        }
     }
 }

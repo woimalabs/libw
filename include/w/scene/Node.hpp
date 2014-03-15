@@ -26,6 +26,7 @@
 #ifndef LIBW_SCENE_NODE
 #define LIBW_SCENE_NODE
 
+#include "w/scene/NodePrivate.hpp"
 #include "w/scene/Visitor.hpp"
 #include "w/scene/Component.hpp"
 #include <w/base/Class.hpp>
@@ -39,7 +40,7 @@ namespace w
 {
     namespace scene
     {
-        class NodePrivate;
+        //class NodePrivate;
 
         /**
          * @class Node
@@ -64,7 +65,8 @@ namespace w
             Component component(std::string const& type);
             ReferencedPointer<ComponentPrivate> componentPrivate(std::string const& type);
             unsigned int id();
-            
+            template<class T> ReferencedPointer<T> component() const;
+
         protected:
             Node(const ReferencedPointer<NodePrivate> &);
 

@@ -135,6 +135,11 @@ namespace w
             return private_.pointer()->component(type);
         }
 
+        template<class T> ReferencedPointer<T> Node::component() const
+        {
+            return private_.pointer()->component<T>();
+        }
+
         unsigned int Node::id()
         {
             return private_.pointer()->id();
