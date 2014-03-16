@@ -41,6 +41,7 @@ namespace w
         {
         public:
             UNCOPYABLE(ControlPoint)
+            EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
             ControlPoint(
                 const Eigen::Vector3f & location = Eigen::Vector3f::Zero(),
