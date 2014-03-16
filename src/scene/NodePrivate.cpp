@@ -98,6 +98,22 @@ namespace w
             }
         }
 
+        void NodePrivate::removeComponent(std::string const& type)
+        {
+            LOCK_(mutexComponents_);
+
+            std::map<std::string, ReferencedPointer<ComponentPrivate> >::iterator i = components_.find(type);
+
+            if (i == components_.end())
+            {
+                LOGE("NodePrivate::removeComponent(), did not have component with type: \"%s\", doing nothing.", type.c_str());
+            }
+            else
+            {
+                components_.erase(i);
+            }
+        }
+
         void NodePrivate::addComponent(Component const& component)
         {
             LOCK_(mutexComponents_);
@@ -133,6 +149,24 @@ namespace w
             }
         }
 
+        template<class T> ReferencedPointer<T> NodePrivate::component()
+        {
+            LOCK_(mutexComponents_);
+
+            std::map<std::string, ReferencedPointer<ComponentPrivate> >::iterator i;
+            for(i = components_.begin(); i != components_.end(); ++i)
+            {
+                ReferencedPointer<ComponentPrivate> tmp = i->second;
+                T* tmp2 = dynamic_cast<T*>(tmp.pointer());
+                if(tmp2 != NULL)
+                {
+                    return ReferencedPointer<T>(tmp2);
+                }
+            }
+
+            return ReferencedPointer<T>(NULL);
+        }
+
         void NodePrivate::addChild(NodePrivate* node)
         {
             LOCK_(mutexStructure_);
@@ -159,24 +193,6 @@ namespace w
                 r.push_back(ReferencedPointer<NodePrivate>(*i));
             }
             return r;
-        }
-
-        template<class T> ReferencedPointer<T> NodePrivate::component()
-        {
-            LOCK_(mutexComponents_);
-
-            std::map<std::string, ReferencedPointer<ComponentPrivate> >::iterator i;
-            for(i = components_.begin(); i != components_.end(); ++i)
-            {
-                ReferencedPointer<ComponentPrivate> tmp = i->second;
-                T* tmp2 = dynamic_cast<T*>(tmp.pointer());
-                if(tmp2 != NULL)
-                {
-                    return ReferencedPointer<T>(tmp2);
-                }
-            }
-
-            return ReferencedPointer<T>(NULL);
         }
     }
 }

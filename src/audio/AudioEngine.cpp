@@ -30,54 +30,57 @@
 
 namespace w
 {
-    AudioEnginePrivate* AudioEngine::private_ = NULL;
-
-    AudioEngine::AudioEngine(float volumeAtStart, ResourceManager& resourceManager)
+    namespace audio
     {
-        if (private_ != NULL)
-        {
-            throw Exception("Only one AudioEngine can exist once.");
-        }
-        private_ = new AudioEnginePrivate(volumeAtStart, resourceManager);
-        LOGI("Created AudioEngine.")
-    }
+        AudioEnginePrivate* AudioEngine::private_ = NULL;
 
-    AudioEngine::~AudioEngine()
-    {
-        LOGI("Shutting down AudioEngine...")
-        if (private_ != NULL)
+        AudioEngine::AudioEngine(float volumeAtStart, ResourceManager& resourceManager)
         {
-            delete private_;
-            private_ = NULL;
+            if (private_ != NULL)
+            {
+                throw Exception("Only one AudioEngine can exist once.");
+            }
+            private_ = new AudioEnginePrivate(volumeAtStart, resourceManager);
+            LOGI("Created AudioEngine.")
         }
-        else
-        {
-            LOGE("AudioEngine::~AudioEngine(), private == NULL, AudioEngine in corrupted state!")
-        }
-        LOGI("Shutdown AudioEngine.")
-    }
 
-    void AudioEngine::setVolume(float volume)
-    {
-        if (private_ != NULL)
+        AudioEngine::~AudioEngine()
         {
-            private_->setVolume(volume);
+            LOGI("Shutting down AudioEngine...")
+            if (private_ != NULL)
+            {
+                delete private_;
+                private_ = NULL;
+            }
+            else
+            {
+                LOGE("AudioEngine::~AudioEngine(), private == NULL, AudioEngine in corrupted state!")
+            }
+            LOGI("Shutdown AudioEngine.")
         }
-        else
-        {
-            throw Exception("AudioEngine::setVolume(), AudioEngine does not exist.");
-        }
-    }
 
-    float AudioEngine::volume()
-    {
-        if (private_ != NULL)
+        void AudioEngine::setVolume(float volume)
         {
-            return private_->volume();
+            if (private_ != NULL)
+            {
+                private_->setVolume(volume);
+            }
+            else
+            {
+                throw Exception("AudioEngine::setVolume(), AudioEngine does not exist.");
+            }
         }
-        else
+
+        float AudioEngine::volume()
         {
-            throw Exception("AudioEngine::volume(), AudioEngine does not exist.");
+            if (private_ != NULL)
+            {
+                return private_->volume();
+            }
+            else
+            {
+                throw Exception("AudioEngine::volume(), AudioEngine does not exist.");
+            }
         }
     }
 }

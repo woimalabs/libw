@@ -49,124 +49,127 @@
 
 namespace w
 {
-    class AudioEnginePrivate
+    namespace audio
     {
-    public:
-        UNCOPYABLE(AudioEnginePrivate)
-
-        friend class AudioEngine;
-
-        static float const VolumeOffThreshold = 0.001f;
-
-        struct State
+        class AudioEnginePrivate
         {
-            enum Enum
+        public:
+            UNCOPYABLE(AudioEnginePrivate)
+
+            friend class AudioEngine;
+
+            static float const VolumeOffThreshold = 0.001f;
+
+            struct State
             {
-                Start,
-                Starting,
-                Run,
-                ShuttingDown,
-                End
-            };
-        };
-
-        void setVolume(float volume)
-        {
-            // TODO
-        }
-
-        float volume()
-        {
-            return 1.0f; // TODO
-        }
-
-        static AudioResource* get(const std::string& filename)
-        {
-            std::string id = std::string("Audio:") + filename;
-            AudioResource* r = dynamic_cast<AudioResource*>(ResourceManagerPrivate::assetPrivate(id));
-            if (r == NULL)
-            {
-                FileHandle* tmp = ResourceManagerPrivate::getFileHandle(filename);
-                if (tmp != NULL)
+                enum Enum
                 {
-                    r = new AudioResource(tmp);
-                    ResourceManagerPrivate::setAssetPrivate(id, r);
-                    delete tmp;
-                }
+                    Start,
+                    Starting,
+                    Run,
+                    ShuttingDown,
+                    End
+                };
+            };
+
+            void setVolume(float volume)
+            {
+                // TODO
             }
 
-            return r;
-        }
+            float volume()
+            {
+                return 1.0f; // TODO
+            }
 
-        static bool play(AudioResource* resource, bool volume, bool looping)
-        {
-            TrackerSample* tmp = new TrackerSample(resource, volume, looping);
+            static AudioResource* get(const std::string& filename)
+            {
+                std::string id = std::string("Audio:") + filename;
+                AudioResource* r = dynamic_cast<AudioResource*>(ResourceManagerPrivate::assetPrivate(id));
+                if (r == NULL)
+                {
+                    FileHandle* tmp = ResourceManagerPrivate::getFileHandle(filename);
+                    if (tmp != NULL)
+                    {
+                        r = new AudioResource(tmp);
+                        ResourceManagerPrivate::setAssetPrivate(id, r);
+                        delete tmp;
+                    }
+                }
 
-            tmp->increment();
-            bool r = singleton_->tracker_.place(tmp);
-            tmp->decrement();
+                return r;
+            }
 
-            return r;
-        }
+            static bool play(AudioResource* resource, bool volume, bool looping)
+            {
+                TrackerSample* tmp = new TrackerSample(resource, volume, looping);
 
-#ifdef __ANDROID__
-        void writeCallback();
-#elif __linux__
-        void writeCallback(size_t size);
-#elif __APPLE__
-        void writeCallback(size_t size, SInt16* targetBuffer);
-#endif
+                tmp->increment();
+                bool r = singleton_->tracker_.place(tmp);
+                tmp->decrement();
 
-    private:
-        AudioEnginePrivate(float volumeAtStart, ResourceManager& resourceManager);
-        ~AudioEnginePrivate();
-        static AudioEnginePrivate* singleton_;
-        ResourceManager resourceManager_; // Holding a reference so that AudioEnginePrivate can call ResourceManagerPrivate functions safely
-        Tracker tracker_;
-        State::Enum state_;
-        Mutex mutex_;
-        float volumeAtStart_;
+                return r;
+            }
 
-        #ifdef __ANDROID__
-            void createEngine();
-            void createBufferQueueAudioPlayer();
-            void shutdown();
-            void test();
+    #ifdef __ANDROID__
+            void writeCallback();
+    #elif __linux__
+            void writeCallback(size_t size);
+    #elif __APPLE__
+            void writeCallback(size_t size, SInt16* targetBuffer);
+    #endif
 
-            // Engine interfaces
-            SLObjectItf engineObject_;
-            SLEngineItf engineEngine_;
+        private:
+            AudioEnginePrivate(float volumeAtStart, ResourceManager& resourceManager);
+            ~AudioEnginePrivate();
+            static AudioEnginePrivate* singleton_;
+            ResourceManager resourceManager_; // Holding a reference so that AudioEnginePrivate can call ResourceManagerPrivate functions safely
+            Tracker tracker_;
+            State::Enum state_;
+            Mutex mutex_;
+            float volumeAtStart_;
 
-            // Output mix interfaces
-            SLObjectItf outputMixObject_;
+            #ifdef __ANDROID__
+                void createEngine();
+                void createBufferQueueAudioPlayer();
+                void shutdown();
+                void test();
 
-            // Buffer queue player interfaces
-            SLObjectItf bqPlayerObject_;
-            SLPlayItf bqPlayerPlay_;
-            SLAndroidSimpleBufferQueueItf bqPlayerBufferQueue_;
-            SLEffectSendItf bqPlayerEffectSend_;
-            SLMuteSoloItf bqPlayerMuteSolo_;
-            SLVolumeItf bqPlayerVolume_;
+                // Engine interfaces
+                SLObjectItf engineObject_;
+                SLEngineItf engineEngine_;
 
-            unsigned char buffer_[44100];
+                // Output mix interfaces
+                SLObjectItf outputMixObject_;
 
-        #elif __APPLE__
-            void setupAudioUnitSession();
-            void setupAudioGraph(UInt32 busCount);
-            void audioRouteChangeListenerCallback(void* inUserData,
-                AudioSessionPropertyID inPropertyID, UInt32 inPropertyValueSize,
-                const void* inPropertyValue);
-            AudioStreamBasicDescription streamFormat_;
-            AudioComponentInstance ioUnit_;
+                // Buffer queue player interfaces
+                SLObjectItf bqPlayerObject_;
+                SLPlayItf bqPlayerPlay_;
+                SLAndroidSimpleBufferQueueItf bqPlayerBufferQueue_;
+                SLEffectSendItf bqPlayerEffectSend_;
+                SLMuteSoloItf bqPlayerMuteSolo_;
+                SLVolumeItf bqPlayerVolume_;
 
-        #elif __linux__
-            void configureStream();
-            pa_threaded_mainloop* mainloop_;
-            pa_context* context_;
-            pa_stream* stream_;
+                unsigned char buffer_[44100];
 
-        #endif
-    };
+            #elif __APPLE__
+                void setupAudioUnitSession();
+                void setupAudioGraph(UInt32 busCount);
+                void audioRouteChangeListenerCallback(void* inUserData,
+                    AudioSessionPropertyID inPropertyID, UInt32 inPropertyValueSize,
+                    const void* inPropertyValue);
+                AudioStreamBasicDescription streamFormat_;
+                AudioComponentInstance ioUnit_;
+
+            #elif __linux__
+                void configureStream();
+                pa_threaded_mainloop* mainloop_;
+                pa_context* context_;
+                pa_stream* stream_;
+
+            #endif
+        };
+    }
 }
 
 #endif

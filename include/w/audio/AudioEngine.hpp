@@ -35,26 +35,29 @@
  */
 namespace w
 {
-    class AudioEngine
+    namespace audio
     {
-    public:
-        UNCOPYABLE(AudioEngine)
+        class AudioEngine
+        {
+        public:
+            UNCOPYABLE(AudioEngine)
 
-        /**
-         * Creates AudioEngine instance which makes possible to play AudioAssets.
-         *
-         * @param [in]  volumeAtStart   Master volume level when starting.
-         *                              Value is checked and limited between [0.0 - 1.0].
-         * @param [in]  resourceManager Manages loading of files
-         */
-        AudioEngine(float volumeAtStart, ResourceManager& resourceManager);
-        ~AudioEngine();
-        static void setVolume(float volume);
-        static float volume();
+            /**
+             * Creates AudioEngine instance which makes possible to play AudioAssets.
+             *
+             * @param [in]  volumeAtStart   Master volume level when starting.
+             *                              Value is checked and limited between [0.0 - 1.0].
+             * @param [in]  resourceManager Manages loading of files
+             */
+            AudioEngine(float volumeAtStart, ResourceManager& resourceManager);
+            ~AudioEngine();
+            static void setVolume(float volume);
+            static float volume();
 
-    private:
-        static class AudioEnginePrivate* private_;
-    };
+        private:
+            static class AudioEnginePrivate* private_;
+        };
+    }
 }
 
 #endif

@@ -31,26 +31,29 @@
 
 namespace w
 {
-    class Tracker;
-
-    class TrackerProducerThread: public Thread
+    namespace audio
     {
-    public:
-        UNCOPYABLE(TrackerProducerThread)
+        class Tracker;
 
-    protected:
-        void threadFunction();
+        class TrackerProducerThread: public Thread
+        {
+        public:
+            UNCOPYABLE(TrackerProducerThread)
 
-    private:
-        friend class Tracker;
+        protected:
+            void threadFunction();
 
-        TrackerProducerThread(Tracker* tracker);
-        ~TrackerProducerThread();
+        private:
+            friend class Tracker;
 
-        pthread_t thread_;
-        Tracker* tracker_;
-        friend struct ThreadCToCppWrapper;
-    };
+            TrackerProducerThread(Tracker* tracker);
+            ~TrackerProducerThread();
+
+            pthread_t thread_;
+            Tracker* tracker_;
+            friend struct ThreadCToCppWrapper;
+        };
+    }
 }
 
 #endif

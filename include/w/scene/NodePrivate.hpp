@@ -54,6 +54,7 @@ namespace w
             NodePrivate(Component const& c0, Component const& c1, Component const& c2, Component const& c3);
             virtual ~NodePrivate();
             void removeComponent(Component const& component);
+            void removeComponent(std::string const& component);
             void addComponent(Component const& component);
             ReferencedPointer<ComponentPrivate> component(std::string const& type);
             template<class T> ReferencedPointer<T> component();

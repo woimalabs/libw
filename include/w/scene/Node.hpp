@@ -61,6 +61,7 @@ namespace w
             void accept(Visitor& visitor);
             void addChild(Node const& node);
             void removeComponent(Component const& component);
+            void removeComponent(std::string const& component);
             void addComponent(Component const& component);
             Component component(std::string const& type);
             ReferencedPointer<ComponentPrivate> componentPrivate(std::string const& type);

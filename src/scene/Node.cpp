@@ -117,6 +117,11 @@ namespace w
             private_.pointer()->removeComponent(component);
         }
 
+        void Node::removeComponent(std::string const& type)
+        {
+            private_.pointer()->removeComponent(type);
+        }
+
         Component Node::component(std::string const& type)
         {
             ReferencedPointer<ComponentPrivate> tmp = private_.pointer()->component(type);

@@ -30,20 +30,23 @@
 
 namespace w
 {
-    TrackerProducerThread::TrackerProducerThread(Tracker* tracker):
-        tracker_(tracker)
+    namespace audio
     {
-    }
-
-    TrackerProducerThread::~TrackerProducerThread()
-    {
-    }
-
-    void TrackerProducerThread::threadFunction()
-    {
-        while (tracker_->produceData() == true)
+        TrackerProducerThread::TrackerProducerThread(Tracker* tracker):
+            tracker_(tracker)
         {
-            Timer::sleepMilliseconds(5); // TODO, signal etc replacing the sleep
+        }
+
+        TrackerProducerThread::~TrackerProducerThread()
+        {
+        }
+
+        void TrackerProducerThread::threadFunction()
+        {
+            while (tracker_->produceData() == true)
+            {
+                Timer::sleepMilliseconds(5); // TODO, signal etc replacing the sleep
+            }
         }
     }
 }

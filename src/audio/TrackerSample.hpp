@@ -32,32 +32,35 @@
 
 namespace w
 {
-    class TrackerSample: public Referenced
+    namespace audio
     {
-    public:
-        static unsigned int const BytesPerSample = 2;
-
-        TrackerSample(AudioResource* resource, float volume, bool looping);
-        ~TrackerSample();
-        float volume();
-        void setVolume(float volume);
-        int16_t sample(bool& end);
-        void fadeOut(unsigned int fadeTimeMilliseconds);
-
-    protected:
-        float volume_;
-        AudioResource* resource_;
-        unsigned int byteSize_;
-        unsigned int byteLocation_;
-        bool looping_;
-
-        struct FadeOut
+        class TrackerSample: public Referenced
         {
-            bool on_;
-            unsigned int start_;
-            float ramp_; // applied every sample() call to volume_ during fadeout
-        } fadeOut_;
-    };
+        public:
+            static unsigned int const BytesPerSample = 2;
+
+            TrackerSample(AudioResource* resource, float volume, bool looping);
+            ~TrackerSample();
+            float volume();
+            void setVolume(float volume);
+            int16_t sample(bool& end);
+            void fadeOut(unsigned int fadeTimeMilliseconds);
+
+        protected:
+            float volume_;
+            AudioResource* resource_;
+            unsigned int byteSize_;
+            unsigned int byteLocation_;
+            bool looping_;
+
+            struct FadeOut
+            {
+                bool on_;
+                unsigned int start_;
+                float ramp_; // applied every sample() call to volume_ during fadeout
+            } fadeOut_;
+        };
+    }
 }
 
 #endif

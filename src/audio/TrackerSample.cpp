@@ -30,79 +30,82 @@
 
 namespace w
 {
-    TrackerSample::TrackerSample(AudioResource* resource, float volume, bool looping):
-        Referenced(),
-        volume_(volume),
-        resource_(resource),
-        byteSize_(resource->sizeInBytes()),
-        byteLocation_(0),
-        looping_(looping)
+    namespace audio
     {
-        fadeOut_.on_ = false;
-        fadeOut_.start_ = 0;
-        resource_->increment();
-    }
-
-    TrackerSample::~TrackerSample()
-    {
-        if (resource_ != NULL)
+        TrackerSample::TrackerSample(AudioResource* resource, float volume, bool looping):
+            Referenced(),
+            volume_(volume),
+            resource_(resource),
+            byteSize_(resource->sizeInBytes()),
+            byteLocation_(0),
+            looping_(looping)
         {
-            resource_->decrement();
-        }
-    }
-
-    float TrackerSample::volume()
-    {
-        return volume_;
-    }
-
-    void TrackerSample::setVolume(float volume)
-    {
-        volume_ = volume;
-    }
-
-    int16_t TrackerSample::sample(bool& end)
-    {
-        int16_t r = resource_->sample(byteLocation_, end);
-        byteLocation_ += BytesPerSample;
-
-        if (looping_ == true && byteLocation_ >= byteSize_)
-        {
-            byteLocation_ = 0;
-            end = false;
+            fadeOut_.on_ = false;
+            fadeOut_.start_ = 0;
+            resource_->increment();
         }
 
-        if (fadeOut_.on_ == true)
+        TrackerSample::~TrackerSample()
         {
-            volume_ -= fadeOut_.ramp_;
-            if (volume_ < 0.0f)
+            if (resource_ != NULL)
             {
-                end = true;
-                volume_ = 0.0f;
+                resource_->decrement();
             }
-            r = int16_t(volume_ * (float)r);
-        }
-        else
-        {
-            r = int16_t(volume_ * (float)r);
         }
 
-        return r;
-    }
-
-    void TrackerSample::fadeOut(unsigned int fadeTimeMilliseconds)
-    {
-        if (fadeOut_.on_ == false)
+        float TrackerSample::volume()
         {
-            if (fadeTimeMilliseconds == 0)
+            return volume_;
+        }
+
+        void TrackerSample::setVolume(float volume)
+        {
+            volume_ = volume;
+        }
+
+        int16_t TrackerSample::sample(bool& end)
+        {
+            int16_t r = resource_->sample(byteLocation_, end);
+            byteLocation_ += BytesPerSample;
+
+            if (looping_ == true && byteLocation_ >= byteSize_)
             {
-                volume_ = 0.0f;
+                byteLocation_ = 0;
+                end = false;
+            }
+
+            if (fadeOut_.on_ == true)
+            {
+                volume_ -= fadeOut_.ramp_;
+                if (volume_ < 0.0f)
+                {
+                    end = true;
+                    volume_ = 0.0f;
+                }
+                r = int16_t(volume_ * (float)r);
             }
             else
             {
-                fadeOut_.start_ = Timer::milliseconds();
-                fadeOut_.ramp_ = 1.0f / ((float)resource_->playBackRate() / 1000.0f * (float)fadeTimeMilliseconds);
-                fadeOut_.on_ = true;
+                r = int16_t(volume_ * (float)r);
+            }
+
+            return r;
+        }
+
+        void TrackerSample::fadeOut(unsigned int fadeTimeMilliseconds)
+        {
+            if (fadeOut_.on_ == false)
+            {
+                if (fadeTimeMilliseconds == 0)
+                {
+                    volume_ = 0.0f;
+                }
+                else
+                {
+                    fadeOut_.start_ = Timer::milliseconds();
+                    fadeOut_.ramp_ = 1.0f / ((float)resource_->playBackRate() / 1000.0f * (float)fadeTimeMilliseconds);
+                    fadeOut_.on_ = true;
+                }
             }
         }
     }

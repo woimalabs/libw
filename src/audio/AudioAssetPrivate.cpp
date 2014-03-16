@@ -29,66 +29,69 @@
 
 namespace w
 {
-    AudioAssetPrivate::AudioAssetPrivate(const std::string& filename, bool parallelPlay, bool looping):
-        Referenced(),
-        resource_(AudioEnginePrivate::get(filename)),
-        parallerPlay_(parallelPlay),
-        looping_(looping)
+    namespace audio
     {
-        resource_->increment();
-    }
-
-    AudioAssetPrivate::~AudioAssetPrivate()
-    {
-        LOCK
-
-        // Unreference related resource
-        resource_->decrement();
-        resource_ = NULL;
-    }
-
-    bool AudioAssetPrivate::play(float volume)
-    {
-        // Sanity check for volume value
-        if (volume > 1.0f)
+        AudioAssetPrivate::AudioAssetPrivate(const std::string& filename, bool parallelPlay, bool looping):
+            Referenced(),
+            resource_(AudioEnginePrivate::get(filename)),
+            parallerPlay_(parallelPlay),
+            looping_(looping)
         {
-            volume = 1.0f;
-        }
-        else if (volume < 0.0f)
-        {
-            volume = 0.0f;
+            resource_->increment();
         }
 
-        return AudioEnginePrivate::play(resource_, volume, looping_);
-    }
-
-    void AudioAssetPrivate::setVolume(float volume)
-    {
-        LOCK
-
-        // Sanity check for volume value
-        if (volume > 1.0f)
+        AudioAssetPrivate::~AudioAssetPrivate()
         {
-            volume = 1.0f;
-        }
-        else if (volume < 0.0f)
-        {
-            volume = 0.0f;
+            LOCK
+
+            // Unreference related resource
+            resource_->decrement();
+            resource_ = NULL;
         }
 
-        // TODO: inform audioengine private to tune volume of this assets trackersamples
-    }
-
-    void AudioAssetPrivate::fadeOut(unsigned int fadeOutTimeMilliseconds)
-    {
-        LOCK
-
-        // Sanity check for volume value
-        if (fadeOutTimeMilliseconds > 2000)
+        bool AudioAssetPrivate::play(float volume)
         {
-            fadeOutTimeMilliseconds = 2000;
+            // Sanity check for volume value
+            if (volume > 1.0f)
+            {
+                volume = 1.0f;
+            }
+            else if (volume < 0.0f)
+            {
+                volume = 0.0f;
+            }
+
+            return AudioEnginePrivate::play(resource_, volume, looping_);
         }
 
-        // TODO: inform audioengine private to tune volume of this assets trackersamples
+        void AudioAssetPrivate::setVolume(float volume)
+        {
+            LOCK
+
+            // Sanity check for volume value
+            if (volume > 1.0f)
+            {
+                volume = 1.0f;
+            }
+            else if (volume < 0.0f)
+            {
+                volume = 0.0f;
+            }
+
+            // TODO: inform audioengine private to tune volume of this assets trackersamples
+        }
+
+        void AudioAssetPrivate::fadeOut(unsigned int fadeOutTimeMilliseconds)
+        {
+            LOCK
+
+            // Sanity check for volume value
+            if (fadeOutTimeMilliseconds > 2000)
+            {
+                fadeOutTimeMilliseconds = 2000;
+            }
+
+            // TODO: inform audioengine private to tune volume of this assets trackersamples
+        }
     }
 }

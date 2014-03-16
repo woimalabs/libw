@@ -33,30 +33,33 @@
 
 namespace w
 {
-    class AudioResource: public Resource
+    namespace audio
     {
-    public:
-        AudioResource(FileHandle* fileHandle);
-        ~AudioResource();
-        unsigned int channels() const;
-        unsigned int bitPerSample(void) const;
-        unsigned int bytesPerSample(void) const;
-        int playBackRate(void) const;
-        unsigned int sizeInBytes(void) const;
-        bool isSigned(void) const;
-        const unsigned char* data(void) const;
-        int16_t sample(unsigned int location, bool& end) const;
+        class AudioResource: public Resource
+        {
+        public:
+            AudioResource(FileHandle* fileHandle);
+            ~AudioResource();
+            unsigned int channels() const;
+            unsigned int bitPerSample(void) const;
+            unsigned int bytesPerSample(void) const;
+            int playBackRate(void) const;
+            unsigned int sizeInBytes(void) const;
+            bool isSigned(void) const;
+            const unsigned char* data(void) const;
+            int16_t sample(unsigned int location, bool& end) const;
 
-    private:
-        void load(FileHandle*);
-        bool channels_;
-        unsigned int bit_;
-        unsigned int bytesPerSample_;
-        int rate_;
-        unsigned int sizeInBytes_;
-        bool isSigned_;
-        unsigned char* data_;
-    };
+        private:
+            void load(FileHandle*);
+            bool channels_;
+            unsigned int bit_;
+            unsigned int bytesPerSample_;
+            int rate_;
+            unsigned int sizeInBytes_;
+            bool isSigned_;
+            unsigned char* data_;
+        };
+    }
 }
 
 #endif

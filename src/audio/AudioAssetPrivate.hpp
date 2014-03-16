@@ -35,23 +35,26 @@
 
 namespace w
 {
-    class AudioAssetPrivate: public Referenced
+    namespace audio
     {
-    public:
-        UNCOPYABLE(AudioAssetPrivate)
+        class AudioAssetPrivate: public Referenced
+        {
+        public:
+            UNCOPYABLE(AudioAssetPrivate)
 
-        AudioAssetPrivate(const std::string& filename, bool parallelPlay, bool looping);
-        ~AudioAssetPrivate();
-        bool play(float volume);
-        void setVolume(float volume);
-        void fadeOut(unsigned int fadeOutTimeMilliseconds);
+            AudioAssetPrivate(const std::string& filename, bool parallelPlay, bool looping);
+            ~AudioAssetPrivate();
+            bool play(float volume);
+            void setVolume(float volume);
+            void fadeOut(unsigned int fadeOutTimeMilliseconds);
 
-    private:
-        AudioResource* resource_;
-        Mutex mutex_;
-        bool parallerPlay_;
-        bool looping_;
-    };
+        private:
+            AudioResource* resource_;
+            Mutex mutex_;
+            bool parallerPlay_;
+            bool looping_;
+        };
+    }
 }
 
 #endif
