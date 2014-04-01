@@ -70,5 +70,10 @@ namespace w
         {
             return private_.isNull();
         }
+
+        unsigned int Component::id() const
+        {
+            return private_.pointer()->id();
+        }
     }
 }

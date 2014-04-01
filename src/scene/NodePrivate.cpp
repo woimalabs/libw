@@ -70,7 +70,6 @@ namespace w
         NodePrivate::~NodePrivate()
         {
             LOCK_(mutexStructure_);
-
             for (std::list<NodePrivate*>::iterator i = children_.begin(); i != children_.end(); i++)
             {
                 NodePrivate* tmp = *i;
@@ -114,6 +113,52 @@ namespace w
             }
         }
 
+        void NodePrivate::removeChildWithComponentId(bool recursive, const std::vector<unsigned int> & ids)
+        {
+            LOCK_(mutexStructure_);
+
+            for(std::list<NodePrivate*>::iterator i = children_.begin(); i != children_.end();)
+            {
+                NodePrivate* tmp = *i;
+                if(tmp->hasComponentWithId(ids))
+                {
+                    tmp->parent_ = NULL;
+                    tmp->decrement();
+                    tmp = NULL;
+                    i = children_.erase(i);
+                }
+                else
+                {
+                    tmp->removeChildWithComponentId(recursive, ids);
+                    ++i;
+                }
+            }
+        }
+
+        bool NodePrivate::hasComponentWithId(const std::vector<unsigned int> & ids)
+        {
+            LOCK_(mutexComponents_);
+
+            for(std::map<std::string, ReferencedPointer<ComponentPrivate> >::iterator i = components_.begin();
+                i != components_.end();
+                i++)
+            {
+                ReferencedPointer<ComponentPrivate> tmp = i->second;
+                if(tmp.isNull() == false)
+                {
+                    unsigned int id = tmp.pointer()->id();
+                    for(std::vector<unsigned int>::const_iterator i2 = ids.begin(); i2 != ids.end(); i2++)
+                    {
+                        if(id == *i2)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
         void NodePrivate::addComponent(Component const& component)
         {
             LOCK_(mutexComponents_);
@@ -122,7 +167,7 @@ namespace w
             std::map<std::string, ReferencedPointer<ComponentPrivate> >::iterator i;
             i = components_.find(key);
 
-            if (i == components_.end())
+            if(i == components_.end())
             {
                 std::pair<std::string, ReferencedPointer<ComponentPrivate> > tmp = std::make_pair(key, component.private_);
                 components_.insert(tmp);
@@ -175,6 +220,45 @@ namespace w
             node->parent_ = this;
             node->increment();
         }
+
+        /*void NodePrivate::removeChild(NodePrivate* node)
+        {
+            LOCK_(mutexStructure_);
+
+            for(std::list<NodePrivate*>::iterator i = children_.begin(); i != children_.end(); i++)
+            {
+                if((*i)->id() == node->id())
+                {
+                    (*i)->decrement();
+                    children_.erase(i);
+                    break;
+                }
+            }
+        }
+
+        void NodePrivate::removeChildren(std::vector<unsigned int> & ids)
+        {
+            LOCK_(mutexStructure_);
+
+            for(std::list<NodePrivate*>::iterator i = children_.begin(); i != children_.end(); i++)
+            {
+                bool childRemoved = false;
+                for(std::vector<unsigned int>::iterator i2 = ids.begin(); i2 != ids.end(); i2++)
+                {
+                    if((*i)->id() == *i2)
+                    {
+                        (*i)->decrement();
+                        children_.erase(i);
+                        childRemoved = true;
+                    }
+                }
+
+                if(childRemoved == false)
+                {
+                    (*i)->removeChildren(ids);
+                }
+            }
+        }*/
 
         ReferencedPointer<NodePrivate> NodePrivate::parent()
         {

@@ -59,6 +59,10 @@ namespace w
             ReferencedPointer<ComponentPrivate> component(std::string const& type);
             template<class T> ReferencedPointer<T> component();
             void addChild(NodePrivate* node);
+            //void removeChild(NodePrivate* node);
+            //void removeChildren(std::vector<unsigned int> & ids);
+            void removeChildWithComponentId(bool recursive, const std::vector<unsigned int> & ids);
+            bool hasComponentWithId(const std::vector<unsigned int> & ids);
             std::vector<ReferencedPointer<NodePrivate> > children();
             ReferencedPointer<NodePrivate> parent();
 

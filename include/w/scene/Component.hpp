@@ -51,6 +51,7 @@ namespace w
             virtual ~Component();
             std::string const& type() const;
             bool isNull() const;
+            unsigned int id() const;
 
         protected:
             friend class NodePrivate;

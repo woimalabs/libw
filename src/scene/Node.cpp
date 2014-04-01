@@ -75,6 +75,10 @@ namespace w
         Node::Node(const Component & c0, const Component & c1, const Component & c2):
             private_(ReferencedPointer<NodePrivate>(new NodePrivate(c0, c1, c2)))
         {
+            if(private_.pointer()->referenceCount() > 1)
+            {
+                LOGD("WTF Node::id: %d", private_.pointer()->id());
+            }
         }
 
         Node::Node(const Component & c0, const Component & c1, const Component & c2, const Component & c3):
@@ -107,6 +111,16 @@ namespace w
             private_.pointer()->addChild(node.private_.pointer());
         }
 
+        /*void Node::removeChild(Node const& node)
+        {
+            private_.pointer()->removeChild(node.private_.pointer());
+        }
+
+        void Node::removeChildren(std::vector<unsigned int> & ids)
+        {
+            private_.pointer()->removeChildren(ids);
+        }*/
+
         void Node::addComponent(Component const& component)
         {
             private_.pointer()->addComponent(component);
@@ -120,6 +134,18 @@ namespace w
         void Node::removeComponent(std::string const& type)
         {
             private_.pointer()->removeComponent(type);
+        }
+
+        void Node::removeChildWithComponentId(bool recursive, const std::vector<unsigned int> & ids)
+        {
+            if(ids.size() > 0)
+            {
+                for(std::vector<unsigned int>::const_iterator i = ids.begin(); i != ids.end(); i++)
+                {
+                    LOGD("  -id: %d", *i);
+                }
+            }
+            private_.pointer()->removeChildWithComponentId(recursive, ids);
         }
 
         Component Node::component(std::string const& type)
@@ -145,9 +171,14 @@ namespace w
             return private_.pointer()->component<T>();
         }
 
-        unsigned int Node::id()
+        unsigned int Node::id() const
         {
             return private_.pointer()->id();
+        }
+
+        unsigned int Node::referenceCount() const
+        {
+            return private_.pointer()->referenceCount();
         }
 
         /*std::vector<Node> Node::children()

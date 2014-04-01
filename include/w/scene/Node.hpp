@@ -60,13 +60,17 @@ namespace w
             virtual ~Node();
             void accept(Visitor& visitor);
             void addChild(Node const& node);
+            //void removeChild(Node const& node);
+            //void removeChildren(std::vector<unsigned int> & ids);
+            void removeChildWithComponentId(bool recursive, const std::vector<unsigned int> & ids);
             void removeComponent(Component const& component);
             void removeComponent(std::string const& component);
             void addComponent(Component const& component);
             Component component(std::string const& type);
             ReferencedPointer<ComponentPrivate> componentPrivate(std::string const& type);
-            unsigned int id();
+            unsigned int id() const;
             template<class T> ReferencedPointer<T> component() const;
+            unsigned int referenceCount() const;
 
         protected:
             Node(const ReferencedPointer<NodePrivate> &);
