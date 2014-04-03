@@ -23,9 +23,9 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#include "w/Storage.hpp"
-#include "w/Exception.hpp"
+#include "w/storage/Storage.hpp"
 #include "StoragePrivate.hpp"
+#include <w/base/Exception.hpp>
 
 namespace w
 {

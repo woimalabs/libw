@@ -23,11 +23,11 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_STORAGE
-#define LIBW_STORAGE
+#ifndef LIBW_STORAGE_STORAGE
+#define LIBW_STORAGE_STORAGE
 
 #include <string>
-#include "w/Class.hpp"
+#include <w/base/Class.hpp>
 
 namespace w
 {

@@ -37,7 +37,9 @@ libw_la_SOURCES = \
 	animation/AnimationEngine.cpp \
 	animation/AnimationEnginePrivate.cpp \
 	animation/AbstractAnimation.cpp \
-	animation/PathAnimation.cpp
+	animation/PathAnimation.cpp \
+	storage/Storage.cpp \
+	storage/StoragePrivate.cpp
 
 libw_la_CPPFLAGS = -I$(top_srcdir)/include
 
@@ -100,5 +102,9 @@ library_animation_include_HEADERS = \
 	../include/w/animation/AnimationEngine.hpp \
 	../include/w/animation/ControlPoint.hpp \
 	../include/w/animation/PathAnimation.hpp
+
+library_storage_includedir = $(includedir)/w/storage
+library_storage_include_HEADERS = \
+	../include/w/storage/Storage.hpp
 
 libw_la_LDFLAGS = -g -module -avoid-version -shared --disable-static

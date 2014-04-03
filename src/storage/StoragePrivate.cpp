@@ -24,9 +24,9 @@
  */
 
 #include "StoragePrivate.hpp"
-#include "w/String.hpp"
-#include "w/System.hpp"
-#include "w/File.hpp"
+#include <w/base/String.hpp>
+#include <w/base/System.hpp>
+#include <w/base/File.hpp>
 #ifdef __APPLE__
     #import <Foundation/Foundation.h>
 #endif

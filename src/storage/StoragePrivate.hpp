@@ -23,8 +23,8 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_STORAGEPRIVATE
-#define LIBW_STORAGEPRIVATE
+#ifndef LIBW_STORAGE_STORAGEPRIVATE
+#define LIBW_STORAGE_STORAGEPRIVATE
 
 #include "StorageItem.hpp"
 #include <string>

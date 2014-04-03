@@ -63,6 +63,7 @@ namespace w
             //void removeChild(Node const& node);
             //void removeChildren(std::vector<unsigned int> & ids);
             void removeChildWithComponentId(bool recursive, const std::vector<unsigned int> & ids);
+            void removeChildren();
             void removeComponent(Component const& component);
             void removeComponent(std::string const& component);
             void addComponent(Component const& component);

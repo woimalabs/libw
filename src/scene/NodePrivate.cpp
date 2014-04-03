@@ -159,6 +159,12 @@ namespace w
             return false;
         }
 
+        void NodePrivate::removeChildren()
+        {
+            LOCK_(mutexStructure_);
+            children_.clear();
+        }
+
         void NodePrivate::addComponent(Component const& component)
         {
             LOCK_(mutexComponents_);

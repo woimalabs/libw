@@ -148,6 +148,11 @@ namespace w
             private_.pointer()->removeChildWithComponentId(recursive, ids);
         }
 
+        void Node::removeChildren()
+        {
+            private_.pointer()->removeChildren();
+        }
+
         Component Node::component(std::string const& type)
         {
             ReferencedPointer<ComponentPrivate> tmp = private_.pointer()->component(type);

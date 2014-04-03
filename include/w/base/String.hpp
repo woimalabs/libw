@@ -30,6 +30,7 @@
 #include <string>
 #include <cstring>
 #include <vector>
+#include <sstream>
 
 namespace w
 {
