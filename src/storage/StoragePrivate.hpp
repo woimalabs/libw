@@ -1,7 +1,7 @@
 /**
  * libw
  *
- * Copyright (C) 2013 Woima Solutions
+ * Copyright (C) 2012-2014 Woima Solutions
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
@@ -43,6 +43,10 @@ namespace w
         bool hasInt(const std::string& key);
         void setInt(const std::string& key, int value);
         int getInt(const std::string& key);
+        bool hasString(const std::string& key);
+        void setString(const std::string& key, const std::string& value);
+        std::string getString(const std::string& key);
+        std::string getString(const std::string& key, const std::string& defaultValue);
         void load();
         void save();
 

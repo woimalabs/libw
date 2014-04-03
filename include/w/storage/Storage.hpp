@@ -1,7 +1,7 @@
 /**
  * libw
  *
- * Copyright (C) 2013 Woima Solutions
+ * Copyright (C) 2012-2014 Woima Solutions Oy, Ltd.
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
@@ -69,6 +69,42 @@ namespace w
          * @return              Value of the key.
          */
         static int getInt(const std::string& key);
+
+        /**
+         * Checks if storage has given key.
+         *
+         * @param [in]  key     Key name
+         * @return              TRUE if storage has int with given key. FALSE otherwise.
+         */
+        static bool hasString(const std::string& key);
+
+        /**
+         * Sets new value to int.
+         * @note Storage will save itself during this function call.
+         *
+         * @param [in]  key     Key to set.
+         * @param [in]  value   New value to set to the key.
+         */
+        static void setString(const std::string& key, const std::string& value);
+
+        /**
+         * Gets value with given key.
+         * @note Use hasInt() to check that storage has the given key!
+         *
+         * @param [in]  key     Key to get.
+         * @return              Value of the key.
+         */
+        static std::string getString(const std::string& key);
+
+        /**
+         * Gets value with given key. Sets given value for key if key not found
+         * and saves the storage file.
+         *
+         * @param [in]  key             Key to get.
+         * @param [in]  defaultValue    Default value set if no key was present.
+         * @return                      Value of the key.
+         */
+        static std::string getString(const std::string& key, const std::string& defaultValue);
 
     private:
         static class StoragePrivate* singleton_;

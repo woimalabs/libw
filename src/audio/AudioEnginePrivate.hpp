@@ -1,7 +1,7 @@
 /**
  * libw
  *
- * Copyright (C) 2013 Woima Solutions
+ * Copyright (C) 2013-2014 Woima Solutions Oy, Ltd.
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
@@ -23,8 +23,8 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_AUDIOENGINEPRIVATE
-#define LIBW_AUDIOENGINEPRIVATE
+#ifndef LIBW_AUDIO_AUDIOENGINEPRIVATE
+#define LIBW_AUDIO_AUDIOENGINEPRIVATE
 
 #include "Tracker.hpp"
 #include "TrackerSample.hpp"

@@ -1,7 +1,7 @@
 /**
  * libw
  *
- * Copyright (C) 2013 Woima Solutions
+ * Copyright (C) 2012-2014 Woima Solutions
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
@@ -90,5 +90,44 @@ namespace w
         int r = singleton_->getInt(id);
 
         return r;
+    }
+
+    bool Storage::hasString(const std::string& id)
+    {
+        bool r = 0;
+        if (singleton_ == NULL)
+        {
+            throw Exception("Create Storage singleton!");
+        }
+        r = singleton_->hasString(id);
+        return r;
+    }
+
+    void Storage::setString(const std::string& id, const std::string& value)
+    {
+        if (singleton_ == NULL)
+        {
+            throw Exception("Create Storage singleton!");
+        }
+        singleton_->setString(id, value);
+        singleton_->save();
+    }
+
+    std::string Storage::getString(const std::string& id)
+    {
+        if (singleton_ == NULL)
+        {
+            throw Exception("Create Storage singleton!");
+        }
+        return singleton_->getString(id);
+    }
+
+    std::string Storage::getString(const std::string& id, const std::string& defaultValue)
+    {
+        if (singleton_ == NULL)
+        {
+            throw Exception("Create Storage singleton!");
+        }
+        return singleton_->getString(id, defaultValue);
     }
 }

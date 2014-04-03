@@ -1,7 +1,7 @@
 /**
  * libw
  *
- * Copyright (C) 2013 Woima Solutions
+ * Copyright (C) 2012-2014 Woima Solutions
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
@@ -35,8 +35,9 @@ namespace w
     namespace StorageItemConst
     {
         static const char Delimiter = ',';
-        static const std::string Int = std::string("int");
-        static const std::string Unknown = std::string("UNKNOWN");
+        static const std::string Int = std::string("Int");
+        static const std::string String = std::string("String");
+        static const std::string Undefined = std::string("Undefined");
     };
 
     class StorageItem
@@ -46,19 +47,25 @@ namespace w
         {
             enum Enum
             {
-                Int = 0
+                Undefined = 0,
+                Int = 1,
+                String = 2
             };
         };
 
         static std::string typeToString(Type::Enum type)
         {
-            if (type == Type::Int)
+            if(type == Type::Int)
+            {
+                return StorageItemConst::Int;
+            }
+            if(type == Type::Int)
             {
                 return StorageItemConst::Int;
             }
             else
             {
-                return StorageItemConst::Unknown;
+                return StorageItemConst::Undefined;
             }
         }
 
@@ -70,15 +77,9 @@ namespace w
             LOGD("Creating StorageItem: (%s, %s, %s)", typeToString(type).c_str(), key_.c_str(), value_.c_str());
 
             // Check that key is valid
-            if (key_.length() < 1)
+            if(key_.length() < 1)
             {
                 throw Exception("StrorageItem key length must be > 0");
-            }
-
-            // Check that value is valid
-            if (value_.length() < 1)
-            {
-                throw Exception("StrorageItem value length must be > 0");
             }
         }
 
@@ -110,9 +111,13 @@ namespace w
         {
             std::string r;
 
-            if (type() == StorageItem::Type::Int)
+            if(type() == StorageItem::Type::Int)
             {
                 r += StorageItemConst::Int;
+            }
+            else if(type() == StorageItem::Type::String)
+            {
+                r += StorageItemConst::String;
             }
             else
             {
@@ -133,7 +138,7 @@ namespace w
 
             // Test if type is int
             std::string tmpInt = itemData.substr(0, StorageItemConst::Int.size());
-            if (StorageItemConst::Int.compare(tmpInt) == 0)
+            if(StorageItemConst::Int.compare(tmpInt) == 0)
             {
                 // Key
                 std::string tmp = itemData.substr(StorageItemConst::Int.size() + 1, itemData.length());
@@ -144,6 +149,18 @@ namespace w
                 std::string value = tmp.substr(keyEndIndex + 1, tmp.size());
 
                 r = new StorageItem(StorageItem::Type::Int, key, value);
+            }
+            else if(StorageItemConst::String.compare(tmpInt) == 0)
+            {
+                // Key
+                std::string tmp = itemData.substr(StorageItemConst::String.size() + 1, itemData.length());
+                unsigned int keyEndIndex = tmp.find(StorageItemConst::Delimiter);
+                std::string key = tmp.substr(0, keyEndIndex);
+
+                // Data
+                std::string value = tmp.substr(keyEndIndex + 1, tmp.size());
+
+                r = new StorageItem(StorageItem::Type::String, key, value);
             }
             else
             {

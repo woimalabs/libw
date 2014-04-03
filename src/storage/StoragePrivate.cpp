@@ -1,7 +1,7 @@
 /**
  * libw
  *
- * Copyright (C) 2013 Woima Solutions
+ * Copyright (C) 2012-2014 oima Solutions
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
@@ -45,7 +45,7 @@ namespace w
 
     StoragePrivate::~StoragePrivate()
     {
-        for (std::list<StorageItem*>::iterator i = list_.begin(); i != list_.end(); ++i)
+        for(std::list<StorageItem*>::iterator i = list_.begin(); i != list_.end(); ++i)
         {
             delete *i;
         }
@@ -60,14 +60,14 @@ namespace w
     {
         bool set = false;
 
-        for (std::list<StorageItem*>::iterator i = list_.begin(); i != list_.end(); ++i)
+        for(std::list<StorageItem*>::iterator i = list_.begin(); i != list_.end(); ++i)
         {
             StorageItem* item = *i;
-            if (item->key().compare(key) == 0)
+            if(item->key().compare(key) == 0)
             {
-                if (item->type() != StorageItem::Type::Int)
+                if(item->type() != StorageItem::Type::Int)
                 {
-                    throw Exception("AbstractStoragePrivate::setInt(), Different types cannot have same key.");
+                    throw Exception("StoragePrivate::setInt(), different types cannot have same key.");
                 }
 
                 item->setValue(String::toString(value));
@@ -77,7 +77,7 @@ namespace w
         }
 
         // New item
-        if (set == false)
+        if(set == false)
         {
             list_.push_back(new StorageItem(StorageItem::Type::Int, key, String::toString(value)));
         }
@@ -88,10 +88,10 @@ namespace w
         int r = 0;
         bool got = false;
 
-        for (std::list<StorageItem*>::iterator i = list_.begin(); i != list_.end(); ++i)
+        for(std::list<StorageItem*>::iterator i = list_.begin(); i != list_.end(); ++i)
         {
             StorageItem* item = *i;
-            if (item->type() == StorageItem::Type::Int && item->key().compare(key) == 0)
+            if(item->type() == StorageItem::Type::Int && item->key().compare(key) == 0)
             {
                 std::string tmp = item->value();
                 r = String::toInt(tmp);
@@ -101,18 +101,86 @@ namespace w
         }
 
         // New item
-        if (got == false)
+        if(got == false)
         {
-            throw Exception("AbstractStoragePrivate::getInt() No value with key.");
+            throw Exception("StoragePrivate::getInt(), no value with given key.");
         }
 
         return r;
     }
 
+    bool StoragePrivate::hasString(const std::string& key)
+    {
+        return has(StorageItem::Type::String, key);
+    }
+
+    void StoragePrivate::setString(const std::string& key, const std::string& value)
+    {
+        bool set = false;
+
+        for(std::list<StorageItem*>::iterator i = list_.begin(); i != list_.end(); ++i)
+        {
+            StorageItem* item = *i;
+            if(item->key().compare(key) == 0)
+            {
+                if(item->type() != StorageItem::Type::String)
+                {
+                    throw Exception("StoragePrivate::setString(), different types cannot have same key.");
+                }
+
+                item->setValue(value);
+                set = true;
+                break;
+            }
+        }
+
+        // New item
+        if(set == false)
+        {
+            list_.push_back(new StorageItem(StorageItem::Type::String, key, value));
+        }
+    }
+
+    std::string StoragePrivate::getString(const std::string& key)
+    {
+        std::string r = "";
+        bool got = false;
+
+        for(std::list<StorageItem*>::iterator i = list_.begin(); i != list_.end(); ++i)
+        {
+            StorageItem* item = *i;
+            if(item->type() == StorageItem::Type::String && item->key().compare(key) == 0)
+            {
+                r = item->value();
+                got = true;
+                break;
+            }
+        }
+
+        // New item
+        if(got == false)
+        {
+            throw Exception("StoragePrivate::getString(), no value with given key.");
+        }
+
+        return r;
+    }
+
+    std::string StoragePrivate::getString(const std::string& key, const std::string& defaultValue)
+    {
+        if(StoragePrivate::hasString(key) == false)
+        {
+            StoragePrivate::setString(key, defaultValue);
+            StoragePrivate::save();
+            return defaultValue;
+        }
+        return StoragePrivate::getString(key);
+    }
+
     void StoragePrivate::loadFile(char** target, unsigned int& length)
     {
         File file(filePath());
-        if (file.exists())
+        if(file.exists())
         {
             length = file.read(target);
         }
@@ -135,25 +203,25 @@ namespace w
         loadFile(&data, len);
         std::string s(data, len);
 
-        if (data != NULL)
+        if(data != NULL)
         {
             // Deserialize
-            for (;;)
+            for(;;)
             {
                 std::size_t start = 0;
                 std::size_t end = 0;
 
                 // Block header length
                 start = s.find(BlockHeaderStart);
-                if (start == std::string::npos)
+                if(start == std::string::npos)
                 {
                     break; // no StorageItems-> file read
                 }
 
                 end = s.find(BlockHeaderEnd);
-                if (end == std::string::npos)
+                if(end == std::string::npos)
                 {
-                    throw Exception("StoragePrivate::load(), Corrupted block end.");
+                    throw Exception("StoragePrivate::load(), corrupted block end.");
                 }
                 std::string lenString = s.substr(start + 1, end - 1);
                 unsigned int length = String::toInt(lenString);
@@ -178,7 +246,7 @@ namespace w
         // Serialize
         std::string r;
 
-        for (std::list<StorageItem*>::iterator i = list_.begin(); i != list_.end(); ++i)
+        for(std::list<StorageItem*>::iterator i = list_.begin(); i != list_.end(); ++i)
         {
             StorageItem* item = *i;
 
@@ -199,11 +267,11 @@ namespace w
     {
         bool r = false;
 
-        for (std::list<StorageItem*>::iterator i = list_.begin(); i != list_.end(); ++i)
+        for(std::list<StorageItem*>::iterator i = list_.begin(); i != list_.end(); ++i)
         {
             StorageItem* item = *i;
             //LOGD("(type:%d, key:%s)==(type:%d, key:%s)\n", list_[i]->type(), list_[i]->key().c(), type, key.c());
-            if (item->type() == type && item->key().compare(key) == 9)
+            if (item->type() == type && item->key().compare(key) == 0)
             {
                 r = true;
                 break;
