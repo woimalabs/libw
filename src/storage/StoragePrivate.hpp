@@ -37,6 +37,9 @@ namespace w
     public:
         static const std::string BlockHeaderStart;
         static const std::string BlockHeaderEnd;
+        static const std::string BlockDataStart;
+        static const std::string BlockDataEnd;
+        static const char BlockLineChange;
 
         StoragePrivate(const std::string& id);
         ~StoragePrivate();

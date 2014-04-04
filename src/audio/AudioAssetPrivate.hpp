@@ -23,8 +23,8 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#define LIBW_AUDIO_AUDIOASSETPRIVATE
 #ifndef LIBW_AUDIO_AUDIOASSETPRIVATE
+#define LIBW_AUDIO_AUDIOASSETPRIVATE
 
 #include "AudioResource.hpp"
 #include "TrackerSample.hpp"

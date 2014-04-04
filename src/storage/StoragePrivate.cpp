@@ -37,6 +37,9 @@ namespace w
 {
     const std::string StoragePrivate::BlockHeaderStart("[");
     const std::string StoragePrivate::BlockHeaderEnd("]");
+    const std::string StoragePrivate::BlockDataStart("[");
+    const std::string StoragePrivate::BlockDataEnd("]");
+    const char StoragePrivate::BlockLineChange = '\n';
 
     StoragePrivate::StoragePrivate(const std::string& id):
         id_(id)
@@ -227,7 +230,7 @@ namespace w
                 unsigned int length = String::toInt(lenString);
 
                 // Block data
-                start = end + 1;
+                start = end + 2;
                 end = length;
                 std::string blockData = s.substr(start, end);
 
@@ -235,7 +238,7 @@ namespace w
                 list_.push_back(StorageItem::deserialize(blockData));
 
                 // Move in string, NOTE: could be optimized (this is okeyish with small storages)
-                s = s.substr(start + end, s.size());
+                s = s.substr(start + end + 2, s.size());
             }
             delete [] data;
         }
@@ -256,8 +259,7 @@ namespace w
             unsigned int tmp = storageItemBlock.length();
             blockHeader += String::toString(tmp);
             blockHeader += BlockHeaderEnd;
-
-            r += blockHeader + storageItemBlock;
+            r += blockHeader + BlockDataStart + storageItemBlock + BlockDataEnd + std::string(&BlockLineChange);
         }
 
         saveFile(r.c_str(), r.length());
