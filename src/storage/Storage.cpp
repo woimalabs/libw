@@ -47,7 +47,7 @@ namespace w
         }
         else
         {
-            throw Exception("Storage is ment to be used as singleton!");
+            throw Exception("Only one Storage can exist in one application.");
         }
     }
 

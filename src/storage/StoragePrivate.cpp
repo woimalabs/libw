@@ -130,7 +130,6 @@ namespace w
                 {
                     throw Exception("StoragePrivate::setString(), different types cannot have same key.");
                 }
-
                 item->setValue(value);
                 set = true;
                 break;
@@ -255,7 +254,8 @@ namespace w
 
             std::string storageItemBlock = item->serialize();
 
-            std::string blockHeader(BlockHeaderStart);
+            std::string blockHeader;
+            blockHeader += BlockHeaderStart;
             unsigned int tmp = storageItemBlock.length();
             blockHeader += String::toString(tmp);
             blockHeader += BlockHeaderEnd;
@@ -272,7 +272,7 @@ namespace w
         for(std::list<StorageItem*>::iterator i = list_.begin(); i != list_.end(); ++i)
         {
             StorageItem* item = *i;
-            //LOGD("(type:%d, key:%s)==(type:%d, key:%s)\n", list_[i]->type(), list_[i]->key().c(), type, key.c());
+            //LOGD("(type:%d, key:%s)==(type:%d, key:%s)", list_[i]->type(), item->key().c_str(), type, key.c_str());
             if (item->type() == type && item->key().compare(key) == 0)
             {
                 r = true;

@@ -59,9 +59,9 @@ namespace w
             {
                 return StorageItemConst::Int;
             }
-            if(type == Type::Int)
+            if(type == Type::String)
             {
-                return StorageItemConst::Int;
+                return StorageItemConst::String;
             }
             else
             {
@@ -129,15 +129,19 @@ namespace w
             r += StorageItemConst::Delimiter;
             r += value();
 
+            LOGD("StorageItem::serialized value: %s", value().c_str());
+
             return r;
         }
 
         static StorageItem* deserialize(const std::string& itemData)
         {
             StorageItem* r = 0;
+            LOGD("StorageItem::deserialize: <%s>", itemData.c_str());
 
-            // Test if type is int
+            // Check type
             std::string tmpInt = itemData.substr(0, StorageItemConst::Int.size());
+            std::string tmpString = itemData.substr(0, StorageItemConst::String.size());
             if(StorageItemConst::Int.compare(tmpInt) == 0)
             {
                 // Key
@@ -150,7 +154,7 @@ namespace w
 
                 r = new StorageItem(StorageItem::Type::Int, key, value);
             }
-            else if(StorageItemConst::String.compare(tmpInt) == 0)
+            else if(StorageItemConst::String.compare(tmpString) == 0)
             {
                 // Key
                 std::string tmp = itemData.substr(StorageItemConst::String.size() + 1, itemData.length());
