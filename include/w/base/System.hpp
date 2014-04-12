@@ -29,6 +29,9 @@
 #include "w/base/Log.hpp"
 #include <stdlib.h>
 #include <string>
+#ifdef __APPLE__
+    #include <Foundation/Foundation.h>
+#endif
 
 namespace w
 {
