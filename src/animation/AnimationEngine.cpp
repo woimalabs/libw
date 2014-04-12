@@ -32,6 +32,8 @@ namespace w
 {
     namespace animation
     {
+        AnimationEnginePrivate* AnimationEngine::private_ = NULL;
+
         AnimationEngine::AnimationEngine()
         {
             private_ = new AnimationEnginePrivate();
@@ -56,11 +58,23 @@ namespace w
         {
             if(private_ != NULL)
             {
-                return private_->stepMilliseconds(value);
+                private_->stepMilliseconds(value);
             }
             else
             {
                 throw Exception("AnimationEngine::volume(), AnimationEngine does not exist.");
+            }
+        }
+
+        float AnimationEngine::currentTimeMilliseconds()
+        {
+            if(private_ != NULL)
+            {
+                return private_->currentTimeMilliseconds();
+            }
+            else
+            {
+                throw Exception("AnimationEngine::currentTimeMilliseconds(), AnimationEngine does not exist.");
             }
         }
     }

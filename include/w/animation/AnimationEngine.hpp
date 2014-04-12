@@ -45,10 +45,11 @@ namespace w
 
             AnimationEngine();
             ~AnimationEngine();
-            void stepMilliseconds(float);
+            static void stepMilliseconds(float);
+            static float currentTimeMilliseconds();
 
         private:
-            class AnimationEnginePrivate* private_;
+            static class AnimationEnginePrivate* private_;
         };
     }
 }

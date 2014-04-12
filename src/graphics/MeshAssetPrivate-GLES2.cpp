@@ -56,8 +56,6 @@ namespace w
         }
 
         MeshAssetPrivate::MeshAssetPrivate(float width, float height, float uStart, float uEnd, float vStart, float vEnd):
-            width_(width),
-            height_(height),
             vbo_(0),
             tmpVertexData_(NULL),
             vertexCount_(0)

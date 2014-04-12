@@ -59,10 +59,6 @@ namespace w
         private:
             Mutex mutex_;
             void loadGPUData();
-
-            float width_;
-            float height_;
-
             // Android, linux, iOS. All use GLES2
             GLuint vbo_;
             GLfloat* tmpVertexData_;
