@@ -87,6 +87,8 @@ namespace w
             r.topLeftCorner<3, 3>() = tmp.transpose();
             r.topRightCorner<3, 1>() = -tmp.transpose() * position;
             return r;*/
+            Eigen::Matrix4f r;
+            return r;
         }
 
         static Eigen::Matrix4f view(const Eigen::Vector3f& location, const Eigen::Vector3f& forward, const Eigen::Vector3f& up)

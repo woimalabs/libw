@@ -173,7 +173,6 @@ namespace w
             // Draw
             glEnableVertexAttribArray(positionXyz);
             glBindBuffer(GL_ARRAY_BUFFER, vbo);
-            unsigned int vertexStride = 0; // separate VBOs
             glVertexAttribPointer(positionXyz, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
             glDrawArrays(GL_LINES, 0,  2);
