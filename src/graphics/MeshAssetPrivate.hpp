@@ -55,8 +55,6 @@ namespace w
             unsigned int strideByteSize() const;
             void bind();
             unsigned int vertexCount() const;
-            float width() const;
-            float height() const;
 
         private:
             Mutex mutex_;

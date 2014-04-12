@@ -62,15 +62,5 @@ namespace w
             }
             return *this;
         }
-
-        float MeshAsset::width() const
-        {
-            return private_->width();
-        }
-
-        float MeshAsset::height() const
-        {
-            return private_->height();
-        }
     }
 }

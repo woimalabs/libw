@@ -196,15 +196,5 @@ namespace w
             delete [] tmpVertexData_;
             tmpVertexData_ = NULL;
         }
-
-        float MeshAssetPrivate::width() const
-        {
-            return width_;
-        }
-
-        float MeshAssetPrivate::height() const
-        {
-            return height_;
-        }
     }
 }

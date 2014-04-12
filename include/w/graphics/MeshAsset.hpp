@@ -60,8 +60,6 @@ namespace w
              */
             MeshAsset(float w, float h, float uStart, float uEnd, float vStart, float vEnd);
             ~MeshAsset();
-            float width() const;
-            float height() const;
 
         private:
             friend class RendererPrivate;
