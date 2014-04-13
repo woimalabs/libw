@@ -36,6 +36,13 @@ namespace w
     {
         class NodePrivate;
 
+        #define REGISTER_COMPONENT(TypeId) \
+            static const std::string& typeId(void) \
+            { \
+                static const std::string r = TypeId; \
+                return r; \
+            }
+
         /**
          * @class Component
          *
