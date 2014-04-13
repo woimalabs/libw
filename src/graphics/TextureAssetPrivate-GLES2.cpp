@@ -137,7 +137,12 @@ namespace w
             height_ = math::nextPowerOfTwo(sourceBitmapHeight_);
             xUsage_ = (float)sourceBitmapWidth_ / (float)width_;
             yUsage_ = (float)sourceBitmapHeight_ / (float)height_;
-            tmpData_ = new char[width_ * height_ * bytesPerPixel_];
+            unsigned int dataSize = width_ * height_ * bytesPerPixel_;
+            tmpData_ = new char[dataSize];
+            for (unsigned int i = 0; i < dataSize; i++)
+            {
+                tmpData_[i] = 0;
+            }
             for (unsigned int i = 0; i < sourceBitmapHeight_; i++)
             {
                 memcpy(&(tmpData_)[width_ * bytesPerPixel_ * i], rows[sourceBitmapHeight_ - i - 1], sourceBitmapWidth_ * bytesPerPixel_);
