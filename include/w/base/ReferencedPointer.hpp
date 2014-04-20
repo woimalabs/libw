@@ -104,6 +104,11 @@ namespace w
             return (instance_ == NULL) ? true : false;
         }
 
+        bool exists() const
+        {
+            return (instance_ != NULL) ? true : false;
+        }
+
         T* pointer() const
         {
             return instance_;

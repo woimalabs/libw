@@ -68,6 +68,7 @@ namespace w
             void removeComponent(std::string const& component);
             void addComponent(Component const& component);
             Component component(std::string const& type);
+            bool hasComponentWithId(const std::vector<unsigned int> & ids);
             ReferencedPointer<ComponentPrivate> componentPrivate(std::string const& type);
             unsigned int id() const;
             template<class T> ReferencedPointer<T> component() const;

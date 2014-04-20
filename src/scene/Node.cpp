@@ -166,6 +166,11 @@ namespace w
             }
         }
 
+        bool Node::hasComponentWithId(const std::vector<unsigned int> & ids)
+        {
+            return private_.pointer()->hasComponentWithId(ids);
+        }
+
         ReferencedPointer<ComponentPrivate> Node::componentPrivate(std::string const& type)
         {
             return private_.pointer()->component(type);
