@@ -9,6 +9,7 @@ libw_la_SOURCES = \
 	base/FileHandle.cpp \
 	base/Mutex.cpp \
 	base/Referenced.cpp \
+	base/Random.cpp \
 	audio/AudioEngine.cpp \
 	audio/AudioEnginePrivate-Pulse.cpp \
 	audio/AudioAsset.cpp \
@@ -60,7 +61,8 @@ library_base_include_HEADERS = \
 	../include/w/base/Thread.hpp \
 	../include/w/base/Timer.hpp \
 	../include/w/base/Sigcpp.hpp \
-	../include/w/base/UniquePointer.hpp
+	../include/w/base/UniquePointer.hpp \
+	../include/w/base/Random.hpp
 
 library_audio_includedir = $(includedir)/w/audio
 library_audio_include_HEADERS = \
