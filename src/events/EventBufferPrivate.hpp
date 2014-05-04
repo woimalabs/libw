@@ -37,6 +37,7 @@
     #include <X11/Xutil.h>
 #endif
 #include <list>
+#include <map>
 
 namespace w
 {
