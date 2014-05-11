@@ -163,8 +163,6 @@ namespace w
                 }
 
                 // Here we have always an event
-                LOCK
-                
                 events_.push_back(event);
             }
         #endif
