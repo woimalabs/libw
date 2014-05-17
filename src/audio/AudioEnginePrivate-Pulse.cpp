@@ -91,6 +91,11 @@ namespace w
                 if (context_ == NULL)
                 {
                     context_ = pa_context_new (pa_threaded_mainloop_get_api (mainloop_), "libw");
+                    if(context_ == NULL)
+                    {
+                        LOGE("pa_context_new failed");
+                        throw Exception("pa_context_new failed");
+                    }
                     pa_context_set_state_callback(context_, context_state_callback, mainloop_);
                 }
 
