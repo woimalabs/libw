@@ -162,7 +162,21 @@ namespace w
         void NodePrivate::removeChildren()
         {
             LOCK_(mutexStructure_);
-            children_.clear();
+
+            for(std::list<NodePrivate*>::iterator i = children_.begin(); i != children_.end();)
+            {
+                NodePrivate* tmp = *i;
+
+                // Recursion
+                tmp->removeChildren();
+
+                // Iterator child
+                tmp->parent_ = NULL;
+                tmp->decrement();
+                tmp = NULL;
+                i = children_.erase(i);
+            }
+            //children_.clear();
         }
 
         void NodePrivate::addComponent(Component const& component)
