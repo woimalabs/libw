@@ -67,4 +67,9 @@ namespace w
         }
         return *this;
     }
+
+    bool ResourceManager::exists(const std::string& filename)
+    {
+        return ResourceManagerPrivate::exists(filename);
+    }
 }

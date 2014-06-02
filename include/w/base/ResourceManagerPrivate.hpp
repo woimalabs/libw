@@ -54,6 +54,7 @@ namespace w
             static AAssetManager* androidAssetManager();
             static void setAndroidAssetManager(AAssetManager* androidAssetManager);
         #endif
+        static bool exists(const std::string& filename);
 
     private:
         friend class ResourceManager;

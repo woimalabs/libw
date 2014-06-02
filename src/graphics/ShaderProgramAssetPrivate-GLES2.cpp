@@ -72,7 +72,7 @@ namespace w
         GLint ShaderProgramAssetPrivate::uniform(const std::string& symbolName)
         {
             GLint r = glGetUniformLocation(programId_, symbolName.c_str());
-            if (r < 0)
+            if(r < 0)
             {
                 LOGE("ShaderProgramAssetPrivate::uniform(), no symbol: \"%s\"", symbolName.c_str());
                 throw Exception("Failed to get uniform location");
@@ -83,7 +83,7 @@ namespace w
         GLint ShaderProgramAssetPrivate::attribute(const std::string& symbolName)
         {
             GLint r = glGetAttribLocation(programId_, symbolName.c_str());
-            if (r < 0)
+            if(r < 0)
             {
                 LOGE("ShaderProgramAssetPrivate::attribute(), no symbol: \"%s\"", symbolName.c_str());
                 throw Exception("Failed to get attribute location");
@@ -122,20 +122,20 @@ namespace w
         GLuint ShaderProgramAssetPrivate::createShader(GLenum shaderType, const char* pSource)
         {
             GLuint shader = glCreateShader(shaderType);
-            if (shader)
+            if(shader != 0)
             {
                 glShaderSource(shader, 1, &pSource, NULL);
                 glCompileShader(shader);
                 GLint compiled = 0;
                 glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
-                if (!compiled)
+                if(!compiled)
                 {
                     GLint infoLen = 0;
                     glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLen);
-                    if (infoLen)
+                    if(infoLen)
                     {
                         char* buf = new char[infoLen];
-                        if (buf)
+                        if(buf)
                         {
                             glGetShaderInfoLog(shader, infoLen, NULL, buf);
                             LOGE("Could not compile shader %d: %s", shaderType, buf);
@@ -152,19 +152,19 @@ namespace w
         GLuint ShaderProgramAssetPrivate::createProgram(const char* vertexSource, const char* fragmentSource)
         {
             GLuint vertexShader = createShader(GL_VERTEX_SHADER, vertexSource);
-            if (!vertexShader)
+            if(vertexShader == 0)
             {
                 return 0;
             }
 
             GLuint pixelShader = createShader(GL_FRAGMENT_SHADER, fragmentSource);
-            if (!pixelShader)
+            if(pixelShader == 0)
             {
                 return 0;
             }
 
             GLuint program = glCreateProgram();
-            if (program)
+            if(program != 0)
             {
                 glAttachShader(program, vertexShader);
                 checkGlError("glAttachShader");
@@ -173,14 +173,14 @@ namespace w
                 glLinkProgram(program);
                 GLint linkStatus = GL_FALSE;
                 glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
-                if (linkStatus != GL_TRUE)
+                if(linkStatus != GL_TRUE)
                 {
                     GLint bufLength = 0;
                     glGetProgramiv(program, GL_INFO_LOG_LENGTH, &bufLength);
-                    if (bufLength)
+                    if(bufLength)
                     {
                         char* buf = new char[bufLength];
-                        if (buf)
+                        if(buf)
                         {
                             glGetProgramInfoLog(program, bufLength, NULL, buf);
                             LOGE("Could not link program:\n%s\n", buf);

@@ -56,13 +56,13 @@ namespace w
 
         TextureAssetPrivate::~TextureAssetPrivate()
         {
-            if (tmpData_ != NULL)
+            if(tmpData_ != NULL)
             {
                 delete [] tmpData_;
                 tmpData_ = NULL;
             }
 
-            if (textureId_ != 0)
+            if(textureId_ != 0)
             {
                 glDeleteTextures(1, &textureId_);
                 textureId_ = 0;
@@ -87,21 +87,21 @@ namespace w
 
             // Create libpng structs
             png_structp png = png_create_read_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
-            if (!png)
+            if(!png)
             {
                 LOGE("Cannot open file %.!", filename().c_str());
                 throw Exception("Couldn't create libpng read struct.");
             }
 
             png_infop info = png_create_info_struct(png);
-            if (!info)
+            if(!info)
             {
                 LOGE("Cannot open file %.!", filename().c_str());
                 throw Exception("Couldn't create libpng info struct.");
             }
 
             // Errors, TODO: check if this is needed.
-            if (setjmp(png_jmpbuf(png)))
+            if(setjmp(png_jmpbuf(png)))
             {
                 LOGE("libpng error while reading file %s.", filename().c_str());
                 throw Exception("Could not load png file!");
@@ -116,11 +116,11 @@ namespace w
             png_bytepp rows = png_get_rows(png, info);
 
             // Set pixel format
-            if (png_get_color_type(png, info) == PNG_COLOR_TYPE_RGB)
+            if(png_get_color_type(png, info) == PNG_COLOR_TYPE_RGB)
             {
                 bytesPerPixel_ = 3;
             }
-            else if (png_get_color_type(png, info) == PNG_COLOR_TYPE_RGBA)
+            else if(png_get_color_type(png, info) == PNG_COLOR_TYPE_RGBA)
             {
                 bytesPerPixel_ = 4;
             }
@@ -139,11 +139,11 @@ namespace w
             yUsage_ = (float)sourceBitmapHeight_ / (float)height_;
             unsigned int dataSize = width_ * height_ * bytesPerPixel_;
             tmpData_ = new char[dataSize];
-            for (unsigned int i = 0; i < dataSize; i++)
+            for(unsigned int i = 0; i < dataSize; i++)
             {
                 tmpData_[i] = 0;
             }
-            for (unsigned int i = 0; i < sourceBitmapHeight_; i++)
+            for(unsigned int i = 0; i < sourceBitmapHeight_; i++)
             {
                 memcpy(&(tmpData_)[width_ * bytesPerPixel_ * i], rows[sourceBitmapHeight_ - i - 1], sourceBitmapWidth_ * bytesPerPixel_);
             }

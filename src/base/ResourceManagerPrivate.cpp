@@ -160,4 +160,31 @@ namespace w
             androidAssetManager_ = assetManager;
         }
     #endif
+
+    bool ResourceManagerPrivate::exists(const std::string& filename)
+    {
+        bool r = false;
+
+        #ifdef ANDROID
+            AAsset* asset = AAssetManager_open(assetManager_, filename, AASSET_MODE_STREAMING);
+            if(asset != NULL)
+            {
+                r = true;
+                AAsset_close(asset);
+            }
+        #else
+            // TODO: this is now bit heavy, file opening can be polished away
+            std::string fullName;
+            fullName += singleton_->basePath_;
+            fullName += std::string(filename);
+            FILE *file = fopen(fullName.c_str(), "rb");
+            if(file)
+            {
+                r = true;
+                fclose(file);
+            }
+        #endif
+
+        return r;
+    }
 }

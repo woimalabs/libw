@@ -74,9 +74,12 @@ namespace w
         AudioEnginePrivate::AudioEnginePrivate(float volumeAtStart, ResourceManager& resourceManager):
             resourceManager_(resourceManager),
             tracker_(1.0f),
-            volumeAtStart_(volumeAtStart)
+            volumeAtStart_(volumeAtStart),
+            mainloop_(NULL),
+            context_(NULL),
+            stream_(NULL)
         {
-            if (singleton_ != NULL)
+            if(singleton_ != NULL)
             {
                 throw Exception("AudioEngine exists! Create only one AudioEngine per process!");
             }
@@ -88,21 +91,18 @@ namespace w
             pa_threaded_mainloop_lock (mainloop_);
             {
                 // Get a context
-                if (context_ == NULL)
+                context_ = pa_context_new (pa_threaded_mainloop_get_api (mainloop_), "libw");
+                if(context_ == NULL)
                 {
-                    context_ = pa_context_new (pa_threaded_mainloop_get_api (mainloop_), "libw");
-                    if(context_ == NULL)
-                    {
-                        LOGE("pa_context_new failed");
-                        throw Exception("pa_context_new failed");
-                    }
-                    pa_context_set_state_callback(context_, context_state_callback, mainloop_);
+                    LOGE("pa_context_new failed");
+                    throw Exception("pa_context_new failed");
                 }
+                pa_context_set_state_callback(context_, context_state_callback, mainloop_);
 
                 // Connect
-                if (pa_context_get_state(context_) == PA_CONTEXT_UNCONNECTED)
+                if(pa_context_get_state(context_) == PA_CONTEXT_UNCONNECTED)
                 {
-                    if (pa_context_connect(context_, NULL, PA_CONTEXT_NOFLAGS,NULL) < 0)
+                    if(pa_context_connect(context_, NULL, PA_CONTEXT_NOFLAGS,NULL) < 0)
                     {
                         LOGE("pa_context_connect failed");
                         pa_threaded_mainloop_unlock(mainloop_);
@@ -112,9 +112,9 @@ namespace w
 
                 // Wait until connected to pulse daemon (NOTE: polling OK in this one)
                 pa_context_state_t state;
-                while ((state = pa_context_get_state(context_)) != PA_CONTEXT_READY)
+                while((state = pa_context_get_state(context_)) != PA_CONTEXT_READY)
                 {
-                    if (state == PA_CONTEXT_FAILED || state == PA_CONTEXT_TERMINATED)
+                    if(state == PA_CONTEXT_FAILED || state == PA_CONTEXT_TERMINATED)
                     {
                         LOGE("Unable to connect to pulsedaemon");
                         pa_threaded_mainloop_unlock(mainloop_);
@@ -138,7 +138,7 @@ namespace w
 
             pa_threaded_mainloop_lock(mainloop_);
             {
-                if (stream_)
+                if(stream_)
                 {
                     pa_stream_disconnect(stream_);
                     pa_stream_unref(stream_);
@@ -155,7 +155,7 @@ namespace w
                 pa_stream_set_state_callback(stream_, stream_state_callback, mainloop_);
                 pa_stream_set_write_callback(stream_, stream_write_callback, this);
 
-                if (pa_stream_connect_playback(stream_, NULL, NULL, PA_STREAM_NOFLAGS, NULL, NULL) < 0)
+                if(pa_stream_connect_playback(stream_, NULL, NULL, PA_STREAM_NOFLAGS, NULL, NULL) < 0)
                 {
                     goto failed;
                 }
@@ -164,7 +164,7 @@ namespace w
                 pa_stream_state_t state;
                 while((state = pa_stream_get_state(stream_)) != PA_STREAM_READY)
                 {
-                    if (state == PA_STREAM_FAILED || state == PA_STREAM_TERMINATED)
+                    if(state == PA_STREAM_FAILED || state == PA_STREAM_TERMINATED)
                     {
                         goto failed;
                     }
@@ -173,7 +173,7 @@ namespace w
 
                 // Check Format
                 config = pa_stream_get_sample_spec(stream_);
-                if (config->format == PA_SAMPLE_S16LE && config->channels == 1 && config->rate == 44100)
+                if(config->format == PA_SAMPLE_S16LE && config->channels == 1 && config->rate == 44100)
                 {
                     LOGI("pulse stream configured: PCM mono 44100Hz 16bit, signed integer, linear, little endian");
                     pa_threaded_mainloop_unlock(mainloop_);
@@ -189,16 +189,16 @@ namespace w
         AudioEnginePrivate::~AudioEnginePrivate()
         {
             tracker_.shutdown();
-            while (tracker_.shutdownIsDone() == false)
+            while(tracker_.shutdownIsDone() == false)
             {
             }
 
-            if (mainloop_)
+            if(mainloop_)
             {
                 pa_threaded_mainloop_lock(mainloop_);
             }
 
-            if (stream_)
+            if(stream_)
             {
                 LOGI("disconnecting pulse stream");
                 pa_stream_disconnect(stream_);
@@ -206,7 +206,7 @@ namespace w
                 stream_ = NULL;
             }
 
-            if (context_)
+            if(context_)
             {
                 LOGI("disconnecting pulse context");
                 pa_context_disconnect(context_);
@@ -214,7 +214,7 @@ namespace w
                 context_ = NULL;
             }
 
-            if (mainloop_)
+            if(mainloop_)
             {
                 LOGI("disconnecting pulse mainloop");
                 pa_threaded_mainloop_unlock(mainloop_);

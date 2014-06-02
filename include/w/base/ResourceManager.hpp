@@ -50,6 +50,7 @@ namespace w
         ResourceManager();
 #endif
         virtual ~ResourceManager();
+        static bool exists(const std::string& filename);
 
     private:
         class ResourceManagerPrivate* private_;
