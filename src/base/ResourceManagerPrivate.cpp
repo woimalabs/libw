@@ -176,6 +176,7 @@ namespace w
             // TODO: this is now bit heavy, file opening can be polished away
             std::string fullName;
             fullName += singleton_->basePath_;
+            fullName += "/";
             fullName += std::string(filename);
             FILE *file = fopen(fullName.c_str(), "rb");
             if(file)
