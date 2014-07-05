@@ -278,7 +278,7 @@ namespace w
          * returns      true if polygon was clockwice turning,
          *              false if polygon was counterclockwice
          */
-        static bool clockwice(const std::vector<Eigen::Vector2f> & polygon)
+        static bool isClockwice(const std::vector<Eigen::Vector2f> & polygon)
         {
             float clockwiceAngle = 0.0f;
 
