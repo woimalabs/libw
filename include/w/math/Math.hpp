@@ -248,6 +248,7 @@ namespace w
             Eigen::Vector3f tmp = v0 - v1;
             return sqrt(tmp.x() * tmp.x() + tmp.y() * tmp.y() + tmp.z() * tmp.z());
         }
+
         /**
          * Checks if point is inside rectangle. Rectangle coordinate parameters are
          * ordered in this check!
@@ -267,6 +268,32 @@ namespace w
                 return true;
             }
             return false;
+        }
+
+        /**
+         * Checks if polygon is clockwice turning
+         *
+         * param [in]   polygon     Polygon to be checked
+         *
+         * returns      true if polygon was clockwice turning,
+         *              false if polygon was counterclockwice
+         */
+        static bool clockwice(const std::vector<Eigen::Vector2f> & polygon)
+        {
+            float clockwiceAngle = 0.0f;
+
+            for(unsigned int i = 0; i != polygon.size(); i++)
+            {
+                Eigen::Vector2f currentPoint = polygon[i];
+                Eigen::Vector2f prevPoint = polygon[i == 0 ? polygon.size() - 1  : i - 1];
+                Eigen::Vector2f nextPoint = polygon[i == polygon.size() - 1 ? 0: i + 1];
+                Eigen::Vector2f lineComing = currentPoint - prevPoint;
+                Eigen::Vector2f lineGoing = nextPoint - currentPoint;
+
+                clockwiceAngle += w::math::cross(lineComing, lineGoing);
+            }
+
+            return clockwiceAngle < 0.0f;
         }
 
         // Ment to be used only within this namespace
