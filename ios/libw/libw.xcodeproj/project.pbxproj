@@ -613,6 +613,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = armv7;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++98";
 				DSTROOT = /tmp/libw.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -634,6 +635,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = armv7;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++98";
 				DSTROOT = /tmp/libw.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
