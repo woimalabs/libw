@@ -86,8 +86,10 @@ namespace w
         {
             unsigned int i = progressIndex();
             unsigned int iNext = nextIndex(i);
-            return points_[i].pointer()->opacity() +
-                (progressOverTheIndex() * points_[iNext].pointer()->opacity());
+            float iNextFactor = progressOverTheIndex() / progressPerSegment_;
+            float iFactor = 1.0f - iNextFactor;
+            return iFactor * points_[i].pointer()->opacity()
+                + iNextFactor * points_[iNext].pointer()->opacity();
         }
 
         inline unsigned int PathAnimation::progressIndex()

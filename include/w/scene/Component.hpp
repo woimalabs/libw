@@ -47,7 +47,7 @@ namespace w
         /**
          * @class Component
          *
-         * Inherit Component and ComponentPrivate to
+         * Inherit Component and ComponentPrivateTemplate to
          * create new component to scene.
          */
         class Component
@@ -64,9 +64,6 @@ namespace w
         protected:
             friend class NodePrivate;
             ReferencedPointer<ComponentPrivate> private_;
-
-        private:
-            //Component()
         };
 
         extern Component ComponentNull;

@@ -64,11 +64,7 @@ namespace w
             void addChild(Node const& node);
             void removeChildWithComponentId(bool recursive, const std::vector<unsigned int> & ids);
             void removeChildren();
-            //void removeComponent(Component const& component);
-            //void removeComponent(std::string const& component);
-            //template<class T> void removeComponent();
             void addComponent(Component const& component);
-            //Component component(std::string const& type);
 
             template<class T> void removeComponent()
             {
@@ -96,9 +92,7 @@ namespace w
             }
 
             bool hasComponentWithId(const std::vector<unsigned int> & ids);
-            //ReferencedPointer<ComponentPrivate> componentPrivate(std::string const& type);
             unsigned int id() const;
-            //template<class T> ReferencedPointer<T> component() const;
             unsigned int referenceCount() const;
 
         protected:

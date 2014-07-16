@@ -38,7 +38,10 @@ namespace w
         /**
          * @class ComponentPrivate
          *
-         * Inherit ComponentPrivateTemplate to create new component to scene.
+         * Base class for Component's private part to enable referencing.
+         *
+         * @note Inherit ComponentPrivateTemplate to create new component
+         *        private to scene.
          */
         class ComponentPrivate: public Referenced
         {
