@@ -79,40 +79,6 @@ namespace w
             }
         }
 
-        void NodePrivate::removeComponent(Component const& component)
-        {
-            LOCK_(mutexComponents_);
-
-            std::string key = component.type();
-            std::map<std::string, ReferencedPointer<ComponentPrivate> >::iterator i;
-            i = components_.find(key);
-
-            if (i == components_.end())
-            {
-                LOGE("NodePrivate::removeComponent(), did not have component with type: \"%s\", doing nothing.", key.c_str());
-            }
-            else
-            {
-                components_.erase(i);
-            }
-        }
-
-        void NodePrivate::removeComponent(std::string const& type)
-        {
-            LOCK_(mutexComponents_);
-
-            std::map<std::string, ReferencedPointer<ComponentPrivate> >::iterator i = components_.find(type);
-
-            if (i == components_.end())
-            {
-                LOGE("NodePrivate::removeComponent(), did not have component with type: \"%s\", doing nothing.", type.c_str());
-            }
-            else
-            {
-                components_.erase(i);
-            }
-        }
-
         void NodePrivate::removeChildWithComponentId(bool recursive, const std::vector<unsigned int> & ids)
         {
             LOCK_(mutexStructure_);
@@ -139,7 +105,7 @@ namespace w
         {
             LOCK_(mutexComponents_);
 
-            for(std::map<std::string, ReferencedPointer<ComponentPrivate> >::iterator i = components_.begin();
+            for(std::map<const std::type_info*, ReferencedPointer<ComponentPrivate> >::iterator i = components_.begin();
                 i != components_.end();
                 i++)
             {
@@ -176,60 +142,24 @@ namespace w
                 tmp = NULL;
                 i = children_.erase(i);
             }
-            //children_.clear();
         }
 
         void NodePrivate::addComponent(Component const& component)
         {
             LOCK_(mutexComponents_);
 
-            std::string key = component.type();
-            std::map<std::string, ReferencedPointer<ComponentPrivate> >::iterator i;
-            i = components_.find(key);
-
+            const std::type_info& key = component.typeId();
+            std::map<const std::type_info*, ReferencedPointer<ComponentPrivate> >::iterator i = components_.find(&key);
             if(i == components_.end())
             {
-                std::pair<std::string, ReferencedPointer<ComponentPrivate> > tmp = std::make_pair(key, component.private_);
+                std::pair<const std::type_info*, ReferencedPointer<ComponentPrivate> > tmp = std::make_pair(&key, component.private_);
                 components_.insert(tmp);
             }
             else
             {
                 // We had this component already
-                LOGE("NodePrivate::addComponent(), trying to overwrite existing component with type: \"%s\", doing nothing.", key.c_str());
+                LOGE("NodePrivate::addComponent(), trying to overwrite existing component with type. Doing nothing.");
             }
-        }
-
-        ReferencedPointer<ComponentPrivate> NodePrivate::component(std::string const& type)
-        {
-            LOCK_(mutexComponents_);
-
-            std::map<std::string, ReferencedPointer<ComponentPrivate> >::iterator i = components_.find(type);
-            if (i != components_.end())
-            {
-                return (i->second);
-            }
-            else
-            {
-                return ReferencedPointer<ComponentPrivate>(NULL);
-            }
-        }
-
-        template<class T> ReferencedPointer<T> NodePrivate::component()
-        {
-            LOCK_(mutexComponents_);
-
-            std::map<std::string, ReferencedPointer<ComponentPrivate> >::iterator i;
-            for(i = components_.begin(); i != components_.end(); ++i)
-            {
-                ReferencedPointer<ComponentPrivate> tmp = i->second;
-                T* tmp2 = dynamic_cast<T*>(tmp.pointer());
-                if(tmp2 != NULL)
-                {
-                    return ReferencedPointer<T>(tmp2);
-                }
-            }
-
-            return ReferencedPointer<T>(NULL);
         }
 
         void NodePrivate::addChild(NodePrivate* node)
@@ -240,45 +170,6 @@ namespace w
             node->parent_ = this;
             node->increment();
         }
-
-        /*void NodePrivate::removeChild(NodePrivate* node)
-        {
-            LOCK_(mutexStructure_);
-
-            for(std::list<NodePrivate*>::iterator i = children_.begin(); i != children_.end(); i++)
-            {
-                if((*i)->id() == node->id())
-                {
-                    (*i)->decrement();
-                    children_.erase(i);
-                    break;
-                }
-            }
-        }
-
-        void NodePrivate::removeChildren(std::vector<unsigned int> & ids)
-        {
-            LOCK_(mutexStructure_);
-
-            for(std::list<NodePrivate*>::iterator i = children_.begin(); i != children_.end(); i++)
-            {
-                bool childRemoved = false;
-                for(std::vector<unsigned int>::iterator i2 = ids.begin(); i2 != ids.end(); i2++)
-                {
-                    if((*i)->id() == *i2)
-                    {
-                        (*i)->decrement();
-                        children_.erase(i);
-                        childRemoved = true;
-                    }
-                }
-
-                if(childRemoved == false)
-                {
-                    (*i)->removeChildren(ids);
-                }
-            }
-        }*/
 
         ReferencedPointer<NodePrivate> NodePrivate::parent()
         {

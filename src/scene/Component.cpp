@@ -42,11 +42,11 @@ namespace w
         {
         }
 
-        Component::Component():
+        /*Component::Component():
             private_(NULL)
         {
             throw Exception("Component() should not be used");
-        }
+        }*/
 
         Component::~Component()
         {
@@ -61,11 +61,6 @@ namespace w
             return *this;
         }
 
-        std::string const& Component::type() const
-        {
-            return private_.pointer()->type();
-        }
-
         bool Component::isNull() const
         {
             return private_.isNull();
@@ -74,6 +69,11 @@ namespace w
         unsigned int Component::id() const
         {
             return private_.pointer()->id();
+        }
+
+        const std::type_info& Component::typeId() const
+        {
+            return private_.pointer()->typeId();
         }
     }
 }

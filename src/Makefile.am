@@ -42,7 +42,7 @@ libw_la_SOURCES = \
 	storage/Storage.cpp \
 	storage/StoragePrivate.cpp
 
-libw_la_CPPFLAGS = -I$(top_srcdir)/include
+libw_la_CPPFLAGS = -I$(top_srcdir)/include -Wall -Wextra
 
 library_base_includedir = $(includedir)/w/base
 library_base_include_HEADERS = \
@@ -89,6 +89,7 @@ library_scene_includedir = $(includedir)/w/scene
 library_scene_include_HEADERS = \
 	../include/w/scene/Component.hpp \
 	../include/w/scene/ComponentPrivate.hpp \
+	../include/w/scene/ComponentPrivateTemplate.hpp \
 	../include/w/scene/Node.hpp \
 	../include/w/scene/NodePrivate.hpp \
 	../include/w/scene/Visitor.hpp

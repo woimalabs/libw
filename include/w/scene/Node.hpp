@@ -40,12 +40,14 @@ namespace w
 {
     namespace scene
     {
-        //class NodePrivate;
-
         /**
          * @class Node
          *
-         * Class that creates tree structure to your scene.
+         * Class that creates tree structure to your scene. Node is unique
+         * in the tree.
+         *
+         * TODO: If node is replaced in the tree the old placement
+         * disappears _before_ the new placement is done.
          */
         class Node
         {
@@ -60,18 +62,43 @@ namespace w
             virtual ~Node();
             void accept(Visitor& visitor);
             void addChild(Node const& node);
-            //void removeChild(Node const& node);
-            //void removeChildren(std::vector<unsigned int> & ids);
             void removeChildWithComponentId(bool recursive, const std::vector<unsigned int> & ids);
             void removeChildren();
-            void removeComponent(Component const& component);
-            void removeComponent(std::string const& component);
+            //void removeComponent(Component const& component);
+            //void removeComponent(std::string const& component);
+            //template<class T> void removeComponent();
             void addComponent(Component const& component);
-            Component component(std::string const& type);
+            //Component component(std::string const& type);
+
+            template<class T> void removeComponent()
+            {
+                private_.pointer()->removeComponent<T>();
+            }
+
+            template<class T> T* component()
+            {
+                return private_.pointer()->component<T>();
+            }
+
+            template<class T> bool hasComponent() const
+            {
+                return private_.pointer()->hasComponent<T>();
+            }
+
+            template<class T0, class T1> bool hasComponents() const
+            {
+                return private_.pointer()->hasComponents<T0, T1>();
+            }
+
+            template<class T0, class T1, class T2> bool hasComponents() const
+            {
+                return private_.pointer()->hasComponents<T0, T1, T2>();
+            }
+
             bool hasComponentWithId(const std::vector<unsigned int> & ids);
-            ReferencedPointer<ComponentPrivate> componentPrivate(std::string const& type);
+            //ReferencedPointer<ComponentPrivate> componentPrivate(std::string const& type);
             unsigned int id() const;
-            template<class T> ReferencedPointer<T> component() const;
+            //template<class T> ReferencedPointer<T> component() const;
             unsigned int referenceCount() const;
 
         protected:

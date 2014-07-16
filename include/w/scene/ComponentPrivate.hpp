@@ -29,6 +29,7 @@
 #include <string>
 #include "w/base/Class.hpp"
 #include "w/base/Referenced.hpp"
+#include <typeinfo>
 
 namespace w
 {
@@ -37,31 +38,18 @@ namespace w
         /**
          * @class ComponentPrivate
          *
-         * Inherit Component and ComponentPrivate to
-         * create new component to scene.
+         * Inherit ComponentPrivateTemplate to create new component to scene.
          */
         class ComponentPrivate: public Referenced
         {
         public:
             UNCOPYABLE(ComponentPrivate)
-
-            std::string const& type()
-            {
-                return type_;
-            };
-
-        protected:
-            ComponentPrivate(std::string const& type):
-                type_(type)
-            {
-            };
-
-            virtual ~ComponentPrivate()
-            {
-            };
+            virtual const std::type_info& typeId() const = 0;
 
         private:
-            std::string type_;
+            template<typename T> friend class ComponentPrivateTemplate;
+            ComponentPrivate() {};
+            virtual ~ComponentPrivate() {};
         };
     }
 }

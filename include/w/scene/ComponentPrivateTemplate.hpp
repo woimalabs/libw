@@ -23,53 +23,45 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_SCENE_COMPONENT
-#define LIBW_SCENE_COMPONENT
+#ifndef LIBW_SCENE_COMPONENTPRIVATETEMPLATE
+#define LIBW_SCENE_COMPONENTPRIVATETEMPLATE
 
 #include "w/scene/ComponentPrivate.hpp"
-#include "w/base/ReferencedPointer.hpp"
-#include <w/base/Class.hpp>
+#include "w/base/Class.hpp"
 #include <typeinfo>
 
 namespace w
 {
     namespace scene
     {
-        class NodePrivate;
-
-        #define REGISTER_COMPONENT(ComponentType) \
-            static const std::string& typeId(void) \
-            { \
-                static const std::string r = ComponentType; \
-                return r; \
-            }
-
         /**
-         * @class Component
+         * @class ComponentPrivateTemplate
          *
-         * Inherit Component and ComponentPrivate to
+         * Inherit Component and ComponentPrivateTemplate to
          * create new component to scene.
          */
-        class Component
+        template<class T> class ComponentPrivateTemplate: public ComponentPrivate
         {
         public:
-            COPYABLE(Component)
+            UNCOPYABLE(ComponentPrivateTemplate)
 
-            Component(ComponentPrivate* private_);
-            virtual ~Component();
-            bool isNull() const;
-            unsigned int id() const;
-            const std::type_info& typeId() const;
+            const std::type_info& typeId() const
+            {
+                return typeid(T);
+            }
 
         protected:
-            friend class NodePrivate;
-            ReferencedPointer<ComponentPrivate> private_;
+            ComponentPrivateTemplate()
+            {
+            };
+
+            virtual ~ComponentPrivateTemplate()
+            {
+            };
 
         private:
-            //Component()
+            std::string type_;
         };
-
-        extern Component ComponentNull;
     }
 }
 

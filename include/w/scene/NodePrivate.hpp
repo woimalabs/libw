@@ -53,14 +53,78 @@ namespace w
             NodePrivate(Component const& c0, Component const& c1, Component const& c2);
             NodePrivate(Component const& c0, Component const& c1, Component const& c2, Component const& c3);
             virtual ~NodePrivate();
-            void removeComponent(Component const& component);
-            void removeComponent(std::string const& component);
             void addComponent(Component const& component);
-            ReferencedPointer<ComponentPrivate> component(std::string const& type);
-            template<class T> ReferencedPointer<T> component();
+
+            template<class T> void removeComponent()
+            {
+                LOCK_(mutexComponents_);
+
+                const std::type_info& key = typeid(T);
+                std::map<const std::type_info*, ReferencedPointer<ComponentPrivate> >::iterator i = components_.find(&key);
+                if(i == components_.end())
+                {
+                    LOGE("NodePrivate::removeComponent(), did not have component with type. Doing nothing");;
+                }
+                else
+                {
+                    components_.erase(i);
+                }
+            }
+
+            template<class T> T* component()
+            {
+                LOCK_(mutexComponents_);
+
+                const std::type_info& key = typeid(T);
+                std::map<const std::type_info*, ReferencedPointer<ComponentPrivate> >::const_iterator i = components_.find(&key);
+                if(i != components_.end())
+
+                {
+                    return static_cast<T*>(i->second.pointer());
+                }
+                return NULL;
+            }
+
+            template<class T> bool hasComponent() const
+            {
+                const std::type_info& key = typeid(T);
+                std::map<const std::type_info*, ReferencedPointer<ComponentPrivate> >::const_iterator i = components_.find(&key);
+                if(i != components_.end())
+                {
+                    return true;
+                }
+                return false;
+            }
+
+            template<class T0, class T1> bool hasComponents() const
+            {
+                const std::type_info& key0 = typeid(T0);
+                std::map<const std::type_info*, ReferencedPointer<ComponentPrivate> >::const_iterator i0 = components_.find(&key0);
+                const std::type_info& key1 = typeid(T1);
+                std::map<const std::type_info*, ReferencedPointer<ComponentPrivate> >::const_iterator i1 = components_.find(&key1);
+                if(i0 != components_.end() && i1 != components_.end())
+                {
+                    return true;
+                }
+                return false;
+            }
+
+            template<class T0, class T1, class T2> bool hasComponents() const
+            {
+                const std::type_info& key0 = typeid(T0);
+                std::map<const std::type_info*, ReferencedPointer<ComponentPrivate> >::const_iterator i0 = components_.find(&key0);
+                const std::type_info& key1 = typeid(T1);
+                std::map<const std::type_info*, ReferencedPointer<ComponentPrivate> >::const_iterator i1 = components_.find(&key1);
+                const std::type_info& key2 = typeid(T2);
+                std::map<const std::type_info*, ReferencedPointer<ComponentPrivate> >::const_iterator i2 = components_.find(&key2);
+                if(i0 != components_.end() && i1 != components_.end() && i2 != components_.end())
+                {
+                    return true;
+                }
+                return false;
+            }
+
             void addChild(NodePrivate* node);
-            //void removeChild(NodePrivate* node);
-            //void removeChildren(std::vector<unsigned int> & ids);
             void removeChildWithComponentId(bool recursive, const std::vector<unsigned int> & ids);
             bool hasComponentWithId(const std::vector<unsigned int> & ids);
             void removeChildren();
@@ -73,7 +137,7 @@ namespace w
             NodePrivate* parent_;
 
             Mutex mutexComponents_;
-            std::map<std::string, ReferencedPointer<ComponentPrivate> > components_;
+            std::map<const std::type_info*, ReferencedPointer<ComponentPrivate> > components_;
         };
     }
 }
