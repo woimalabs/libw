@@ -48,12 +48,13 @@ namespace w
         unsigned int decrement()
         {
             referenceCount_--;
-            if (referenceCount_ <= 0)
+            unsigned int r = referenceCount_;
+            if (r == 0)
             {
                 destroy.emit(id_);
                 delete this;
             }
-            return referenceCount_;
+            return r;
         }
 
         unsigned int referenceCount()
