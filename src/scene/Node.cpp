@@ -35,12 +35,12 @@ namespace w
     namespace scene
     {
         Node::Node():
-            private_(ReferencedPointer<NodePrivate>(new NodePrivate()))
+            ReferencedPointer<NodePrivate>(new NodePrivate())
         {
         }
 
         Node::Node(const ReferencedPointer<NodePrivate> & private__):
-            private_(private__)
+            ReferencedPointer<NodePrivate>(private__)
         {
         }
 
@@ -49,36 +49,33 @@ namespace w
         }
 
         Node::Node(const Node & r):
-            private_(r.private_)
+            ReferencedPointer<NodePrivate>(r)
         {
         }
 
         Node& Node::operator=(const Node & r)
         {
-            if (this != &r)
-            {
-                private_ = r.private_;
-            }
+            ReferencedPointer::operator=(r);
             return *this;
         }
 
         Node::Node(const Component & c0):
-            private_(ReferencedPointer<NodePrivate>(new NodePrivate(c0)))
+            ReferencedPointer<NodePrivate>(new NodePrivate(c0))
         {
         }
 
         Node::Node(const Component & c0, const Component & c1):
-            private_(ReferencedPointer<NodePrivate>(new NodePrivate(c0, c1)))
+            ReferencedPointer<NodePrivate>(new NodePrivate(c0, c1))
         {
         }
 
         Node::Node(const Component & c0, const Component & c1, const Component & c2):
-            private_(ReferencedPointer<NodePrivate>(new NodePrivate(c0, c1, c2)))
+            ReferencedPointer<NodePrivate>(new NodePrivate(c0, c1, c2))
         {
         }
 
         Node::Node(const Component & c0, const Component & c1, const Component & c2, const Component & c3):
-            private_(ReferencedPointer<NodePrivate>(new NodePrivate(c0, c1, c2, c3)))
+            ReferencedPointer<NodePrivate>(new NodePrivate(c0, c1, c2, c3))
         {
         }
 
@@ -89,12 +86,12 @@ namespace w
                 visitor.enter(*this);
                 if(visitor.breaking() == false)
                 {
-                    Node dummy;
-                    std::vector<ReferencedPointer<NodePrivate> > tmp = private_.pointer()->children();
+                    //Node dummy;
+                    std::vector<ReferencedPointer<NodePrivate> > tmp = pointer()->children();
                     for (std::vector<ReferencedPointer<NodePrivate> >::iterator i = tmp.begin(); i != tmp.end(); i++)
                     {
                         ReferencedPointer<NodePrivate> tmp2 = *i;
-                        dummy.private_ = tmp2.pointer();
+                        Node dummy(tmp2.pointer());
                         dummy.accept(visitor);
                     }
                 }
@@ -104,37 +101,37 @@ namespace w
 
         void Node::addChild(Node const& node)
         {
-            private_.pointer()->addChild(node.private_.pointer());
+            pointer()->addChild(node.pointer());
         }
 
         void Node::addComponent(Component const& component)
         {
-            private_.pointer()->addComponent(component);
+            pointer()->addComponent(component);
         }
 
         void Node::removeChildWithComponentId(bool recursive, const std::vector<unsigned int> & ids)
         {
-            private_.pointer()->removeChildWithComponentId(recursive, ids);
+            pointer()->removeChildWithComponentId(recursive, ids);
         }
 
         void Node::removeChildren()
         {
-            private_.pointer()->removeChildren();
+            pointer()->removeChildren();
         }
 
         bool Node::hasComponentWithId(const std::vector<unsigned int> & ids)
         {
-            return private_.pointer()->hasComponentWithId(ids);
+            return pointer()->hasComponentWithId(ids);
         }
 
         unsigned int Node::id() const
         {
-            return private_.pointer()->id();
+            return pointer()->id();
         }
 
         unsigned int Node::referenceCount() const
         {
-            return private_.pointer()->referenceCount();
+            return pointer()->referenceCount();
         }
     }
 }

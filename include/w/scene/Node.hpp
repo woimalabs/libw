@@ -49,7 +49,7 @@ namespace w
          * TODO: If node is replaced in the tree the old placement
          * disappears _before_ the new placement is done.
          */
-        class Node
+        class Node: public ReferencedPointer<NodePrivate>
         {
         public:
             COPYABLE(Node)
@@ -68,27 +68,27 @@ namespace w
 
             template<class T> void removeComponent()
             {
-                private_.pointer()->removeComponent<T>();
+                pointer()->removeComponent<T>();
             }
 
             template<class T> T* component()
             {
-                return private_.pointer()->component<T>();
+                return pointer()->component<T>();
             }
 
             template<class T> bool hasComponent() const
             {
-                return private_.pointer()->hasComponent<T>();
+                return pointer()->hasComponent<T>();
             }
 
             template<class T0, class T1> bool hasComponents() const
             {
-                return private_.pointer()->hasComponents<T0, T1>();
+                return pointer()->hasComponents<T0, T1>();
             }
 
             template<class T0, class T1, class T2> bool hasComponents() const
             {
-                return private_.pointer()->hasComponents<T0, T1, T2>();
+                return pointer()->hasComponents<T0, T1, T2>();
             }
 
             bool hasComponentWithId(const std::vector<unsigned int> & ids);
@@ -97,9 +97,6 @@ namespace w
 
         protected:
             Node(const ReferencedPointer<NodePrivate> &);
-
-        private:
-            ReferencedPointer<NodePrivate> private_;
         };
     }
 }
