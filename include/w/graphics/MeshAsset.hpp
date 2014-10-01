@@ -58,7 +58,7 @@ namespace w
              * @param [in]  vStart  Texture v coodinate bottom
              * @param [in]  vEnd    Texture u coodinate ceiling
              */
-            MeshAsset(float w, float h, float uStart, float uEnd, float vStart, float vEnd);
+            MeshAsset(float w, float h, float uStart, float uEnd, float vStart, float vEnd, float wOffset = 0.0f, float hOffset = 0.0f);
             ~MeshAsset();
 
         private:

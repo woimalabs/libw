@@ -47,7 +47,7 @@ namespace w
             UNCOPYABLE(MeshAssetPrivate)
 
             MeshAssetPrivate(const std::vector<StrideComponent> & strideComponents, float* tmpVertexData, unsigned int vertexCount);
-            MeshAssetPrivate(float width, float height, float uStart, float uEnd, float vStart, float vEnd);
+            MeshAssetPrivate(float width, float height, float uStart, float uEnd, float vStart, float vEnd, float wOffset, float hOffset);
 
             virtual ~MeshAssetPrivate();
             // Android, linux, iOS. All use GLES2

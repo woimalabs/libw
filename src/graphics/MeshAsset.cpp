@@ -36,8 +36,8 @@ namespace w
             private_->increment();
         }
 
-        MeshAsset::MeshAsset(float width, float height, float uStart, float uEnd, float vStart, float vEnd):
-            private_(new MeshAssetPrivate(width, height, uStart, uEnd, vStart, vEnd))
+        MeshAsset::MeshAsset(float width, float height, float uStart, float uEnd, float vStart, float vEnd, float wOffset, float hOffset):
+            private_(new MeshAssetPrivate(width, height, uStart, uEnd, vStart, vEnd, wOffset, hOffset))
         {
             private_->increment();
         }

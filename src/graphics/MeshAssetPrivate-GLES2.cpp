@@ -55,7 +55,7 @@ namespace w
             }*/
         }
 
-        MeshAssetPrivate::MeshAssetPrivate(float width, float height, float uStart, float uEnd, float vStart, float vEnd):
+        MeshAssetPrivate::MeshAssetPrivate(float width, float height, float uStart, float uEnd, float vStart, float vEnd, float wOffset, float hOffset):
             vbo_(0),
             tmpVertexData_(NULL),
             vertexCount_(0)
@@ -72,26 +72,26 @@ namespace w
              */
 
             // Bottom left corner
-            float p0x = 0.0f;
-            float p0y = 0.0f;
+            float p0x = 0.0f + wOffset;
+            float p0y = 0.0f + hOffset;
             float p0u = uStart;
             float p0v = vStart;
 
             // Top left corner
-            float p1x = 0.0f;
-            float p1y = height;
+            float p1x = 0.0f + wOffset;
+            float p1y = height + hOffset;
             float p1u = uStart;
             float p1v = vEnd;
 
             // Top right corner
-            float p2x = width;
-            float p2y = height;
+            float p2x = width + wOffset;
+            float p2y = height + hOffset;
             float p2u = uEnd;
             float p2v = vEnd;
 
             // Bottom right corner
-            float p3x = width;
-            float p3y = 0.0f;
+            float p3x = width + wOffset;
+            float p3y = 0.0f + hOffset;
             float p3u = uEnd;
             float p3v = vStart;
 
