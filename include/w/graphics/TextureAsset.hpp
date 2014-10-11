@@ -42,8 +42,10 @@ namespace w
             {
                 enum Enum
                 {
-                    Repeat = 0,
-                    ToEdge = 1
+                    ToEdge = 0,
+                    RepeatX = 1 << 0,
+                    RepeatY = 1 << 1,
+                    Repeat = RepeatX | RepeatY
                 };
             };
 

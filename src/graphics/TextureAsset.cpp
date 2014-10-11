@@ -34,19 +34,10 @@ namespace w
     {
         std::string clampForId(TextureAsset::Clamp::Enum clamp)
         {
-            switch(clamp)
-            {
-                case TextureAsset::Clamp::ToEdge:
-                {
-                    return "ToEdge";
-                }
-                case TextureAsset::Clamp::Repeat:
-                {
-                    return "Repeat";
-                }
-            }
-            throw w::Exception("Clamp type unknown");
-            return "";
+            return std::string("clamp" +
+                (clamp & TextureAsset::Clamp::RepeatX) ? "X1" : "X0" +
+                (clamp & TextureAsset::Clamp::RepeatY) ? "Y1" : "Y0"
+                );
         }
 
         TextureAsset::TextureAsset(const std::string& filename, Clamp::Enum clamp):

@@ -82,8 +82,8 @@ namespace w
         void TextureAssetPrivate::loadFileData()
         {
             static const int flags = PNG_TRANSFORM_STRIP_16 |
-            PNG_TRANSFORM_GRAY_TO_RGB | PNG_TRANSFORM_PACKING |
-            PNG_TRANSFORM_EXPAND;
+                PNG_TRANSFORM_GRAY_TO_RGB | PNG_TRANSFORM_PACKING |
+                PNG_TRANSFORM_EXPAND;
 
             // Create libpng structs
             png_structp png = png_create_read_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
@@ -197,7 +197,11 @@ namespace w
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
 
-            switch(clamp_)
+            // Clamp
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, clamp_ & TextureAsset::Clamp::RepeatX ? GL_REPEAT : GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, clamp_ & TextureAsset::Clamp::RepeatY ? GL_REPEAT : GL_CLAMP_TO_EDGE);
+
+            /*switch(clamp_)
             {
                 case TextureAsset::Clamp::Repeat:
                 {
@@ -211,7 +215,7 @@ namespace w
                     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
                     break;
                 }
-            }
+            }*/
             glTexImage2D(GL_TEXTURE_2D,
                 0,
                 format,
