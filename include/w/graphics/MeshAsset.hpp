@@ -43,8 +43,8 @@ namespace w
              * Creates a triangle mesh from given data
              *
              * @param [in]  strideComponents    Stride components per vertex
-             * @param [in]  vertexData          Data, MeshAsset has the ownership of the data pointer after this constructor!
-             * @param [in]  vertexCount         How many vertex is included in data-> vertexCount / 3 = triangle count
+             * @param [in]  vertexData          Raw data buffer. MeshAsset has the ownership of the data pointer after this constructor!
+             * @param [in]  vertexCount         How many vertex is included in data. VertexCount / 3 = triangle count
              */
             MeshAsset(const std::vector<StrideComponent> & strideComponents, float* vertexData, unsigned int vertexCount);
 
@@ -60,6 +60,15 @@ namespace w
              */
             MeshAsset(float w, float h, float uStart, float uEnd, float vStart, float vEnd, float wOffset = 0.0f, float hOffset = 0.0f);
             ~MeshAsset();
+
+            /**
+             * Sets a new triangle data in. Old one is freed.
+             *
+             * @param [in]  strideComponents    Stride components per vertex
+             * @param [in]  vertexData          Raw data buffer. MeshAsset has the ownership of the data pointer after this constructor!
+             * @param [in]  vertexCount         How many vertices are included in the data. Same as triangle count x3.
+             */
+            void setData(const std::vector<StrideComponent> & strideComponents, float* vertexData, unsigned int vertexCount);
 
         private:
             friend class RendererPrivate;

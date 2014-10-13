@@ -32,6 +32,7 @@ namespace w
     namespace graphics
     {
         MeshAssetPrivate::MeshAssetPrivate(const std::vector<StrideComponent> & strideComponents, float* tmpVertexData, unsigned int vertexCount):
+            vbo_(0),
             strideComponents_(strideComponents),
             tmpVertexData_((GLfloat*)tmpVertexData),
             vertexCount_(vertexCount)
@@ -42,21 +43,11 @@ namespace w
             }
             StrideComponent tmp = strideComponents.back();
             strideByteSize_ = tmp.byteOffset + tmp.numberOfComponents * sizeof(GLfloat);
-
-            /* Debug data
-            LOGD("sbuff:%d", strideByteSize_);
-            for(unsigned int i = 0; i < vertexCount_; i+=strideByteSize_)
-            {
-                LOGD("vertex:%d", i);
-                for(unsigned int i2 = 0; i2 < strideByteSize_; i2++)
-                {
-                    LOGD("f: %f", tmpVertexData_[i2]);
-                }
-            }*/
         }
 
         MeshAssetPrivate::MeshAssetPrivate(float width, float height, float uStart, float uEnd, float vStart, float vEnd, float wOffset, float hOffset):
             vbo_(0),
+            strideComponents_(),
             tmpVertexData_(NULL),
             vertexCount_(0)
         {
@@ -179,14 +170,30 @@ namespace w
            return vertexCount_;
         }
 
+        void MeshAssetPrivate::setData(const std::vector<StrideComponent> & strideComponents, float* vertexData, unsigned int vertexCount)
+        {
+            if(tmpVertexData_ != NULL)
+            {
+                delete [] tmpVertexData_;
+            }
+            strideComponents_ = strideComponents;
+            tmpVertexData_ = (GLfloat*)vertexData;
+            vertexCount_ = vertexCount;
+            StrideComponent tmp = strideComponents.back();
+            strideByteSize_ = tmp.byteOffset + tmp.numberOfComponents * sizeof(GLfloat);
+        }
+
         void MeshAssetPrivate::loadGPUData()
         {
-            LOCK
             if(tmpVertexData_ == NULL)
             {
                 return; // we have created the GPU data already
             }
 
+            if(vbo_ != 0)
+            {
+                glDeleteBuffers(1, &vbo_);
+            }
             glGenBuffers(1, &vbo_);
             glBindBuffer(GL_ARRAY_BUFFER, vbo_);
             glBufferData(GL_ARRAY_BUFFER, vertexCount_ * strideByteSize_, tmpVertexData_, GL_STATIC_DRAW);

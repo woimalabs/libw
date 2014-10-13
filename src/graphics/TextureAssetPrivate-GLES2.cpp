@@ -201,21 +201,6 @@ namespace w
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, clamp_ & TextureAsset::Clamp::RepeatX ? GL_REPEAT : GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, clamp_ & TextureAsset::Clamp::RepeatY ? GL_REPEAT : GL_CLAMP_TO_EDGE);
 
-            /*switch(clamp_)
-            {
-                case TextureAsset::Clamp::Repeat:
-                {
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-                    break;
-                }
-                case TextureAsset::Clamp::ToEdge:
-                {
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-                    break;
-                }
-            }*/
             glTexImage2D(GL_TEXTURE_2D,
                 0,
                 format,

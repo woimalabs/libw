@@ -62,5 +62,10 @@ namespace w
             }
             return *this;
         }
+
+        void MeshAsset::setData(const std::vector<StrideComponent> & strideComponents, float* vertexData, unsigned int vertexCount)
+        {
+            private_->setData(strideComponents, vertexData, vertexCount);
+        }
     }
 }
