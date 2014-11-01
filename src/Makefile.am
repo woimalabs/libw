@@ -24,6 +24,8 @@ libw_la_SOURCES = \
 	graphics/ShaderProgramAssetPrivate-GLES2.cpp \
 	graphics/TextureAsset.cpp \
 	graphics/TextureAssetPrivate-GLES2.cpp \
+	graphics/FrameBuffer.cpp \
+	graphics/FrameBufferPrivate-GLES2.cpp \
 	graphics/MeshAsset.cpp \
 	graphics/MeshAssetPrivate-GLES2.cpp \
 	graphics/PolygonAsset.cpp \
@@ -80,6 +82,7 @@ library_graphics_include_HEADERS = \
 	../include/w/graphics/Window.hpp \
 	../include/w/graphics/ShaderProgramAsset.hpp \
 	../include/w/graphics/TextureAsset.hpp \
+	../include/w/graphics/FrameBuffer.hpp \
 	../include/w/graphics/MeshAsset.hpp \
 	../include/w/graphics/PolygonAsset.hpp \
 	../include/w/graphics/Renderer.hpp \
