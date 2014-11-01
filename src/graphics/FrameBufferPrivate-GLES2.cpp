@@ -37,8 +37,7 @@ namespace w
             format_(format),
             clearColor_(clearColor),
             frameBufferId_(0),
-            textureColorId_(0),
-            textureDepthId_(0)
+            textureColorId_(0)
         {
             // Create frame buffer
             glGenFramebuffers(1, &frameBufferId_);
@@ -67,12 +66,20 @@ namespace w
             glDeleteRenderbuffers(1, &textureColorId_);
         }
 
+        unsigned int FrameBufferPrivate::width() const
+        {
+            return width_;
+        }
+
+        unsigned int FrameBufferPrivate::height() const
+        {
+            return height_;
+        }
+
         void FrameBufferPrivate::clearBuffer()
         {
             glClearColor(clearColor_.x(), clearColor_.y(), clearColor_.z(), clearColor_.w());
-            glClearDepthf(1.0f);
-            GLuint flags = (textureDepthId_ == 0 ? GL_COLOR_BUFFER_BIT : (GL_COLOR_BUFFER_BIT  | GL_DEPTH_BUFFER_BIT));
-            glClear(flags);
+            glClear(GL_COLOR_BUFFER_BIT);
         }
 
         void FrameBufferPrivate::bind()

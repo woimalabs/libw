@@ -53,6 +53,11 @@ namespace w
                 };
             };
 
+            /**
+             * Creates a frame buffer object for offscreen rendering
+             *
+             * @note This class needs to be constructed in thread with GL context.
+             */
             FrameBuffer(unsigned int width, unsigned int height, Format::Enum format, const Eigen::Vector4f& clearColor);
             ~FrameBuffer();
             void clearBuffer();

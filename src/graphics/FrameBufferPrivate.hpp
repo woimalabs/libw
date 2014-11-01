@@ -47,17 +47,8 @@ namespace w
 
             FrameBufferPrivate(unsigned int width, unsigned int height, FrameBuffer::Format::Enum format, const Eigen::Vector4f& clearColor);
             ~FrameBufferPrivate();
-
-            unsigned int width() const
-            {
-                return width_;
-            }
-
-            unsigned int height() const
-            {
-                return height_;
-            }
-
+            unsigned int width() const;
+            unsigned int height() const;
             void clearBuffer();
             void bind();
 
