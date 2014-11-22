@@ -65,6 +65,7 @@ namespace w
             void clearBuffer();
             void swapBuffers();
             void resize(unsigned int width, unsigned int height);
+            void bind();
             #ifdef ANDROID
                 //
             #elif linux

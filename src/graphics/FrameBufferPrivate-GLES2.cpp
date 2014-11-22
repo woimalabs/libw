@@ -87,6 +87,7 @@ namespace w
                     throw Exception("FrameBuffer, creation failed!");
                 }
             }
+
             // Render to our framebuffer
             glBindFramebuffer(GL_FRAMEBUFFER, frameBufferId_);
 

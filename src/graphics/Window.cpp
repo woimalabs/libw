@@ -90,6 +90,11 @@ namespace w
             private_->resize(width, height);
         }
 
+        void Window::bind()
+        {
+            private_->bind();
+        }
+
         #if defined(linux) && !defined(__ANDROID__)
             Display* Window::xDisplay() const
             {
