@@ -39,25 +39,6 @@ namespace w
             frameBufferId_(0),
             textureColorId_(0)
         {
-            // Create frame buffer
-            glGenFramebuffers(1, &frameBufferId_);
-
-            // Color buffer
-            glGenTextures(1, &textureColorId_);
-            glBindTexture(GL_TEXTURE_2D, textureColorId_);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width_, height_, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorId_, 0);
-
-            // FBO status
-            GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-            if(status != GL_FRAMEBUFFER_COMPLETE)
-            {
-                throw Exception("FrameBuffer, creation failed!");
-            }
         }
 
         FrameBufferPrivate::~FrameBufferPrivate()
@@ -84,6 +65,28 @@ namespace w
 
         void FrameBufferPrivate::bind()
         {
+            if(frameBufferId_ == 0)
+            {
+                // Create frame buffer
+                glGenFramebuffers(1, &frameBufferId_);
+
+                // Color buffer
+                glGenTextures(1, &textureColorId_);
+                glBindTexture(GL_TEXTURE_2D, textureColorId_);
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width_, height_, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorId_, 0);
+
+                // FBO status
+                GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+                if(status != GL_FRAMEBUFFER_COMPLETE)
+                {
+                    throw Exception("FrameBuffer, creation failed!");
+                }
+            }
             // Render to our framebuffer
             glBindFramebuffer(GL_FRAMEBUFFER, frameBufferId_);
 
