@@ -82,6 +82,11 @@ namespace w
             private_->draw(polygon, shaderProgram);
         }
 
+        void Renderer::draw(FrameBuffer const& frameBuffer, MeshAsset const& mesh, ShaderProgramAsset const& shaderProgram)
+        {
+            private_->draw(frameBuffer, mesh, shaderProgram);
+        }
+
         void Renderer::drawLine(float p0x, float p0y, float p1x, float p1y, ShaderProgramAsset const& shaderProgram)
         {
             private_->drawLine(p0x, p0y, p1x, p1y, shaderProgram);

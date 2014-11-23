@@ -31,6 +31,7 @@
 #include <w/graphics/TextureAsset.hpp>
 #include <w/graphics/MeshAsset.hpp>
 #include <w/graphics/PolygonAsset.hpp>
+#include <w/graphics/FrameBuffer.hpp>
 #include <w/graphics/ShaderProgramAsset.hpp>
 #ifdef __linux__ // & Android
     #include <GLES2/gl2.h>
@@ -67,6 +68,10 @@ namespace w
              *  -"attribute vec3 xyz;"
              */
             void draw(const PolygonAsset & polygon, const ShaderProgramAsset & shaderProgram);
+
+            /**
+             */
+            void draw(const FrameBuffer &, const MeshAsset &, const ShaderProgramAsset &);
 
             /**
              * ShaderProgramAsset needs to have "attribute vec3 xyz;"

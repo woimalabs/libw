@@ -94,5 +94,11 @@ namespace w
             // Render from lower left to upper right
             glViewport(0, 0, width_, height_);
         }
+
+        void FrameBufferPrivate::bindAsTexture()
+        {
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, frameBufferId_);
+        }
     }
 }

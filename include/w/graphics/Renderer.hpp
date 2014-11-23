@@ -30,6 +30,7 @@
 #include <w/graphics/MeshAsset.hpp>
 #include <w/graphics/ShaderProgramAsset.hpp>
 #include <w/graphics/PolygonAsset.hpp>
+#include <w/graphics/FrameBuffer.hpp>
 #include <w/base/Class.hpp>
 
 namespace w
@@ -48,6 +49,7 @@ namespace w
             void setCullFace(bool value);
             void draw(PolygonAsset const&, ShaderProgramAsset const&);
             void draw(TextureAsset const&, MeshAsset const&, ShaderProgramAsset const&);
+            void draw(FrameBuffer const&, MeshAsset const&, ShaderProgramAsset const&);
 
             // test
             void drawLine(float p0x, float p0y, float p1x, float p1y, ShaderProgramAsset const& shaderProgram);

@@ -28,6 +28,7 @@
 #include "TextureAssetPrivate.hpp"
 #include "MeshAssetPrivate.hpp"
 #include "PolygonAssetPrivate.hpp"
+#include "FrameBufferPrivate.hpp"
 #include "ShaderProgramAssetPrivate.hpp"
 #include "w/graphics/MeshAsset.hpp"
 #include "w/base/Log.hpp"
@@ -146,6 +147,52 @@ namespace w
             // Draw the line
             glDrawArrays(GL_LINE_STRIP, 0, pointCount);
             glDisableVertexAttribArray(positionXyz);
+        }
+
+        void RendererPrivate::draw(FrameBuffer const& frameBuffer, MeshAsset const& mesh, ShaderProgramAsset const& shaderProgram)
+        {
+            // Use given mesh
+            mesh.private_->bind();
+
+            // Find out needed data for shader
+            const std::vector<StrideComponent>& uniforms = mesh.private_->strideComponents();
+            unsigned int strideByteSize = mesh.private_->strideByteSize();
+
+            // Bind shader symbols to mesh data
+            std::vector<std::string> shaderSymbols;
+            for (std::vector<StrideComponent>::const_iterator i = uniforms.begin(); i != uniforms.end(); i++)
+            {
+                GLint shaderSymbolLocation = shaderProgram.private_->attribute((*i).shaderSymbolName);
+                glEnableVertexAttribArray(shaderSymbolLocation);
+                GLenum type = 0;
+                switch((*i).type)
+                {
+                    case StrideType::Float32:
+                    {
+                        type = GL_FLOAT;
+                        break;
+                    }
+                    default:
+                    {
+                        throw Exception("StrideType unknown");
+                        break;
+                    }
+                }
+
+                glVertexAttribPointer(
+                    shaderSymbolLocation,
+                    (*i).numberOfComponents,
+                    type,
+                    GL_FALSE,
+                    strideByteSize,
+                    (GLvoid*)((*i).byteOffset));
+            }
+
+            // Use given texture
+            ((FrameBufferPrivate*)(frameBuffer.pointer()))->bindAsTexture();
+
+            // Draw
+            glDrawArrays(GL_TRIANGLES, 0, mesh.private_->vertexCount());
         }
 
         void RendererPrivate::drawLine(float p0x, float p0y, float p1x, float p1y, const ShaderProgramAsset & shaderProgram)

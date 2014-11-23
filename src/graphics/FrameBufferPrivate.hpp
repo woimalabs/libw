@@ -51,6 +51,7 @@ namespace w
             unsigned int height() const;
             void clearBuffer();
             void bind();
+            void bindAsTexture();
 
         private:
             std::string name_;
