@@ -222,7 +222,7 @@ namespace w
 
             delete [] tmpData_;
             tmpData_ = NULL;
-            LOGD("TextureAssetPrivate()::loadGPUData(), id:%d, %dx%dx%d", textureId_, width_, height_, bytesPerPixel_);
+            // LOGD("TextureAssetPrivate()::loadGPUData(), id:%d, %dx%dx%d", textureId_, width_, height_, bytesPerPixel_);
         }
 
         void read(png_structp fileHandlePointer, png_bytep data, png_size_t length)
