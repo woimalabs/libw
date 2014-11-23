@@ -42,12 +42,6 @@ namespace w
         {
         }
 
-        /*Component::Component():
-            private_(NULL)
-        {
-            throw Exception("Component() should not be used");
-        }*/
-
         Component::~Component()
         {
         }

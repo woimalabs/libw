@@ -35,8 +35,19 @@ namespace w
         {
         }
 
+        FrameBuffer::FrameBuffer(FrameBuffer const& r):
+            ReferencedPointer<FrameBufferPrivate>(r.pointer())
+        {
+        }
+
         FrameBuffer::~FrameBuffer()
         {
+        }
+
+        FrameBuffer& FrameBuffer::operator=(FrameBuffer const& r)
+        {
+            ReferencedPointer::operator=(r);
+            return *this;
         }
 
         unsigned int FrameBuffer::width() const
