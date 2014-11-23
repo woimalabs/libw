@@ -39,6 +39,16 @@ namespace w
         {
         }
 
+        unsigned int FrameBuffer::width() const
+        {
+            return pointer()->width();
+        }
+
+        unsigned int FrameBuffer::height() const
+        {
+            return pointer()->height();
+        }
+
         void FrameBuffer::clearBuffer()
         {
             pointer()->clearBuffer();

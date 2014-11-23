@@ -60,6 +60,8 @@ namespace w
              */
             FrameBuffer(unsigned int width, unsigned int height, Format::Enum format, const Eigen::Vector4f& clearColor);
             ~FrameBuffer();
+            unsigned int width() const;
+            unsigned int height() const;
             void clearBuffer();
             void bind();
         };
