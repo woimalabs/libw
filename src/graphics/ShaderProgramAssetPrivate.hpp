@@ -56,6 +56,8 @@ namespace w
             ShaderId attribute(const std::string& symbolName);
             void setUniform(const std::string& symbolName, float value);
             void setUniform(const std::string& symbolName, const Eigen::Matrix4f& value);
+            void setUniform(const std::string & symbolName, const Eigen::Vector2f & value);
+            void setUniform(const std::string & symbolName, const Eigen::Vector3f & value);
             void setUniform(const std::string& symbolName, const Eigen::Vector4f& value);
             void start();
             static void stop();

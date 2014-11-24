@@ -72,6 +72,11 @@ namespace w
             private_->setCullFace(value);
         }
 
+        void Renderer::setColorMask(bool r, bool g, bool b, bool a)
+        {
+            private_->setColorMask(r, g, b, a);
+        }
+
         void Renderer::draw(TextureAsset const& texture, MeshAsset const& mesh, ShaderProgramAsset const& shaderProgram)
         {
             private_->draw(texture, mesh, shaderProgram);

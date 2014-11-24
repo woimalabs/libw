@@ -47,6 +47,7 @@ namespace w
             void setBlend(bool value);
             void setDepthTest(bool value);
             void setCullFace(bool value);
+            void setColorMask(bool r, bool g, bool b, bool a);
             void draw(PolygonAsset const&, ShaderProgramAsset const&);
             void draw(TextureAsset const&, MeshAsset const&, ShaderProgramAsset const&);
             void draw(FrameBuffer const&, MeshAsset const&, ShaderProgramAsset const&);

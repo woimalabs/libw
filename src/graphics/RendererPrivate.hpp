@@ -53,6 +53,7 @@ namespace w
             void setBlend(bool value);
             void setDepthTest(bool value);
             void setCullFace(bool value);
+            void setColorMask(bool r, bool g, bool b, bool a);
 
             /**
              * ShaderProgramAsset needs to have next attributes:

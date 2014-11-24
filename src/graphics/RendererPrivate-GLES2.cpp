@@ -87,6 +87,11 @@ namespace w
             }
         }
 
+        void RendererPrivate::setColorMask(bool r, bool g, bool b, bool a)
+        {
+            glColorMask(r, g, b, a);
+        }
+
         void RendererPrivate::draw(const TextureAsset & texture, const MeshAsset & mesh, const ShaderProgramAsset & shaderProgram)
         {
             // Use given mesh
