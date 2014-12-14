@@ -69,5 +69,10 @@ namespace w
         {
             return private_.pointer()->typeId();
         }
+
+        ComponentPrivate* Component::pointer()
+        {
+            return private_.pointer();
+        }
     }
 }

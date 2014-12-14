@@ -60,6 +60,7 @@ namespace w
             bool isNull() const;
             unsigned int id() const;
             const std::type_info& typeId() const;
+            ComponentPrivate* pointer();
 
         protected:
             friend class NodePrivate;

@@ -49,6 +49,28 @@ namespace w
                 };
             };
 
+            struct MagFilter
+            {
+                enum Enum
+                {
+                    Linear = 1 << 0,
+                    Nearest = 1 << 1
+                };
+            };
+
+            struct MinFilter
+            {
+                enum Enum
+                {
+                    Linear = 1 << 0,
+                    Nearest = 1 << 1,
+                    LinearMipMapLinear = 1 << 2,
+                    LinearMipMapNearest = 1 << 3,
+                    NearestMipMapLinear = 1 << 4,
+                    NearestMipMapNearest = 1 << 5
+                };
+            };
+
             /**
              * Creates shader program.
              *
