@@ -112,14 +112,9 @@ namespace w
             return progress() - (progressIndex() * progressPerSegment_);
         }
 
-        inline unsigned int PathAnimation::nextIndex(unsigned int currentIndex)
+        inline float PathAnimation::progressPerSegment() const
         {
-            unsigned int r = currentIndex + 1;
-            if(r >= points_.size() && r != 0)
-            {
-                r = points_.size() - 1;
-            }
-            return r;
+            return progressPerSegment_;
         }
     }
 }

@@ -59,11 +59,11 @@ namespace w
         {
             unsigned int i = progressIndex();
             unsigned int iNext = nextIndex(i);
-            Eigen::Quaternionf qI(points_[i].pointer()->rotation());
+            Eigen::Quaternionf qI(points()[i].pointer()->rotation());
             if(iNext != i)
             {
-                Eigen::Quaternionf qINext(points_[iNext].pointer()->rotation());
-                float factor = progressOverTheIndex() / progressPerSegment_;
+                Eigen::Quaternionf qINext(points()[iNext].pointer()->rotation());
+                float factor = progressOverTheIndex() / progressPerSegment();
                 Eigen::Quaternionf tmp(qI.slerp(factor, qINext));
                 return Eigen::Affine3f(tmp).matrix();
             }

@@ -26,7 +26,7 @@
 #ifndef LIBW_ANIMATION_BEZIERCUBICANIMATION
 #define LIBW_ANIMATION_BEZIERCUBICANIMATION
 
-#include "w/animation/BezierCubicAnimation.hpp"
+#include "w/animation/PathAnimation.hpp"
 #include "w/animation/PathAnimation.hpp"
 #include "w/base/Class.hpp"
 #include "w/base/ReferencedPointer.hpp"
@@ -63,13 +63,6 @@ namespace w
             Eigen::Matrix4f rotation();
             Eigen::Vector3f scale();
             float opacity();
-
-        private:
-            inline unsigned int progressIndex();
-            inline float progressOverTheIndex();
-            inline unsigned int nextIndex(unsigned int currentIndex);
-            const std::vector<w::ReferencedPointer<w::animation::ControlPoint> > points_;
-            float progressPerSegment_;
         };
     }
 }
