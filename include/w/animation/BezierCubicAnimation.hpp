@@ -1,7 +1,7 @@
 /**
  * libw
  *
- * Copyright (C) 2013 Woima Solutions
+ * Copyright (C) 2013-2014 Woima Solutions
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
@@ -23,11 +23,11 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_ANIMATION_PATHANIMATION
-#define LIBW_ANIMATION_PATHANIMATION
+#ifndef LIBW_ANIMATION_BEZIERCUBICANIMATION
+#define LIBW_ANIMATION_BEZIERCUBICANIMATION
 
-#include "w/animation/AbstractAnimation.hpp"
-#include "w/animation/ControlPoint.hpp"
+#include "w/animation/BezierCubicAnimation.hpp"
+#include "w/animation/PathAnimation.hpp"
 #include "w/base/Class.hpp"
 #include "w/base/ReferencedPointer.hpp"
 #include <vector>
@@ -39,33 +39,35 @@ namespace w
         /**
         * @class PathAnimation
         *
-        * PathAnimation to animate through series of given control points against time.
+        * BezierCubicAnimation to animate through series of given control points against time.
         *
-        * @note     AnimationEngine must exists during lifetime of AbstractAnimation
-        *           instances to work.
+        * f(t)
+        * =   [(1 - t)^3] *p0
+        *   + [3 * (1 - t)^2 * t] *p1
+        *   + [3 * (1 - t) * t^2] *p2
+        *   + [t^3] *p3
         */
-        class PathAnimation: public AbstractAnimation
+        class BezierCubicAnimation: public PathAnimation
         {
         public:
-            UNCOPYABLE(PathAnimation)
+            UNCOPYABLE(BezierCubicAnimation)
 
-            PathAnimation(std::vector<w::ReferencedPointer<w::animation::ControlPoint> > & points,
+            /**
+             * @param points    Four points should be given
+             */
+            BezierCubicAnimation(std::vector<w::ReferencedPointer<w::animation::ControlPoint> > & points,
                 float millisecondLength,
                 bool loop = true);
 
-            virtual ~PathAnimation();
-            virtual Eigen::Vector3f location();
-            virtual Eigen::Matrix4f rotation();
-            virtual Eigen::Vector3f scale();
-            virtual float opacity();
+            Eigen::Vector3f location();
+            Eigen::Matrix4f rotation();
+            Eigen::Vector3f scale();
+            float opacity();
 
-        protected:
-            const std::vector<w::ReferencedPointer<w::animation::ControlPoint> >& points() const;
+        private:
             inline unsigned int progressIndex();
             inline float progressOverTheIndex();
             inline unsigned int nextIndex(unsigned int currentIndex);
-
-        private:
             const std::vector<w::ReferencedPointer<w::animation::ControlPoint> > points_;
             float progressPerSegment_;
         };

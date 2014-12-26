@@ -92,6 +92,11 @@ namespace w
                 + iNextFactor * points_[iNext].pointer()->opacity();
         }
 
+        const std::vector<w::ReferencedPointer<w::animation::ControlPoint> >& PathAnimation::points() const
+        {
+            return points_;
+        }
+
         inline unsigned int PathAnimation::progressIndex()
         {
             unsigned int r = progress() * (float)(points_.size() - 1);

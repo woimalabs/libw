@@ -41,6 +41,7 @@ libw_la_SOURCES = \
 	animation/AnimationEnginePrivate.cpp \
 	animation/AbstractAnimation.cpp \
 	animation/PathAnimation.cpp \
+	animation/BezierCubicAnimation.cpp \
 	storage/Storage.cpp \
 	storage/StoragePrivate.cpp
 
@@ -48,6 +49,7 @@ libw_la_CPPFLAGS = -I$(top_srcdir)/include -Wall -Wextra
 
 library_base_includedir = $(includedir)/w/base
 library_base_include_HEADERS = \
+	../include/w/base/Helpers.hpp \
 	../include/w/base/Referenced.hpp \
 	../include/w/base/ReferencedPointer.hpp \
 	../include/w/base/Exception.hpp \
@@ -107,7 +109,8 @@ library_animation_include_HEADERS = \
 	../include/w/animation/AbstractAnimation.hpp \
 	../include/w/animation/AnimationEngine.hpp \
 	../include/w/animation/ControlPoint.hpp \
-	../include/w/animation/PathAnimation.hpp
+	../include/w/animation/PathAnimation.hpp \
+	../include/w/animation/BezierCubicAnimation.hpp
 
 library_storage_includedir = $(includedir)/w/storage
 library_storage_include_HEADERS = \
