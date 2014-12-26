@@ -38,7 +38,7 @@ namespace w
 
             PathAnimation(points, millisecondLength, loop)
         {
-            if(points.size() == 3)
+            if(points.size() == 4)
             {
                 throw w::Exception("BezierCubicAnimation must have exactly 4 points.");
             }
@@ -47,7 +47,6 @@ namespace w
         Eigen::Vector3f BezierCubicAnimation::location()
         {
             float t = w::clamp(progress(), 0.0f, 1.0f);
-
             float a = (1 - t);
             ControlPoint* p0 = points()[0].pointer();
             ControlPoint* p1 = points()[1].pointer();
@@ -75,13 +74,24 @@ namespace w
 
         Eigen::Vector3f BezierCubicAnimation::scale()
         {
-
-            return Eigen::Vector3f::Ones();
+            float t = w::clamp(progress(), 0.0f, 1.0f);
+            float a = (1 - t);
+            ControlPoint* p0 = points()[0].pointer();
+            ControlPoint* p1 = points()[1].pointer();
+            ControlPoint* p2 = points()[2].pointer();
+            ControlPoint* p3 = points()[3].pointer();
+            return (a*a*a)*p0->scale() + (3*a*a*t)*p1->scale() + (3*a*t*t)*p2->scale() + (t*t*t)*p3->scale();
         }
 
         float BezierCubicAnimation::opacity()
         {
-            return 1.0f;
+            float t = w::clamp(progress(), 0.0f, 1.0f);
+            float a = (1 - t);
+            ControlPoint* p0 = points()[0].pointer();
+            ControlPoint* p1 = points()[1].pointer();
+            ControlPoint* p2 = points()[2].pointer();
+            ControlPoint* p3 = points()[3].pointer();
+            return (a*a*a)*p0->opacity() + (3*a*a*t)*p1->opacity() + (3*a*t*t)*p2->opacity() + (t*t*t)*p3->opacity();
         }
     }
 }
