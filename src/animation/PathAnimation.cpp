@@ -45,6 +45,10 @@ namespace w
             }
         }
 
+        PathAnimation::~PathAnimation()
+        {
+        }
+
         Eigen::Vector3f PathAnimation::location()
         {
             unsigned int i = progressIndex();
@@ -97,7 +101,7 @@ namespace w
             return points_;
         }
 
-        inline unsigned int PathAnimation::progressIndex()
+        unsigned int PathAnimation::progressIndex()
         {
             unsigned int r = progress() * (float)(points_.size() - 1);
             if(r >= points_.size() && r != 0)
@@ -107,12 +111,22 @@ namespace w
             return r;
         }
 
-        inline float PathAnimation::progressOverTheIndex()
+        float PathAnimation::progressOverTheIndex()
         {
             return progress() - (progressIndex() * progressPerSegment_);
         }
 
-        inline float PathAnimation::progressPerSegment() const
+        unsigned int PathAnimation::nextIndex(unsigned int currentIndex)
+        {
+            unsigned int r = currentIndex + 1;
+            if(r >= points_.size() && r != 0)
+            {
+                r = points_.size() - 1;
+            }
+            return r;
+        }
+
+        float PathAnimation::progressPerSegment() const
         {
             return progressPerSegment_;
         }

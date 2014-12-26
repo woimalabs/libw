@@ -61,10 +61,10 @@ namespace w
 
         protected:
             const std::vector<w::ReferencedPointer<w::animation::ControlPoint> >& points() const;
-            inline unsigned int progressIndex();
-            inline float progressOverTheIndex();
-            inline unsigned int nextIndex(unsigned int currentIndex);
-            inline float progressPerSegment() const;
+            unsigned int progressIndex();
+            float progressOverTheIndex();
+            unsigned int nextIndex(unsigned int currentIndex);
+            float progressPerSegment() const;
 
         private:
             const std::vector<w::ReferencedPointer<w::animation::ControlPoint> > points_;
