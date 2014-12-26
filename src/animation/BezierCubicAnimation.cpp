@@ -38,7 +38,7 @@ namespace w
 
             PathAnimation(points, millisecondLength, loop)
         {
-            if(points.size() == 4)
+            if(points.size() != 4)
             {
                 throw w::Exception("BezierCubicAnimation must have exactly 4 points.");
             }
