@@ -37,7 +37,7 @@ namespace w
     namespace animation
     {
         /**
-        * @class PathAnimation
+        * @class BezierCubicAnimation
         *
         * BezierCubicAnimation to animate through series of given control points against time.
         *
