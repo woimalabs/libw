@@ -77,6 +77,11 @@ namespace w
                 tracker_.setMute(value);
             }
 
+            bool mute()
+            {
+                return tracker_.mute();
+            }
+
             static AudioResource* get(const std::string& filename)
             {
                 std::string id = std::string("Audio:") + filename;

@@ -36,7 +36,7 @@ namespace w
 
         AudioEngine::AudioEngine(bool mute, ResourceManager& resourceManager)
         {
-            if (private_ != NULL)
+            if(private_ != NULL)
             {
                 throw Exception("Only one AudioEngine can exist once.");
             }
@@ -47,7 +47,7 @@ namespace w
         AudioEngine::~AudioEngine()
         {
             LOGI("Shutting down AudioEngine...")
-            if (private_ != NULL)
+            if(private_ != NULL)
             {
                 delete private_;
                 private_ = NULL;
@@ -61,9 +61,21 @@ namespace w
 
         void AudioEngine::setMute(bool value)
         {
-            if (private_ != NULL)
+            if(private_ != NULL)
             {
-                return private_->setMute(value);
+                private_->setMute(value);
+            }
+            else
+            {
+                throw Exception("AudioEngine::volume(), AudioEngine does not exist.");
+            }
+        }
+
+        bool AudioEngine::mute()
+        {
+            if(private_ != NULL)
+            {
+                return private_->mute();
             }
             else
             {

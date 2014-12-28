@@ -51,6 +51,7 @@ namespace w
             AudioEngine(bool mute, ResourceManager& resourceManager);
             ~AudioEngine();
             static void setMute(bool);
+            static bool mute();
 
         private:
             static class AudioEnginePrivate* private_;

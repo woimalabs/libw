@@ -61,6 +61,7 @@ namespace w
             bool produceData();
             float volumeZeroProcess();
             void setMute(bool value);
+            bool mute();
 
         private:
             Mutex mutex_;

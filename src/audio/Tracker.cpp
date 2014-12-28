@@ -128,7 +128,7 @@ namespace w
 
             bool r = true;
             unsigned int bytesProduced = 0;
-            float mute = mute_;
+            bool mute = mute_;
 
             while (true)
             {
@@ -193,6 +193,11 @@ namespace w
         void Tracker::setMute(bool value)
         {
             mute_ = value;
+        }
+
+        bool Tracker::mute()
+        {
+            return mute_;
         }
     }
 }
