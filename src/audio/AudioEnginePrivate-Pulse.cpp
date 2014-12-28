@@ -71,10 +71,9 @@ namespace w
     {
         AudioEnginePrivate* AudioEnginePrivate::singleton_ = NULL;
 
-        AudioEnginePrivate::AudioEnginePrivate(float volumeAtStart, ResourceManager& resourceManager):
+        AudioEnginePrivate::AudioEnginePrivate(bool mute, ResourceManager& resourceManager):
             resourceManager_(resourceManager),
-            tracker_(1.0f),
-            volumeAtStart_(volumeAtStart),
+            tracker_(mute),
             mainloop_(NULL),
             context_(NULL),
             stream_(NULL)

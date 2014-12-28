@@ -46,7 +46,7 @@ namespace w
             static unsigned int const VolumeTransitionMilliSeconds = 450;
             static float const VolumeOffThreshold; // = 0.001f;
 
-            Tracker(float volumeAtStart);
+            Tracker(bool muteAtStart);
             ~Tracker();
 
             /**
@@ -60,12 +60,12 @@ namespace w
             unsigned int getData(unsigned int size, unsigned char* data);
             bool produceData();
             float volumeZeroProcess();
-            void setVolume(float volume);
-            float volume();
+            void setMute(bool value);
 
         private:
             Mutex mutex_;
             TrackerSample* tracks_[TrackAmount];
+            bool mute_;
             bool shutdownStarted_;
             bool shutdownDone_;
             RingBuffer<int16_t> ringBuffer_;

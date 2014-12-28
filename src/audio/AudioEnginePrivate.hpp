@@ -72,14 +72,9 @@ namespace w
                 };
             };
 
-            void setVolume(float volume)
+            void setMute(bool value)
             {
-                // TODO
-            }
-
-            float volume()
-            {
-                return 1.0f; // TODO
+                tracker_.setMute(value);
             }
 
             static AudioResource* get(const std::string& filename)
@@ -120,7 +115,7 @@ namespace w
     #endif
 
         private:
-            AudioEnginePrivate(float volumeAtStart, ResourceManager& resourceManager);
+            AudioEnginePrivate(bool mute, ResourceManager& resourceManager);
             ~AudioEnginePrivate();
             static AudioEnginePrivate* singleton_;
             ResourceManager resourceManager_; // Holding a reference so that AudioEnginePrivate can call ResourceManagerPrivate functions safely
@@ -128,6 +123,7 @@ namespace w
             State::Enum state_;
             Mutex mutex_;
             float volumeAtStart_;
+            volatile bool mute_;
 
             #ifdef __ANDROID__
                 void createEngine();

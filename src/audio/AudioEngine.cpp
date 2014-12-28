@@ -34,13 +34,13 @@ namespace w
     {
         AudioEnginePrivate* AudioEngine::private_ = NULL;
 
-        AudioEngine::AudioEngine(float volumeAtStart, ResourceManager& resourceManager)
+        AudioEngine::AudioEngine(bool mute, ResourceManager& resourceManager)
         {
             if (private_ != NULL)
             {
                 throw Exception("Only one AudioEngine can exist once.");
             }
-            private_ = new AudioEnginePrivate(volumeAtStart, resourceManager);
+            private_ = new AudioEnginePrivate(mute, resourceManager);
             LOGI("Created AudioEngine.")
         }
 
@@ -59,23 +59,11 @@ namespace w
             LOGI("Shutdown AudioEngine.")
         }
 
-        void AudioEngine::setVolume(float volume)
+        void AudioEngine::setMute(bool value)
         {
             if (private_ != NULL)
             {
-                private_->setVolume(volume);
-            }
-            else
-            {
-                throw Exception("AudioEngine::setVolume(), AudioEngine does not exist.");
-            }
-        }
-
-        float AudioEngine::volume()
-        {
-            if (private_ != NULL)
-            {
-                return private_->volume();
+                return private_->setMute(value);
             }
             else
             {

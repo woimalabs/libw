@@ -45,14 +45,12 @@ namespace w
             /**
              * Creates AudioEngine instance which makes possible to play AudioAssets.
              *
-             * @param [in]  volumeAtStart   Master volume level when starting.
-             *                              Value is checked and limited between [0.0 - 1.0].
+             * @param [in]  mute            Is mute on or off at start.
              * @param [in]  resourceManager Manages loading of files
              */
-            AudioEngine(float volumeAtStart, ResourceManager& resourceManager);
+            AudioEngine(bool mute, ResourceManager& resourceManager);
             ~AudioEngine();
-            static void setVolume(float volume);
-            static float volume();
+            static void setMute(bool);
 
         private:
             static class AudioEnginePrivate* private_;
