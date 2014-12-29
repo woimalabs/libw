@@ -62,6 +62,11 @@ namespace w
             private_->setBlend(value);
         }
 
+        void Renderer::setBlendFunction(BlendMode::Enum source, BlendMode::Enum destination)
+        {
+            private_->setBlendFunction(source, destination);
+        }
+
         void Renderer::setDepthTest(bool value)
         {
             private_->setDepthTest(value);

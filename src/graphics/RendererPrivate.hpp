@@ -28,6 +28,7 @@
 
 #include <w/base/Class.hpp>
 #include <w/base/Referenced.hpp>
+#include <w/graphics/Renderer.hpp>
 #include <w/graphics/TextureAsset.hpp>
 #include <w/graphics/MeshAsset.hpp>
 #include <w/graphics/PolygonAsset.hpp>
@@ -51,6 +52,7 @@ namespace w
             RendererPrivate();
             ~RendererPrivate();
             void setBlend(bool value);
+            void setBlendFunction(Renderer::BlendMode::Enum source, Renderer::BlendMode::Enum destination);
             void setDepthTest(bool value);
             void setCullFace(bool value);
             void setColorMask(bool r, bool g, bool b, bool a);

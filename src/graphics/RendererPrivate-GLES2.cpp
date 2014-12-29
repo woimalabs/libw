@@ -55,12 +55,52 @@ namespace w
             if(value == true)
             {
                 glEnable(GL_BLEND);
-                glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
             }
             else
             {
                 glDisable(GL_BLEND);
             }
+        }
+
+        void RendererPrivate::setBlendFunction(Renderer::BlendMode::Enum source, Renderer::BlendMode::Enum destination)
+        {
+            GLenum s;
+            GLenum d;
+            switch(source)
+            {
+                case Renderer::BlendMode::One:
+                {
+                    s = GL_ONE;
+                    break;
+                }
+                case Renderer::BlendMode::SrcAlpha:
+                {
+                    s = GL_SRC_ALPHA;
+                    break;
+                }
+                case Renderer::BlendMode::OneMinusSrcAlpha:
+                {
+                    s = GL_ONE_MINUS_SRC_ALPHA;
+                }
+            }
+            switch(destination)
+            {
+                case Renderer::BlendMode::One:
+                {
+                    d = GL_ONE;
+                    break;
+                }
+                case Renderer::BlendMode::SrcAlpha:
+                {
+                    d = GL_SRC_ALPHA;
+                    break;
+                }
+                case Renderer::BlendMode::OneMinusSrcAlpha:
+                {
+                    d = GL_ONE_MINUS_SRC_ALPHA;
+                }
+            }
+            glBlendFunc(s, d);
         }
 
         void RendererPrivate::setDepthTest(bool value)
