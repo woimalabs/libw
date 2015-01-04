@@ -81,13 +81,17 @@ namespace w
                 {
                     end = true;
                     volume_ = 0.0f;
-                    ended.emit(id());
                 }
                 r = int16_t(volume_ * (float)r);
             }
             else
             {
                 r = int16_t(volume_ * (float)r);
+            }
+
+            if(end == true)
+            {
+                ended.emit(id());
             }
 
             return r;
