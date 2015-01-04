@@ -39,6 +39,8 @@ namespace w
         public:
             static unsigned int const BytesPerSample = 2;
 
+            sigc::signal<void, unsigned int /* Referenced::id */> ended;
+
             TrackerSample(AudioResource* resource, float volume, bool looping);
             ~TrackerSample();
             float volume();

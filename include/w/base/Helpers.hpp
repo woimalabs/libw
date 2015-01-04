@@ -32,6 +32,11 @@ namespace w
     {
         return source < min ? min : (source > max ? max : source);
     }
+
+    inline unsigned int clamp(unsigned int source, unsigned int min, unsigned int max)
+    {
+        return source < min ? min : (source > max ? max : source);
+    }
 }
 
 #endif

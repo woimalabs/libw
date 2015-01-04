@@ -37,7 +37,7 @@ namespace w
     class Referenced
     {
     public:
-        sigc::signal<void, int> destroy;
+        sigc::signal<void, unsigned int> destroy;
 
         unsigned int increment()
         {

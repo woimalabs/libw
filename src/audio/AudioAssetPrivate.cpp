@@ -25,7 +25,9 @@
 
 #include "AudioAssetPrivate.hpp"
 #include "AudioEnginePrivate.hpp"
+#include "TrackerSample.hpp"
 #include "w/base/Log.hpp"
+#include "w/base/Helpers.hpp"
 
 namespace w
 {
@@ -42,9 +44,10 @@ namespace w
 
         AudioAssetPrivate::~AudioAssetPrivate()
         {
-            LOCK
+            // End playing
+            fadeOut(0);
 
-            // Unreference related resource
+            // Unreference related resource (trackersample might still hold a reference to resource until the track ends)
             resource_->decrement();
             resource_ = NULL;
         }
@@ -52,46 +55,65 @@ namespace w
         bool AudioAssetPrivate::play(float volume)
         {
             // Sanity check for volume value
-            if (volume > 1.0f)
-            {
-                volume = 1.0f;
-            }
-            else if (volume < 0.0f)
-            {
-                volume = 0.0f;
-            }
+            volume = w::clamp(volume, 0.0f, 1.0f);
 
-            return AudioEnginePrivate::play(resource_, volume, looping_);
+            LOCK
+
+            ReferencedPointer<TrackerSample> tmp(new TrackerSample(resource_, volume, false));
+            tmp.pointer()->ended.connect(sigc::mem_fun(this, &AudioAssetPrivate::handleTrackerSampleEnd));
+            bool r = AudioEnginePrivate::play(tmp);
+            if(r == true)
+            {
+                playing_.push_back(tmp);
+            }
+            return r;
+        }
+
+        void AudioAssetPrivate::handleTrackerSampleEnd(unsigned int id)
+        {
+            LOCK
+
+            LOGD("end: %d", id);
+
+            for(std::list<ReferencedPointer<TrackerSample> >::iterator i = playing_.begin();
+                i != playing_.end();
+                i++)
+            {
+                if((*i).pointer()->id() == id)
+                {
+                    playing_.erase(i);
+                    break;
+                }
+            }
         }
 
         void AudioAssetPrivate::setVolume(float volume)
         {
-            LOCK
-
             // Sanity check for volume value
-            if (volume > 1.0f)
-            {
-                volume = 1.0f;
-            }
-            else if (volume < 0.0f)
-            {
-                volume = 0.0f;
-            }
+            volume = w::clamp(volume, 0.0f, 1.0f);
 
-            // TODO: inform audioengine private to tune volume of this assets trackersamples
+            // Tune volume of this asset's trackersamples
+            LOCK
+            for(std::list<ReferencedPointer<TrackerSample> >::iterator i = playing_.begin();
+                i != playing_.end();
+                i++)
+            {
+                (*i).pointer()->setVolume(volume);
+            }
         }
 
         void AudioAssetPrivate::fadeOut(unsigned int fadeOutTimeMilliseconds)
         {
+            // Sanity check for fadeOutTimeMilliseconds value
+            fadeOutTimeMilliseconds = w::clamp(fadeOutTimeMilliseconds, 0, 1000);
+
             LOCK
-
-            // Sanity check for volume value
-            if (fadeOutTimeMilliseconds > 2000)
+            while(playing_.begin() != playing_.end())
             {
-                fadeOutTimeMilliseconds = 2000;
+                std::list<ReferencedPointer<TrackerSample> >::iterator i = playing_.begin();
+                playing_.erase(i);
+                (*i).pointer()->fadeOut(fadeOutTimeMilliseconds);
             }
-
-            // TODO: inform audioengine private to tune volume of this assets trackersamples
         }
     }
 }

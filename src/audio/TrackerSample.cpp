@@ -81,6 +81,7 @@ namespace w
                 {
                     end = true;
                     volume_ = 0.0f;
+                    ended.emit(id());
                 }
                 r = int16_t(volume_ * (float)r);
             }

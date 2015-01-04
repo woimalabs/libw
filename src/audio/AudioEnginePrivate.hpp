@@ -100,15 +100,9 @@ namespace w
                 return r;
             }
 
-            static bool play(AudioResource* resource, bool volume, bool looping)
+            static bool play(ReferencedPointer<TrackerSample> const& sample)
             {
-                TrackerSample* tmp = new TrackerSample(resource, volume, looping);
-
-                tmp->increment();
-                bool r = singleton_->tracker_.place(tmp);
-                tmp->decrement();
-
-                return r;
+                return singleton_->tracker_.place(sample);
             }
 
     #ifdef __ANDROID__

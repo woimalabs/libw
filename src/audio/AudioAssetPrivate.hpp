@@ -30,8 +30,10 @@
 #include "TrackerSample.hpp"
 #include "w/base/Class.hpp"
 #include <w/base/Referenced.hpp>
+#include <w/base/ReferencedPointer.hpp>
 #include <string>
 #include <sigc++/connection.h>
+#include <set>
 
 namespace w
 {
@@ -49,8 +51,10 @@ namespace w
             void fadeOut(unsigned int fadeOutTimeMilliseconds);
 
         private:
-            AudioResource* resource_;
+            void handleTrackerSampleEnd(unsigned int id);
             Mutex mutex_;
+            std::list<ReferencedPointer<TrackerSample> > playing_;
+            AudioResource* resource_;
             bool parallerPlay_;
             bool looping_;
         };

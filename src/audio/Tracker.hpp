@@ -31,6 +31,7 @@
 #include "w/base/Mutex.hpp"
 #include "w/base/Class.hpp"
 #include "w/base/RingBuffer.hpp"
+#include "w/base/ReferencedPointer.hpp"
 #include <stdint.h>
 
 namespace w
@@ -56,7 +57,7 @@ namespace w
              */
             void shutdown();
             bool shutdownIsDone();
-            bool place(TrackerSample* trackerSample);
+            bool place(ReferencedPointer<TrackerSample> const& trackerSample);
             unsigned int getData(unsigned int size, unsigned char* data);
             bool produceData();
             float volumeZeroProcess();
@@ -65,7 +66,7 @@ namespace w
 
         private:
             Mutex mutex_;
-            TrackerSample* tracks_[TrackAmount];
+            ReferencedPointer<TrackerSample> tracks_[TrackAmount];
             bool mute_;
             bool shutdownStarted_;
             bool shutdownDone_;

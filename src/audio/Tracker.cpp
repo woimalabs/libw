@@ -42,10 +42,10 @@ namespace w
             ringBuffer_(44100 * 2 / 10), /* one second divided by 10 to have max 100ms lag here */
             producerThread_(this)
         {
-            for(unsigned int i = 0; i < Tracker::TrackAmount; i++)
+            /*for(unsigned int i = 0; i < Tracker::TrackAmount; i++)
             {
                 tracks_[i] = NULL;
-            }
+            }*/
             producerThread_.start();
         }
 
@@ -61,9 +61,9 @@ namespace w
             {
                 for (unsigned int i = 0; i < Tracker::TrackAmount; i++)
                 {
-                    if(tracks_[i] != NULL)
+                    if(tracks_[i].pointer() != NULL)
                     {
-                        tracks_[i]->fadeOut(100);
+                        tracks_[i].pointer()->fadeOut(100);
                     }
                 }
 
@@ -76,7 +76,7 @@ namespace w
             return shutdownDone_;
         }
 
-        bool Tracker::place(TrackerSample* trackerSample)
+        bool Tracker::place(ReferencedPointer<TrackerSample> const& trackerSample)
         {
             bool r = false;
 
@@ -86,10 +86,10 @@ namespace w
             {
                 for (unsigned int i = 0; i < Tracker::TrackAmount; i++)
                 {
-                    if(tracks_[i] == NULL)
+                    if(tracks_[i].pointer() == NULL)
                     {
                         tracks_[i] = trackerSample;
-                        tracks_[i]->increment();
+                        //tracks_[i]->increment();
                         r = true;
                         break;
                     }
@@ -142,15 +142,14 @@ namespace w
                 bool tracksWithAudio = false;
                 for(unsigned int t = 0; t < Tracker::TrackAmount; t++)
                 {
-                    if(tracks_[t] != NULL)
+                    if(tracks_[t].pointer() != NULL)
                     {
                         tracksWithAudio = true;
                         bool end = false;
-                        a += tracks_[t]->sample(end);
+                        a += tracks_[t].pointer()->sample(end);
                         if(end == true)
                         {
-                            tracks_[t]->decrement();
-                            tracks_[t] = NULL;
+                            tracks_[t] = ReferencedPointer<TrackerSample>(NULL);
                         }
                     }
                 }

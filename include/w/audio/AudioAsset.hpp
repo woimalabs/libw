@@ -60,7 +60,7 @@ namespace w
              *
              * @param [in]  volume      Volume level [0.0 - 1.0], value is checked & limited.
              * @return                  TRUE if sample started to play.
-             *                          FALSE if tracks were full and sample could not be played.
+             *                           FALSE if tracks were full and sample could not be played.
              *
              * @note AudioEngine must exist to succesfully make a play() call.
              */
@@ -76,7 +76,8 @@ namespace w
             /**
              * Fades the sample away with linear fade.
              *
-             * @param [in]  fadeOutTime     Millisecond time to fadeout the sound.
+             * @param [in]  fadeOutTime    Millisecond time to fadeout the sound.
+             *                              Maximum fadeout time is 1000ms.
              */
             void fadeOut(unsigned int fadeOutTimeMilliseconds = 0);
 
