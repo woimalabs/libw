@@ -77,7 +77,7 @@ namespace w
             if (fadeOut_.on_ == true)
             {
                 volume_ -= fadeOut_.ramp_;
-                if (volume_ < 0.0f)
+                if (volume_ <= 0.0f)
                 {
                     end = true;
                     volume_ = 0.0f;
@@ -91,6 +91,7 @@ namespace w
 
             if(end == true)
             {
+                LOCK
                 ended.emit(id());
             }
 
@@ -103,7 +104,9 @@ namespace w
             {
                 if (fadeTimeMilliseconds == 0)
                 {
-                    volume_ = 0.0f;
+                    fadeOut_.start_ = Timer::milliseconds();
+                    fadeOut_.ramp_ = 1.0f;
+                    fadeOut_.on_ = true;
                 }
                 else
                 {

@@ -32,7 +32,6 @@
 #include <w/base/Referenced.hpp>
 #include <w/base/ReferencedPointer.hpp>
 #include <string>
-#include <sigc++/connection.h>
 #include <set>
 
 namespace w

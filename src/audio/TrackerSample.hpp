@@ -28,6 +28,8 @@
 
 #include "AudioResource.hpp"
 #include <w/base/Referenced.hpp>
+#include <w/base/Mutex.hpp>
+#include <sigc++/connection.h>
 #include <stdint.h>
 
 namespace w
@@ -40,15 +42,21 @@ namespace w
             static unsigned int const BytesPerSample = 2;
 
             sigc::signal<void, unsigned int /* Referenced::id */> ended;
+            sigc::connection audioAssetInterestedFromEnd;
 
             TrackerSample(AudioResource* resource, float volume, bool looping);
             ~TrackerSample();
             float volume();
             void setVolume(float volume);
             int16_t sample(bool& end);
+            void audioAssetSetNotInterested();
             void fadeOut(unsigned int fadeTimeMilliseconds);
 
         protected:
+            friend class AudioAssetPrivate;
+
+            // Mutex is to used to control the "ended" signal connection to parent AudioAssetPrivate
+            Mutex mutex_;
             float volume_;
             AudioResource* resource_;
             unsigned int byteSize_;

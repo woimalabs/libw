@@ -60,7 +60,7 @@ namespace w
             LOCK
 
             ReferencedPointer<TrackerSample> tmp(new TrackerSample(resource_, volume, false));
-            tmp.pointer()->ended.connect(sigc::mem_fun(this, &AudioAssetPrivate::handleTrackerSampleEnd));
+            tmp.pointer()->audioAssetInterestedFromEnd = tmp.pointer()->ended.connect(sigc::mem_fun(this, &AudioAssetPrivate::handleTrackerSampleEnd));
             bool r = AudioEnginePrivate::play(tmp);
             if(r == true)
             {
@@ -111,8 +111,11 @@ namespace w
             while(playing_.begin() != playing_.end())
             {
                 std::list<ReferencedPointer<TrackerSample> >::iterator i = playing_.begin();
+                TrackerSample* tmp = (*i).pointer();
+                Lock lock(tmp->mutex_);
+                tmp->audioAssetInterestedFromEnd.disconnect();
+                tmp->fadeOut(fadeOutTimeMilliseconds);
                 playing_.erase(i);
-                (*i).pointer()->fadeOut(fadeOutTimeMilliseconds);
             }
         }
     }
