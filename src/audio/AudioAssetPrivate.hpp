@@ -53,7 +53,7 @@ namespace w
             void handleTrackerSampleEnd(unsigned int id);
             Mutex mutex_;
             std::list<ReferencedPointer<TrackerSample> > playing_;
-            AudioResource* resource_;
+            ReferencedPointer<AudioResource> resource_;
             bool parallerPlay_;
             bool looping_;
         };

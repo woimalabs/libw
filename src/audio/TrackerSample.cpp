@@ -32,25 +32,20 @@ namespace w
 {
     namespace audio
     {
-        TrackerSample::TrackerSample(AudioResource* resource, float volume, bool looping):
+        TrackerSample::TrackerSample(const ReferencedPointer<AudioResource>& resource, float volume, bool looping):
             Referenced(),
             volume_(volume),
             resource_(resource),
-            byteSize_(resource->sizeInBytes()),
+            byteSize_(resource.pointer()->sizeInBytes()),
             byteLocation_(0),
             looping_(looping)
         {
             fadeOut_.on_ = false;
             fadeOut_.start_ = 0;
-            resource_->increment();
         }
 
         TrackerSample::~TrackerSample()
         {
-            if (resource_ != NULL)
-            {
-                resource_->decrement();
-            }
         }
 
         float TrackerSample::volume()
@@ -63,9 +58,9 @@ namespace w
             volume_ = volume;
         }
 
-        int16_t TrackerSample::sample(bool& end)
+        int16_t TrackerSample::sampleForTracker(bool& end)
         {
-            int16_t r = resource_->sample(byteLocation_, end);
+            int16_t r = resource_.pointer()->sample(byteLocation_, end);
             byteLocation_ += BytesPerSample;
 
             if (looping_ == true && byteLocation_ >= byteSize_)
@@ -80,6 +75,8 @@ namespace w
                 if (volume_ <= 0.0f)
                 {
                     end = true;
+                    // we are not interested from this end at parent side, because
+                    // it is a fadeout end and we have disconnected already from "ended"
                     volume_ = 0.0f;
                 }
                 r = int16_t(volume_ * (float)r);
@@ -87,12 +84,11 @@ namespace w
             else
             {
                 r = int16_t(volume_ * (float)r);
-            }
-
-            if(end == true)
-            {
-                LOCK
-                ended.emit(id());
+                if(end == true)
+                {
+                    LOCK
+                    ended.emit(id());
+                }
             }
 
             return r;
@@ -100,8 +96,11 @@ namespace w
 
         void TrackerSample::fadeOut(unsigned int fadeTimeMilliseconds)
         {
+            LOCK
+
             if (fadeOut_.on_ == false)
             {
+                audioAssetInterestedFromEnd.disconnect();
                 if (fadeTimeMilliseconds == 0)
                 {
                     fadeOut_.start_ = Timer::milliseconds();
@@ -111,7 +110,7 @@ namespace w
                 else
                 {
                     fadeOut_.start_ = Timer::milliseconds();
-                    fadeOut_.ramp_ = 1.0f / ((float)resource_->playBackRate() / 1000.0f * (float)fadeTimeMilliseconds);
+                    fadeOut_.ramp_ = 1.0f / ((float)resource_.pointer()->playBackRate() / 1000.0f * (float)fadeTimeMilliseconds);
                     fadeOut_.on_ = true;
                 }
             }

@@ -27,7 +27,7 @@
 #define LIBW_AUDIO_TRACKERSAMPLE
 
 #include "AudioResource.hpp"
-#include <w/base/Referenced.hpp>
+#include <w/base/ReferencedPointer.hpp>
 #include <w/base/Mutex.hpp>
 #include <sigc++/connection.h>
 #include <stdint.h>
@@ -44,21 +44,19 @@ namespace w
             sigc::signal<void, unsigned int /* Referenced::id */> ended;
             sigc::connection audioAssetInterestedFromEnd;
 
-            TrackerSample(AudioResource* resource, float volume, bool looping);
+            TrackerSample(const ReferencedPointer<AudioResource>& resource, float volume, bool looping);
             ~TrackerSample();
             float volume();
             void setVolume(float volume);
-            int16_t sample(bool& end);
+            int16_t sampleForTracker(bool& end);
             void audioAssetSetNotInterested();
             void fadeOut(unsigned int fadeTimeMilliseconds);
 
-        protected:
-            friend class AudioAssetPrivate;
-
+        private:
             // Mutex is to used to control the "ended" signal connection to parent AudioAssetPrivate
             Mutex mutex_;
             float volume_;
-            AudioResource* resource_;
+            ReferencedPointer<AudioResource> resource_;
             unsigned int byteSize_;
             unsigned int byteLocation_;
             bool looping_;

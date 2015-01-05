@@ -39,7 +39,7 @@ namespace w
             parallerPlay_(parallelPlay),
             looping_(looping)
         {
-            resource_->increment();
+            //resource_->increment();
         }
 
         AudioAssetPrivate::~AudioAssetPrivate()
@@ -48,8 +48,8 @@ namespace w
             fadeOut(0);
 
             // Unreference related resource (trackersample might still hold a reference to resource until the track ends)
-            resource_->decrement();
-            resource_ = NULL;
+            //resource_->decrement();
+            //resource_ = NULL;
         }
 
         bool AudioAssetPrivate::play(float volume)
@@ -72,9 +72,6 @@ namespace w
         void AudioAssetPrivate::handleTrackerSampleEnd(unsigned int id)
         {
             LOCK
-
-            LOGD("end: %d", id);
-
             for(std::list<ReferencedPointer<TrackerSample> >::iterator i = playing_.begin();
                 i != playing_.end();
                 i++)
@@ -89,7 +86,7 @@ namespace w
 
         void AudioAssetPrivate::setVolume(float volume)
         {
-            // Sanity check for volume value
+            // Sanity check for the new value
             volume = w::clamp(volume, 0.0f, 1.0f);
 
             // Tune volume of this asset's trackersamples
@@ -104,17 +101,16 @@ namespace w
 
         void AudioAssetPrivate::fadeOut(unsigned int fadeOutTimeMilliseconds)
         {
-            // Sanity check for fadeOutTimeMilliseconds value
+            // Sanity check for the new value
             fadeOutTimeMilliseconds = w::clamp(fadeOutTimeMilliseconds, 0, 1000);
 
+            // Fade out the playing samples. This also disconnects the "ended"
+            // signal listening.
             LOCK
             while(playing_.begin() != playing_.end())
             {
                 std::list<ReferencedPointer<TrackerSample> >::iterator i = playing_.begin();
-                TrackerSample* tmp = (*i).pointer();
-                Lock lock(tmp->mutex_);
-                tmp->audioAssetInterestedFromEnd.disconnect();
-                tmp->fadeOut(fadeOutTimeMilliseconds);
+                (*i).pointer()->fadeOut(fadeOutTimeMilliseconds);
                 playing_.erase(i);
             }
         }

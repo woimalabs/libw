@@ -146,7 +146,7 @@ namespace w
                     {
                         tracksWithAudio = true;
                         bool end = false;
-                        a += tracks_[t].pointer()->sample(end);
+                        a += tracks_[t].pointer()->sampleForTracker(end);
                         if(end == true)
                         {
                             tracks_[t] = ReferencedPointer<TrackerSample>(NULL);
