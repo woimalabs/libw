@@ -39,13 +39,13 @@ namespace w
             mute_(muteAtStart),
             shutdownStarted_(false),
             shutdownDone_(false),
-            ringBuffer_(44100 * 2 / 10), /* one second divided by 10 to have max 100ms lag here */
+            ringBuffer_(44100 * 2 / 20), /* one second divided by 20 to have max 50ms lag here */
             producerThread_(this)
         {
-            /*for(unsigned int i = 0; i < Tracker::TrackAmount; i++)
+            for(unsigned int i = 0; i < Tracker::TrackAmount; i++)
             {
                 tracks_[i] = NULL;
-            }*/
+            }
             producerThread_.start();
         }
 

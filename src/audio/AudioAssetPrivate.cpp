@@ -39,32 +39,33 @@ namespace w
             parallerPlay_(parallelPlay),
             looping_(looping)
         {
-            //resource_->increment();
         }
 
         AudioAssetPrivate::~AudioAssetPrivate()
         {
             // End playing
             fadeOut(0);
-
-            // Unreference related resource (trackersample might still hold a reference to resource until the track ends)
-            //resource_->decrement();
-            //resource_ = NULL;
         }
 
         bool AudioAssetPrivate::play(float volume)
         {
+            bool r = false;
+
             // Sanity check for volume value
             volume = w::clamp(volume, 0.0f, 1.0f);
 
             LOCK
 
-            ReferencedPointer<TrackerSample> tmp(new TrackerSample(resource_, volume, false));
-            tmp.pointer()->audioAssetInterestedFromEnd = tmp.pointer()->ended.connect(sigc::mem_fun(this, &AudioAssetPrivate::handleTrackerSampleEnd));
-            bool r = AudioEnginePrivate::play(tmp);
-            if(r == true)
+            if(parallerPlay_ || (!parallerPlay_ && playing_.size() == 0))
             {
-                playing_.push_back(tmp);
+                LOGD("parallelPlay: %d, file %s", parallerPlay_, resource_.pointer()->filename().c_str());
+                ReferencedPointer<TrackerSample> tmp(new TrackerSample(resource_, volume, false));
+                tmp.pointer()->audioAssetInterestedFromEnd = tmp.pointer()->ended.connect(sigc::mem_fun(this, &AudioAssetPrivate::handleTrackerSampleEnd));
+                r = AudioEnginePrivate::play(tmp);
+                if(r == true)
+                {
+                    playing_.push_back(tmp);
+                }
             }
             return r;
         }
@@ -72,6 +73,7 @@ namespace w
         void AudioAssetPrivate::handleTrackerSampleEnd(unsigned int id)
         {
             LOCK
+
             for(std::list<ReferencedPointer<TrackerSample> >::iterator i = playing_.begin();
                 i != playing_.end();
                 i++)
