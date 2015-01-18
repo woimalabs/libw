@@ -1,7 +1,7 @@
 /**
  * libw
  *
- * Copyright (C) 2013-2014 Woima Solutions Oy
+ * Copyright (C) 2013-2015 Woima Solutions Oy
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
@@ -63,16 +63,16 @@ namespace w
             int16_t r = resource_.pointer()->sample(byteLocation_, end);
             byteLocation_ += BytesPerSample;
 
-            if (looping_ == true && byteLocation_ >= byteSize_)
+            if(looping_ == true && byteLocation_ >= byteSize_)
             {
                 byteLocation_ = 0;
                 end = false;
             }
 
-            if (fadeOut_.on_ == true)
+            if(fadeOut_.on_ == true)
             {
                 volume_ -= fadeOut_.ramp_;
-                if (volume_ <= 0.0f)
+                if(volume_ <= 0.0f)
                 {
                     end = true;
                     // we are not interested from this end at parent side, because
@@ -97,21 +97,18 @@ namespace w
         void TrackerSample::fadeOut(unsigned int fadeTimeMilliseconds)
         {
             LOCK
-
-            if (fadeOut_.on_ == false)
+            if(fadeOut_.on_ == false)
             {
                 audioAssetInterestedFromEnd.disconnect();
-                if (fadeTimeMilliseconds == 0)
+                fadeOut_.start_ = Timer::milliseconds();
+                fadeOut_.on_ = true;
+                if(fadeTimeMilliseconds == 0)
                 {
-                    fadeOut_.start_ = Timer::milliseconds();
                     fadeOut_.ramp_ = 1.0f;
-                    fadeOut_.on_ = true;
                 }
                 else
                 {
-                    fadeOut_.start_ = Timer::milliseconds();
                     fadeOut_.ramp_ = 1.0f / ((float)resource_.pointer()->playBackRate() / 1000.0f * (float)fadeTimeMilliseconds);
-                    fadeOut_.on_ = true;
                 }
             }
         }

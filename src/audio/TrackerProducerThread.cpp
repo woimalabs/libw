@@ -1,7 +1,7 @@
 /**
  * libw
  *
- * Copyright (C) 2013-2014 Woima Solutions Oy
+ * Copyright (C) 2013-2015 Woima Solutions Oy
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
