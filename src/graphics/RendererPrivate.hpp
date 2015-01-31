@@ -84,10 +84,6 @@ namespace w
              * ShaderProgramAsset needs to have "attribute vec3 xyz;"
              */
             void drawLine(float p0x, float p0y, float p1x, float p1y, const ShaderProgramAsset & shaderProgram);
-
-
-        private:
-
         };
     }
 }
