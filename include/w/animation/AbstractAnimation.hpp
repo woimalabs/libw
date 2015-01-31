@@ -48,7 +48,7 @@ namespace w
 
             virtual ~AbstractAnimation();
             void start();
-            float progress();
+            virtual float progress();
 
         protected:
             /**

@@ -31,13 +31,29 @@ namespace w
 {
     namespace animation
     {
+        /**
+         * @param   t   current time
+         * @param   b   start value
+         * @param   c   change in value
+         * @param   d   duration time
+         */
+        float easeInOutQuint(float t, float b, float c, float d)
+        {
+            t /= d/2.0f;
+            if (t < 1) return c/2*t*t*t*t*t + b;
+            t -= 2.0f;
+            return c/2.0f*(t*t*t*t*t + 2.0f) + b;
+        };
+
         PathAnimation::PathAnimation(std::vector<ReferencedPointer<w::animation::ControlPoint> > & points,
             float millisecondLength,
-            bool loop):
+            bool loop,
+            Easing::Enum easing):
 
             AbstractAnimation(millisecondLength, loop),
             points_(points),
-            progressPerSegment_(1.0f / (float)(points_.size() - 1))
+            progressPerSegment_(1.0f / (float)(points_.size() - 1)),
+            easing_(easing)
         {
             if(points_.size() == 0)
             {
@@ -99,6 +115,27 @@ namespace w
         const std::vector<w::ReferencedPointer<w::animation::ControlPoint> >& PathAnimation::points() const
         {
             return points_;
+        }
+
+        float PathAnimation::progress()
+        {
+            float progress = AbstractAnimation::progress();
+            switch(easing_)
+            {
+                case Easing::Linear:
+                {
+                    return progress;
+                    break;
+                }
+                case Easing::InOutQuint:
+                {
+                    return easeInOutQuint(progress, 0.0f, progress, 1.0f);
+                    break;
+                }
+            }
+
+            // "backup" return value
+            return progress;
         }
 
         unsigned int PathAnimation::progressIndex()

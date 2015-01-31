@@ -49,18 +49,30 @@ namespace w
         public:
             UNCOPYABLE(PathAnimation)
 
+            struct Easing
+            {
+                enum Enum
+                {
+                    Linear,
+                    InOutQuint
+                };
+            };
+
             PathAnimation(std::vector<w::ReferencedPointer<w::animation::ControlPoint> > & points,
                 float millisecondLength,
-                bool loop = true);
+                bool loop = true,
+                Easing::Enum = Easing::Linear);
 
             virtual ~PathAnimation();
             virtual Eigen::Vector3f location();
             virtual Eigen::Matrix4f rotation();
             virtual Eigen::Vector3f scale();
             virtual float opacity();
+            virtual float progress();
 
         protected:
             const std::vector<w::ReferencedPointer<w::animation::ControlPoint> >& points() const;
+            float progressWithEasing();
             unsigned int progressIndex();
             float progressOverTheIndex();
             unsigned int nextIndex(unsigned int currentIndex);
@@ -69,6 +81,7 @@ namespace w
         private:
             const std::vector<w::ReferencedPointer<w::animation::ControlPoint> > points_;
             float progressPerSegment_;
+            Easing::Enum easing_;
         };
     }
 }
