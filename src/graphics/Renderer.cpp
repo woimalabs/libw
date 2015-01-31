@@ -67,6 +67,14 @@ namespace w
             private_->setBlendFunction(source, destination);
         }
 
+        void Renderer::setBlendFunctionSeparate(BlendMode::Enum sourceRGB,
+                BlendMode::Enum destinationRGB,
+                BlendMode::Enum sourceAlpha,
+                BlendMode::Enum destinationAlpha)
+        {
+            private_->setBlendFunctionSeparate(sourceRGB, destinationRGB, sourceAlpha, destinationAlpha);
+        }
+
         void Renderer::setDepthTest(bool value)
         {
             private_->setDepthTest(value);

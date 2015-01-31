@@ -56,6 +56,10 @@ namespace w
             ~Renderer();
             void setBlend(bool value);
             void setBlendFunction(BlendMode::Enum source = BlendMode::SrcAlpha, BlendMode::Enum destination = BlendMode::OneMinusSrcAlpha);
+            void setBlendFunctionSeparate(BlendMode::Enum sourceRGB = BlendMode::SrcAlpha,
+                BlendMode::Enum destinationRGB = BlendMode::OneMinusSrcAlpha,
+                BlendMode::Enum sourceAlpha = BlendMode::One,
+                BlendMode::Enum destinationAlpha = BlendMode::OneMinusSrcAlpha);
             void setDepthTest(bool value);
             void setCullFace(bool value);
             void setColorMask(bool r, bool g, bool b, bool a);

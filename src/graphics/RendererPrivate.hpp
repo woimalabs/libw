@@ -53,6 +53,10 @@ namespace w
             ~RendererPrivate();
             void setBlend(bool value);
             void setBlendFunction(Renderer::BlendMode::Enum source, Renderer::BlendMode::Enum destination);
+            void setBlendFunctionSeparate(Renderer::BlendMode::Enum sourceRGB,
+                Renderer::BlendMode::Enum destinationRGB,
+                Renderer::BlendMode::Enum sourceAlpha,
+                Renderer::BlendMode::Enum destinationAlpha);
             void setDepthTest(bool value);
             void setCullFace(bool value);
             void setColorMask(bool r, bool g, bool b, bool a);

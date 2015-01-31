@@ -103,6 +103,86 @@ namespace w
             glBlendFunc(s, d);
         }
 
+        void RendererPrivate::setBlendFunctionSeparate(Renderer::BlendMode::Enum sourceRGB,
+                Renderer::BlendMode::Enum destinationRGB,
+                Renderer::BlendMode::Enum sourceAlpha,
+                Renderer::BlendMode::Enum destinationAlpha)
+        {
+            GLenum sRGB = GL_ONE;
+            GLenum dRGB = GL_ONE;
+            GLenum sA = GL_ONE;
+            GLenum dA = GL_ONE;
+            switch(sourceRGB)
+            {
+                case Renderer::BlendMode::One:
+                {
+                    sRGB = GL_ONE;
+                    break;
+                }
+                case Renderer::BlendMode::SrcAlpha:
+                {
+                    sRGB = GL_SRC_ALPHA;
+                    break;
+                }
+                case Renderer::BlendMode::OneMinusSrcAlpha:
+                {
+                    sRGB = GL_ONE_MINUS_SRC_ALPHA;
+                }
+            }
+            switch(destinationRGB)
+            {
+                case Renderer::BlendMode::One:
+                {
+                    dRGB = GL_ONE;
+                    break;
+                }
+                case Renderer::BlendMode::SrcAlpha:
+                {
+                    dRGB = GL_SRC_ALPHA;
+                    break;
+                }
+                case Renderer::BlendMode::OneMinusSrcAlpha:
+                {
+                    dRGB = GL_ONE_MINUS_SRC_ALPHA;
+                }
+            }
+            switch(sourceAlpha)
+            {
+                case Renderer::BlendMode::One:
+                {
+                    sA = GL_ONE;
+                    break;
+                }
+                case Renderer::BlendMode::SrcAlpha:
+                {
+                    sA = GL_SRC_ALPHA;
+                    break;
+                }
+                case Renderer::BlendMode::OneMinusSrcAlpha:
+                {
+                    sA = GL_ONE_MINUS_SRC_ALPHA;
+                }
+            }
+            switch(destinationAlpha)
+            {
+                case Renderer::BlendMode::One:
+                {
+                    dA = GL_ONE;
+                    break;
+                }
+                case Renderer::BlendMode::SrcAlpha:
+                {
+                    dA = GL_SRC_ALPHA;
+                    break;
+                }
+                case Renderer::BlendMode::OneMinusSrcAlpha:
+                {
+                    dA = GL_ONE_MINUS_SRC_ALPHA;
+                }
+            }
+            glBlendFuncSeparate(sRGB, dRGB, sA, dA);
+        }
+
         void RendererPrivate::setDepthTest(bool value)
         {
             if(value == true)
