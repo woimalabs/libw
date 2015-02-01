@@ -24,6 +24,7 @@ libw_la_SOURCES = \
 	graphics/PolygonAssetPrivate-GLES2.cpp \
 	graphics/Renderer.cpp \
 	graphics/RendererPrivate-GLES2.cpp \
+	graphics/Aabb.cpp \
 	scene/Component.cpp \
 	scene/NodePrivate.cpp \
 	scene/Node.cpp \
@@ -75,7 +76,8 @@ library_graphics_include_HEADERS = \
 	../include/w/graphics/MeshAsset.hpp \
 	../include/w/graphics/PolygonAsset.hpp \
 	../include/w/graphics/Renderer.hpp \
-	../include/w/graphics/Stride.hpp
+	../include/w/graphics/Stride.hpp \
+	../include/w/graphics/Aabb.hpp
 
 library_scene_includedir = $(includedir)/w/scene
 library_scene_include_HEADERS = \

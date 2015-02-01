@@ -26,6 +26,7 @@
 #ifndef LIBW_GRAPHICS_MESHASSETPRIVATE
 #define LIBW_GRAPHICS_MESHASSETPRIVATE
 
+#include "w/graphics/Aabb.hpp"
 #include "w/graphics/Stride.hpp"
 #include <w/base/Referenced.hpp>
 #include <w/base/Class.hpp>
@@ -46,7 +47,7 @@ namespace w
         public:
             UNCOPYABLE(MeshAssetPrivate)
 
-            MeshAssetPrivate(const std::vector<StrideComponent> & strideComponents, float* tmpVertexData, unsigned int vertexCount);
+            MeshAssetPrivate(const std::vector<StrideComponent> & strideComponents, float* tmpVertexData, unsigned int vertexCount, const Aabb& aabb);
             MeshAssetPrivate(float width, float height, float uStart, float uEnd, float vStart, float vEnd, float wOffset, float hOffset);
 
             virtual ~MeshAssetPrivate();
@@ -55,7 +56,9 @@ namespace w
             unsigned int strideByteSize() const;
             void bind();
             unsigned int vertexCount() const;
-            void setData(const std::vector<StrideComponent> & strideComponents, float* vertexData, unsigned int vertexCount);
+            void setData(const std::vector<StrideComponent> & strideComponents, float* vertexData, unsigned int vertexCount, Aabb const& aabb);
+
+            Aabb const& aabb() const;
 
         private:
             void loadGPUData();
@@ -64,6 +67,7 @@ namespace w
             GLfloat* tmpVertexData_;
             unsigned int vertexCount_;
             unsigned int strideByteSize_;
+            Aabb aabb_;
         };
     }
 }

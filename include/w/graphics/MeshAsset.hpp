@@ -34,6 +34,8 @@ namespace w
 {
     namespace graphics
     {
+        class Aabb;
+
         class MeshAsset
         {
         public:
@@ -46,7 +48,7 @@ namespace w
              * @param [in]  vertexData          Raw data buffer. MeshAsset has the ownership of the data pointer after this constructor!
              * @param [in]  vertexCount         How many vertex is included in data. VertexCount / 3 = triangle count
              */
-            MeshAsset(const std::vector<StrideComponent> & strideComponents, float* vertexData, unsigned int vertexCount);
+            MeshAsset(const std::vector<StrideComponent> & strideComponents, float* vertexData, unsigned int vertexCount, Aabb const& aabb);
 
             /**
              * Creates a rectangular mesh with "xyz" and "uv" stride components.
@@ -68,7 +70,9 @@ namespace w
              * @param [in]  vertexData          Raw data buffer. MeshAsset has the ownership of the data pointer after this constructor!
              * @param [in]  vertexCount         How many vertices are included in the data. Same as triangle count x3.
              */
-            void setData(const std::vector<StrideComponent> & strideComponents, float* vertexData, unsigned int vertexCount);
+            void setData(const std::vector<StrideComponent> & strideComponents, float* vertexData, unsigned int vertexCount, Aabb const& aabb);
+
+            Aabb const& aabb() const;
 
         private:
             friend class RendererPrivate;

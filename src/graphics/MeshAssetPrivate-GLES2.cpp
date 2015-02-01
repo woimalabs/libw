@@ -31,11 +31,16 @@ namespace w
 {
     namespace graphics
     {
-        MeshAssetPrivate::MeshAssetPrivate(const std::vector<StrideComponent> & strideComponents, float* tmpVertexData, unsigned int vertexCount):
+        MeshAssetPrivate::MeshAssetPrivate(
+                const std::vector<StrideComponent> & strideComponents,
+                float* tmpVertexData,
+                unsigned int vertexCount,
+                Aabb const& aabb):
             vbo_(0),
             strideComponents_(strideComponents),
             tmpVertexData_((GLfloat*)tmpVertexData),
-            vertexCount_(vertexCount)
+            vertexCount_(vertexCount),
+            aabb_(aabb)
         {
             if(strideComponents_.size() == 0)
             {
@@ -45,11 +50,15 @@ namespace w
             strideByteSize_ = tmp.byteOffset + tmp.numberOfComponents * sizeof(GLfloat);
         }
 
-        MeshAssetPrivate::MeshAssetPrivate(float width, float height, float uStart, float uEnd, float vStart, float vEnd, float wOffset, float hOffset):
+        MeshAssetPrivate::MeshAssetPrivate(float width, float height,
+                float uStart, float uEnd, float vStart, float vEnd,
+                float wOffset, float hOffset):
             vbo_(0),
             strideComponents_(),
             tmpVertexData_(NULL),
-            vertexCount_(0)
+            vertexCount_(0),
+            aabb_(Eigen::Vector3f(wOffset, hOffset, 0.0f),
+                    Eigen::Vector3f(wOffset + width, hOffset + height, 0.0f))
         {
             /*
              * Rectangle we create has two triangles:
@@ -170,7 +179,7 @@ namespace w
            return vertexCount_;
         }
 
-        void MeshAssetPrivate::setData(const std::vector<StrideComponent> & strideComponents, float* vertexData, unsigned int vertexCount)
+        void MeshAssetPrivate::setData(const std::vector<StrideComponent> & strideComponents, float* vertexData, unsigned int vertexCount, Aabb const& aabb)
         {
             if(tmpVertexData_ != NULL)
             {
@@ -181,6 +190,12 @@ namespace w
             vertexCount_ = vertexCount;
             StrideComponent tmp = strideComponents.back();
             strideByteSize_ = tmp.byteOffset + tmp.numberOfComponents * sizeof(GLfloat);
+            aabb_ = aabb;
+        }
+
+        Aabb const& MeshAssetPrivate::aabb() const
+        {
+            return aabb_;
         }
 
         void MeshAssetPrivate::loadGPUData()

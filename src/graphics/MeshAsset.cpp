@@ -30,8 +30,12 @@ namespace w
 {
     namespace graphics
     {
-        MeshAsset::MeshAsset(const std::vector<StrideComponent> & strideComponents, float* vertexData, unsigned int vertexCount):
-            private_(new MeshAssetPrivate(strideComponents, vertexData, vertexCount))
+        MeshAsset::MeshAsset(
+                const std::vector<StrideComponent> & strideComponents,
+                float* vertexData, unsigned int vertexCount,
+                Aabb const& aabb):
+            private_(new MeshAssetPrivate(strideComponents, vertexData,
+                        vertexCount, aabb))
         {
             private_->increment();
         }
@@ -63,9 +67,14 @@ namespace w
             return *this;
         }
 
-        void MeshAsset::setData(const std::vector<StrideComponent> & strideComponents, float* vertexData, unsigned int vertexCount)
+        void MeshAsset::setData(const std::vector<StrideComponent> & strideComponents, float* vertexData, unsigned int vertexCount, Aabb const& aabb)
         {
-            private_->setData(strideComponents, vertexData, vertexCount);
+            private_->setData(strideComponents, vertexData, vertexCount, aabb);
+        }
+
+        Aabb const& MeshAsset::aabb() const
+        {
+            return private_->aabb();
         }
     }
 }

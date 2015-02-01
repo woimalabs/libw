@@ -74,6 +74,7 @@ namespace w
             GLint r = glGetUniformLocation(programId_, symbolName.c_str());
             if(r < 0)
             {
+                return r;
                 LOGE("ShaderProgramAssetPrivate::uniform(), no symbol: \"%s\"", symbolName.c_str());
                 throw Exception("Failed to get uniform location");
             }
