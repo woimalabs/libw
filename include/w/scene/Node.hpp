@@ -59,6 +59,11 @@ namespace w
             Node(Component const& c0, Component const& c1);
             Node(Component const& c0, Component const& c1, Component const& c2);
             Node(Component const& c0, Component const& c1, Component const& c2, Component const& c3);
+            Node(std::string const& name, Component const& c0);
+            Node(std::string const& name, Component const& c0, Component const& c1);
+            Node(std::string const& name, Component const& c0, Component const& c1, Component const& c2);
+            Node(std::string const& name, Component const& c0, Component const& c1, Component const& c2, Component const& c3);
+
             virtual ~Node();
             void accept(Visitor& visitor);
             void addChild(Node const& node);
@@ -94,6 +99,7 @@ namespace w
             bool hasComponentWithId(const std::vector<unsigned int> & ids);
             unsigned int id() const;
             unsigned int referenceCount() const;
+            const std::string name() const;
 
         protected:
             Node(const ReferencedPointer<NodePrivate> &);

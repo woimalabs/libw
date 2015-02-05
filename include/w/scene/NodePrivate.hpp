@@ -52,6 +52,11 @@ namespace w
             NodePrivate(Component const& c0, Component const& c1);
             NodePrivate(Component const& c0, Component const& c1, Component const& c2);
             NodePrivate(Component const& c0, Component const& c1, Component const& c2, Component const& c3);
+            NodePrivate(std::string const& name, Component const& c0);
+            NodePrivate(std::string const& name, Component const& c0, Component const& c1);
+            NodePrivate(std::string const& name, Component const& c0, Component const& c1, Component const& c2);
+            NodePrivate(std::string const& name, Component const& c0, Component const& c1, Component const& c2, Component const& c3);
+
             virtual ~NodePrivate();
             void addComponent(Component const& component);
 
@@ -130,8 +135,10 @@ namespace w
             void removeChildren();
             std::vector<ReferencedPointer<NodePrivate> > children();
             ReferencedPointer<NodePrivate> parent();
+            const std::string name() const;
 
         private:
+            std::string name_;
             Mutex mutexStructure_;
             std::list<NodePrivate*> children_;
             NodePrivate* parent_;

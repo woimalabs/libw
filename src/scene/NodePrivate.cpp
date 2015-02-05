@@ -38,12 +38,14 @@ namespace w
         }
 
         NodePrivate::NodePrivate(Component const& c0):
+            name_(),
             parent_(NULL)
         {
             addComponent(c0);
         }
 
         NodePrivate::NodePrivate(Component const& c0, Component const& c1):
+            name_(),
             parent_(NULL)
         {
             addComponent(c0);
@@ -51,6 +53,7 @@ namespace w
         }
 
         NodePrivate::NodePrivate(Component const& c0, Component const& c1, Component const& c2):
+            name_(),
             parent_(NULL)
         {
             addComponent(c0);
@@ -59,6 +62,41 @@ namespace w
         }
 
         NodePrivate::NodePrivate(Component const& c0, Component const& c1, Component const& c2, Component const& c3):
+            name_(),
+            parent_(NULL)
+        {
+            addComponent(c0);
+            addComponent(c1);
+            addComponent(c2);
+            addComponent(c3);
+        }
+
+        NodePrivate::NodePrivate(std::string const& name, Component const& c0):
+            name_(name),
+            parent_(NULL)
+        {
+            addComponent(c0);
+        }
+
+        NodePrivate::NodePrivate(std::string const& name, Component const& c0, Component const& c1):
+            name_(name),
+            parent_(NULL)
+        {
+            addComponent(c0);
+            addComponent(c1);
+        }
+
+        NodePrivate::NodePrivate(std::string const& name, Component const& c0, Component const& c1, Component const& c2):
+            name_(name),
+            parent_(NULL)
+        {
+            addComponent(c0);
+            addComponent(c1);
+            addComponent(c2);
+        }
+
+        NodePrivate::NodePrivate(std::string const& name, Component const& c0, Component const& c1, Component const& c2, Component const& c3):
+            name_(name),
             parent_(NULL)
         {
             addComponent(c0);
@@ -188,6 +226,11 @@ namespace w
                 r.push_back(ReferencedPointer<NodePrivate>(*i));
             }
             return r;
+        }
+
+        const std::string NodePrivate::name() const
+        {
+            return name_;
         }
     }
 }

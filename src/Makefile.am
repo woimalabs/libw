@@ -10,14 +10,6 @@ libw_la_SOURCES = \
 	base/Mutex.cpp \
 	base/Referenced.cpp \
 	base/Random.cpp \
-	audio/AudioEngine.cpp \
-	audio/AudioEnginePrivate-Pulse.cpp \
-	audio/AudioAsset.cpp \
-	audio/AudioAssetPrivate.cpp \
-	audio/AudioResource.cpp \
-	audio/Tracker.cpp \
-	audio/TrackerProducerThread.cpp \
-	audio/TrackerSample.cpp \
 	graphics/Window.cpp \
 	graphics/WindowPrivate-XEGL.cpp \
 	graphics/ShaderProgramAsset.cpp \
@@ -67,11 +59,6 @@ library_base_include_HEADERS = \
 	../include/w/base/Sigcpp.hpp \
 	../include/w/base/UniquePointer.hpp \
 	../include/w/base/Random.hpp
-
-library_audio_includedir = $(includedir)/w/audio
-library_audio_include_HEADERS = \
-	../include/w/audio/AudioEngine.hpp \
-	../include/w/audio/AudioAsset.hpp
 
 library_math_includedir = $(includedir)/w/math
 library_math_include_HEADERS = \

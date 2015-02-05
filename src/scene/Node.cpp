@@ -79,6 +79,27 @@ namespace w
         {
         }
 
+        Node::Node(std::string const& name, const Component & c0):
+            ReferencedPointer<NodePrivate>(new NodePrivate(name, c0))
+        {
+        }
+
+        Node::Node(std::string const& name, const Component & c0, const Component & c1):
+            ReferencedPointer<NodePrivate>(new NodePrivate(name, c0, c1))
+        {
+        }
+
+        Node::Node(std::string const& name, const Component & c0, const Component & c1, const Component & c2):
+            ReferencedPointer<NodePrivate>(new NodePrivate(name, c0, c1, c2))
+        {
+        }
+
+        Node::Node(std::string const& name, const Component & c0, const Component & c1, const Component & c2, const Component & c3):
+            ReferencedPointer<NodePrivate>(new NodePrivate(name, c0, c1, c2, c3))
+        {
+        }
+
+
         void Node::accept(Visitor& visitor)
         {
             if(visitor.canVisit(*this) == true)
@@ -132,6 +153,11 @@ namespace w
         unsigned int Node::referenceCount() const
         {
             return pointer()->referenceCount();
+        }
+
+        const std::string Node::name() const
+        {
+            return pointer()->name();
         }
     }
 }
