@@ -217,6 +217,15 @@ Aabb const& Aabb::operator+=(Eigen::Vector4f const& v)
 
 Aabb const& Aabb::operator+=(Eigen::Vector3f const& v)
 {
+    if (empty_)
+    {
+        x_ = v[0];
+        y_ = v[1];
+        z_ = v[2];
+        empty_ = false;
+        return *this;
+    }
+
     empty_ = false;
     float x1 = std::min(x_, v[0]);
     float y1 = std::min(y_, v[1]);
@@ -313,10 +322,10 @@ Aabb Aabb::operator*(Eigen::Matrix4f const& matrix) const
     float y3 = (v[1] + dy2) / w3;
     float z3 = (v[2] + dz2) / w3;
 
-    //float w4 = v[3] + dw1 + dw2;
-    float x4 = (v[0] + dx1 + dx2) / w3;
-    float y4 = (v[1] + dy1 + dy2) / w3;
-    float z4 = (v[2] + dz1 + dz2) / w3;
+    float w4 = v[3] + dw1 + dw2;
+    float x4 = (v[0] + dx1 + dx2) / w4;
+    float y4 = (v[1] + dy1 + dy2) / w4;
+    float z4 = (v[2] + dz1 + dz2) / w4;
 
     //
 

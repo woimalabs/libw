@@ -77,7 +77,9 @@ library_graphics_include_HEADERS = \
 	../include/w/graphics/PolygonAsset.hpp \
 	../include/w/graphics/Renderer.hpp \
 	../include/w/graphics/Stride.hpp \
-	../include/w/graphics/Aabb.hpp
+	../include/w/graphics/Aabb.hpp \
+	../include/w/graphics/Plane.hpp \
+	../include/w/graphics/Distance.hpp
 
 library_scene_includedir = $(includedir)/w/scene
 library_scene_include_HEADERS = \
