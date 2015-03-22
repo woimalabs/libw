@@ -44,7 +44,7 @@ namespace w
             Request(std::string const& url, unsigned int port = 80);
             ~Request();
             void send();
-            void setRawHeader(std::string const& key, std::string const& value);
+            void addRawHeader(std::string const& key, std::string const& value);
             ReferencedPointer<Response> response();
 
         private:

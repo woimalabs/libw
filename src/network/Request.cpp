@@ -45,7 +45,7 @@ namespace w
         {
         }
 
-        void Request::setRawHeader(std::string const& key, std::string const& value)
+        void Request::addRawHeader(std::string const& key, std::string const& value)
         {
             // todo
         }
