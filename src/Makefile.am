@@ -36,7 +36,9 @@ libw_la_SOURCES = \
 	animation/PathAnimation.cpp \
 	animation/BezierCubicAnimation.cpp \
 	storage/Storage.cpp \
-	storage/StoragePrivate.cpp
+	storage/StoragePrivate.cpp \
+	network/Request.cpp \
+	network/Response.cpp
 
 libw_la_CPPFLAGS = -I$(top_srcdir)/include -Wall -Wextra
 
@@ -106,5 +108,10 @@ library_animation_include_HEADERS = \
 library_storage_includedir = $(includedir)/w/storage
 library_storage_include_HEADERS = \
 	../include/w/storage/Storage.hpp
+
+library_network_includedir = $(includedir)/w/network
+library_network_include_HEADERS = \
+	../include/w/network/Request.hpp \
+	../include/w/network/Response.hpp
 
 libw_la_LDFLAGS = -g -module -avoid-version -shared --disable-static
