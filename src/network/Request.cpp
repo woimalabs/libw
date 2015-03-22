@@ -33,7 +33,7 @@ namespace w
             Referenced(),
             URL_(URL),
             port_(port),
-            response_(ReferencedPointer<Response>(new Response))
+            response_(ReferencedPointer<Response>(new Response()))
         {
         }
 
@@ -43,6 +43,7 @@ namespace w
 
         void Request::send()
         {
+            start();
         }
 
         void Request::addRawHeader(std::string const& key, std::string const& value)
@@ -53,6 +54,12 @@ namespace w
         ReferencedPointer<Response> Request::response()
         {
             return response_;
+        }
+
+        void Request::threadFunction()
+        {
+            // todo, curl commands
+
         }
     }
 }

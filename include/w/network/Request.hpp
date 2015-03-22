@@ -29,13 +29,14 @@
 #include "w/base/Referenced.hpp"
 #include "w/network/Response.hpp"
 #include "w/base/ReferencedPointer.hpp"
+#include "w/base/Thread.hpp"
 #include <string>
 
 namespace w
 {
     namespace network
     {
-        class Request: public Referenced
+        class Request: public Referenced, public Thread
         {
         public:
             /**
@@ -46,6 +47,7 @@ namespace w
             void send();
             void addRawHeader(std::string const& key, std::string const& value);
             ReferencedPointer<Response> response();
+            void threadFunction();
 
         private:
             std::string URL_;

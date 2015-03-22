@@ -35,6 +35,8 @@ namespace w
         class Response: public Referenced
         {
         public:
+            sigc::signal<void> finished;
+
             Response();
             ~Response();
         };
