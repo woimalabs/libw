@@ -172,7 +172,7 @@ namespace w
                 r = true;
                 AAsset_close(asset);
             }
-        #else
+        #elif __linux__
             // TODO: this is now bit heavy, file opening can be polished away
             std::string fullName;
             fullName += singleton_->basePath_;
@@ -182,7 +182,15 @@ namespace w
             if(file)
             {
                 r = true;
-                fclose(file);
+            }
+        #elif __APPLE__
+            NSBundle *b = [NSBundle mainBundle];
+            NSString *dir = [b resourcePath];
+            std::string tmp = "/" + filename;
+            NSString* fileAndPath = [dir stringByAppendingPathComponent:@(tmp.c_str())];
+            if([[NSFileManager defaultManager] fileExistsAtPath: fileAndPath])
+            {
+                r = true;
             }
         #endif
 

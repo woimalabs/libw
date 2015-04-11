@@ -57,7 +57,14 @@ namespace w
         TextureAsset::TextureAsset(TextureAsset const& r):
             private_(r.private_)
         {
-            private_->increment();
+            if (private_ != NULL)
+            {
+                private_->increment();
+            }
+            else
+            {
+                LOGE("TextureAsset having NULL private, internal ERROR!");
+            }
         }
 
         TextureAsset::~TextureAsset()
@@ -69,8 +76,26 @@ namespace w
         {
             if (this != &r)
             {
-                private_ = r.private_;
-                private_->increment();
+                // If privates differ-> we can decrement our private
+                if (private_ != r.private_)
+                {
+                    if (private_ != NULL)
+                    {
+                        private_->decrement();
+                        private_ = NULL;
+                    }
+                }
+                
+                // Assign r instance if it's other than NULL. NULL is our initial value.
+                if (r.private_ != NULL)
+                {
+                    private_ = r.private_;
+                    private_->increment();
+                }
+                else
+                {
+                    LOGE("TextureAsset having NULL private, internal ERROR!");
+                }
             }
             return *this;
         }
