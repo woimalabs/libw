@@ -322,7 +322,6 @@ namespace w
 
         void RendererPrivate::drawLine(float p0x, float p0y, float p1x, float p1y, const ShaderProgramAsset & shaderProgram)
         {
-            LOG
             std::string tmp("xyz");
             GLint positionXyz = shaderProgram.private_->attribute(tmp);
 

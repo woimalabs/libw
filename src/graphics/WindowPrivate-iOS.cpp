@@ -59,11 +59,13 @@ namespace w
         
         void WindowPrivate::bind()
         {
+            // TODO, does not work as is
+
             // Render to our framebuffer
-            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            //glBindFramebuffer(GL_FRAMEBUFFER, 0);
             
             // Render from lower left to upper right
-            glViewport(0, 0, width_, height_);
+            //glViewport(0, 0, width_, height_);
         }
     }
 }

@@ -99,6 +99,7 @@
 		FB19B9EF18146F36001351D2 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		FB19B9F118146F53001351D2 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		FB19B9F318146F59001351D2 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		FB6AEE441AD954D20034D411 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; name = include; path = ../../include; sourceTree = "<group>"; };
 		FB852F0517F0D77200B15B66 /* sigc.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = sigc.xcodeproj; path = ../../../libsigcpp/ios/sigc/sigc.xcodeproj; sourceTree = "<group>"; };
 		FBB114F317EF2A8300E913BA /* libw.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libw.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBB114F617EF2A8300E913BA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -185,6 +186,7 @@
 		FBB114EA17EF2A8300E913BA = {
 			isa = PBXGroup;
 			children = (
+				FB6AEE441AD954D20034D411 /* include */,
 				FBF866F21AC80D57001C29F6 /* src */,
 				FBB114F517EF2A8300E913BA /* Frameworks */,
 				FBB114F417EF2A8300E913BA /* Products */,
