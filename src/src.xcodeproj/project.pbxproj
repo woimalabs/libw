@@ -1,0 +1,152 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		FB2DDB811AC7FF3700C7EA41 /* .DS_Store */ = {isa = PBXFileReference; lastKnownFileType = file; path = .DS_Store; sourceTree = "<group>"; };
+		FB2DDB821AC7FF3700C7EA41 /* animation */ = {isa = PBXFileReference; lastKnownFileType = folder; path = animation; sourceTree = "<group>"; };
+		FB2DDB831AC7FF3700C7EA41 /* base */ = {isa = PBXFileReference; lastKnownFileType = folder; path = base; sourceTree = "<group>"; };
+		FB2DDB841AC7FF3700C7EA41 /* events */ = {isa = PBXFileReference; lastKnownFileType = folder; path = events; sourceTree = "<group>"; };
+		FB2DDB851AC7FF3700C7EA41 /* graphics */ = {isa = PBXFileReference; lastKnownFileType = folder; path = graphics; sourceTree = "<group>"; };
+		FB2DDB861AC7FF3700C7EA41 /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
+		FB2DDB871AC7FF3700C7EA41 /* network */ = {isa = PBXFileReference; lastKnownFileType = folder; path = network; sourceTree = "<group>"; };
+		FB2DDB881AC7FF3700C7EA41 /* scene */ = {isa = PBXFileReference; lastKnownFileType = folder; path = scene; sourceTree = "<group>"; };
+		FB2DDB891AC7FF3700C7EA41 /* storage */ = {isa = PBXFileReference; lastKnownFileType = folder; path = storage; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		FB2DDB7B1AC7FF3700C7EA41 = {
+			isa = PBXGroup;
+			children = (
+				FB2DDB811AC7FF3700C7EA41 /* .DS_Store */,
+				FB2DDB821AC7FF3700C7EA41 /* animation */,
+				FB2DDB831AC7FF3700C7EA41 /* base */,
+				FB2DDB841AC7FF3700C7EA41 /* events */,
+				FB2DDB851AC7FF3700C7EA41 /* graphics */,
+				FB2DDB861AC7FF3700C7EA41 /* Makefile.am */,
+				FB2DDB871AC7FF3700C7EA41 /* network */,
+				FB2DDB881AC7FF3700C7EA41 /* scene */,
+				FB2DDB891AC7FF3700C7EA41 /* storage */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		FB2DDB801AC7FF3700C7EA41 /* src */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = FB2DDB8A1AC7FF3700C7EA41 /* Build configuration list for PBXLegacyTarget "src" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "/Users/anttipe/sorsa/world-meta/libw/src";
+			dependencies = (
+			);
+			name = src;
+			passBuildSettingsInEnvironment = 1;
+			productName = src;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		FB2DDB7C1AC7FF3700C7EA41 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+			};
+			buildConfigurationList = FB2DDB7F1AC7FF3700C7EA41 /* Build configuration list for PBXProject "src" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = FB2DDB7B1AC7FF3700C7EA41;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FB2DDB801AC7FF3700C7EA41 /* src */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		FB2DDB7D1AC7FF3700C7EA41 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		FB2DDB7E1AC7FF3700C7EA41 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+		FB2DDB8B1AC7FF3700C7EA41 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = src;
+			};
+			name = Debug;
+		};
+		FB2DDB8C1AC7FF3700C7EA41 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = src;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FB2DDB7F1AC7FF3700C7EA41 /* Build configuration list for PBXProject "src" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB2DDB7D1AC7FF3700C7EA41 /* Debug */,
+				FB2DDB7E1AC7FF3700C7EA41 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FB2DDB8A1AC7FF3700C7EA41 /* Build configuration list for PBXLegacyTarget "src" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FB2DDB8B1AC7FF3700C7EA41 /* Debug */,
+				FB2DDB8C1AC7FF3700C7EA41 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FB2DDB7C1AC7FF3700C7EA41 /* Project object */;
+}

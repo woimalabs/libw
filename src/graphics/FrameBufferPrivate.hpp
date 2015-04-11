@@ -30,9 +30,11 @@
 #include "w/base/Class.hpp"
 #include "w/base/Referenced.hpp"
 #include "w/math/Eigen.hpp"
-#ifdef linux
+#ifdef linux // and android
     #include <GLES2/gl2.h>
     #include <GLES2/gl2ext.h>
+#else // APPLE
+    #include <OpenGLES/ES2/gl.h>
 #endif
 
 namespace w

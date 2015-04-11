@@ -56,5 +56,14 @@ namespace w
         void WindowPrivate::swapBuffers()
         {
         }
+        
+        void WindowPrivate::bind()
+        {
+            // Render to our framebuffer
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            
+            // Render from lower left to upper right
+            glViewport(0, 0, width_, height_);
+        }
     }
 }
