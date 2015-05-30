@@ -27,6 +27,8 @@
 #define LIBW_RESOURCEMANAGER
 
 #include <w/base/Class.hpp>
+#include <w/base/ReferencedPointer.hpp>
+#include <w/base/FileHandle.hpp>
 #include <string>
 #ifdef ANDROID
     #include <jni.h>
@@ -51,6 +53,7 @@ namespace w
 #endif
         virtual ~ResourceManager();
         static bool exists(const std::string& filename);
+        static ReferencedPointer<FileHandle> file(const std::string& filename);
 
     private:
         class ResourceManagerPrivate* private_;

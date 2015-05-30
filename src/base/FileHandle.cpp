@@ -32,6 +32,8 @@
 
 namespace w
 {
+    unsigned int FileHandle::openFileHandles_ = 0;
+
     #ifdef ANDROID
         FileHandle::FileHandle(const std::string& filename, AAssetManager* androidAssetManager):
     #else // linux
@@ -61,22 +63,23 @@ namespace w
             file_ = AAssetManager_open(androidAssetManager_, filename_.c_str(), AASSET_MODE_STREAMING);
             if (file_ == NULL)
             {
-                LOGE("Failed to load filename: %s", filename_.c_str());
-                throw Exception("FileResource::open() failed");
+                LOGE("Failed to load filename: '%s', Open file handles currently: %d", filename_.c_str(), openFileHandles_);
+                throw Exception("FileHandle::open() failed");
             }
             byteSize_ = AAsset_getLength(file_);
         #else // Linux
             file_ = fopen(filename_.c_str(), "rb");
             if (file_ == NULL)
             {
-                LOGE("Failed to load filename: %s", filename_.c_str());
-                throw Exception("FileResource::open() failed");
+                LOGE("Failed to load filename: '%s', Open file handles currently: %d", filename_.c_str(), openFileHandles_);
+                throw Exception("FileHandle::open() failed");
             }
 
             fseek(file_, 0, SEEK_END);
             byteSize_ = ftell(file_);
             rewind (file_);
         #endif
+        openFileHandles_++;
     }
 
     unsigned int FileHandle::read(char* targetBuffer, unsigned int byteAmountToRead)
@@ -132,5 +135,6 @@ namespace w
         #else // linux
             fclose(file_);
         #endif
+        openFileHandles_--;
     }
 }

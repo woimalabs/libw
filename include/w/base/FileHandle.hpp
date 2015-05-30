@@ -26,6 +26,7 @@
 #ifndef LIBW_FILEHANDLE
 #define LIBW_FILEHANDLE
 
+#include "w/base/Referenced.hpp"
 #include "w/base/Exception.hpp"
 #include <stdio.h>
 #include <unistd.h>
@@ -39,7 +40,7 @@
 
 namespace w
 {
-    class FileHandle
+    class FileHandle: public Referenced
     {
     public:
         ~FileHandle();
@@ -54,6 +55,7 @@ namespace w
 
     private:
         friend class ResourceManagerPrivate;
+        static unsigned int openFileHandles_;
 
         void open();
         void close();
