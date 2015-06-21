@@ -1,7 +1,7 @@
 /**
  * libw
  *
- * Copyright (C) 2013 Woima Solutions
+ * Copyright (C) 2013-2015 Woima Solutions
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
@@ -23,46 +23,38 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_GRAPHICS_WINDOW
-#define LIBW_GRAPHICS_WINDOW
+#ifndef LIBW_GRAPHICS_BITMAP
+#define LIBW_GRAPHICS_BITMAP
 
 #include "w/base/Class.hpp"
+#include "w/base/ReferencedPointer.hpp"
 #include "w/math/Eigen.hpp"
-#include "w/graphics/Bitmap.hpp"
-#include <string>
-#if defined(linux) && !defined(__ANDROID__)
-    #include <EGL/egl.h>
-    #include <GLES2/gl2.h>
-    #include <GLES2/gl2ext.h>
-#endif
 
 namespace w
 {
     namespace graphics
     {
-        class Window
+        class Bitmap: public ReferencedPointer<class BitmapPrivate>
         {
         public:
-            COPYABLE(Window)
+            COPYABLE(Bitmap)
 
-            Window(const std::string& name, unsigned int x, unsigned int y, const Eigen::Vector4f& clearColor);
-            ~Window();
-            unsigned int width() const;
-            unsigned int height() const;
-            void setClearColor(const Eigen::Vector4f& clearColor);
-            void clearBuffer();
-            void swapBuffers();
-            void resize(unsigned int width, unsigned int height);
-            void bind();
+            struct Format
+            {
+                enum Enum
+                {
+                    LUMINANCE_8,
+                    RGB_888,
+                    RGBA_8888
+                };
+            };
 
-            #if defined(linux) && !defined(__ANDROID__)
-                Display* xDisplay() const;
-            #endif
-
-            Bitmap screenshot();
-
-        private:
-            class WindowPrivate* private_;
+            /**
+             * Bitmap object to hold raw data
+             */
+            Bitmap(unsigned int width, unsigned int height, Format::Enum format);
+            ~Bitmap();
+            char* data();
         };
     }
 }

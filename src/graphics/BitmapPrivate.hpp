@@ -1,7 +1,7 @@
 /**
  * libw
  *
- * Copyright (C) 2013 Woima Solutions
+ * Copyright (C) 2013-2015 Woima Solutions
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
@@ -23,46 +23,32 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifndef LIBW_GRAPHICS_WINDOW
-#define LIBW_GRAPHICS_WINDOW
+#ifndef LIBW_GRAPHICS_BITMAPPRIVATE
+#define LIBW_GRAPHICS_BITMAPPRIVATE
 
-#include "w/base/Class.hpp"
-#include "w/math/Eigen.hpp"
 #include "w/graphics/Bitmap.hpp"
-#include <string>
-#if defined(linux) && !defined(__ANDROID__)
-    #include <EGL/egl.h>
-    #include <GLES2/gl2.h>
-    #include <GLES2/gl2ext.h>
-#endif
+#include "w/base/Class.hpp"
+#include "w/base/Referenced.hpp"
+#include "w/math/Eigen.hpp"
 
 namespace w
 {
     namespace graphics
     {
-        class Window
+        class BitmapPrivate: public Referenced
         {
         public:
-            COPYABLE(Window)
+            UNCOPYABLE(BitmapPrivate)
 
-            Window(const std::string& name, unsigned int x, unsigned int y, const Eigen::Vector4f& clearColor);
-            ~Window();
-            unsigned int width() const;
-            unsigned int height() const;
-            void setClearColor(const Eigen::Vector4f& clearColor);
-            void clearBuffer();
-            void swapBuffers();
-            void resize(unsigned int width, unsigned int height);
-            void bind();
-
-            #if defined(linux) && !defined(__ANDROID__)
-                Display* xDisplay() const;
-            #endif
-
-            Bitmap screenshot();
+            BitmapPrivate(unsigned int width, unsigned int height, Bitmap::Format::Enum format);
+            ~BitmapPrivate();
+            char* data();
 
         private:
-            class WindowPrivate* private_;
+            unsigned int width_;
+            unsigned int height_;
+            Bitmap::Format::Enum format_;
+            char* data_;
         };
     }
 }

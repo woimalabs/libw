@@ -107,13 +107,24 @@ namespace w
 
         NodePrivate::~NodePrivate()
         {
-            LOCK_(mutexStructure_);
-            for (std::list<NodePrivate*>::iterator i = children_.begin(); i != children_.end(); i++)
             {
-                NodePrivate* tmp = *i;
-                tmp->parent_ = NULL;
-                tmp->decrement();
-                tmp = NULL;
+                LOCK_(mutexStructure_);
+                for (std::list<NodePrivate*>::iterator i = children_.begin(); i != children_.end(); i++)
+                {
+                    NodePrivate* tmp = *i;
+                    tmp->parent_ = NULL;
+                    tmp->decrement();
+                    tmp = NULL;
+                }
+            }
+
+            {
+                LOCK_(mutexComponents_);
+                while(components_.size() > 0)
+                {
+                    LOGD("remov com");
+                    components_.erase(components_.begin());
+                }
             }
         }
 

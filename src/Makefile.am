@@ -25,6 +25,8 @@ libw_la_SOURCES = \
 	graphics/Renderer.cpp \
 	graphics/RendererPrivate-GLES2.cpp \
 	graphics/Aabb.cpp \
+	graphics/Bitmap.cpp \
+	graphics/BitmapPrivate.cpp \
 	scene/Component.cpp \
 	scene/NodePrivate.cpp \
 	scene/Node.cpp \
@@ -81,7 +83,8 @@ library_graphics_include_HEADERS = \
 	../include/w/graphics/Stride.hpp \
 	../include/w/graphics/Aabb.hpp \
 	../include/w/graphics/Plane.hpp \
-	../include/w/graphics/Distance.hpp
+	../include/w/graphics/Distance.hpp \
+	../include/w/graphics/Bitmap.hpp
 
 library_scene_includedir = $(includedir)/w/scene
 library_scene_include_HEADERS = \

@@ -101,5 +101,10 @@ namespace w
                 return private_->xDisplay();
             }
         #endif
+
+        Bitmap Window::screenshot()
+        {
+            return private_->screenshot();
+        }
     }
 }

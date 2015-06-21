@@ -23,6 +23,7 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
+#include "w/graphics/Bitmap.hpp"
 #include "w/base/Class.hpp"
 #include "w/base/Referenced.hpp"
 #include "w/base/Log.hpp"
@@ -61,6 +62,8 @@ namespace w
             {
                 clearColor_ = clearColor;
             }
+
+            Bitmap screenshot();
 
             void clearBuffer();
             void swapBuffers();
