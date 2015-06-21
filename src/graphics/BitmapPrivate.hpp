@@ -43,6 +43,8 @@ namespace w
             BitmapPrivate(unsigned int width, unsigned int height, Bitmap::Format::Enum format);
             ~BitmapPrivate();
             char* data();
+            unsigned int width();
+            unsigned int height();
 
         private:
             unsigned int width_;

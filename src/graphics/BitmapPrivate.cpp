@@ -68,5 +68,15 @@ namespace w
         {
             return data_;
         }
+        
+        unsigned int BitmapPrivate::width()
+        {
+            return width_;
+        }
+        
+        unsigned int BitmapPrivate::height()
+        {
+            return height_;
+        }
     }
 }

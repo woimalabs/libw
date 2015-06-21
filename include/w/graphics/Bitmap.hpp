@@ -54,6 +54,8 @@ namespace w
              */
             Bitmap(unsigned int width, unsigned int height, Format::Enum format);
             ~Bitmap();
+            unsigned int width();
+            unsigned int height();
             char* data();
         };
     }

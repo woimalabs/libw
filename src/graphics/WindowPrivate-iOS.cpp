@@ -67,5 +67,12 @@ namespace w
             // Render from lower left to upper right
             //glViewport(0, 0, width_, height_);
         }
+        
+        Bitmap WindowPrivate::screenshot()
+        {
+            Bitmap r(width_, height_, Bitmap::Format::RGBA_8888);
+            glReadPixels(0, 0, width_, height_, GL_RGBA, GL_UNSIGNED_BYTE, r.data());
+            return r;
+        }
     }
 }

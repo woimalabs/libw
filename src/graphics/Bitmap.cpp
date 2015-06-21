@@ -38,6 +38,16 @@ namespace w
         Bitmap::~Bitmap()
         {
         }
+        
+        unsigned int Bitmap::width()
+        {
+            return pointer()->width();
+        }
+        
+        unsigned int Bitmap::height()
+        {
+            return pointer()->height();
+        }
 
         char* Bitmap::data()
         {
