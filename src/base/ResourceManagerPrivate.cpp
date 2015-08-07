@@ -24,7 +24,6 @@
  */
 
 #include "w/base/ResourceManagerPrivate.hpp"
-#include "w/base/File.hpp"
 #include "w/base/Lock.hpp"
 #include <w/base/Exception.hpp>
 #include <w/base/Log.hpp>

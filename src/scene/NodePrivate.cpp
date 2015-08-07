@@ -122,7 +122,6 @@ namespace w
                 LOCK_(mutexComponents_);
                 while(components_.size() > 0)
                 {
-                    LOGD("remov com");
                     components_.erase(components_.begin());
                 }
             }

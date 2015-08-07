@@ -43,8 +43,24 @@ namespace w
     class FileHandle: public Referenced
     {
     public:
+        struct Type
+        {
+            enum Enum
+            {
+                ReadOnly_ExceptionIfNotExisting = 1 >> 0,
+                WriteOnly_DestroyOldContent_CreateNewIfNotExist = 1 >> 1
+            };
+        };
+
+        #ifdef ANDROID
+            FileHandle(const std::string& filename, Type::Enum type = Type::ReadOnly_ExceptionIfNotExisting, AAssetManager* androidAssetManager);
+        #else // linux or iOS
+            FileHandle(const std::string& filename, Type::Enum type = Type::ReadOnly_ExceptionIfNotExisting);
+        #endif
+
         ~FileHandle();
         unsigned int read(char* targetBuffer, unsigned int byteAmountToRead);
+        unsigned int write(const char* sourceBuffer, unsigned int byteAmountToWrite);
         std::string filename();
         unsigned int byteSize();
         #ifdef ANDROID
@@ -52,10 +68,11 @@ namespace w
         #else // linux or iOS
             FILE* pointer();
         #endif
+        static bool exists(const std::string & fullPath);
 
     private:
-        friend class ResourceManagerPrivate;
         static unsigned int openFileHandles_;
+        Type::Enum type_;
 
         void open();
         void close();
@@ -63,11 +80,9 @@ namespace w
         unsigned int currentReadIndex_;
         unsigned int byteSize_;
         #ifdef ANDROID
-            FileHandle(const std::string& filename, AAssetManager* androidAssetManager);
             AAssetManager* androidAssetManager_;
             AAsset* file_;
         #else // linux or iOS
-            FileHandle(const std::string& filename);
             FILE *file_;
         #endif
     };

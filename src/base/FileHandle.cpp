@@ -35,10 +35,11 @@ namespace w
     unsigned int FileHandle::openFileHandles_ = 0;
 
     #ifdef ANDROID
-        FileHandle::FileHandle(const std::string& filename, AAssetManager* androidAssetManager):
+        FileHandle::FileHandle(const std::string& filename, Type::Enum type, AAssetManager* androidAssetManager):
     #else // linux
-        FileHandle::FileHandle(const std::string& filename):
+        FileHandle::FileHandle(const std::string& filename, Type::Enum type):
     #endif
+        type_(type),
         filename_(filename),
         currentReadIndex_(0),
         #ifdef ANDROID
@@ -68,9 +69,20 @@ namespace w
             }
             byteSize_ = AAsset_getLength(file_);
         #else // Linux
-            file_ = fopen(filename_.c_str(), "rb");
+            char* tmp = NULL;
+            if(type_ & Type::ReadOnly_ExceptionIfNotExisting)
+            {
+                tmp = "r";
+            }
+            else if(type_ == Type::WriteOnly_DestroyOldContent_CreateNewIfNotExist)
+            {
+                tmp = "w";
+            }
+            LOGD("opening file: file handles: %d", openFileHandles_);
+            file_ = fopen(filename_.c_str(), tmp);
             if (file_ == NULL)
             {
+                perror(filename_.c_str());
                 LOGE("Failed to load filename: '%s', Open file handles currently: %d", filename_.c_str(), openFileHandles_);
                 throw Exception("FileHandle::open() failed");
             }
@@ -106,6 +118,11 @@ namespace w
         return bytesRead;
     }
 
+    unsigned int FileHandle::write(const char* sourceBuffer, unsigned int byteAmountToWrite)
+    {
+        return fwrite(sourceBuffer, byteAmountToWrite, 1, file_);
+    }
+
     std::string FileHandle::filename()
     {
         return filename_;
@@ -128,13 +145,25 @@ namespace w
     }
 #endif
 
+    bool FileHandle::exists(const std::string& fullPath)
+    {
+        bool r = false;
+        if(access(fullPath.c_str(), F_OK) != -1)
+        {
+            r = true;
+        }
+        return r;
+    }
+
     void FileHandle::close()
     {
         #ifdef ANDROID
             AAsset_close(file_);
         #else // linux
             fclose(file_);
+            LOGD("closing file: file handles: %d", openFileHandles_);
         #endif
+        file_ = NULL;
         openFileHandles_--;
     }
 }
