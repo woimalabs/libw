@@ -181,6 +181,7 @@ namespace w
             if(file)
             {
                 r = true;
+                fclose(file);
             }
         #elif __APPLE__
             NSBundle *b = [NSBundle mainBundle];
