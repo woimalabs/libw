@@ -25,9 +25,9 @@
 
 #include "ShaderProgramAssetPrivate.hpp"
 #include "w/base/FileHandle.hpp"
-#include "w/base/ResourceManagerPrivate.hpp"
-#include "w/base/Log.hpp"
 #include "w/base/UniquePointer.hpp"
+#include "w/base/ResourceManager.hpp"
+#include "w/base/Log.hpp"
 #include <w/math/Eigen.hpp>
 
 namespace w
@@ -47,14 +47,14 @@ namespace w
             programId_(0)
         {
             // Vertex
-            UniquePointer<FileHandle> vertexFileHandle(ResourceManagerPrivate::getFileHandle(vertexShaderFilename));
+            ReferencedPointer<FileHandle> vertexFileHandle(ResourceManager::file(vertexShaderFilename));
             unsigned int vertexSourceLength = vertexFileHandle.pointer()->byteSize();
             UniquePointer<char> vertexSourceBuffer(new char[vertexSourceLength +1], true);
             vertexFileHandle.pointer()->read(vertexSourceBuffer.pointer(), vertexSourceLength);
             vertexSourceBuffer.pointer()[vertexSourceLength] = 0;
 
             // Fragment
-            UniquePointer<FileHandle> fragmentFileHandle(ResourceManagerPrivate::getFileHandle(fragmentShaderFilename));
+            ReferencedPointer<FileHandle> fragmentFileHandle(ResourceManager::file(fragmentShaderFilename));
             unsigned int fragmentSourceLength = fragmentFileHandle.pointer()->byteSize();
             UniquePointer<char> fragmentSourceBuffer(new char[fragmentSourceLength +1], true);
             fragmentFileHandle.pointer()->read(fragmentSourceBuffer.pointer(), fragmentSourceLength);

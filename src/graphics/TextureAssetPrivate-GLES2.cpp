@@ -27,7 +27,7 @@
 #include "w/base/UniquePointer.hpp"
 #include <w/base/Log.hpp>
 #include <w/base/Exception.hpp>
-#include <w/base/ResourceManagerPrivate.hpp>
+#include <w/base/ResourceManager.hpp>
 #include <w/math/Math.hpp>
 #include <memory>
 
@@ -108,7 +108,7 @@ namespace w
             }
 
             // Start reading the file
-            UniquePointer<FileHandle> fileHandle(ResourceManagerPrivate::getFileHandle(filename()));
+            ReferencedPointer<FileHandle> fileHandle(ResourceManager::file(filename()));
 
             // Read the image header and data
             png_set_read_fn(png, reinterpret_cast<void*>(fileHandle.pointer()), read);

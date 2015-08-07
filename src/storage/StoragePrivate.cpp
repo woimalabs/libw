@@ -27,7 +27,8 @@
 #include <w/base/String.hpp>
 #include <w/base/System.hpp>
 //#include <w/base/File.hpp>
-#include <w/base/FileHandle.hpp>
+//#include <w/base/FileHandle.hpp>
+#include <w/base/ResourceManager.hpp>
 #ifdef __APPLE__
     #import <Foundation/Foundation.h>
 #endif
@@ -182,35 +183,24 @@ namespace w
 
     void StoragePrivate::loadFile(char** target, unsigned int& length)
     {
-        // File file(filePath());
-
-        if(FileHandle::exists(filePath()))
-        {
-            FileHandle tmp(filePath(), FileHandle::Type::ReadOnly_ExceptionIfNotExisting);
-            length = tmp.byteSize();
-            *target = new char[length];
-            length = tmp.read(*target, length);
-        }
-        else
-        {
-            LOGI("No storage file. Creating storage when set() is called.");
-        }
+        LOGI("loading storage file: %s", filePath().c_str());
+        ReferencedPointer<FileHandle> tmp = ResourceManager::file(filePath(), FileHandle::Type::ReadOnly_CreateIfNotExisting);
+        length = tmp.pointer()->byteSize();
+        *target = new char[length];
+        length = tmp.pointer()->read(*target, length);
     }
 
     void StoragePrivate::saveFile(char const* source, unsigned int length)
     {
-        if(FileHandle::exists(filePath()))
+        if(ResourceManager::exists(filePath()))
         {
-            FileHandle tmp(filePath(), FileHandle::Type::WriteOnly_DestroyOldContent_CreateNewIfNotExist);
-            tmp.write(source, length);
+            ReferencedPointer<FileHandle> tmp = ResourceManager::file(filePath(), FileHandle::Type::WriteOnly_DestroyOldContent_CreateNewIfNotExisting);
+            tmp.pointer()->write(source, length);
         }
         else
         {
             LOGI("No storage file, unable to save!");
         }
-
-        //File file(filePath());
-        //file.write(source, length);
     }
 
     void StoragePrivate::load()
@@ -309,7 +299,7 @@ namespace w
         const char* path = [docsDirectory UTF8String];
         r = std::string(path) + std::string("/") + id_;
 #elif __linux__
-        r = System::home() + std::string("/") + id_;
+        r = id_;
 #endif
         return r;
     }

@@ -68,9 +68,9 @@ namespace w
         return *this;
     }
 
-    ReferencedPointer<FileHandle> ResourceManager::file(const std::string& filename)
+    ReferencedPointer<FileHandle> ResourceManager::file(const std::string& filename, FileHandle::Type::Enum openType)
     {
-        return ReferencedPointer<FileHandle>(ResourceManagerPrivate::getFileHandle(filename));
+        return ReferencedPointer<FileHandle>(ResourceManagerPrivate::getFileHandle(filename, openType));
     }
 
     bool ResourceManager::exists(const std::string& filename)

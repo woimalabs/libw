@@ -130,12 +130,12 @@ namespace w
         }
     }
 
-    FileHandle* ResourceManagerPrivate::getFileHandle(const std::string& filename)
+    FileHandle* ResourceManagerPrivate::getFileHandle(const std::string& filename, FileHandle::Type::Enum openType)
     {
         #ifdef ANDROID
-            return new FileHandle(filename, androidAssetManager_);
+            return new FileHandle(filename, openType, androidAssetManager_);
         #elif __linux__
-            return new FileHandle(singleton_->basePath_ + "/" + filename);
+            return new FileHandle(singleton_->basePath_ + "/" + filename, openType);
         #elif __APPLE__
             NSBundle *b = [NSBundle mainBundle];
             NSString *dir = [b resourcePath];

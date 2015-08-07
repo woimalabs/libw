@@ -32,8 +32,6 @@
 
 namespace w
 {
-    unsigned int FileHandle::openFileHandles_ = 0;
-
     #ifdef ANDROID
         FileHandle::FileHandle(const std::string& filename, Type::Enum type, AAssetManager* androidAssetManager):
     #else // linux
@@ -64,26 +62,50 @@ namespace w
             file_ = AAssetManager_open(androidAssetManager_, filename_.c_str(), AASSET_MODE_STREAMING);
             if (file_ == NULL)
             {
-                LOGE("Failed to load filename: '%s', Open file handles currently: %d", filename_.c_str(), openFileHandles_);
+                LOGE("Failed to load filename: '%s'", filename_.c_str());
                 throw Exception("FileHandle::open() failed");
             }
             byteSize_ = AAsset_getLength(file_);
         #else // Linux
             char* tmp = NULL;
-            if(type_ & Type::ReadOnly_ExceptionIfNotExisting)
+            if(type_ == Type::ReadOnly_ExceptionIfNotExisting)
+            {
+                tmp = "rb";
+            }
+            else if(type_ == Type::ReadOnly_CreateIfNotExisting)
             {
                 tmp = "r";
+                FILE* tmpFile = fopen(filename_.c_str(), tmp);
+                // need to create the file
+                if(tmpFile == NULL)
+                {
+                    tmpFile = fopen(filename_.c_str(), "w+");
+                    if(tmpFile == NULL)
+                    {
+                        perror(filename_.c_str());
+                        LOGE("Failed in creation of filename: '%s'", filename_.c_str());
+                        throw Exception("FileHandle::open() failed");
+                    }
+                    fclose(tmpFile);
+                    LOGI("created a new file: %s", filename_.c_str());
+                }
+                else
+                {
+                    // file existed, close it and open it again with right parameters
+                    fclose(tmpFile);
+                    LOGI("no need to create a new file (file existed): %s", filename_.c_str());
+                }
+                tmp = "rb";
             }
-            else if(type_ == Type::WriteOnly_DestroyOldContent_CreateNewIfNotExist)
+            else if(type_ == Type::WriteOnly_DestroyOldContent_CreateNewIfNotExisting)
             {
-                tmp = "w";
+                tmp = "wb";
             }
-            LOGD("opening file: file handles: %d", openFileHandles_);
             file_ = fopen(filename_.c_str(), tmp);
             if (file_ == NULL)
             {
                 perror(filename_.c_str());
-                LOGE("Failed to load filename: '%s', Open file handles currently: %d", filename_.c_str(), openFileHandles_);
+                LOGE("Failed to load filename: '%s'", filename_.c_str());
                 throw Exception("FileHandle::open() failed");
             }
 
@@ -91,7 +113,6 @@ namespace w
             byteSize_ = ftell(file_);
             rewind (file_);
         #endif
-        openFileHandles_++;
     }
 
     unsigned int FileHandle::read(char* targetBuffer, unsigned int byteAmountToRead)
@@ -161,9 +182,7 @@ namespace w
             AAsset_close(file_);
         #else // linux
             fclose(file_);
-            LOGD("closing file: file handles: %d", openFileHandles_);
         #endif
         file_ = NULL;
-        openFileHandles_--;
     }
 }

@@ -47,16 +47,11 @@ namespace w
         {
             enum Enum
             {
-                ReadOnly_ExceptionIfNotExisting = 1 >> 0,
-                WriteOnly_DestroyOldContent_CreateNewIfNotExist = 1 >> 1
+                ReadOnly_ExceptionIfNotExisting = 1,
+                ReadOnly_CreateIfNotExisting = 2,
+                WriteOnly_DestroyOldContent_CreateNewIfNotExisting = 3
             };
         };
-
-        #ifdef ANDROID
-            FileHandle(const std::string& filename, Type::Enum type = Type::ReadOnly_ExceptionIfNotExisting, AAssetManager* androidAssetManager);
-        #else // linux or iOS
-            FileHandle(const std::string& filename, Type::Enum type = Type::ReadOnly_ExceptionIfNotExisting);
-        #endif
 
         ~FileHandle();
         unsigned int read(char* targetBuffer, unsigned int byteAmountToRead);
@@ -71,7 +66,13 @@ namespace w
         static bool exists(const std::string & fullPath);
 
     private:
-        static unsigned int openFileHandles_;
+        friend class ResourceManagerPrivate;
+        #ifdef ANDROID
+            FileHandle(const std::string& filename, Type::Enum type = Type::ReadOnly_ExceptionIfNotExisting, AAssetManager* androidAssetManager);
+        #else // linux or iOS
+            FileHandle(const std::string& filename, Type::Enum type = Type::ReadOnly_ExceptionIfNotExisting);
+        #endif
+
         Type::Enum type_;
 
         void open();
