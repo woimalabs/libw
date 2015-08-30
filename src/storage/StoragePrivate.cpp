@@ -1,7 +1,7 @@
 /**
  * libw
  *
- * Copyright (C) 2012-2014 Woima Solutions
+ * Copyright (C) 2012-2015 Woima Solutions
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
@@ -26,8 +26,6 @@
 #include "StoragePrivate.hpp"
 #include <w/base/String.hpp>
 #include <w/base/System.hpp>
-//#include <w/base/File.hpp>
-//#include <w/base/FileHandle.hpp>
 #include <w/base/ResourceManager.hpp>
 #ifdef __APPLE__
     #import <Foundation/Foundation.h>
@@ -183,8 +181,8 @@ namespace w
 
     void StoragePrivate::loadFile(char** target, unsigned int& length)
     {
-        LOGI("loading storage file: %s", filePath().c_str());
-        ReferencedPointer<FileHandle> tmp = ResourceManager::file(filePath(), FileHandle::Type::ReadOnly_CreateIfNotExisting);
+        LOGI("loading storage file: <%s>", filePath().c_str());
+        ReferencedPointer<FileHandle> tmp = ResourceManager::dynamicFile(filePath());
         length = tmp.pointer()->byteSize();
         *target = new char[length];
         length = tmp.pointer()->read(*target, length);
@@ -194,7 +192,7 @@ namespace w
     {
         if(ResourceManager::exists(filePath()))
         {
-            ReferencedPointer<FileHandle> tmp = ResourceManager::file(filePath(), FileHandle::Type::WriteOnly_DestroyOldContent_CreateNewIfNotExisting);
+            ReferencedPointer<FileHandle> tmp = ResourceManager::dynamicFile(filePath());
             tmp.pointer()->write(source, length);
         }
         else
@@ -290,18 +288,8 @@ namespace w
 
     std::string StoragePrivate::filePath()
     {
-        std::string r;
-#ifdef __APPLE__
-        // File path
-        // TODO: Check NSArray and NSString-> do they leak here?
-        NSArray* appDocumentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString* docsDirectory = [appDocumentPaths objectAtIndex: 0];
-        const char* path = [docsDirectory UTF8String];
-        r = std::string(path) + std::string("/") + id_;
-#elif __linux__
-        r = id_;
-#endif
-        return r;
+        // id will be the file name
+        return id_;
     }
 
 }

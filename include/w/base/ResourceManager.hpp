@@ -53,8 +53,13 @@ namespace w
 #endif
         virtual ~ResourceManager();
         static bool exists(const std::string& filename);
-        static ReferencedPointer<FileHandle> file(const std::string& filename, FileHandle::Type::Enum openType = FileHandle::Type::ReadOnly_ExceptionIfNotExisting);
-
+        
+        /* fixed bundled resource files of the app */
+        static ReferencedPointer<FileHandle> bundledFile(const std::string& filename);
+        
+        /* stored files of the app */
+        static ReferencedPointer<FileHandle> dynamicFile(const std::string& filename);
+        
     private:
         class ResourceManagerPrivate* private_;
     };

@@ -47,14 +47,14 @@ namespace w
             programId_(0)
         {
             // Vertex
-            ReferencedPointer<FileHandle> vertexFileHandle(ResourceManager::file(vertexShaderFilename));
+            ReferencedPointer<FileHandle> vertexFileHandle(ResourceManager::bundledFile(vertexShaderFilename));
             unsigned int vertexSourceLength = vertexFileHandle.pointer()->byteSize();
             UniquePointer<char> vertexSourceBuffer(new char[vertexSourceLength +1], true);
             vertexFileHandle.pointer()->read(vertexSourceBuffer.pointer(), vertexSourceLength);
             vertexSourceBuffer.pointer()[vertexSourceLength] = 0;
 
             // Fragment
-            ReferencedPointer<FileHandle> fragmentFileHandle(ResourceManager::file(fragmentShaderFilename));
+            ReferencedPointer<FileHandle> fragmentFileHandle(ResourceManager::bundledFile(fragmentShaderFilename));
             unsigned int fragmentSourceLength = fragmentFileHandle.pointer()->byteSize();
             UniquePointer<char> fragmentSourceBuffer(new char[fragmentSourceLength +1], true);
             fragmentFileHandle.pointer()->read(fragmentSourceBuffer.pointer(), fragmentSourceLength);

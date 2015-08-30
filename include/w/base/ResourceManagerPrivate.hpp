@@ -49,7 +49,8 @@ namespace w
         ~ResourceManagerPrivate();
         static Referenced* assetPrivate(const std::string& id);
         static void setAssetPrivate(const std::string& id, Referenced* resource);
-        static FileHandle* getFileHandle(const std::string& filename, FileHandle::Type::Enum openType);
+        static FileHandle* bundledFile(const std::string& filename);
+        static FileHandle* dynamicFile(const std::string& filename);
         #ifdef ANDROID
             static AAssetManager* androidAssetManager();
             static void setAndroidAssetManager(AAssetManager* androidAssetManager);

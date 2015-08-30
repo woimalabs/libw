@@ -74,7 +74,7 @@ namespace w
             key_(key),
             value_(value)
         {
-            LOGD("Creating StorageItem: (%s, %s, %s)", typeToString(type).c_str(), key_.c_str(), value_.c_str());
+            //LOGD("Creating StorageItem: (%s, %s, %s)", typeToString(type).c_str(), key_.c_str(), value_.c_str());
 
             // Check that key is valid
             if(key_.length() < 1)

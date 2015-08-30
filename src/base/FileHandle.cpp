@@ -67,7 +67,7 @@ namespace w
             }
             byteSize_ = AAsset_getLength(file_);
         #else // Linux
-            char* tmp = NULL;
+            const char* tmp = NULL;
             if(type_ == Type::ReadOnly_ExceptionIfNotExisting)
             {
                 tmp = "rb";

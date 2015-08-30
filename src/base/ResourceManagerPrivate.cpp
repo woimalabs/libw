@@ -130,18 +130,38 @@ namespace w
         }
     }
 
-    FileHandle* ResourceManagerPrivate::getFileHandle(const std::string& filename, FileHandle::Type::Enum openType)
+    FileHandle* ResourceManagerPrivate::bundledFile(const std::string& filename)
     {
         #ifdef ANDROID
             return new FileHandle(filename, openType, androidAssetManager_);
         #elif __linux__
-            return new FileHandle(singleton_->basePath_ + "/" + filename, openType);
+            return new FileHandle(singleton_->basePath_ + "/" + filename);
         #elif __APPLE__
-            NSBundle *b = [NSBundle mainBundle];
-            NSString *dir = [b resourcePath];
-            char const* tmp = [dir UTF8String];
-            return new FileHandle(std::string(tmp) + "/" + filename);
+
+                NSBundle *b = [NSBundle mainBundle];
+                NSString *dir = [b resourcePath];
+                char const* tmp = [dir UTF8String];
+                return new FileHandle(std::string(tmp) + "/" + filename);
+
         #endif
+    }
+    
+    FileHandle* ResourceManagerPrivate::dynamicFile(const std::string& filename)
+    {
+#ifdef ANDROID
+        return new FileHandle(filename,
+                              FileHandle::Type::WriteOnly_DestroyOldContent_CreateNewIfNotExisting,
+                              androidAssetManager_);
+#elif __linux__
+        return new FileHandle(singleton_->basePath_ + "/" + filename,
+                              FileHandle::Type::WriteOnly_DestroyOldContent_CreateNewIfNotExisting);
+#elif __APPLE__
+        // TODO: Check NSArray and NSString-> do they leak here?
+        NSArray* appDocumentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString* docsDirectory = [appDocumentPaths objectAtIndex: 0];
+        const char* tmp = [docsDirectory UTF8String];
+        return new FileHandle(std::string(tmp) + "/" + filename);
+#endif
     }
 
     #ifdef ANDROID

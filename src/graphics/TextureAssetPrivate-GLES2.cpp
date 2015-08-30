@@ -108,7 +108,7 @@ namespace w
             }
 
             // Start reading the file
-            ReferencedPointer<FileHandle> fileHandle(ResourceManager::file(filename()));
+            ReferencedPointer<FileHandle> fileHandle(ResourceManager::bundledFile(filename()));
 
             // Read the image header and data
             png_set_read_fn(png, reinterpret_cast<void*>(fileHandle.pointer()), read);
