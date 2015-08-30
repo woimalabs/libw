@@ -133,7 +133,7 @@ namespace w
     FileHandle* ResourceManagerPrivate::bundledFile(const std::string& filename)
     {
         #ifdef ANDROID
-            return new FileHandle(filename, openType, androidAssetManager_);
+            return new FileHandle(filename, androidAssetManager_);
         #elif __linux__
             return new FileHandle(singleton_->basePath_ + "/" + filename);
         #elif __APPLE__
@@ -145,16 +145,19 @@ namespace w
 
         #endif
     }
-    
-    FileHandle* ResourceManagerPrivate::dynamicFile(const std::string& filename)
+
+    FileHandle* ResourceManagerPrivate::dynamicFile(const std::string& filename, bool onlyRead)
     {
 #ifdef ANDROID
         return new FileHandle(filename,
                               FileHandle::Type::WriteOnly_DestroyOldContent_CreateNewIfNotExisting,
                               androidAssetManager_);
 #elif __linux__
-        return new FileHandle(singleton_->basePath_ + "/" + filename,
-                              FileHandle::Type::WriteOnly_DestroyOldContent_CreateNewIfNotExisting);
+        FileHandle::Type::Enum openType = (onlyRead == true) ?
+            FileHandle::Type::ReadOnly_CreateIfNotExisting
+            :
+            FileHandle::Type::WriteOnly_DestroyOldContent_CreateNewIfNotExisting;
+        return new FileHandle(singleton_->basePath_ + "/" + filename, openType);
 #elif __APPLE__
         // TODO: Check NSArray and NSString-> do they leak here?
         NSArray* appDocumentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);

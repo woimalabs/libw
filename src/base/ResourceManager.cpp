@@ -72,12 +72,17 @@ namespace w
     {
         return ReferencedPointer<FileHandle>(ResourceManagerPrivate::bundledFile(filename));
     }
-    
-    ReferencedPointer<FileHandle> ResourceManager::dynamicFile(const std::string& filename)
+
+    ReferencedPointer<FileHandle> ResourceManager::dynamicFileForRead(const std::string& filename)
     {
-        return ReferencedPointer<FileHandle>(ResourceManagerPrivate::dynamicFile(filename));
+        return ReferencedPointer<FileHandle>(ResourceManagerPrivate::dynamicFile(filename, true));
     }
-    
+
+    ReferencedPointer<FileHandle> ResourceManager::dynamicFileForWrite(const std::string& filename)
+    {
+        return ReferencedPointer<FileHandle>(ResourceManagerPrivate::dynamicFile(filename, false));
+    }
+
     bool ResourceManager::exists(const std::string& filename)
     {
         return ResourceManagerPrivate::exists(filename);

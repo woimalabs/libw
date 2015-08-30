@@ -50,7 +50,7 @@ namespace w
         static Referenced* assetPrivate(const std::string& id);
         static void setAssetPrivate(const std::string& id, Referenced* resource);
         static FileHandle* bundledFile(const std::string& filename);
-        static FileHandle* dynamicFile(const std::string& filename);
+        static FileHandle* dynamicFile(const std::string& filename, bool onlyRead);
         #ifdef ANDROID
             static AAssetManager* androidAssetManager();
             static void setAndroidAssetManager(AAssetManager* androidAssetManager);

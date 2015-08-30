@@ -99,6 +99,7 @@ namespace w
             }
             else if(type_ == Type::WriteOnly_DestroyOldContent_CreateNewIfNotExisting)
             {
+                LOGD("dynamic file: %s", filename_.c_str());
                 tmp = "wb";
             }
             file_ = fopen(filename_.c_str(), tmp);

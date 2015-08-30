@@ -182,7 +182,7 @@ namespace w
     void StoragePrivate::loadFile(char** target, unsigned int& length)
     {
         LOGI("loading storage file: <%s>", filePath().c_str());
-        ReferencedPointer<FileHandle> tmp = ResourceManager::dynamicFile(filePath());
+        ReferencedPointer<FileHandle> tmp = ResourceManager::dynamicFileForRead(filePath());
         length = tmp.pointer()->byteSize();
         *target = new char[length];
         length = tmp.pointer()->read(*target, length);
@@ -192,7 +192,7 @@ namespace w
     {
         if(ResourceManager::exists(filePath()))
         {
-            ReferencedPointer<FileHandle> tmp = ResourceManager::dynamicFile(filePath());
+            ReferencedPointer<FileHandle> tmp = ResourceManager::dynamicFileForWrite(filePath());
             tmp.pointer()->write(source, length);
         }
         else
