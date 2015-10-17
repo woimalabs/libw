@@ -210,6 +210,11 @@ namespace w
             }
         }
 
+        bool NodePrivate::hasComponents() const
+        {
+            return children_.size() != 0;
+        }
+        
         void NodePrivate::addChild(NodePrivate* node)
         {
             LOCK_(mutexStructure_);

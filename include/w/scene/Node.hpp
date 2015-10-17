@@ -70,7 +70,8 @@ namespace w
             void removeChildWithComponentId(bool recursive, const std::vector<unsigned int> & ids);
             void removeChildren();
             void addComponent(Component const& component);
-
+            bool hasComponents() const;
+            
             template<class T> void removeComponent()
             {
                 pointer()->removeComponent<T>();

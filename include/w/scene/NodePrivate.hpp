@@ -59,6 +59,7 @@ namespace w
 
             virtual ~NodePrivate();
             void addComponent(Component const& component);
+            bool hasComponents() const;
 
             template<class T> void removeComponent()
             {

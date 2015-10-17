@@ -130,6 +130,11 @@ namespace w
             pointer()->addComponent(component);
         }
 
+        bool Node::hasComponents() const
+        {
+            return pointer()->hasComponents();
+        }
+
         void Node::removeChildWithComponentId(bool recursive, const std::vector<unsigned int> & ids)
         {
             pointer()->removeChildWithComponentId(recursive, ids);
