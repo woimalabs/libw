@@ -212,7 +212,7 @@ namespace w
 
         bool NodePrivate::hasComponents() const
         {
-            return children_.size() != 0;
+            return components_.size() != 0;
         }
         
         void NodePrivate::addChild(NodePrivate* node)
