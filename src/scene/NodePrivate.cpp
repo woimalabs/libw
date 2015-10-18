@@ -191,7 +191,29 @@ namespace w
                 i = children_.erase(i);
             }
         }
-
+        
+        void NodePrivate::removeChildWithId(bool recursive, unsigned int id)
+        {
+            LOCK_(mutexStructure_);
+            
+            for(std::list<NodePrivate*>::iterator i = children_.begin(); i != children_.end();)
+            {
+                NodePrivate* tmp = *i;
+                if(tmp->id() == id)
+                {
+                    tmp->parent_ = NULL;
+                    tmp->decrement();
+                    tmp = NULL;
+                    i = children_.erase(i);
+                }
+                else
+                {
+                    tmp->removeChildWithId(recursive, id);
+                    ++i;
+                }
+            }
+        }
+        
         void NodePrivate::addComponent(Component const& component)
         {
             LOCK_(mutexComponents_);

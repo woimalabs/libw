@@ -99,7 +99,6 @@ namespace w
         {
         }
 
-
         void Node::accept(Visitor& visitor)
         {
             if(visitor.canVisit(*this) == true)
@@ -138,6 +137,11 @@ namespace w
         void Node::removeChildWithComponentId(bool recursive, const std::vector<unsigned int> & ids)
         {
             pointer()->removeChildWithComponentId(recursive, ids);
+        }
+        
+        void Node::removeChildWithId(bool recursive, unsigned int id)
+        {
+            pointer()->removeChildWithId(recursive, id);
         }
 
         void Node::removeChildren()
