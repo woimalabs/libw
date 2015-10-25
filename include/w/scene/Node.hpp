@@ -48,6 +48,8 @@ namespace w
          *
          * TODO: If node is replaced in the tree the old placement
          * disappears _before_ the new placement is done.
+         *
+         *
          */
         class Node: public ReferencedPointer<NodePrivate>
         {
@@ -66,6 +68,7 @@ namespace w
 
             virtual ~Node();
             void accept(Visitor& visitor);
+            bool hasParent() const;
             void addChild(Node const& node);
             void removeChildWithComponentId(bool recursive, const std::vector<unsigned int> & ids);
             void removeChildren();

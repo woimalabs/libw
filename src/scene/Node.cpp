@@ -118,6 +118,11 @@ namespace w
                 visitor.leave(*this);
             }
         }
+        
+        bool Node::hasParent() const
+        {
+            return pointer()->hasParent();
+        }
 
         void Node::addChild(Node const& node)
         {

@@ -237,6 +237,11 @@ namespace w
             return components_.size() != 0;
         }
         
+        bool NodePrivate::hasParent() const
+        {
+            return parent_ != NULL;
+        }
+        
         void NodePrivate::addChild(NodePrivate* node)
         {
             LOCK_(mutexStructure_);

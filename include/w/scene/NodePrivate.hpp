@@ -130,6 +130,7 @@ namespace w
                 return false;
             }
 
+            bool hasParent() const;
             void addChild(NodePrivate* node);
             void removeChildWithComponentId(bool recursive, const std::vector<unsigned int> & ids);
             bool hasComponentWithId(const std::vector<unsigned int> & ids);
