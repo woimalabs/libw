@@ -130,4 +130,13 @@ namespace w
         }
         return singleton_->getString(id, defaultValue);
     }
+    
+    void Storage::remove(const std::string &key)
+    {
+        if (singleton_ == NULL)
+        {
+            throw Exception("Create Storage singleton!");
+        }
+        singleton_->remove(key);
+    }
 }

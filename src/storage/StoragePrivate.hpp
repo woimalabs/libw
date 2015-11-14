@@ -50,6 +50,7 @@ namespace w
         void setString(const std::string& key, const std::string& value);
         std::string getString(const std::string& key);
         std::string getString(const std::string& key, const std::string& defaultValue);
+        void remove(const std::string& key);
         void load();
         void save();
 

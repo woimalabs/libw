@@ -179,6 +179,19 @@ namespace w
         return StoragePrivate::getString(key);
     }
 
+    void StoragePrivate::remove(const std::string &key)
+    {
+        for(std::list<StorageItem*>::iterator i = list_.begin(); i != list_.end(); ++i)
+        {
+            StorageItem* item = *i;
+            if(item->key().compare(key) == 0)
+            {
+                list_.erase(i);
+                break;
+            }
+        }
+    }
+    
     void StoragePrivate::loadFile(char** target, unsigned int& length)
     {
         LOGI("loading storage file: <%s>", filePath().c_str());

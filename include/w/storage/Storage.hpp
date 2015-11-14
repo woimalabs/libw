@@ -105,6 +105,13 @@ namespace w
          * @return                      Value of the key.
          */
         static std::string getString(const std::string& key, const std::string& defaultValue);
+        
+        /**
+         * Removed item with given key. If key does not exist - nothing is done.
+         *
+         * @param [in]  key             Key to get.
+         */
+        static void remove(const std::string& key);
 
     private:
         static class StoragePrivate* singleton_;
