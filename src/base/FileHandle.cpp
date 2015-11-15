@@ -66,7 +66,7 @@ namespace w
                 throw Exception("FileHandle::open() failed");
             }
             byteSize_ = AAsset_getLength(file_);
-        #else // Linux
+        #else // iOS and Linux
             const char* tmp = NULL;
             if(type_ == Type::ReadOnly_ExceptionIfNotExisting)
             {
@@ -74,33 +74,12 @@ namespace w
             }
             else if(type_ == Type::ReadOnly_CreateIfNotExisting)
             {
-                tmp = "r";
-                FILE* tmpFile = fopen(filename_.c_str(), tmp);
-                // need to create the file
-                if(tmpFile == NULL)
-                {
-                    tmpFile = fopen(filename_.c_str(), "w+");
-                    if(tmpFile == NULL)
-                    {
-                        perror(filename_.c_str());
-                        LOGE("Failed in creation of filename: '%s'", filename_.c_str());
-                        throw Exception("FileHandle::open() failed");
-                    }
-                    fclose(tmpFile);
-                    LOGI("created a new file: %s", filename_.c_str());
-                }
-                else
-                {
-                    // file existed, close it and open it again with right parameters
-                    fclose(tmpFile);
-                    LOGI("no need to create a new file (file existed): %s", filename_.c_str());
-                }
                 tmp = "rb";
             }
             else if(type_ == Type::WriteOnly_DestroyOldContent_CreateNewIfNotExisting)
             {
                 LOGD("dynamic file: %s", filename_.c_str());
-                tmp = "wb";
+                tmp = "wb+";
             }
             file_ = fopen(filename_.c_str(), tmp);
             if (file_ == NULL)
@@ -112,7 +91,7 @@ namespace w
 
             fseek(file_, 0, SEEK_END);
             byteSize_ = ftell(file_);
-            rewind (file_);
+            fseek(file_, 0, SEEK_SET); //rewind (file_);
         #endif
     }
 
@@ -125,7 +104,7 @@ namespace w
             #ifdef ANDROID
                 unsigned int readAmount = AAsset_read(file_, targetBuffer, bytesToBeRead);
             #else // linux
-                size_t readAmount = fread(targetBuffer, 1, bytesToBeRead, file_);
+                size_t readAmount = fread(targetBuffer, sizeof(char), bytesToBeRead, file_);
             #endif
 
             bytesRead += readAmount;

@@ -129,7 +129,7 @@ namespace w
             r += StorageItemConst::Delimiter;
             r += value();
 
-            LOGD("StorageItem::serialized value: %s", value().c_str());
+            //LOGD("StorageItem::serialized value: %s", value().c_str());
 
             return r;
         }
@@ -137,7 +137,7 @@ namespace w
         static StorageItem* deserialize(const std::string& itemData)
         {
             StorageItem* r = 0;
-            LOGD("StorageItem::deserialize: <%s>", itemData.c_str());
+            //LOGD("StorageItem::deserialize: <%s>", itemData.c_str());
 
             // Check type
             std::string tmpInt = itemData.substr(0, StorageItemConst::Int.size());
