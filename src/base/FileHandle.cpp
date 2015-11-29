@@ -91,7 +91,7 @@ namespace w
 
             fseek(file_, 0, SEEK_END);
             byteSize_ = ftell(file_);
-            fseek(file_, 0, SEEK_SET); //rewind (file_);
+            fseek(file_, 0, SEEK_SET);
         #endif
     }
 

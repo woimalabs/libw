@@ -160,7 +160,7 @@ namespace w
             NSString* docsDirectory = [appDocumentPaths objectAtIndex: 0];
             const char* tmp = [docsDirectory UTF8String];
             return new FileHandle(std::string(tmp) + "/" + filename, openType);
-        #endif
+#endif
     }
 
     #ifdef ANDROID
