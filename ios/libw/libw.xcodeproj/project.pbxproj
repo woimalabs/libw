@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		FB19B9EB18146F13001351D2 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB19B9EA18146F13001351D2 /* OpenGLES.framework */; };
-		FB19B9F418146F59001351D2 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FB19B9F318146F59001351D2 /* libz.dylib */; };
 		FB3EC1481B36FF35003E1663 /* Bitmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB3EC1451B36FF35003E1663 /* Bitmap.cpp */; };
 		FB3EC1491B36FF35003E1663 /* BitmapPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB3EC1461B36FF35003E1663 /* BitmapPrivate.cpp */; };
 		FBBD022A182692A7009D6386 /* libsigc++.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB852F0A17F0D77200B15B66 /* libsigc++.a */; };
@@ -96,6 +95,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E4F6DAF21C2B5117005A1CCC /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		FB19B9EA18146F13001351D2 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		FB19B9ED18146F27001351D2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		FB19B9EF18146F36001351D2 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
@@ -171,7 +171,6 @@
 			files = (
 				FBF8674A1AC817C2001C29F6 /* libpng.a in Frameworks */,
 				FBBD022A182692A7009D6386 /* libsigc++.a in Frameworks */,
-				FB19B9F418146F59001351D2 /* libz.dylib in Frameworks */,
 				FB19B9EB18146F13001351D2 /* OpenGLES.framework in Frameworks */,
 				FBF867C71AC848A9001C29F6 /* Foundation.framework in Frameworks */,
 			);
@@ -212,6 +211,7 @@
 		FBB114F517EF2A8300E913BA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E4F6DAF21C2B5117005A1CCC /* libz.tbd */,
 				FB19B9F318146F59001351D2 /* libz.dylib */,
 				FB19B9F118146F53001351D2 /* libstdc++.dylib */,
 				FB19B9EF18146F36001351D2 /* GLKit.framework */,
@@ -552,7 +552,7 @@
 					../../../libpng/src,
 					"../../../eigen/eigen-3.2",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -576,7 +576,7 @@
 					../../../libpng/src,
 					"../../../eigen/eigen-3.2",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
