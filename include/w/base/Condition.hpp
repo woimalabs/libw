@@ -26,7 +26,7 @@
 #ifndef LIBW_CONDITION
 #define LIBW_CONDITION
 
-#include "w/base/Mutex.hpp"
+#include <w/base/Mutex.hpp>
 #include <pthread.h>
 
 namespace w
@@ -36,6 +36,8 @@ namespace w
     public:
         Condition();
         ~Condition();
+        int wait(Mutex &mutex);
+        void signal();
 
     private:
         pthread_cond_t condition_;

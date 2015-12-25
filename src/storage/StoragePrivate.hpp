@@ -54,7 +54,7 @@ namespace w
         void remove(const std::string& key);
         void load();
         void save();
-        void serializeItems(const std::vector<std::string>& keysToSerialize, std::string& target);
+        void serializeItem(const std::string& keyToSerialize, std::string& target);
 
     private:
         bool has(StorageItem::Type::Enum type, const std::string& key);

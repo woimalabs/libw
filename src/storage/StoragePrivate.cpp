@@ -251,7 +251,7 @@ namespace w
         }
     }
     
-    void StoragePrivate::serializeItems(const std::vector<std::string>& keysToSerialize, std::string& target)
+    void StoragePrivate::serializeItem(const std::string& keyToSerialize, std::string& target)
     {
         target.clear();
         
@@ -288,19 +288,13 @@ namespace w
                 end = length;
                 std::string blockData = s.substr(start, end);
                 
-                // Add to target's data if found from given keys
+                // Add to target's data if given key
                 StorageItem* tmp = StorageItem::deserialize(blockData);
-                for(unsigned int i = 0; i < keysToSerialize.size(); i++)
+                if(keyToSerialize.compare(tmp->key()) == 0)
                 {
-                    if(keysToSerialize[i].compare(tmp->key()) == 0)
-                    {
-                        // same format as in local db expect the line changes are not used
-                        target += BlockHeaderStart;
-                        target += lenString;
-                        target += BlockHeaderEnd;
-                        target += BlockDataStart + blockData + BlockDataEnd;
-                        break;
-                    }
+                    // same format as in local db expect the line changes are not used
+                    target = blockData;
+                    break;
                 }
                 delete tmp;
                 

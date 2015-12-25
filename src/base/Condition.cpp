@@ -63,4 +63,17 @@ namespace w
             LOGE("Condition::~Condition, errno:ENOMEM. Continue without exception.");
         }
     }
+    
+    int Condition::wait(Mutex &mutex)
+    {
+        return pthread_cond_wait(&condition_, &(mutex.mutex_));
+    }
+    
+    void Condition::signal()
+    {
+        if (pthread_cond_signal(&condition_) == EINVAL)
+        {
+            throw Exception("Condition::signal, EINVAL");
+        }
+    }
 }

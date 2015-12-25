@@ -39,6 +39,7 @@ namespace w
         int unlock();
 
     private:
+        friend class Condition;
         pthread_mutex_t mutex_;
     };
 }

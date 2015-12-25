@@ -117,10 +117,10 @@ namespace w
         /**
          * Serializes data from local storage.
          *
-         * @param [in]  keysToSerialize Keys listed to be serialized from local storage if found.
+         * @param [in]  keyToSerialize  Key to be serialized from local storage if found.
          * @param [out] target          String to hold the serialized data.
          */
-        static void serializeItems(const std::vector<std::string>& keysToSerialize, std::string& target);
+        static void serializeItem(const std::string& key, std::string& target);
 
     private:
         static class StoragePrivate* singleton_;
