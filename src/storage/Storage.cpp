@@ -139,4 +139,13 @@ namespace w
         }
         singleton_->remove(key);
     }
+    
+    void Storage::serializeItems(const std::vector<std::string>& keysToSerialize, std::string& target)
+    {
+        if (singleton_ == NULL)
+        {
+            throw Exception("Create Storage singleton!");
+        }
+        singleton_->serializeItems(keysToSerialize, target);
+    }
 }

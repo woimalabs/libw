@@ -29,6 +29,7 @@
 #include "StorageItem.hpp"
 #include <string>
 #include <list>
+#include <vector>
 
 namespace w
 {
@@ -53,6 +54,7 @@ namespace w
         void remove(const std::string& key);
         void load();
         void save();
+        void serializeItems(const std::vector<std::string>& keysToSerialize, std::string& target);
 
     private:
         bool has(StorageItem::Type::Enum type, const std::string& key);

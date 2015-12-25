@@ -35,9 +35,9 @@ namespace w
     namespace StorageItemConst
     {
         static const char Delimiter = ',';
-        static const std::string Int = std::string("Int");
-        static const std::string String = std::string("String");
-        static const std::string Undefined = std::string("Undefined");
+        static const std::string Int = std::string("i");
+        static const std::string String = std::string("s");
+        static const std::string Undefined = std::string("?");
     };
 
     class StorageItem

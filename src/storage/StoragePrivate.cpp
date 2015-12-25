@@ -250,6 +250,66 @@ namespace w
             delete [] data;
         }
     }
+    
+    void StoragePrivate::serializeItems(const std::vector<std::string>& keysToSerialize, std::string& target)
+    {
+        target.clear();
+        
+        char* data = NULL;
+        unsigned int len = 0;
+        loadFile(&data, len);
+        std::string s(data, len);
+        
+        if(data != NULL)
+        {
+            // Deserialize
+            for(;;)
+            {
+                std::size_t start = 0;
+                std::size_t end = 0;
+                
+                // Block header length
+                start = s.find(BlockHeaderStart);
+                if(start == std::string::npos)
+                {
+                    break; // no StorageItems-> file read
+                }
+                
+                end = s.find(BlockHeaderEnd);
+                if(end == std::string::npos)
+                {
+                    throw Exception("StoragePrivate::load(), corrupted block end.");
+                }
+                std::string lenString = s.substr(start + 1, end - 1);
+                unsigned int length = String::toInt(lenString);
+                
+                // Block data
+                start = end + 2;
+                end = length;
+                std::string blockData = s.substr(start, end);
+                
+                // Add to target's data if found from given keys
+                StorageItem* tmp = StorageItem::deserialize(blockData);
+                for(unsigned int i = 0; i < keysToSerialize.size(); i++)
+                {
+                    if(keysToSerialize[i].compare(tmp->key()) == 0)
+                    {
+                        // same format as in local db expect the line changes are not used
+                        target += BlockHeaderStart;
+                        target += lenString;
+                        target += BlockHeaderEnd;
+                        target += BlockDataStart + blockData + BlockDataEnd;
+                        break;
+                    }
+                }
+                delete tmp;
+                
+                // Move in string, NOTE: could be optimized (this is okeyish with small storages)
+                s = s.substr(start + end + 2, s.size());
+            }
+            delete [] data;
+        }
+    }
 
     void StoragePrivate::save()
     {

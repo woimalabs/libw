@@ -27,6 +27,7 @@
 #define LIBW_STORAGE_STORAGE
 
 #include <string>
+#include <vector>
 #include <w/base/Class.hpp>
 
 namespace w
@@ -112,6 +113,14 @@ namespace w
          * @param [in]  key             Key to get.
          */
         static void remove(const std::string& key);
+
+        /**
+         * Serializes data from local storage.
+         *
+         * @param [in]  keysToSerialize Keys listed to be serialized from local storage if found.
+         * @param [out] target          String to hold the serialized data.
+         */
+        static void serializeItems(const std::vector<std::string>& keysToSerialize, std::string& target);
 
     private:
         static class StoragePrivate* singleton_;
