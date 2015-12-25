@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E43A33911C2D6FA800BD7308 /* Condition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E43A33901C2D6FA800BD7308 /* Condition.cpp */; };
 		FB19B9EB18146F13001351D2 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB19B9EA18146F13001351D2 /* OpenGLES.framework */; };
 		FB3EC1481B36FF35003E1663 /* Bitmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB3EC1451B36FF35003E1663 /* Bitmap.cpp */; };
 		FB3EC1491B36FF35003E1663 /* BitmapPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB3EC1461B36FF35003E1663 /* BitmapPrivate.cpp */; };
@@ -95,6 +96,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E43A33901C2D6FA800BD7308 /* Condition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Condition.cpp; path = ../../src/base/Condition.cpp; sourceTree = "<group>"; };
 		E4F6DAF21C2B5117005A1CCC /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		FB19B9EA18146F13001351D2 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		FB19B9ED18146F27001351D2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -284,6 +286,7 @@
 		FBF8672C1AC816A5001C29F6 /* base */ = {
 			isa = PBXGroup;
 			children = (
+				E43A33901C2D6FA800BD7308 /* Condition.cpp */,
 				FBF8672D1AC816B4001C29F6 /* FileHandle.cpp */,
 				FBF8672E1AC816B4001C29F6 /* Log.cpp */,
 				FBF8672F1AC816B4001C29F6 /* Mutex.cpp */,
@@ -445,6 +448,7 @@
 				FBF867161AC80D8B001C29F6 /* TextureAssetPrivate-GLES2.cpp in Sources */,
 				FBF8673D1AC816B4001C29F6 /* Thread.cpp in Sources */,
 				FBF867181AC80D8B001C29F6 /* WindowPrivate-iOS.cpp in Sources */,
+				E43A33911C2D6FA800BD7308 /* Condition.cpp in Sources */,
 				FBF8670B1AC80D8B001C29F6 /* FrameBuffer.cpp in Sources */,
 				FBF867D81AC850F2001C29F6 /* Component.cpp in Sources */,
 				FBF867D31AC850BA001C29F6 /* PathAnimation.cpp in Sources */,
