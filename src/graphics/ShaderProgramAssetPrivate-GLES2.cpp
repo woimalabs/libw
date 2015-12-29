@@ -62,7 +62,7 @@ namespace w
 
             // Compile to program
             programId_ = createProgram(vertexSourceBuffer.pointer(), fragmentSourceBuffer.pointer());
-            LOGD("ShaderProgramAssetPrivate(), created with id:%d", programId_);
+            //LOGD("ShaderProgramAssetPrivate(), created with id:%d", programId_);
         }
 
         ShaderProgramAssetPrivate::~ShaderProgramAssetPrivate()
