@@ -10,6 +10,7 @@ libw_la_SOURCES = \
 	base/Mutex.cpp \
 	base/Referenced.cpp \
 	base/Random.cpp \
+	base/Condition.cpp \
 	graphics/Window.cpp \
 	graphics/WindowPrivate-XEGL.cpp \
 	graphics/ShaderProgramAsset.cpp \
@@ -63,7 +64,8 @@ library_base_include_HEADERS = \
 	../include/w/base/Timer.hpp \
 	../include/w/base/Sigcpp.hpp \
 	../include/w/base/UniquePointer.hpp \
-	../include/w/base/Random.hpp
+	../include/w/base/Random.hpp \
+	../include/w/base/Condition.hpp
 
 library_math_includedir = $(includedir)/w/math
 library_math_include_HEADERS = \
