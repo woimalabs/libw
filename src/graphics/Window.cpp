@@ -31,7 +31,9 @@ namespace w
 {
     namespace graphics
     {
-        void* Window::topUIView = NULL;
+        #ifdef __APPLE__
+            void* Window::topUIView = NULL;
+        #endif
 
         Window::Window(const std::string& name, unsigned int width, unsigned int height, const Eigen::Vector4f& clearColor):
             private_(new WindowPrivate(name, width, height, clearColor))
