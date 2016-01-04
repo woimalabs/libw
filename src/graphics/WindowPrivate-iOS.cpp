@@ -23,8 +23,11 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
+#include "w/graphics/Window.hpp"
+
 #include "WindowPrivate.hpp"
 #include <OpenGLES/ES2/gl.h>
+#include <GLKit/GLKit.h>
 
 namespace w
 {
@@ -59,13 +62,7 @@ namespace w
         
         void WindowPrivate::bind()
         {
-            // TODO, does not work as is
-
-            // Render to our framebuffer
-            //glBindFramebuffer(GL_FRAMEBUFFER, 0);
-            
-            // Render from lower left to upper right
-            //glViewport(0, 0, width_, height_);
+            [((GLKView *) w::graphics::Window::topUIView) bindDrawable];
         }
         
         Bitmap WindowPrivate::screenshot()

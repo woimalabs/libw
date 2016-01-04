@@ -45,6 +45,11 @@ namespace w
         public:
             COPYABLE(Window)
 
+            #ifdef __APPLE__
+                // @note topUIView must be set before drawing on window on each frame.
+                static void* topUIView;
+            #endif
+            
             Window(const std::string& name, unsigned int x, unsigned int y, const Eigen::Vector4f& clearColor);
             ~Window();
             unsigned int width() const;

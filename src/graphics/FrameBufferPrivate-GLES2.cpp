@@ -27,6 +27,12 @@
 #include "w/graphics/FrameBuffer.hpp"
 #include <w/base/Exception.hpp>
 
+#ifdef __APPLE__
+#include <OpenGLES/ES2/gl.h>
+#include <OpenGLES/ES2/glext.h>
+#include <GLKit/GLKit.h>
+#endif
+
 namespace w
 {
     namespace graphics
@@ -72,6 +78,7 @@ namespace w
         {
             if(frameBufferId_ == 0)
             {
+#ifdef __linux__
                 // Create frame buffer
                 glGenFramebuffers(1, &frameBufferId_);
 
@@ -91,6 +98,32 @@ namespace w
                 {
                     throw Exception("FrameBuffer, creation failed!");
                 }
+#elif __APPLE__
+                /* reference:
+                 https://developer.apple.com/library/ios/documentation/3DDrawing/Conceptual/OpenGLES_ProgrammingGuide/WorkingwithEAGLContexts/WorkingwithEAGLContexts.html#//apple_ref/doc/uid/TP40008793-CH103-SW1
+                 */
+                
+                glGenFramebuffers(1, &frameBufferId_);
+                glBindFramebuffer(GL_FRAMEBUFFER, frameBufferId_);
+                
+                GLuint colorRenderbuffer;
+                glGenRenderbuffers(1, &colorRenderbuffer);
+                glBindRenderbuffer(GL_RENDERBUFFER, colorRenderbuffer);
+                glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA /* T */, width_, height_);
+                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderbuffer);
+                
+                GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER) ;
+                if(status != GL_FRAMEBUFFER_COMPLETE) {
+                    NSLog(@"XXX XXX failed to make complete framebuffer object %x", status);
+                }
+                
+                // create the texture
+                glGenTextures(1, &textureColorId_);
+                glBindTexture(GL_TEXTURE_2D, textureColorId_);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA /* T */,  width_, height_, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+                glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorId_, 0);
+#endif
             }
 
             // Render to our framebuffer
