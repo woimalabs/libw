@@ -90,7 +90,13 @@ namespace w
             }
 
             fseek(file_, 0, SEEK_END);
-            byteSize_ = ftell(file_);
+            long tmpSize = ftell(file_);
+            if(tmpSize > UINT_MAX)
+            {
+                LOGE("Failed to load filename: '%s'", filename_.c_str());
+                throw Exception("FileHandle::open() file too large.");
+            }
+            byteSize_ = tmpSize & UINT_MAX;;
             fseek(file_, 0, SEEK_SET);
         #endif
     }

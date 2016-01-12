@@ -38,7 +38,7 @@ namespace w
         // Callback function for libpng
         static void read(png_structp p, png_bytep data, png_size_t length);
 
-        TextureAssetPrivate::TextureAssetPrivate(const std::string& file, TextureAsset::Clamp::Enum clamp):
+        TextureAssetPrivate::TextureAssetPrivate(const std::string& file, TextureAsset::Clamp::Enum clamp, bool bundledFile):
             Resource(file),
             bytesPerPixel_(0),
             width_(0),
@@ -51,7 +51,7 @@ namespace w
             tmpData_(NULL),
             textureId_(0)
         {
-            loadFileData();
+            loadFileData(bundledFile);
         }
 
         TextureAssetPrivate::~TextureAssetPrivate()
@@ -79,7 +79,7 @@ namespace w
             return height_;
         }
 
-        void TextureAssetPrivate::loadFileData()
+        void TextureAssetPrivate::loadFileData(bool bundledFile)
         {
             static const int flags = PNG_TRANSFORM_STRIP_16 |
                 PNG_TRANSFORM_GRAY_TO_RGB | PNG_TRANSFORM_PACKING |
@@ -106,10 +106,22 @@ namespace w
                 LOGE("libpng error while reading file %s.", filename().c_str());
                 throw Exception("Could not load png file!");
             }
+            else
+            {
+                LOGI("OK open file %s.", filename().c_str());
+            }
 
             // Start reading the file
-            ReferencedPointer<FileHandle> fileHandle(ResourceManager::bundledFile(filename()));
-
+            ReferencedPointer<FileHandle> fileHandle;
+            if(bundledFile)
+            {
+                fileHandle = ResourceManager::bundledFile(filename());
+            }
+            else
+            {
+                fileHandle = ResourceManager::dynamicFileForRead(filename());
+            }
+            
             // Read the image header and data
             png_set_read_fn(png, reinterpret_cast<void*>(fileHandle.pointer()), read);
             png_read_png(png, info, flags, 0);

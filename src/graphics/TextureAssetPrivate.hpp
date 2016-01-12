@@ -45,7 +45,7 @@ namespace w
         public:
             UNCOPYABLE(TextureAssetPrivate)
 
-            TextureAssetPrivate(const std::string & filename, TextureAsset::Clamp::Enum clamp = TextureAsset::Clamp::ToEdge);
+            TextureAssetPrivate(const std::string & filename, TextureAsset::Clamp::Enum clamp = TextureAsset::Clamp::ToEdge, bool bundledFile = true);
             ~TextureAssetPrivate();
 
             unsigned int width() const;
@@ -62,7 +62,7 @@ namespace w
             unsigned int sourceBitmapHeight() const;
 
         private:
-            void loadFileData();
+            void loadFileData(bool bundledFile);
             void loadGPUData();
 
             unsigned int bytesPerPixel_;

@@ -83,7 +83,7 @@ namespace w
              *
              * @param [in]  filename    Texture filename to load
              */
-            TextureAsset(const std::string& filename, Clamp::Enum clamp = Clamp::ToEdge);
+            TextureAsset(const std::string& filename, Clamp::Enum clamp = Clamp::ToEdge, bool bundledFile = true);
             ~TextureAsset();
 
             unsigned int width() const;

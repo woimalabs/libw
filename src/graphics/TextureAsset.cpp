@@ -40,14 +40,14 @@ namespace w
                 );
         }
 
-        TextureAsset::TextureAsset(const std::string& filename, Clamp::Enum clamp):
+        TextureAsset::TextureAsset(const std::string& filename, Clamp::Enum clamp, bool bundledFile):
             private_(NULL)
         {
             std::string id = "Texture:" + filename + ".clamp:" + clampForId(clamp);
             private_ = dynamic_cast<TextureAssetPrivate*>(ResourceManagerPrivate::assetPrivate(id));
             if (private_ == NULL)
             {
-                private_ = new TextureAssetPrivate(filename, clamp);
+                private_ = new TextureAssetPrivate(filename, clamp, bundledFile);
                 ResourceManagerPrivate::setAssetPrivate(id, private_);
             }
 
