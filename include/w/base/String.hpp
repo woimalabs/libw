@@ -103,29 +103,7 @@ namespace w
 
         static int toInt(std::string const& str)
         {
-            int r = 0;
-
-            int lastIndex = str.length() - 1;
-            unsigned int multiplier = 1;
-
-            for (int i = lastIndex; i >= 0; i--)
-            {
-                if (i == 0 && str.c_str()[i] == '-')
-                {
-                    r = -r;
-                }
-                else
-                {
-                    int tmp = str.c_str()[i] - 48;
-                    if (tmp < 0 || tmp > 9)
-                    {
-                        LOGE("String::toInt failed, non numeric chars:%s", str.c_str());
-                        throw Exception("String::toInt() with non numeric chars.");
-                    }
-                    r += multiplier * tmp;
-                    multiplier *= 10;
-                }
-            }
+            int r = std::stoi(str);
             return r;
         }
 
