@@ -106,10 +106,6 @@ namespace w
                 LOGE("libpng error while reading file %s.", filename().c_str());
                 throw Exception("Could not load png file!");
             }
-            else
-            {
-                LOGI("OK open file %s.", filename().c_str());
-            }
 
             // Start reading the file
             ReferencedPointer<FileHandle> fileHandle;

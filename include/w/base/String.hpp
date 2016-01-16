@@ -1,7 +1,7 @@
 /**
  * libw
  *
- * Copyright (C) 2012-2015 Woima Solutions
+ * Copyright (C) 2012-2016 Woima Solutions
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
@@ -27,6 +27,7 @@
 #define LIBW_STRING
 
 #include "w/base/Exception.hpp"
+#include "w/base/Log.hpp"
 #include <string>
 #include <cstring>
 #include <vector>
@@ -118,6 +119,7 @@ namespace w
                     int tmp = str.c_str()[i] - 48;
                     if (tmp < 0 || tmp > 9)
                     {
+                        LOGE("String::toInt failed, non numeric chars:%s", str.c_str());
                         throw Exception("String::toInt() with non numeric chars.");
                     }
                     r += multiplier * tmp;
