@@ -35,7 +35,7 @@ namespace w
         {
             private_->setAndroidAssetManager(androidAssetManager);
         }
-    #elif linux
+    #elif __linux__
         ResourceManager::ResourceManager(const std::string& basePath):
             private_(new ResourceManagerPrivate(basePath))
         {

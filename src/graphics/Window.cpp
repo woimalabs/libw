@@ -99,7 +99,7 @@ namespace w
             private_->bind();
         }
 
-        #if defined(linux) && !defined(__ANDROID__)
+        #if defined(__linux__) && !defined(__ANDROID__)
             Display* Window::xDisplay() const
             {
                 return private_->xDisplay();

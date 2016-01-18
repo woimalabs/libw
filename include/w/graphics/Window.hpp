@@ -30,7 +30,7 @@
 #include "w/math/Eigen.hpp"
 #include "w/graphics/Bitmap.hpp"
 #include <string>
-#if defined(linux) && !defined(__ANDROID__)
+#if defined(__linux__) && !defined(__ANDROID__)
     #include <EGL/egl.h>
     #include <GLES2/gl2.h>
     #include <GLES2/gl2ext.h>
@@ -49,7 +49,7 @@ namespace w
                 // @note topUIView must be set before drawing on window on each frame.
                 static void* topUIView;
             #endif
-            
+
             Window(const std::string& name, unsigned int x, unsigned int y, const Eigen::Vector4f& clearColor);
             ~Window();
             unsigned int width() const;
@@ -60,7 +60,7 @@ namespace w
             void resize(unsigned int width, unsigned int height);
             void bind();
 
-            #if defined(linux) && !defined(__ANDROID__)
+            #if defined(__linux__) && !defined(__ANDROID__)
                 Display* xDisplay() const;
             #endif
 

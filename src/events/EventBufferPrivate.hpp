@@ -31,7 +31,7 @@
 #include <w/base/Mutex.hpp>
 #include <w/graphics/Window.hpp>
 #include "w/events/Event.hpp"
-#if defined(linux) && !defined(__ANDROID__)
+#if defined(__linux__) && !defined(__ANDROID__)
     #include <X11/keysym.h>
     #include <X11/Xlib.h>
     #include <X11/Xutil.h>
@@ -56,7 +56,7 @@ namespace w
             Mutex mutex_;
             std::list<Event*> events_;
 
-            #if defined(linux) && !defined(__ANDROID__)
+            #if defined(__linux__) && !defined(__ANDROID__)
                 void pollXEvent();
                 Display* xDisplay_;
             #endif

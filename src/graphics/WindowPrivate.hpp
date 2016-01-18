@@ -28,7 +28,7 @@
 #include "w/base/Referenced.hpp"
 #include "w/base/Log.hpp"
 #include "w/math/Eigen.hpp"
-#ifdef linux
+#ifdef __linux__
     #include <EGL/egl.h>
     #include <GLES2/gl2.h>
     #include <GLES2/gl2ext.h>
@@ -71,7 +71,7 @@ namespace w
             void bind();
             #ifdef ANDROID
                 //
-            #elif linux
+            #elif __linux__
                 Display* xDisplay() const;
             #endif
 
@@ -82,7 +82,7 @@ namespace w
             Eigen::Vector4f clearColor_;
     #ifdef ANDROID
 
-    #elif linux
+    #elif __linux__
             bool supportsGL2();
             bool makeCurrentContext();
 

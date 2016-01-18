@@ -54,7 +54,7 @@ namespace w
         {
             LOCK
 
-            #if defined(linux) && !defined(__ANDROID__)
+            #if defined(__linux__) && !defined(__ANDROID__)
                 pollXEvent();
             #endif
 
@@ -67,7 +67,7 @@ namespace w
             return r;
         }
 
-        #if defined(linux) && !defined(__ANDROID__)
+        #if defined(__linux__) && !defined(__ANDROID__)
             void EventBufferPrivate::pollXEvent()
             {
                 static unsigned int pressedCount_ = 0; //TODO: fix!

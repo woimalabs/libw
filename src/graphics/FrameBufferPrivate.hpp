@@ -30,7 +30,7 @@
 #include "w/base/Class.hpp"
 #include "w/base/Referenced.hpp"
 #include "w/math/Eigen.hpp"
-#ifdef linux // and android
+#ifdef __linux__ // and android
     #include <GLES2/gl2.h>
     #include <GLES2/gl2ext.h>
 #else // APPLE

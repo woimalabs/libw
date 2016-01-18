@@ -29,7 +29,7 @@
 #include <w/base/Referenced.hpp>
 #include <w/base/Class.hpp>
 #include <w/math/Eigen.hpp>
-#ifdef linux
+#ifdef __linux__
     #include <GLES2/gl2.h>
 #else // APPLE
     #include <OpenGLES/ES2/gl.h>

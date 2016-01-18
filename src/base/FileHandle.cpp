@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string>
+#include <limits.h>
 
 namespace w
 {

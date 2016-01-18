@@ -23,8 +23,6 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
-#ifdef __linux__
-
 #include "WindowPrivate.hpp"
 #include "w/base/String.hpp"
 #include <w/base/Exception.hpp>
@@ -434,5 +432,3 @@ namespace w
         }
     }
 }
-
-#endif

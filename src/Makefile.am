@@ -43,7 +43,7 @@ libw_la_SOURCES = \
 	network/Request.cpp \
 	network/Response.cpp
 
-libw_la_CPPFLAGS = -I$(top_srcdir)/include -Wall -Wextra
+libw_la_CPPFLAGS = -I$(top_srcdir)/include -Wall -Wextra -std=c++0x
 
 library_base_includedir = $(includedir)/w/base
 library_base_include_HEADERS = \
@@ -113,10 +113,5 @@ library_animation_include_HEADERS = \
 library_storage_includedir = $(includedir)/w/storage
 library_storage_include_HEADERS = \
 	../include/w/storage/Storage.hpp
-
-library_network_includedir = $(includedir)/w/network
-library_network_include_HEADERS = \
-	../include/w/network/Request.hpp \
-	../include/w/network/Response.hpp
 
 libw_la_LDFLAGS = -g -module -avoid-version -shared --disable-static
