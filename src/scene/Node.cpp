@@ -153,6 +153,11 @@ namespace w
         {
             pointer()->removeChildren();
         }
+        
+        void Node::removeChildrenWithName(bool recursive, const std::string& name)
+        {
+            pointer()->removeChildrenWithName(recursive, name);
+        }
 
         bool Node::hasComponentWithId(const std::vector<unsigned int> & ids)
         {

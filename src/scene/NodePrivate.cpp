@@ -206,9 +206,31 @@ namespace w
                     tmp = NULL;
                     i = children_.erase(i);
                 }
-                else
+                else if(recursive)
                 {
                     tmp->removeChildWithId(recursive, id);
+                    ++i;
+                }
+            }
+        }
+        
+        void NodePrivate::removeChildrenWithName(bool recursive, const std::string& name)
+        {
+            LOCK_(mutexStructure_);
+            
+            for(std::list<NodePrivate*>::iterator i = children_.begin(); i != children_.end();)
+            {
+                NodePrivate* tmp = *i;
+                if(tmp->name() == name)
+                {
+                    tmp->parent_ = NULL;
+                    tmp->decrement();
+                    tmp = NULL;
+                    i = children_.erase(i);
+                }
+                else if(recursive)
+                {
+                    tmp->removeChildrenWithName(recursive, name);
                     ++i;
                 }
             }

@@ -136,6 +136,7 @@ namespace w
             bool hasComponentWithId(const std::vector<unsigned int> & ids);
             void removeChildren();
             void removeChildWithId(bool recursive, unsigned int id);
+            void removeChildrenWithName(bool recursive, const std::string& name);
             std::vector<ReferencedPointer<NodePrivate> > children();
             ReferencedPointer<NodePrivate> parent();
             const std::string name() const;
