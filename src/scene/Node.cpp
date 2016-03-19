@@ -129,9 +129,22 @@ namespace w
             pointer()->addChild(node.pointer());
         }
 
-        void Node::addComponent(Component const& component)
+        void Node::addComponent(Component const& c0)
         {
-            pointer()->addComponent(component);
+            pointer()->addComponent(c0);
+        }
+
+        void Node::addComponent(Component const& c0, Component const& c1)
+        {
+            pointer()->addComponent(c0);
+            pointer()->addComponent(c1);
+        }
+
+        void Node::addComponent(Component const& c0, Component const& c1, Component const& c2)
+        {
+            pointer()->addComponent(c0);
+            pointer()->addComponent(c1);
+            pointer()->addComponent(c2);
         }
 
         bool Node::hasComponents() const

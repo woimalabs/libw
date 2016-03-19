@@ -74,7 +74,9 @@ namespace w
             void removeChildren();
             void removeChildWithId(bool recursive, unsigned int id);
             void removeChildrenWithName(bool recursive, const std::string& name);
-            void addComponent(Component const& component);
+            void addComponent(Component const& c0);
+            void addComponent(Component const& c0, Component const& c1);
+            void addComponent(Component const& c0, Component const& c1, Component const& c2);
             bool hasComponents() const;
             
             template<class T> void removeComponent()
