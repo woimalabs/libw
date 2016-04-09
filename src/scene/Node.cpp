@@ -79,6 +79,11 @@ namespace w
         {
         }
 
+        Node::Node(const Component & c0, const Component & c1, const Component & c2, const Component & c3, const Component & c4):
+            ReferencedPointer<NodePrivate>(new NodePrivate(c0, c1, c2, c3, c4))
+        {
+        }
+
         Node::Node(std::string const& name, const Component & c0):
             ReferencedPointer<NodePrivate>(new NodePrivate(name, c0))
         {
@@ -96,6 +101,11 @@ namespace w
 
         Node::Node(std::string const& name, const Component & c0, const Component & c1, const Component & c2, const Component & c3):
             ReferencedPointer<NodePrivate>(new NodePrivate(name, c0, c1, c2, c3))
+        {
+        }
+
+        Node::Node(std::string const& name, const Component & c0, const Component & c1, const Component & c2, const Component & c3, const Component & c4):
+            ReferencedPointer<NodePrivate>(new NodePrivate(name, c0, c1, c2, c3, c4))
         {
         }
 

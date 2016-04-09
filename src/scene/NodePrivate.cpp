@@ -71,6 +71,17 @@ namespace w
             addComponent(c3);
         }
 
+        NodePrivate::NodePrivate(Component const& c0, Component const& c1, Component const& c2, Component const& c3, Component const& c4):
+            name_(),
+            parent_(NULL)
+        {
+            addComponent(c0);
+            addComponent(c1);
+            addComponent(c2);
+            addComponent(c3);
+            addComponent(c4);
+        }
+
         NodePrivate::NodePrivate(std::string const& name, Component const& c0):
             name_(name),
             parent_(NULL)
@@ -104,6 +115,18 @@ namespace w
             addComponent(c2);
             addComponent(c3);
         }
+
+        NodePrivate::NodePrivate(std::string const& name, Component const& c0, Component const& c1, Component const& c2, Component const& c3, Component const& c4):
+            name_(name),
+            parent_(NULL)
+        {
+            addComponent(c0);
+            addComponent(c1);
+            addComponent(c2);
+            addComponent(c3);
+            addComponent(c4);
+        }
+
 
         NodePrivate::~NodePrivate()
         {
