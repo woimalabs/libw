@@ -236,6 +236,12 @@ namespace w
             return result;
         }
 
+        static inline float clamp(const float& d, const float& min, const float& max)
+        {
+            float t = d < min ? min : d;
+            return t > max ? max : t;
+        }
+
         static inline float distance(const Eigen::Vector2f & v0, const Eigen::Vector2f & v1)
         {
             return sqrt(

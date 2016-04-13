@@ -29,6 +29,7 @@
 #include "w/base/Class.hpp"
 #include "w/base/Referenced.hpp"
 #include "w/math/Eigen.hpp"
+#include <w/math/Math.hpp>
 
 namespace w
 {
@@ -45,7 +46,7 @@ namespace w
 
             ControlPoint(
                 const Eigen::Vector3f & location = Eigen::Vector3f::Zero(),
-                const Eigen::Quaternionf & rotation = Eigen::Quaternionf(),
+                const Eigen::Quaternionf & rotation = Eigen::Quaternionf(Eigen::AngleAxisf(0.0f, Eigen::Vector3f::UnitZ())),
                 const Eigen::Vector3f & scale = Eigen::Vector3f::Ones(),
                 float opacity = 1.0f):
 
