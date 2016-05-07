@@ -92,7 +92,7 @@ namespace w
         }
     }
 
-    /*void Thread::join()
+    void Thread::join()
     {
         int result = pthread_join(thread_, NULL);
         if (result == EINVAL)
@@ -107,5 +107,5 @@ namespace w
         {
             throw Exception("Thread::join, errno:EDEADLK");
         }
-    }*/
+    }
 }

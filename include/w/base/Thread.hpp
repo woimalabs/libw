@@ -44,7 +44,7 @@ namespace w
         Thread();
         virtual ~Thread();
         void start();
-        //void join();
+        void join();
         virtual void threadFunction() = 0;
 
     private:
