@@ -54,7 +54,10 @@ namespace w
                 enum Enum
                 {
                     Linear,
-                    InOutQuint
+                    InOutQuint,
+                    InQuint,
+                    OutQuint,
+                    OutElastic
                 };
             };
 

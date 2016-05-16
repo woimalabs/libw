@@ -1,7 +1,7 @@
 /**
  * libw
  *
- * Copyright (C) 2013 Woima Solutions
+ * Copyright (C) 2013-2016 Woima Solutions
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
@@ -44,6 +44,41 @@ namespace w
             t -= 2.0f;
             return c/2.0f*(t*t*t*t*t + 2.0f) + b;
         };
+        
+        /**
+         * @param   t   current time
+         * @param   b   start value
+         * @param   c   change in value
+         * @param   d   duration time
+         */
+        float easeInQuint(float t, float b, float c, float d)
+        {
+            t /= d;
+            return c*t*t*t*t*t + b;
+        };
+        
+        /**
+         * @param   t   current time
+         * @param   b   start value
+         * @param   c   change in value
+         * @param   d   duration time
+         */
+        float easeOutQuint(float t, float b, float c, float d)
+        {
+            t /= d;
+            t--;
+            return c*(t*t*t*t*t + 1) + b;
+        };
+        
+        /**
+         * @param   t   current time from 0.0f to 1.0f
+         */
+        float easeOutElastic(float t)
+        {
+            float p = 0.3f;
+            float r = pow(2.0f, -10.0f*t) * sin((t - p/4.0f)*(2.0f * M_PI)/p) + 1.0f;
+            return r;
+        }
 
         PathAnimation::PathAnimation(std::vector<ReferencedPointer<w::animation::ControlPoint> > & points,
             float millisecondLength,
@@ -69,10 +104,13 @@ namespace w
         {
             unsigned int i = progressIndex();
             unsigned int iNext = nextIndex(i);
+            Eigen::Vector3f tmp = points_[iNext].pointer()->location() - points_[i].pointer()->location();
+            if(i == iNext && iNext > 0) // at the end
+            {
+                tmp = points_[iNext].pointer()->location() - points_[iNext - 1].pointer()->location();
+            }
             float iNextFactor = progressOverTheIndex() / progressPerSegment_;
-            float iFactor = 1.0f - iNextFactor;
-            return iFactor * points_[i].pointer()->location()
-                + iNextFactor * points_[iNext].pointer()->location();
+            return points_[i].pointer()->location() + iNextFactor * tmp;
         }
 
         Eigen::Matrix4f PathAnimation::rotation()
@@ -130,6 +168,21 @@ namespace w
                 case Easing::InOutQuint:
                 {
                     return easeInOutQuint(progress, 0.0f, progress, 1.0f);
+                    break;
+                }
+                case Easing::InQuint:
+                {
+                    return easeInQuint(progress, 0.0f, progress, 1.0f);
+                    break;
+                }
+                case Easing::OutQuint:
+                {
+                    return easeOutQuint(progress, 0.0f, progress, 1.0f);
+                    break;
+                }
+                case Easing::OutElastic:
+                {
+                    return easeOutElastic(progress);
                     break;
                 }
             }
