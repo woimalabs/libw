@@ -26,7 +26,8 @@
 #ifndef LIBW_GRAPHICS_TEXTUREASSETPRIVATE
 #define LIBW_GRAPHICS_TEXTUREASSETPRIVATE
 
-#include <w/base/Class.hpp>
+#include "w/base/Class.hpp"
+#include "w/graphics/Bitmap.hpp"
 #include "w/base/Resource.hpp"
 #include "w/graphics/TextureAsset.hpp"
 #include <png.h>
@@ -46,6 +47,7 @@ namespace w
             UNCOPYABLE(TextureAssetPrivate)
 
             TextureAssetPrivate(const std::string & filename, TextureAsset::Clamp::Enum clamp = TextureAsset::Clamp::ToEdge, bool bundledFile = true);
+            TextureAssetPrivate(const w::graphics::Bitmap& bitmap, TextureAsset::Clamp::Enum clamp);
             ~TextureAssetPrivate();
 
             unsigned int width() const;
@@ -63,6 +65,7 @@ namespace w
 
         private:
             void loadFileData(bool bundledFile);
+            void loadBitmap(const w::graphics::Bitmap& bitmap);
             void loadGPUData();
 
             unsigned int bytesPerPixel_;

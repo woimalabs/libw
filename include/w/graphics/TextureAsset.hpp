@@ -27,6 +27,7 @@
 #define LIBW_GRAPHICS_TEXTUREASSET
 
 #include <w/base/Class.hpp>
+#include <w/graphics/Bitmap.hpp>
 #include <string>
 
 namespace w
@@ -72,18 +73,21 @@ namespace w
             };
 
             /**
-             * Creates shader program.
-             *
-             * @note This class can load it self even without GL context. For
-             * drawing GL context is needed.
-             *
-             * @note If non power of two image data is loaded the texture will be
-             * created with up to next power of two size. And upper left corner of
-             * the area will be filled.
+             * Creates texture asset from given file.
              *
              * @param [in]  filename    Texture filename to load
+             * @param [in]  clamp       Repeat on texture edges
+             * @param [in]  bundledFile Is the file given a bundled or a dynamic file.
              */
             TextureAsset(const std::string& filename, Clamp::Enum clamp = Clamp::ToEdge, bool bundledFile = true);
+            
+            /**
+             * Creates texture asset from bitmap.
+             *
+             * @param [in]  filename    Texture filename to load
+             * @param [in]  clamp       Repeat on texture edges
+             */
+            TextureAsset(const w::graphics::Bitmap& bitmap, Clamp::Enum clamp = Clamp::ToEdge);
             ~TextureAsset();
 
             unsigned int width() const;

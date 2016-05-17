@@ -54,9 +54,10 @@ namespace w
              */
             Bitmap(unsigned int width, unsigned int height, Format::Enum format);
             ~Bitmap();
-            unsigned int width();
-            unsigned int height();
-            char* data();
+            unsigned int width() const;
+            unsigned int height() const;
+            Format::Enum format() const;
+            char* data() const;
         };
     }
 }

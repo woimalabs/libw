@@ -64,19 +64,24 @@ namespace w
             delete [] data_;
         }
 
-        char* BitmapPrivate::data()
+        char* BitmapPrivate::data() const
         {
             return data_;
         }
         
-        unsigned int BitmapPrivate::width()
+        unsigned int BitmapPrivate::width() const
         {
             return width_;
         }
         
-        unsigned int BitmapPrivate::height()
+        unsigned int BitmapPrivate::height() const
         {
             return height_;
+        }
+        
+        Bitmap::Format::Enum BitmapPrivate::format() const
+        {
+            return format_;
         }
     }
 }

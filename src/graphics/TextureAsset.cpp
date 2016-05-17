@@ -54,6 +54,13 @@ namespace w
             private_->increment();
         }
 
+        TextureAsset::TextureAsset(const w::graphics::Bitmap& bitmap, Clamp::Enum clamp):
+            private_(NULL)
+        {
+            private_ = new TextureAssetPrivate(bitmap, clamp);
+            private_->increment();
+        }
+
         TextureAsset::TextureAsset(TextureAsset const& r):
             private_(r.private_)
         {

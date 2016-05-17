@@ -53,6 +53,22 @@ namespace w
         {
             loadFileData(bundledFile);
         }
+        
+        TextureAssetPrivate::TextureAssetPrivate(const w::graphics::Bitmap& bitmap, TextureAsset::Clamp::Enum clamp):
+            Resource("bitmap"),
+            bytesPerPixel_(0),
+            width_(0),
+            height_(0),
+            xUsage_(0.0f),
+            yUsage_(0.0f),
+            sourceBitmapWidth_(0),
+            sourceBitmapHeight_(0),
+            clamp_(clamp),
+            tmpData_(NULL),
+            textureId_(0)
+        {
+            loadBitmap(bitmap);
+        }
 
         TextureAssetPrivate::~TextureAssetPrivate()
         {
@@ -158,6 +174,37 @@ namespace w
 
             // Free libpng's struct
             png_destroy_read_struct(&png, &info, 0);
+        }
+
+        void TextureAssetPrivate::loadBitmap(const w::graphics::Bitmap& bitmap)
+        {
+            switch (bitmap.format())
+            {
+                case w::graphics::Bitmap::Format::LUMINANCE_8:
+                    bytesPerPixel_ = 1;
+                    break;
+                case w::graphics::Bitmap::Format::RGB_888:
+                    bytesPerPixel_ = 3;
+                    break;
+                case w::graphics::Bitmap::Format::RGBA_8888:
+                    bytesPerPixel_ = 4;
+                    break;
+                default:
+                    break;
+            }
+            sourceBitmapWidth_ = bitmap.width();
+            sourceBitmapHeight_ = bitmap.height();
+            width_ = math::nextPowerOfTwo(sourceBitmapWidth_);
+            height_ = math::nextPowerOfTwo(sourceBitmapHeight_);
+            xUsage_ = (float)sourceBitmapWidth_ / (float)width_;
+            yUsage_ = (float)sourceBitmapHeight_ / (float)height_;
+            
+            unsigned int dataSize = width_ * height_ * bytesPerPixel_;
+            tmpData_ = new char[dataSize];
+    
+            // TODO: polish copy away
+            memcpy(&(tmpData_)[0], bitmap.data(), sourceBitmapWidth_ * sourceBitmapHeight_ * bytesPerPixel_);
+            LOGD("CCC CCC CC CCCCCCC CCC CC C CCC     CC%d, %f, %f", sourceBitmapWidth_ * sourceBitmapHeight_ * bytesPerPixel_, xUsage_, yUsage_);
         }
 
         void TextureAssetPrivate::bind()

@@ -34,22 +34,38 @@ namespace w
             ReferencedPointer<BitmapPrivate>(new BitmapPrivate(width, height, format))
         {
         }
+        
+        Bitmap::Bitmap(Bitmap const& r):
+            ReferencedPointer<BitmapPrivate>(r.pointer())
+        {
+        }
 
         Bitmap::~Bitmap()
         {
         }
         
-        unsigned int Bitmap::width()
+        Bitmap& Bitmap::operator=(Bitmap const& r)
+        {
+            ReferencedPointer::operator=(r);
+            return *this;
+        }
+
+        unsigned int Bitmap::width() const
         {
             return pointer()->width();
         }
         
-        unsigned int Bitmap::height()
+        unsigned int Bitmap::height() const
         {
             return pointer()->height();
         }
+        
+        Bitmap::Format::Enum Bitmap::format() const
+        {
+            return pointer()->format();
+        }
 
-        char* Bitmap::data()
+        char* Bitmap::data() const
         {
             return pointer()->data();
         }
