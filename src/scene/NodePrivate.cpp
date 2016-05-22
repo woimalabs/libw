@@ -82,6 +82,12 @@ namespace w
             addComponent(c4);
         }
 
+        NodePrivate::NodePrivate(std::string const& name):
+            name_(name),
+            parent_(NULL)
+        {
+        }
+
         NodePrivate::NodePrivate(std::string const& name, Component const& c0):
             name_(name),
             parent_(NULL)

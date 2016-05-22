@@ -53,6 +53,7 @@ namespace w
             NodePrivate(Component const& c0, Component const& c1, Component const& c2);
             NodePrivate(Component const& c0, Component const& c1, Component const& c2, Component const& c3);
             NodePrivate(Component const& c0, Component const& c1, Component const& c2, Component const& c3, Component const& c4);
+            NodePrivate(std::string const& name);
             NodePrivate(std::string const& name, Component const& c0);
             NodePrivate(std::string const& name, Component const& c0, Component const& c1);
             NodePrivate(std::string const& name, Component const& c0, Component const& c1, Component const& c2);

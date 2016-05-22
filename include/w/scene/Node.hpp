@@ -62,6 +62,7 @@ namespace w
             Node(Component const& c0, Component const& c1, Component const& c2);
             Node(Component const& c0, Component const& c1, Component const& c2, Component const& c3);
             Node(Component const& c0, Component const& c1, Component const& c2, Component const& c3, Component const& c4);
+            Node(std::string const& name);
             Node(std::string const& name, Component const& c0);
             Node(std::string const& name, Component const& c0, Component const& c1);
             Node(std::string const& name, Component const& c0, Component const& c1, Component const& c2);
