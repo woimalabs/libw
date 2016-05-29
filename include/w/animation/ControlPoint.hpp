@@ -71,6 +71,11 @@ namespace w
             {
                 return scale_;
             }
+            
+            void setOpacity(float value)
+            {
+                opacity_ = value;
+            }
 
             float opacity() const
             {
