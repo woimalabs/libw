@@ -204,7 +204,7 @@ namespace w
     
             // TODO: polish copy away
             memcpy(&(tmpData_)[0], bitmap.data(), sourceBitmapWidth_ * sourceBitmapHeight_ * bytesPerPixel_);
-            LOGD("CCC CCC CC CCCCCCC CCC CC C CCC     CC%d, %f, %f", sourceBitmapWidth_ * sourceBitmapHeight_ * bytesPerPixel_, xUsage_, yUsage_);
+            //LOGD("CCC CCC CC CCCCCCC CCC CC C CCC     CC%d, %f, %f", sourceBitmapWidth_ * sourceBitmapHeight_ * bytesPerPixel_, xUsage_, yUsage_);
         }
 
         void TextureAssetPrivate::bind()
@@ -277,7 +277,6 @@ namespace w
 
             delete [] tmpData_;
             tmpData_ = NULL;
-            // LOGD("TextureAssetPrivate()::loadGPUData(), id:%d, %dx%dx%d", textureId_, width_, height_, bytesPerPixel_);
         }
 
         void read(png_structp fileHandlePointer, png_bytep data, png_size_t length)
