@@ -206,6 +206,11 @@ namespace w
         tmp.pointer()->write(source, length);
     }
 
+    bool sortToAlphabeticOrder(const StorageItem *a, const StorageItem *b)
+    {
+        return a->key() < b->key();
+    }
+
     void StoragePrivate::load()
     {
         char* data = NULL;
@@ -249,6 +254,8 @@ namespace w
             }
             delete [] data;
         }
+
+        list_.sort(sortToAlphabeticOrder);
     }
     
     void StoragePrivate::serializeItem(const std::string& keyToSerialize, std::string& target)

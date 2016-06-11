@@ -87,17 +87,17 @@ namespace w
         {
         }
 
-        Type::Enum type()
+        Type::Enum type() const
         {
             return type_;
         }
 
-        std::string key()
+        std::string key() const
         {
             return key_;
         }
 
-        std::string value()
+        std::string value() const
         {
             return value_;
         }
