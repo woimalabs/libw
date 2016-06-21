@@ -26,11 +26,17 @@
 #include "BitmapPrivate.hpp"
 #include "w/graphics/FrameBuffer.hpp"
 #include <w/base/Exception.hpp>
+#include "w/base/FileHandle.hpp"
+#include <w/base/ResourceManager.hpp>
+#include <png.h>
 
 namespace w
 {
     namespace graphics
     {
+        // Callback function for libpng
+        static void read(png_structp p, png_bytep data, png_size_t length);
+
         BitmapPrivate::BitmapPrivate(unsigned int width, unsigned int height, Bitmap::Format::Enum format):
             width_(width),
             height_(height),
@@ -58,6 +64,83 @@ namespace w
             }
             data_ = new char[width_ * height * bytesPerPixel];
         }
+        
+        BitmapPrivate::BitmapPrivate(const std::string & file):
+            width_(0),
+            height_(0),
+            format_(Bitmap::Format::Undefined),
+            data_(NULL)
+        {
+            // TODO: Polish, this code is similar to one in TextureAssetPrivate.cpp
+            static const int flags = PNG_TRANSFORM_STRIP_16 |
+                PNG_TRANSFORM_GRAY_TO_RGB | PNG_TRANSFORM_PACKING |
+                PNG_TRANSFORM_EXPAND;
+            
+            // Create libpng structs
+            png_structp png = png_create_read_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
+            if(!png)
+            {
+                LOGE("Cannot open file %.!", file.c_str());
+                throw Exception("Couldn't create libpng read struct.");
+            }
+            
+            png_infop info = png_create_info_struct(png);
+            if(!info)
+            {
+                LOGE("Cannot open file %.!", file.c_str());
+                throw Exception("Couldn't create libpng info struct.");
+            }
+            
+            // Errors, TODO: check if this is needed.
+            if(setjmp(png_jmpbuf(png)))
+            {
+                LOGE("libpng error while reading file %s.", file.c_str());
+                throw Exception("Could not load png file!");
+            }
+            
+            // Start reading the file
+            ReferencedPointer<FileHandle> fileHandle = ResourceManager::bundledFile(file);
+
+            // Read the image header and data
+            png_set_read_fn(png, reinterpret_cast<void*>(fileHandle.pointer()), read);
+            png_read_png(png, info, flags, 0);
+            png_bytepp rows = png_get_rows(png, info);
+            
+            // Set pixel format
+            unsigned int bytesPerPixel = 0;
+            if(png_get_color_type(png, info) == PNG_COLOR_TYPE_RGB)
+            {
+                format_ = Bitmap::Format::RGB_888;
+                bytesPerPixel = 3;
+            }
+            else if(png_get_color_type(png, info) == PNG_COLOR_TYPE_RGBA)
+            {
+                format_ = Bitmap::Format::RGBA_8888;
+                bytesPerPixel = 4;
+            }
+            else
+            {
+                LOGE("Cannot open file %.!", file.c_str());
+                throw Exception("libpng unsupported color type.");
+            }
+            
+            // Copy to continous memory
+            width_ = png_get_image_width(png, info);
+            height_ = png_get_image_height(png, info);
+            unsigned int dataSize = width_ * height_ * bytesPerPixel;
+            data_ = new char[dataSize];
+            for(unsigned int i = 0; i < dataSize; i++)
+            {
+                data_[i] = 0;
+            }
+            for(unsigned int i = 0; i < height_; i++)
+            {
+                memcpy(&(data_)[width_ * bytesPerPixel * i], rows[height_ - i - 1], width_ * bytesPerPixel);
+            }
+            
+            // Free libpng's struct
+            png_destroy_read_struct(&png, &info, 0);
+        }
 
         BitmapPrivate::~BitmapPrivate()
         {
@@ -82,6 +165,12 @@ namespace w
         Bitmap::Format::Enum BitmapPrivate::format() const
         {
             return format_;
+        }
+        
+        void read(png_structp fileHandlePointer, png_bytep data, png_size_t length)
+        {
+            FileHandle* fileHandle = reinterpret_cast<FileHandle*>(png_get_io_ptr(fileHandlePointer));
+            fileHandle->read(reinterpret_cast<char*>(data), length);
         }
     }
 }

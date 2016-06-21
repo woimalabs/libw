@@ -29,6 +29,7 @@
 #include "w/base/Class.hpp"
 #include "w/base/ReferencedPointer.hpp"
 #include "w/math/Eigen.hpp"
+#include <string>
 
 namespace w
 {
@@ -43,6 +44,7 @@ namespace w
             {
                 enum Enum
                 {
+                    Undefined,
                     LUMINANCE_8,
                     RGB_888,
                     RGBA_8888
@@ -53,6 +55,11 @@ namespace w
              * Bitmap object to hold raw data
              */
             Bitmap(unsigned int width, unsigned int height, Format::Enum format);
+            
+            /**
+             * Bitmap object from bundled file
+             */
+            Bitmap(const std::string & file);
             ~Bitmap();
             unsigned int width() const;
             unsigned int height() const;

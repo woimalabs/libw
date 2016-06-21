@@ -35,6 +35,11 @@ namespace w
         {
         }
         
+        Bitmap::Bitmap(const std::string & file):
+            ReferencedPointer<BitmapPrivate>(new BitmapPrivate(file))
+        {
+        }
+        
         Bitmap::Bitmap(Bitmap const& r):
             ReferencedPointer<BitmapPrivate>(r.pointer())
         {

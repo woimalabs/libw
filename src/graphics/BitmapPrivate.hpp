@@ -30,6 +30,7 @@
 #include "w/base/Class.hpp"
 #include "w/base/Referenced.hpp"
 #include "w/math/Eigen.hpp"
+#include <png.h>
 
 namespace w
 {
@@ -41,6 +42,7 @@ namespace w
             UNCOPYABLE(BitmapPrivate)
 
             BitmapPrivate(unsigned int width, unsigned int height, Bitmap::Format::Enum format);
+            BitmapPrivate(const std::string & file);
             ~BitmapPrivate();
             char* data() const;
             unsigned int width() const;
