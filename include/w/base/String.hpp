@@ -32,6 +32,8 @@
 #include <cstring>
 #include <vector>
 #include <sstream>
+#include <sstream>
+#include <iomanip>
 
 namespace w
 {
@@ -99,6 +101,13 @@ namespace w
             }
 
             return r;
+        }
+
+        static std::string toString(const float value, const int precision = 2)
+        {
+            std::ostringstream out;
+            out << std::setprecision(precision) << value;
+            return out.str();
         }
 
         static int toInt(std::string const& str)
