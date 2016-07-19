@@ -33,6 +33,7 @@
 #include "w/base/Referenced.hpp"
 #include <map>
 #include <list>
+#include <set>
 #include <vector>
 
 namespace w
@@ -143,16 +144,12 @@ namespace w
             unsigned int treeId() const;
 
             /* use with care, you should not modify the node & component structure while going through returned list */
-            template<class T> std::list<NodePrivate*>* componentNodes()
+            template<class T> std::set<NodePrivate*>* componentNodes()
             {
                 const std::type_info& key = typeid(T);
                 auto i = treeComponentNodes_.find(treeId_);
                 if(i != treeComponentNodes_.end())
                 {
-                    std::map<const std::type_info*, std::list<NodePrivate*> > submap;
-                    std::list<NodePrivate*> nodes;
-                    submap.insert(std::make_pair(&key, nodes));
-
                     auto j = i->second.find(&key);
                     if(j != i->second.end()) 
                     {
@@ -181,7 +178,7 @@ namespace w
                 unsigned int, 
                 std::map<
                     const std::type_info*,
-                    std::list<NodePrivate*>
+                    std::set<NodePrivate*>
                     > 
                 >
                 treeComponentNodes_;

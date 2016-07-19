@@ -38,7 +38,7 @@ namespace w
             unsigned int, 
             std::map<
                 const std::type_info*,
-                std::list<NodePrivate*>
+                std::set<NodePrivate*>
                 > 
             > NodePrivate::treeComponentNodes_;
 
@@ -379,10 +379,9 @@ namespace w
         void NodePrivate::printTreeComponentNode()
         {
             LOGD("### printTreeComponentNode, start ###");
-            std::string tmp;
             unsigned int treeAmount = 0;
-            //std::set<const std::type_info> componentTypes;
-            std::set<unsigned int> nodeAmount;
+            std::set<std::string> componentTypes;
+            std::set<unsigned int> totalNodeAmount;
 
             for(auto trees: treeComponentNodes_)
             {
@@ -393,19 +392,23 @@ namespace w
                 {
                     LOGD("- submap: %s", submap.first->name());
 
-                    //componentTypes.insert(*submap.first);
+                    componentTypes.insert(submap.first->name());
+                    std::string tmp = "";
+                    std::set<unsigned int> subNodeAmount;
+
                     for(auto i: submap.second)
                     {
                         tmp += w::String::toString(i->id()) + " ";
-                        nodeAmount.insert(i->id());
+                        totalNodeAmount.insert(i->id());
+                        subNodeAmount.insert(i->id());
                     }                    
-                    LOGD("  - nodes: %s", tmp.c_str());
+                    LOGD("  - nodes (count: %d): %s", subNodeAmount.size(), tmp.c_str());
                 }
             }
 
             LOGD("view amount: %d", treeAmount);
-            // LOGD("component types in use: %d", componentTypes.size());
-            LOGD("node instances: %d", nodeAmount.size());
+            LOGD("component types in use: %d", componentTypes.size());
+            LOGD("total node amount: %d", totalNodeAmount.size());
             LOGD("### printTreeComponentNode, end ###");
         }
 
@@ -415,9 +418,9 @@ namespace w
             if(i == treeComponentNodes_.end()) // no tree, create new tree and submap for caching
             {
                 //LOGD("adding0 tree: %d, list: %s, node: %d", treeId, key.name(), node->id());
-                std::map<const std::type_info*, std::list<NodePrivate*> > submap;
-                std::list<NodePrivate*> nodes;
-                nodes.push_back(node);
+                std::set<NodePrivate*> nodes;
+                nodes.insert(node);
+                std::map<const std::type_info*, std::set<NodePrivate*> > submap;
                 submap.insert(std::make_pair(&key, nodes));
 
                 treeComponentNodes_.insert(std::make_pair(treeId, submap));
@@ -428,18 +431,24 @@ namespace w
                 if(j == i->second.end()) // no submap for component type in tree, create it
                 {
                     //LOGD("adding1 tree: %d, list: %s, node: %d", treeId, key.name(), node->id());
-                    std::list<NodePrivate*> nodes;
-                    nodes.push_back(node);
+                    std::set<NodePrivate*> nodes;
+                    nodes.insert(node);
                     i->second.insert(std::make_pair(&key, nodes));
                 }
                 else // add to existing component key submap
                 {
                     //LOGD("adding2 tree: %d, list: %s, node: %d", treeId, key.name(), node->id());
-                    j->second.push_back(node);
+                    auto iter = j->second.find(node);
+                    if(iter != j->second.end()) 
+                    {
+                        printTreeComponentNode();
+                        LOGE("add, tree: %d, list: %s, node: %d", treeId, key.name(), node->id());
+                        throw Exception("Had already added");
+                    }
+                    j->second.insert(node);
                 }
             }
         }
-
         void NodePrivate::treeComponentNodesRemove(unsigned int treeId, const std::type_info& key, NodePrivate* node)
         {
             auto i = treeComponentNodes_.find(treeId);
@@ -461,7 +470,14 @@ namespace w
                 else // remove from list
                 {
                     //LOGD("rem2 to tree: %d, list: %s, node: %d", treeId, key.name(), node->id());
-                    j->second.remove(node);
+                    j->second.erase(node);
+                    auto iter = j->second.find(node);
+                    if(iter != j->second.end()) 
+                    {
+                        printTreeComponentNode();
+                        LOGE("rem, tree: %d, list: %s, node: %d", treeId, key.name(), node->id());
+                        throw Exception("Remove failed");
+                    }
                 }
             }
         }
