@@ -1,7 +1,7 @@
 /**
  * libw
  *
- * Copyright (C) 2013 Woima Solutions
+ * Copyright (C) 2013-2016 Woima Solutions
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
@@ -25,14 +25,22 @@
 
 #include "w/scene/NodePrivate.hpp"
 #include "w/scene/Node.hpp"
-#include <w/base/Log.hpp>
+#include "w/base/Log.hpp"
 #include "w/base/Lock.hpp"
+#include "w/base/String.hpp"
+#include <set>
 
 namespace w
 {
     namespace scene
     {
-        unsigned int NodePrivate::lastUsedTreeId_ = 1;
+        std::map<
+            unsigned int, 
+            std::map<
+                const std::type_info*,
+                std::list<NodePrivate*>
+                > 
+            > NodePrivate::treeComponentNodes_;
 
         NodePrivate::NodePrivate():
             parent_(NULL),
@@ -163,6 +171,8 @@ namespace w
             {
                 while(components_.size() > 0)
                 {
+                    const std::type_info& key = components_.begin()->second.pointer()->typeId();
+                    treeComponentNodesRemove(treeId_, key, this);
                     components_.erase(components_.begin());
                 }
             }
@@ -275,6 +285,9 @@ namespace w
             {
                 std::pair<const std::type_info*, ReferencedPointer<ComponentPrivate> > tmp = std::make_pair(&key, component.private_);
                 components_.insert(tmp);
+
+                // component node cache management
+                treeComponentNodesAdd(treeId_, key, this);
             }
             else
             {
@@ -297,6 +310,21 @@ namespace w
         {
             children_.push_back(node);
             node->parent_ = this;
+
+            // change node's components to new tree    
+            if(node->treeId_ != treeId_)
+            {
+                node->setTreeId(treeId_);
+                /*
+                //LOGD("chanching tree for all components, node: %d", node->id());
+                for(auto i: node->components_)
+                {
+                    const std::type_info& key = i.second.pointer()->typeId();
+                    treeComponentNodesRemove(node->treeId_, key, node); 
+                    treeComponentNodesAdd(treeId_, key, node);
+                }  
+                node->treeId_ = treeId_;*/
+            }
             node->increment();
         }
 
@@ -322,12 +350,120 @@ namespace w
 
         void NodePrivate::setTreeId(unsigned int value)
         {
+            //LOGD("setTreeId %d", value);
+
+            unsigned int oldTreeId = treeId_;
             treeId_ = value;
+
+            // change node's components to new tree    
+            for(auto i: components_)
+            {
+                const std::type_info& key = i.second.pointer()->typeId();
+                treeComponentNodesRemove(oldTreeId, key, this);
+                treeComponentNodesAdd(treeId_, key, this);
+            }
+
+            // change recursively whole tree branch
+            for(auto i: children_)
+            {
+                LOG
+                i->setTreeId(value);
+            }  
         }
 
         unsigned int NodePrivate::treeId() const
         {
             return treeId_;
+        }        
+
+        void NodePrivate::printTreeComponentNode()
+        {
+            LOGD("### printTreeComponentNode, start ###");
+            std::string tmp;
+            unsigned int treeAmount = 0;
+            //std::set<const std::type_info> componentTypes;
+            std::set<unsigned int> nodeAmount;
+
+            for(auto trees: treeComponentNodes_)
+            {
+                LOGD("tree: %d", trees.first);
+                treeAmount++;
+
+                for(auto submap: trees.second)
+                {
+                    LOGD("- submap: %s", submap.first->name());
+
+                    //componentTypes.insert(*submap.first);
+                    for(auto i: submap.second)
+                    {
+                        tmp += w::String::toString(i->id()) + " ";
+                        nodeAmount.insert(i->id());
+                    }                    
+                    LOGD("  - nodes: %s", tmp.c_str());
+                }
+            }
+
+            LOGD("view amount: %d", treeAmount);
+            // LOGD("component types in use: %d", componentTypes.size());
+            LOGD("node instances: %d", nodeAmount.size());
+            LOGD("### printTreeComponentNode, end ###");
+        }
+
+        void NodePrivate::treeComponentNodesAdd(unsigned int treeId, const std::type_info& key, NodePrivate* node)
+        {
+            auto i = treeComponentNodes_.find(treeId);
+            if(i == treeComponentNodes_.end()) // no tree, create new tree and submap for caching
+            {
+                //LOGD("adding0 tree: %d, list: %s, node: %d", treeId, key.name(), node->id());
+                std::map<const std::type_info*, std::list<NodePrivate*> > submap;
+                std::list<NodePrivate*> nodes;
+                nodes.push_back(node);
+                submap.insert(std::make_pair(&key, nodes));
+
+                treeComponentNodes_.insert(std::make_pair(treeId, submap));
+            }
+            else // tree found
+            {
+                auto j = i->second.find(&key);
+                if(j == i->second.end()) // no submap for component type in tree, create it
+                {
+                    //LOGD("adding1 tree: %d, list: %s, node: %d", treeId, key.name(), node->id());
+                    std::list<NodePrivate*> nodes;
+                    nodes.push_back(node);
+                    i->second.insert(std::make_pair(&key, nodes));
+                }
+                else // add to existing component key submap
+                {
+                    //LOGD("adding2 tree: %d, list: %s, node: %d", treeId, key.name(), node->id());
+                    j->second.push_back(node);
+                }
+            }
+        }
+
+        void NodePrivate::treeComponentNodesRemove(unsigned int treeId, const std::type_info& key, NodePrivate* node)
+        {
+            auto i = treeComponentNodes_.find(treeId);
+            if(i == treeComponentNodes_.end()) // no tree, corrupted addition / no addition earlier
+            {
+                //LOGD("rem0 to tree: %d, list: %s, node: %d", treeId, key.name(), node->id());
+                printTreeComponentNode();
+                throw Exception("Removed component did not exist in tree. No tree when removing.");
+            }
+            else // tree found
+            {
+                auto j = i->second.find(&key);
+                if(j == i->second.end()) // no list, corrupted addition / no addition earlier
+                {
+                    //LOGD("rem1 to tree: %d, list: %s, node: %d", treeId, key.name(), node->id());
+                    printTreeComponentNode();
+                    throw Exception("Removed component did not exist in tree. No key list when removing.");
+                }
+                else // remove from list
+                {
+                    //LOGD("rem2 to tree: %d, list: %s, node: %d", treeId, key.name(), node->id());
+                    j->second.remove(node);
+                }
+            }
         }
     }
 }

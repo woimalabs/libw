@@ -1,7 +1,7 @@
 /**
  * libw
  *
- * Copyright (C) 2013 Woima Solutions
+ * Copyright (C) 2013-2016 Woima Solutions
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
@@ -73,6 +73,7 @@ namespace w
                 }
                 else
                 {
+                    treeComponentNodesRemove(treeId_, key, this);
                     components_.erase(i);
                 }
             }
@@ -141,8 +142,29 @@ namespace w
             void setTreeId(unsigned int);
             unsigned int treeId() const;
 
+            /* use with care, you should not modify the node & component structure while going through returned list */
+            template<class T> std::list<NodePrivate*>* componentNodes()
+            {
+                const std::type_info& key = typeid(T);
+                auto i = treeComponentNodes_.find(treeId_);
+                if(i != treeComponentNodes_.end())
+                {
+                    std::map<const std::type_info*, std::list<NodePrivate*> > submap;
+                    std::list<NodePrivate*> nodes;
+                    submap.insert(std::make_pair(&key, nodes));
+
+                    auto j = i->second.find(&key);
+                    if(j != i->second.end()) 
+                    {
+                        return &(j->second); 
+                    }
+                }
+
+                return NULL;
+            }   
+            static void printTreeComponentNode();
+
         private:
-            static unsigned int lastUsedTreeId_;
             unsigned int treeId_;
 
             std::string name_;
@@ -150,6 +172,19 @@ namespace w
             NodePrivate* parent_;
 
             std::map<const std::type_info*, ReferencedPointer<ComponentPrivate> > components_;
+
+            /* component nodes tree */
+            static void treeComponentNodesAdd(unsigned int treeId, const std::type_info& componentType, NodePrivate*);
+            static void treeComponentNodesRemove(unsigned int treeId, const std::type_info& componentType, NodePrivate*);
+
+            static std::map<
+                unsigned int, 
+                std::map<
+                    const std::type_info*,
+                    std::list<NodePrivate*>
+                    > 
+                >
+                treeComponentNodes_;
         };
     }
 }
