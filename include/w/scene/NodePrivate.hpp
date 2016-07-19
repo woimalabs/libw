@@ -29,7 +29,6 @@
 #include "w/scene/Visitor.hpp"
 #include "w/scene/Component.hpp"
 #include <w/base/Class.hpp>
-#include "w/base/Mutex.hpp"
 #include "w/base/ReferencedPointer.hpp"
 #include "w/base/Referenced.hpp"
 #include <map>
@@ -66,8 +65,6 @@ namespace w
 
             template<class T> void removeComponent()
             {
-                LOCK_(mutexComponents_);
-
                 const std::type_info& key = typeid(T);
                 std::map<const std::type_info*, ReferencedPointer<ComponentPrivate> >::iterator i = components_.find(&key);
                 if(i == components_.end())
@@ -82,8 +79,6 @@ namespace w
 
             template<class T> T* component()
             {
-                LOCK_(mutexComponents_);
-
                 const std::type_info& key = typeid(T);
                 std::map<const std::type_info*, ReferencedPointer<ComponentPrivate> >::const_iterator i = components_.find(&key);
                 if(i != components_.end())
@@ -143,14 +138,17 @@ namespace w
             std::vector<ReferencedPointer<NodePrivate> > children();
             ReferencedPointer<NodePrivate> parent();
             const std::string name() const;
+            void setTreeId(unsigned int);
+            unsigned int treeId() const;
 
         private:
+            static unsigned int lastUsedTreeId_;
+            unsigned int treeId_;
+
             std::string name_;
-            Mutex mutexStructure_;
             std::list<NodePrivate*> children_;
             NodePrivate* parent_;
 
-            Mutex mutexComponents_;
             std::map<const std::type_info*, ReferencedPointer<ComponentPrivate> > components_;
         };
     }

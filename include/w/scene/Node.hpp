@@ -111,6 +111,8 @@ namespace w
             unsigned int id() const;
             unsigned int referenceCount() const;
             const std::string name() const;
+            void setTreeId(unsigned int);
+            unsigned int treeId() const;
 
         protected:
             Node(const ReferencedPointer<NodePrivate> &);

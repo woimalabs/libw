@@ -206,5 +206,15 @@ namespace w
         {
             return pointer()->name();
         }
+
+        void Node::setTreeId(unsigned int id)
+        {
+            pointer()->setTreeId(id);
+        }
+
+        unsigned int Node::treeId() const
+        {
+            return pointer()->treeId();
+        }
     }
 }

@@ -32,21 +32,26 @@ namespace w
 {
     namespace scene
     {
+        unsigned int NodePrivate::lastUsedTreeId_ = 1;
+
         NodePrivate::NodePrivate():
-            parent_(NULL)
+            parent_(NULL),
+            treeId_(0)
         {
         }
 
         NodePrivate::NodePrivate(Component const& c0):
             name_(),
-            parent_(NULL)
+            parent_(NULL),
+            treeId_(0)
         {
             addComponent(c0);
         }
 
         NodePrivate::NodePrivate(Component const& c0, Component const& c1):
             name_(),
-            parent_(NULL)
+            parent_(NULL),
+            treeId_(0)
         {
             addComponent(c0);
             addComponent(c1);
@@ -54,7 +59,8 @@ namespace w
 
         NodePrivate::NodePrivate(Component const& c0, Component const& c1, Component const& c2):
             name_(),
-            parent_(NULL)
+            parent_(NULL),
+            treeId_(0)
         {
             addComponent(c0);
             addComponent(c1);
@@ -63,7 +69,8 @@ namespace w
 
         NodePrivate::NodePrivate(Component const& c0, Component const& c1, Component const& c2, Component const& c3):
             name_(),
-            parent_(NULL)
+            parent_(NULL),
+            treeId_(0)
         {
             addComponent(c0);
             addComponent(c1);
@@ -73,7 +80,8 @@ namespace w
 
         NodePrivate::NodePrivate(Component const& c0, Component const& c1, Component const& c2, Component const& c3, Component const& c4):
             name_(),
-            parent_(NULL)
+            parent_(NULL),
+            treeId_(0)
         {
             addComponent(c0);
             addComponent(c1);
@@ -84,20 +92,23 @@ namespace w
 
         NodePrivate::NodePrivate(std::string const& name):
             name_(name),
-            parent_(NULL)
+            parent_(NULL),
+            treeId_(0)
         {
         }
 
         NodePrivate::NodePrivate(std::string const& name, Component const& c0):
             name_(name),
-            parent_(NULL)
+            parent_(NULL),
+            treeId_(0)
         {
             addComponent(c0);
         }
 
         NodePrivate::NodePrivate(std::string const& name, Component const& c0, Component const& c1):
             name_(name),
-            parent_(NULL)
+            parent_(NULL),
+            treeId_(0)
         {
             addComponent(c0);
             addComponent(c1);
@@ -105,7 +116,8 @@ namespace w
 
         NodePrivate::NodePrivate(std::string const& name, Component const& c0, Component const& c1, Component const& c2):
             name_(name),
-            parent_(NULL)
+            parent_(NULL),
+            treeId_(0)
         {
             addComponent(c0);
             addComponent(c1);
@@ -114,7 +126,8 @@ namespace w
 
         NodePrivate::NodePrivate(std::string const& name, Component const& c0, Component const& c1, Component const& c2, Component const& c3):
             name_(name),
-            parent_(NULL)
+            parent_(NULL),
+            treeId_(0)
         {
             addComponent(c0);
             addComponent(c1);
@@ -124,7 +137,8 @@ namespace w
 
         NodePrivate::NodePrivate(std::string const& name, Component const& c0, Component const& c1, Component const& c2, Component const& c3, Component const& c4):
             name_(name),
-            parent_(NULL)
+            parent_(NULL),
+            treeId_(0)
         {
             addComponent(c0);
             addComponent(c1);
@@ -137,7 +151,6 @@ namespace w
         NodePrivate::~NodePrivate()
         {
             {
-                LOCK_(mutexStructure_);
                 for (std::list<NodePrivate*>::iterator i = children_.begin(); i != children_.end(); i++)
                 {
                     NodePrivate* tmp = *i;
@@ -148,7 +161,6 @@ namespace w
             }
 
             {
-                LOCK_(mutexComponents_);
                 while(components_.size() > 0)
                 {
                     components_.erase(components_.begin());
@@ -158,8 +170,6 @@ namespace w
 
         void NodePrivate::removeChildWithComponentId(bool recursive, const std::vector<unsigned int> & ids)
         {
-            LOCK_(mutexStructure_);
-
             for(std::list<NodePrivate*>::iterator i = children_.begin(); i != children_.end();)
             {
                 NodePrivate* tmp = *i;
@@ -180,8 +190,6 @@ namespace w
 
         bool NodePrivate::hasComponentWithId(const std::vector<unsigned int> & ids)
         {
-            LOCK_(mutexComponents_);
-
             for(std::map<const std::type_info*, ReferencedPointer<ComponentPrivate> >::iterator i = components_.begin();
                 i != components_.end();
                 i++)
@@ -204,8 +212,6 @@ namespace w
 
         void NodePrivate::removeChildren()
         {
-            LOCK_(mutexStructure_);
-
             for(std::list<NodePrivate*>::iterator i = children_.begin(); i != children_.end();)
             {
                 NodePrivate* tmp = *i;
@@ -223,8 +229,6 @@ namespace w
         
         void NodePrivate::removeChildWithId(bool recursive, unsigned int id)
         {
-            LOCK_(mutexStructure_);
-            
             for(std::list<NodePrivate*>::iterator i = children_.begin(); i != children_.end();)
             {
                 NodePrivate* tmp = *i;
@@ -245,8 +249,6 @@ namespace w
         
         void NodePrivate::removeChildrenWithName(bool recursive, const std::string& name)
         {
-            LOCK_(mutexStructure_);
-            
             for(std::list<NodePrivate*>::iterator i = children_.begin(); i != children_.end();)
             {
                 NodePrivate* tmp = *i;
@@ -267,8 +269,6 @@ namespace w
         
         void NodePrivate::addComponent(Component const& component)
         {
-            LOCK_(mutexComponents_);
-
             const std::type_info& key = component.typeId();
             std::map<const std::type_info*, ReferencedPointer<ComponentPrivate> >::iterator i = components_.find(&key);
             if(i == components_.end())
@@ -295,8 +295,6 @@ namespace w
         
         void NodePrivate::addChild(NodePrivate* node)
         {
-            LOCK_(mutexStructure_);
-
             children_.push_back(node);
             node->parent_ = this;
             node->increment();
@@ -304,15 +302,11 @@ namespace w
 
         ReferencedPointer<NodePrivate> NodePrivate::parent()
         {
-            LOCK_(mutexStructure_);
-
             return ReferencedPointer<NodePrivate>(parent_);
         }
 
         std::vector<ReferencedPointer<NodePrivate> > NodePrivate::children()
         {
-            LOCK_(mutexStructure_);
-
             std::vector<ReferencedPointer<NodePrivate> > r;
             for(std::list<NodePrivate*>::iterator i = children_.begin(); i != children_.end(); i++)
             {
@@ -324,6 +318,16 @@ namespace w
         const std::string NodePrivate::name() const
         {
             return name_;
+        }
+
+        void NodePrivate::setTreeId(unsigned int value)
+        {
+            treeId_ = value;
+        }
+
+        unsigned int NodePrivate::treeId() const
+        {
+            return treeId_;
         }
     }
 }
