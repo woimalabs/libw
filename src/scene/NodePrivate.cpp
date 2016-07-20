@@ -155,7 +155,6 @@ namespace w
             addComponent(c4);
         }
 
-
         NodePrivate::~NodePrivate()
         {
             {

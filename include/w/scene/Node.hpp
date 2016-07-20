@@ -68,6 +68,7 @@ namespace w
             Node(std::string const& name, Component const& c0, Component const& c1, Component const& c2);
             Node(std::string const& name, Component const& c0, Component const& c1, Component const& c2, Component const& c3);
             Node(std::string const& name, Component const& c0, Component const& c1, Component const& c2, Component const& c3, Component const& c4);
+            Node(const ReferencedPointer<NodePrivate> &);
 
             virtual ~Node();
             void accept(Visitor& visitor);
@@ -113,9 +114,6 @@ namespace w
             const std::string name() const;
             void setTreeId(unsigned int);
             unsigned int treeId() const;
-
-        protected:
-            Node(const ReferencedPointer<NodePrivate> &);
         };
     }
 }
