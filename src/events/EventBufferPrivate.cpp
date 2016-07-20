@@ -112,6 +112,10 @@ namespace w
                     {
                         event->keyboard.symbol = KeyboardSymbol::d;
                     }
+                    else if(XLookupKeysym(&xEvent.xkey, 0) == XK_p)
+                    {
+                        event->keyboard.symbol = KeyboardSymbol::p;
+                    }
                 }
                 else if (xEvent.type == ClientMessage)
                 {

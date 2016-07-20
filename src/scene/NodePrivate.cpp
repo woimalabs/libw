@@ -385,7 +385,22 @@ namespace w
 
             for(auto trees: treeComponentNodes_)
             {
-                LOGD("tree: %d", trees.first);
+                unsigned int tmp = trees.first;
+                if(tmp >= 1000) // using chars
+                {
+                    char array[5];
+                    array[5] = (char)0;
+                    array[3] = (char)(tmp >> (8*0)) & 0xff;
+                    array[2] = (char)(tmp >> (8*1)) & 0xff;
+                    array[1] = (char)(tmp >> (8*2)) & 0xff;
+                    array[0] = (char)(tmp >> (8*3)) & 0xff;
+                    std::string tmpString(array);
+                    LOGD("tree: %s", tmpString.c_str());
+                }
+                else
+                {
+                    LOGD("tree: %d", trees.first);
+                }
                 treeAmount++;
 
                 for(auto submap: trees.second)

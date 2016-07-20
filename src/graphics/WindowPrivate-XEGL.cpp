@@ -101,11 +101,10 @@ namespace w
                 }
             }
 
-            // Ensure window
+            // Craete window
             width_ = width;
             height_ = height;
-
-            if (!ensureXWindow())
+            if (!createXWindow())
             {
                 throw Exception("Couldn't create X Window!");
             }
@@ -332,7 +331,7 @@ namespace w
             return true;
         }
 
-        bool WindowPrivate::ensureXWindow()
+        bool WindowPrivate::createXWindow()
         {
             if (xWindow_)
             {

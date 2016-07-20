@@ -96,7 +96,7 @@ namespace w
             EGLContext EGLContext_;
 
             // X
-            bool ensureXWindow();
+            bool createXWindow();
             XVisualInfo *xVisualInfo();
             Window xWindow_;
             Display* xDisplay_;
