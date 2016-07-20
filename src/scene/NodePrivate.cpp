@@ -390,8 +390,6 @@ namespace w
 
                 for(auto submap: trees.second)
                 {
-                    LOGD("- submap: %s", submap.first->name());
-
                     componentTypes.insert(submap.first->name());
                     std::string tmp = "";
                     std::set<unsigned int> subNodeAmount;
@@ -402,7 +400,7 @@ namespace w
                         totalNodeAmount.insert(i->id());
                         subNodeAmount.insert(i->id());
                     }                    
-                    LOGD("  - nodes (count: %d): %s", subNodeAmount.size(), tmp.c_str());
+                    LOGD("- submap %s: nodes (count: %d): %s", submap.first->name(), subNodeAmount.size(), tmp.c_str());
                 }
             }
 

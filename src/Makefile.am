@@ -95,7 +95,8 @@ library_scene_include_HEADERS = \
 	../include/w/scene/ComponentPrivateTemplate.hpp \
 	../include/w/scene/Node.hpp \
 	../include/w/scene/NodePrivate.hpp \
-	../include/w/scene/Visitor.hpp
+	../include/w/scene/Visitor.hpp \
+	../include/w/scene/SetVisitor.hpp
 
 library_events_includedir = $(includedir)/w/events
 library_events_include_HEADERS = \
