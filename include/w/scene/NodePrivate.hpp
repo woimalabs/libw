@@ -157,12 +157,13 @@ namespace w
                     }
                 }
 
-                return NULL;
+                return &componentNodesEmpty_;
             }   
             static void printTreeComponentNode();
 
         private:
             unsigned int treeId_;
+
 
             std::string name_;
             std::list<NodePrivate*> children_;
@@ -182,6 +183,8 @@ namespace w
                     > 
                 >
                 treeComponentNodes_;
+
+            static std::set<NodePrivate*> componentNodesEmpty_;
         };
     }
 }

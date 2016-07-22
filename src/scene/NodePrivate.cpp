@@ -42,6 +42,8 @@ namespace w
                 > 
             > NodePrivate::treeComponentNodes_;
 
+        std::set<NodePrivate*> NodePrivate::componentNodesEmpty_;
+
         NodePrivate::NodePrivate():
             parent_(NULL),
             treeId_(0)
@@ -314,15 +316,6 @@ namespace w
             if(node->treeId_ != treeId_)
             {
                 node->setTreeId(treeId_);
-                /*
-                //LOGD("chanching tree for all components, node: %d", node->id());
-                for(auto i: node->components_)
-                {
-                    const std::type_info& key = i.second.pointer()->typeId();
-                    treeComponentNodesRemove(node->treeId_, key, node); 
-                    treeComponentNodesAdd(treeId_, key, node);
-                }  
-                node->treeId_ = treeId_;*/
             }
             node->increment();
         }
@@ -349,8 +342,6 @@ namespace w
 
         void NodePrivate::setTreeId(unsigned int value)
         {
-            //LOGD("setTreeId %d", value);
-
             unsigned int oldTreeId = treeId_;
             treeId_ = value;
 
@@ -365,7 +356,6 @@ namespace w
             // change recursively whole tree branch
             for(auto i: children_)
             {
-                LOG
                 i->setTreeId(value);
             }  
         }
