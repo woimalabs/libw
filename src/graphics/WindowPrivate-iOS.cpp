@@ -115,14 +115,17 @@ namespace w
 
         Bitmap WindowPrivate::screenshot()
         {
-            //Bitmap r(width_, height_, Bitmap::Format::RGBA_8888);
-            //glReadPixels(0, 0, width_, height_, GL_RGBA, GL_UNSIGNED_BYTE, r.data());
-            //return r;
-
+            //GLKView *glkView = (GLKView *)w::graphics::Window::topUIView;
+            //UIImage *snapshot = [glkView snapshot];
+            
+            Bitmap r(width_, height_, Bitmap::Format::RGBA_8888);
+            glReadPixels(0, 0, width_, height_, GL_RGBA, GL_UNSIGNED_BYTE, r.data());
+            return r;
+/*
             // Get UIImage
-            GLKView *glkView = (GLKView*)[self view];
+            GLKView *glkView = (GLKView *)w::graphics::Window::topUIView;
             UIImage *snapshot = [glkView snapshot];
-            CGImageRef image = snapshot->CGImage;
+            CGImageRef image = snapshot.CGImage;
             size_t w = CGImageGetWidth(image);
             size_t h = CGImageGetHeight(image);
             CGRect rect = CGRectMake(0, 0, w, h);
@@ -134,20 +137,20 @@ namespace w
             
             // Pointer to the data
             unsigned char *imageData = (unsigned char*)CGBitmapContextGetData(context);
-            
-            // Copy data and release allocated memory
-            size_t bytesPerRow = CGBitmapContextGetBytesPerRow(context);
-            unsigned char *rgbaData = NULL;
-            if (imageData != NULL) {
-                rgbaData = imageData;
-            } else {
+            if (imageData == NULL)
+            {
                 throw Exception("Bitmap pixel data not got.");
             }
             
             // Release context
             CGContextRelease(context);
 
-            return new Bitmap(rgbaData, w, h, 4, true);
+            // Copy data
+            Bitmap r(width_, height_, Bitmap::Format::RGBA_8888);
+            char* data = r.data();// = rgbaData;
+            data = (char*)imageData;
+            return r;
+ */
         }
     }
 }
