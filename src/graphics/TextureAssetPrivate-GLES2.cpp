@@ -264,13 +264,16 @@ namespace w
             height_ = math::nextPowerOfTwo(sourceBitmapHeight_);
             xUsage_ = (float)sourceBitmapWidth_ / (float)width_;
             yUsage_ = (float)sourceBitmapHeight_ / (float)height_;
-            
+
             unsigned int dataSize = width_ * height_ * bytesPerPixel_;
             tmpData_ = new char[dataSize];
     
-            // TODO: polish copy away
-            memcpy(&(tmpData_)[0], bitmap.data(), sourceBitmapWidth_ * sourceBitmapHeight_ * bytesPerPixel_);
-            //LOGD("CCC CCC CC CCCCCCC CCC CC C CCC     CC%d, %f, %f", sourceBitmapWidth_ * sourceBitmapHeight_ * bytesPerPixel_, xUsage_, yUsage_);
+            for(auto i = 0; i < sourceBitmapHeight_; i++)
+            {
+                unsigned int offsetTarget = i * width_ * bytesPerPixel_;
+                unsigned int offsetSource = i * sourceBitmapWidth_ * bytesPerPixel_;
+                memcpy(tmpData_ + offsetTarget, bitmap.data() + offsetSource, sourceBitmapWidth_ * bytesPerPixel_);
+            }
         }
 
         void TextureAssetPrivate::bind()

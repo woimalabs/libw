@@ -115,42 +115,17 @@ namespace w
 
         Bitmap WindowPrivate::screenshot()
         {
-            //GLKView *glkView = (GLKView *)w::graphics::Window::topUIView;
-            //UIImage *snapshot = [glkView snapshot];
-            
             Bitmap r(width_, height_, Bitmap::Format::RGBA_8888);
-            glReadPixels(0, 0, width_, height_, GL_RGBA, GL_UNSIGNED_BYTE, r.data());
-            return r;
-/*
-            // Get UIImage
-            GLKView *glkView = (GLKView *)w::graphics::Window::topUIView;
-            UIImage *snapshot = [glkView snapshot];
-            CGImageRef image = snapshot.CGImage;
-            size_t w = CGImageGetWidth(image);
-            size_t h = CGImageGetHeight(image);
-            CGRect rect = CGRectMake(0, 0, w, h);
-
-            // Image to context
-            CGContextRef context = newContext(image);
-            CGContextDrawImage(context, rect, image);
-            CGImageRelease(image);
-            
-            // Pointer to the data
-            unsigned char *imageData = (unsigned char*)CGBitmapContextGetData(context);
-            if (imageData == NULL)
+            GLKViewDrawableColorFormat format = ((GLKView*)w::graphics::Window::topUIView).drawableColorFormat;
+            if(format == GLKViewDrawableColorFormatRGBA8888)
             {
-                throw Exception("Bitmap pixel data not got.");
+                glReadPixels(0, 0, width_, height_, GL_RGBA, GL_UNSIGNED_BYTE, r.data());
             }
-            
-            // Release context
-            CGContextRelease(context);
-
-            // Copy data
-            Bitmap r(width_, height_, Bitmap::Format::RGBA_8888);
-            char* data = r.data();// = rgbaData;
-            data = (char*)imageData;
+            else
+            {
+                LOGE("window format not supported for screenshot");
+            }
             return r;
- */
         }
     }
 }
