@@ -52,6 +52,11 @@ namespace w
         ResourceManager();
 #endif
         virtual ~ResourceManager();
+
+        /* all texture assets are down sized with given value */
+        static unsigned int graphicsDownScale();
+        static void setGaphicsDownScale(unsigned int value);
+        
         static bool exists(const std::string& filename);
 
         /* fixed bundled resource files of the app */

@@ -95,6 +95,68 @@ namespace w
             return height_;
         }
 
+        void TextureAssetPrivate::halfSize()
+        {
+            char* data = tmpData_;
+            unsigned int width = width_;
+            unsigned int height = height_;
+            unsigned int newWidth = (width_ + 1) / 2;
+            unsigned int newHeight = (height_ + 1) / 2;
+            char* newData = (char*)malloc(newWidth * newHeight * bytesPerPixel_);
+            unsigned int widthXBpp = width_ * bytesPerPixel_;
+            unsigned int newWidthXBpp = newWidth * bytesPerPixel_;
+
+            for (unsigned int x = 0; x < newWidth; x++)
+            {
+                for (unsigned int y = 0; y < newHeight; y++)
+                {
+                    unsigned int target = y * newWidthXBpp + x * bytesPerPixel_;
+                    unsigned int sourceRow1 = (y * 2) * widthXBpp + (x * 2) * bytesPerPixel_;
+                    unsigned int sourceRow2 = (y * 2 + 1) * widthXBpp + (x * 2) * bytesPerPixel_;
+                    
+                    if ((x == (newWidth - 1) && (width % 2 == 1)) && (y == (newHeight - 1) && (height % 2 == 1))) // upper corner case
+                    {
+                        for (unsigned int colorIndex = 0; colorIndex < bytesPerPixel_; colorIndex++) // r, g, b, a
+                        {
+                            newData[target + colorIndex] = data[sourceRow1 + colorIndex] / 4;
+                        }
+                    }
+                    else if (x == (newWidth - 1) && (width % 2 == 1)) // right side case
+                    {
+                        for (unsigned int colorIndex = 0; colorIndex < bytesPerPixel_; colorIndex++) // r, g, b, a
+                        {
+                            newData[target + colorIndex] =
+                                (data[sourceRow1 + colorIndex]
+                               + data[sourceRow2 + colorIndex]) / 4;
+                        }
+                    }
+                    else if (y == (newHeight - 1) && (height % 2 == 1)) // top row case
+                    {
+                        for (unsigned int colorIndex = 0; colorIndex < bytesPerPixel_; colorIndex++) // r, g, b, a
+                        {
+                            newData[target + colorIndex] =
+                                (data[sourceRow1 + colorIndex] + data[sourceRow1 + colorIndex + bytesPerPixel_]) / 4;
+                        }
+                    }
+                    else // "normal" case
+                    {
+                        for (unsigned int colorIndex = 0; colorIndex < bytesPerPixel_; colorIndex++) // r, g, b, a
+                        {
+                            newData[target + colorIndex] =
+                                (data[sourceRow1 + colorIndex] + data[sourceRow1 + colorIndex + bytesPerPixel_]
+                               + data[sourceRow2 + colorIndex] + data[sourceRow2 + colorIndex + bytesPerPixel_]) / 4;
+                        }
+                    }
+                }
+            }
+
+            char* tmp = data;
+            tmpData_ = newData;
+            delete [] tmp;
+            width_ = newWidth;
+            height_ = newHeight;
+        }
+
         void TextureAssetPrivate::loadFileData(bool bundledFile)
         {
             static const int flags = PNG_TRANSFORM_STRIP_16 |
@@ -154,7 +216,6 @@ namespace w
                 throw Exception("libpng unsupported color type.");
             }
 
-            // Copy to continous memory
             sourceBitmapWidth_ = png_get_image_width(png, info);
             sourceBitmapHeight_ = png_get_image_height(png, info);
             width_ = math::nextPowerOfTwo(sourceBitmapWidth_);
@@ -170,6 +231,11 @@ namespace w
             for(unsigned int i = 0; i < sourceBitmapHeight_; i++)
             {
                 memcpy(&(tmpData_)[width_ * bytesPerPixel_ * i], rows[sourceBitmapHeight_ - i - 1], sourceBitmapWidth_ * bytesPerPixel_);
+            }
+
+            if(ResourceManager::graphicsDownScale() == 2)
+            {
+            //    halfSize();
             }
 
             // Free libpng's struct

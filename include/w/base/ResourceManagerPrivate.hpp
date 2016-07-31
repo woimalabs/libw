@@ -56,6 +56,8 @@ namespace w
             static void setAndroidAssetManager(AAssetManager* androidAssetManager);
         #endif
         static bool exists(const std::string& filename);
+        static unsigned int graphicsDownScale();
+        static void setGraphicsDownScale(unsigned int value);
 
     private:
         friend class ResourceManager;
@@ -65,6 +67,7 @@ namespace w
         std::string basePath_;
         Mutex mutex_;
         std::map<std::string, Referenced*> assetPrivates_;
+        unsigned int graphicsDownScale_;
 
         // assetPrivateConnections_ note:
         // We don't hold reference count in ResourceManager

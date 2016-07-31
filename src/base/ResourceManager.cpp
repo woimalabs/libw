@@ -68,6 +68,21 @@ namespace w
         return *this;
     }
 
+    unsigned int ResourceManager::graphicsDownScale()
+    {
+        return ResourceManagerPrivate::graphicsDownScale();
+    }
+
+    void ResourceManager::setGaphicsDownScale(unsigned int value)
+    {
+         ResourceManagerPrivate::setGraphicsDownScale(value);
+    }
+
+    bool ResourceManager::exists(const std::string& filename)
+    {
+        return ResourceManagerPrivate::exists(filename);
+    }
+
     ReferencedPointer<FileHandle> ResourceManager::bundledFile(const std::string& filename)
     {
         return ReferencedPointer<FileHandle>(ResourceManagerPrivate::bundledFile(filename));
@@ -81,10 +96,5 @@ namespace w
     ReferencedPointer<FileHandle> ResourceManager::dynamicFileForWrite(const std::string& filename)
     {
         return ReferencedPointer<FileHandle>(ResourceManagerPrivate::dynamicFile(filename, false));
-    }
-
-    bool ResourceManager::exists(const std::string& filename)
-    {
-        return ResourceManagerPrivate::exists(filename);
     }
 }

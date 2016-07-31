@@ -50,6 +50,7 @@ namespace w
             TextureAssetPrivate(const w::graphics::Bitmap& bitmap, TextureAsset::Clamp::Enum clamp);
             ~TextureAssetPrivate();
 
+            // GL texture height
             unsigned int width() const;
             unsigned int height() const;
             bool hasAlpha() const
@@ -60,6 +61,8 @@ namespace w
             void bind();
             float xUsage() const;
             float yUsage() const;
+            unsigned int dataBitmapWidth() const;
+            unsigned int dataBitmapHeight() const;
             unsigned int sourceBitmapWidth() const;
             unsigned int sourceBitmapHeight() const;
 
@@ -68,14 +71,19 @@ namespace w
             void loadBitmap(const w::graphics::Bitmap& bitmap);
             void loadGPUData();
 
+            /* loaded data will be downsized */
+            void halfSize();
+
             unsigned int bytesPerPixel_;
 
+            unsigned int sourceBitmapWidth_;
+            unsigned int sourceBitmapHeight_;
+            unsigned int dataWidth_;
+            unsigned int dataHeight_;
             unsigned int width_;
             unsigned int height_;
             float xUsage_;
             float yUsage_;
-            unsigned int sourceBitmapWidth_;
-            unsigned int sourceBitmapHeight_;
             TextureAsset::Clamp::Enum clamp_;
 
             // Pointer where loaded data array is kept

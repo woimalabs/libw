@@ -39,7 +39,8 @@ namespace w
     #endif
 
     ResourceManagerPrivate::ResourceManagerPrivate(const std::string& basePath):
-        basePath_(basePath)
+        basePath_(basePath),
+        graphicsDownScale_(1)
     {
         if (singleton_ != NULL)
         {
@@ -214,5 +215,19 @@ namespace w
         #endif
 
         return r;
+    }
+
+    void ResourceManagerPrivate::setGraphicsDownScale(unsigned int value)
+    {
+        if(value != 1 && value != 2 && value != 4)
+        {
+            return;
+        }
+        singleton_->graphicsDownScale_ = value;
+    }
+
+    unsigned int ResourceManagerPrivate::graphicsDownScale()
+    {
+        return singleton_->graphicsDownScale_;
     }
 }
