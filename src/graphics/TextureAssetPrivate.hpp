@@ -92,6 +92,8 @@ namespace w
 
             // Android, linux, iOS. All use GLES2
             GLuint textureId_;
+            
+            static unsigned int textureIdBinded_;
         };
     }
 }

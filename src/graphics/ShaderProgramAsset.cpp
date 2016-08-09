@@ -66,7 +66,7 @@ namespace w
             }
             return *this;
         }
-
+        
         void ShaderProgramAsset::start()
         {
             private_->start();

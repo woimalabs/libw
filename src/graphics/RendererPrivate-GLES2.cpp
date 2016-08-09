@@ -35,6 +35,14 @@
 #include <vector>
 #include <string>
 
+#ifdef __linux__ // & Android
+#include <GLES2/gl2.h>
+#else // APPLE
+#include <OpenGLES/ES2/gl.h>
+#import <OpenGLES/ES2/glext.h>
+#endif
+
+
 namespace w
 {
     namespace graphics
@@ -215,40 +223,43 @@ namespace w
         void RendererPrivate::draw(const TextureAsset & texture, const MeshAsset & mesh, const ShaderProgramAsset & shaderProgram)
         {
             // Use given mesh
-            mesh.private_->bind();
+            mesh.private_->bind(shaderProgram.private_);
 
-            // Find out needed data for shader
-            const std::vector<StrideComponent>& uniforms = mesh.private_->strideComponents();
-            unsigned int strideByteSize = mesh.private_->strideByteSize();
-
-            // Bind shader symbols to mesh data
-            std::vector<std::string> shaderSymbols;
-            for (std::vector<StrideComponent>::const_iterator i = uniforms.begin(); i != uniforms.end(); i++)
+            if(mesh.private_->vaoBased_ == false)
             {
-                GLint shaderSymbolLocation = shaderProgram.private_->attribute((*i).shaderSymbolName);
-                glEnableVertexAttribArray(shaderSymbolLocation);
-                GLenum type = 0;
-                switch((*i).type)
-                {
-                    case StrideType::Float32:
-                    {
-                        type = GL_FLOAT;
-                        break;
-                    }
-                    default:
-                    {
-                        throw Exception("StrideType unknown");
-                        break;
-                    }
-                }
+                // Find out needed data for shader
+                const std::vector<StrideComponent>& uniforms = mesh.private_->strideComponents();
+                unsigned int strideByteSize = mesh.private_->strideByteSize();
 
-                glVertexAttribPointer(
-                    shaderSymbolLocation,
-                    (*i).numberOfComponents,
-                    type,
-                    GL_FALSE,
-                    strideByteSize,
-                    (GLvoid*)((*i).byteOffset));
+                // Bind shader symbols to mesh data
+                std::vector<std::string> shaderSymbols;
+                for (std::vector<StrideComponent>::const_iterator i = uniforms.begin(); i != uniforms.end(); i++)
+                {
+                    GLint shaderSymbolLocation = shaderProgram.private_->attribute((*i).shaderSymbolName);
+                    glEnableVertexAttribArray(shaderSymbolLocation);
+                    GLenum type = 0;
+                    switch((*i).type)
+                    {
+                        case StrideType::Float32:
+                        {
+                            type = GL_FLOAT;
+                            break;
+                        }
+                        default:
+                        {
+                            throw Exception("StrideType unknown");
+                            break;
+                        }
+                    }
+
+                    glVertexAttribPointer(
+                        shaderSymbolLocation,
+                        (*i).numberOfComponents,
+                        type,
+                        GL_FALSE,
+                        strideByteSize,
+                        (GLvoid*)((*i).byteOffset));
+                }
             }
 
             // Use given texture
@@ -256,6 +267,11 @@ namespace w
 
             // Draw
             glDrawArrays(GL_TRIANGLES, 0, mesh.private_->vertexCount());
+
+            if(mesh.private_->vaoBased_ == true)
+            {
+                glBindVertexArrayOES(0);
+            }
         }
 
         void RendererPrivate::draw(const PolygonAsset & polygon, const ShaderProgramAsset & shaderProgram)
@@ -266,7 +282,7 @@ namespace w
             // Shader attributes
             std::string tmp("xyz");
             GLint positionXyz = shaderProgram.private_->attribute(tmp);
-            glEnableVertexAttribArray(positionXyz);
+            //glEnableVertexAttribArray(positionXyz);
             glVertexAttribPointer(positionXyz, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
             // Draw the line
@@ -277,40 +293,43 @@ namespace w
         void RendererPrivate::draw(FrameBuffer const& frameBuffer, MeshAsset const& mesh, ShaderProgramAsset const& shaderProgram)
         {
             // Use given mesh
-            mesh.private_->bind();
-
-            // Find out needed data for shader
-            const std::vector<StrideComponent>& uniforms = mesh.private_->strideComponents();
-            unsigned int strideByteSize = mesh.private_->strideByteSize();
-
-            // Bind shader symbols to mesh data
-            std::vector<std::string> shaderSymbols;
-            for (std::vector<StrideComponent>::const_iterator i = uniforms.begin(); i != uniforms.end(); i++)
+            mesh.private_->bind(shaderProgram.private_);
+            
+            if(mesh.private_->vaoBased_ == false)
             {
-                GLint shaderSymbolLocation = shaderProgram.private_->attribute((*i).shaderSymbolName);
-                glEnableVertexAttribArray(shaderSymbolLocation);
-                GLenum type = 0;
-                switch((*i).type)
-                {
-                    case StrideType::Float32:
-                    {
-                        type = GL_FLOAT;
-                        break;
-                    }
-                    default:
-                    {
-                        throw Exception("StrideType unknown");
-                        break;
-                    }
-                }
+                // Find out needed data for shader
+                const std::vector<StrideComponent>& uniforms = mesh.private_->strideComponents();
+                unsigned int strideByteSize = mesh.private_->strideByteSize();
 
-                glVertexAttribPointer(
-                    shaderSymbolLocation,
-                    (*i).numberOfComponents,
-                    type,
-                    GL_FALSE,
-                    strideByteSize,
-                    (GLvoid*)((*i).byteOffset));
+                // Bind shader symbols to mesh data
+                std::vector<std::string> shaderSymbols;
+                for (std::vector<StrideComponent>::const_iterator i = uniforms.begin(); i != uniforms.end(); i++)
+                {
+                    GLint shaderSymbolLocation = shaderProgram.private_->attribute((*i).shaderSymbolName);
+                    glEnableVertexAttribArray(shaderSymbolLocation);
+                    GLenum type = 0;
+                    switch((*i).type)
+                    {
+                        case StrideType::Float32:
+                        {
+                            type = GL_FLOAT;
+                            break;
+                        }
+                        default:
+                        {
+                            throw Exception("StrideType unknown");
+                            break;
+                        }
+                    }
+
+                    glVertexAttribPointer(
+                        shaderSymbolLocation,
+                        (*i).numberOfComponents,
+                        type,
+                        GL_FALSE,
+                        strideByteSize,
+                        (GLvoid*)((*i).byteOffset));
+                }
             }
 
             // Use given texture
@@ -318,6 +337,11 @@ namespace w
 
             // Draw
             glDrawArrays(GL_TRIANGLES, 0, mesh.private_->vertexCount());
+            
+            if(mesh.private_->vaoBased_ == true)
+            {
+                glBindVertexArrayOES(0);
+            }
         }
 
         void RendererPrivate::drawLine(float p0x, float p0y, float p1x, float p1y, const ShaderProgramAsset & shaderProgram)
@@ -342,7 +366,7 @@ namespace w
             glDisable(GL_CULL_FACE);
 
             // Draw
-            glEnableVertexAttribArray(positionXyz);
+            //glEnableVertexAttribArray(positionXyz);
             glBindBuffer(GL_ARRAY_BUFFER, vbo);
             glVertexAttribPointer(positionXyz, 3, GL_FLOAT, GL_FALSE, 0, 0);
 

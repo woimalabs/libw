@@ -35,6 +35,7 @@
     #include <OpenGLES/ES2/gl.h>
 #endif
 #include <string>
+#include <map>
 
 namespace w
 {
@@ -67,6 +68,9 @@ namespace w
             GLuint static createShader(GLenum shaderType, const char* pSource);
             GLuint static createProgram(const char* vertexSource, const char* fragmentSource);
             GLuint programId_;
+            static GLuint currentProgramId_;
+            std::map<std::string, GLint> uniformLocations_; // to reduce location calls
+            std::map<std::string, GLint> attributeLocations_; // to reduce location calls
         };
     }
 }

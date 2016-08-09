@@ -26,6 +26,12 @@
 #include "MeshAssetPrivate.hpp"
 #include "w/base/Log.hpp"
 #include "w/base/Exception.hpp"
+#ifdef __linux__ // & Android
+#include <GLES2/gl2.h>
+#else // APPLE
+#include <OpenGLES/ES2/gl.h>
+#import <OpenGLES/ES2/glext.h>
+#endif
 
 namespace w
 {
@@ -37,6 +43,7 @@ namespace w
                 unsigned int vertexCount,
                 Aabb const& aabb):
             vbo_(0),
+            vaoBased_(true),
             strideComponents_(strideComponents),
             tmpVertexData_((GLfloat*)tmpVertexData),
             vertexCount_(vertexCount),
@@ -49,11 +56,12 @@ namespace w
             StrideComponent tmp = strideComponents.back();
             strideByteSize_ = tmp.byteOffset + tmp.numberOfComponents * sizeof(GLfloat);
         }
-
+        
         MeshAssetPrivate::MeshAssetPrivate(float width, float height,
                 float uStart, float uEnd, float vStart, float vEnd,
                 float wOffset, float hOffset):
             vbo_(0),
+            vaoBased_(true),
             strideComponents_(),
             tmpVertexData_(NULL),
             vertexCount_(0),
@@ -61,7 +69,7 @@ namespace w
                     Eigen::Vector3f(wOffset + width, hOffset + height, 0.0f))
         {
             /*
-             * Rectangle we create has two triangles:
+             * For rectangle, we create has two triangles:
              *
              * 1_____2
              *  |  /|
@@ -168,10 +176,13 @@ namespace w
             return strideByteSize_;
         }
 
-        void MeshAssetPrivate::bind()
+        void MeshAssetPrivate::bind(w::graphics::ShaderProgramAssetPrivate* program)
         {
-            loadGPUData();
-            glBindBuffer(GL_ARRAY_BUFFER, vbo_);
+            loadGPUData(program);
+            if(vaoBased_)
+                glBindVertexArrayOES(vao_);
+            else
+                glBindBuffer(GL_ARRAY_BUFFER, vbo_);
         }
 
         unsigned int MeshAssetPrivate::vertexCount() const
@@ -198,21 +209,55 @@ namespace w
             return aabb_;
         }
 
-        void MeshAssetPrivate::loadGPUData()
+        void MeshAssetPrivate::loadGPUData(w::graphics::ShaderProgramAssetPrivate* program)
         {
             if(tmpVertexData_ == NULL)
             {
                 return; // we have created the GPU data already
             }
 
-            if(vbo_ != 0)
+            if(!vaoBased_)
             {
-                glDeleteBuffers(1, &vbo_);
+                if(vbo_ != 0)
+                {
+                    glDeleteBuffers(1, &vbo_);
+                }
+                glGenBuffers(1, &vbo_);
+                glBindBuffer(GL_ARRAY_BUFFER, vbo_);
+                glBufferData(GL_ARRAY_BUFFER, vertexCount_ * strideByteSize_, tmpVertexData_, GL_STATIC_DRAW);
             }
-            glGenBuffers(1, &vbo_);
-            glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-            glBufferData(GL_ARRAY_BUFFER, vertexCount_ * strideByteSize_, tmpVertexData_, GL_STATIC_DRAW);
+            else
+            {
+                // Vertex Array Object
+                glGenVertexArraysOES(1, &vao_);
+                glBindVertexArrayOES(vao_);
 
+                // Vertex data
+                GLuint vBuffer;
+                glGenBuffers(1, &vBuffer);
+                glBindBuffer(GL_ARRAY_BUFFER, vBuffer);
+                glBufferData(GL_ARRAY_BUFFER, vertexCount_ * strideByteSize_, tmpVertexData_, GL_STATIC_DRAW);
+                
+                // Attributes
+                for (auto iter = strideComponents_.begin(); iter != strideComponents_.end(); iter++)
+                {
+                    GLint tmp = program->attribute((*iter).shaderSymbolName);
+                    glEnableVertexAttribArray(tmp);
+                    
+                    //LOGD("index: %d, symbol id: %d", index, program->attribute((*iter).shaderSymbolName));
+                    glVertexAttribPointer(
+                                          tmp,
+                                          (*iter).numberOfComponents,
+                                          GL_FLOAT,
+                                          GL_FALSE,
+                                          strideByteSize_,
+                                          (GLvoid*)((*iter).byteOffset));
+                }
+
+                // Vertex Array Object, unbind
+                glBindVertexArrayOES(0);
+            }
+            
             delete [] tmpVertexData_;
             tmpVertexData_ = NULL;
         }

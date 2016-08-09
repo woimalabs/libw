@@ -37,6 +37,7 @@ namespace w
     {
         // Callback function for libpng
         static void read(png_structp p, png_bytep data, png_size_t length);
+        unsigned int TextureAssetPrivate::textureIdBinded_ = 0;
 
         TextureAssetPrivate::TextureAssetPrivate(const std::string& file, TextureAsset::Clamp::Enum clamp, bool bundledFile):
             Resource(file),
@@ -235,7 +236,7 @@ namespace w
 
             if(ResourceManager::graphicsDownScale() == 2)
             {
-            //    halfSize();
+                halfSize();
             }
 
             // Free libpng's struct
@@ -280,8 +281,18 @@ namespace w
         {
             loadGPUData();
 
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, textureId_);
+            static bool activeTexture0Set = false;
+            if(!activeTexture0Set)
+            {
+                glActiveTexture(GL_TEXTURE0);
+                activeTexture0Set = true;
+            }
+            
+            if(textureIdBinded_ != textureId_)
+            {
+                glBindTexture(GL_TEXTURE_2D, textureId_);
+                textureIdBinded_ = textureId_;
+            }
         }
 
         float TextureAssetPrivate::xUsage() const

@@ -28,6 +28,7 @@
 
 #include "w/graphics/Aabb.hpp"
 #include "w/graphics/Stride.hpp"
+#include "ShaderProgramAssetPrivate.hpp"
 #include <w/base/Referenced.hpp>
 #include <w/base/Class.hpp>
 #ifdef __linux__ // & Android
@@ -54,15 +55,17 @@ namespace w
 
             const std::vector<StrideComponent>& strideComponents() const;
             unsigned int strideByteSize() const;
-            void bind();
+            void bind(w::graphics::ShaderProgramAssetPrivate* = NULL);
             unsigned int vertexCount() const;
             void setData(const std::vector<StrideComponent> & strideComponents, float* vertexData, unsigned int vertexCount, Aabb const& aabb);
 
             Aabb const& aabb() const;
+            bool vaoBased_;
 
         private:
-            void loadGPUData();
+            void loadGPUData(w::graphics::ShaderProgramAssetPrivate* program);
             GLuint vbo_;
+            GLuint vao_;
             std::vector<StrideComponent> strideComponents_;
             GLfloat* tmpVertexData_;
             unsigned int vertexCount_;

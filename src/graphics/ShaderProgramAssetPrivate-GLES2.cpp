@@ -34,6 +34,8 @@ namespace w
 {
     namespace graphics
     {
+        GLuint w::graphics::ShaderProgramAssetPrivate::currentProgramId_ = 0;
+        
         static void checkGlError(const char* op)
         {
             for (GLint error = glGetError(); error; error = glGetError())
@@ -71,24 +73,43 @@ namespace w
 
         GLint ShaderProgramAssetPrivate::uniform(const std::string& symbolName)
         {
+            auto i = uniformLocations_.find(symbolName);
+            if (i != uniformLocations_.end())
+            {
+                return i->second;
+            }
+            
             GLint r = glGetUniformLocation(programId_, symbolName.c_str());
             if(r < 0)
             {
-                return r;
                 LOGE("ShaderProgramAssetPrivate::uniform(), no symbol: \"%s\"", symbolName.c_str());
                 throw Exception("Failed to get uniform location");
             }
+
+            std::pair<std::string, GLint> pair = std::make_pair(symbolName, r);
+            uniformLocations_.insert(pair);
+            
             return r;
         }
 
         GLint ShaderProgramAssetPrivate::attribute(const std::string& symbolName)
         {
+            auto i = attributeLocations_.find(symbolName);
+            if (i != attributeLocations_.end())
+            {
+                return i->second;
+            }
+            
             GLint r = glGetAttribLocation(programId_, symbolName.c_str());
             if(r < 0)
             {
                 LOGE("ShaderProgramAssetPrivate::attribute(), no symbol: \"%s\"", symbolName.c_str());
                 throw Exception("Failed to get attribute location");
             }
+            
+            std::pair<std::string, GLint> pair = std::make_pair(symbolName, r);
+            attributeLocations_.insert(pair);
+            
             return r;
         }
 
@@ -124,12 +145,17 @@ namespace w
 
         void ShaderProgramAssetPrivate::start()
         {
-            glUseProgram(programId_);
+            if(currentProgramId_ != programId_)
+            {
+                glUseProgram(programId_);
+                currentProgramId_ = programId_;
+            }
         }
 
         void ShaderProgramAssetPrivate::stop()
         {
             glUseProgram(0);
+            currentProgramId_ = 0;
         }
 
         GLuint ShaderProgramAssetPrivate::createShader(GLenum shaderType, const char* pSource)
