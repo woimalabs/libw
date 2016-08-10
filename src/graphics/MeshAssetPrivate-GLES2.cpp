@@ -28,6 +28,7 @@
 #include "w/base/Exception.hpp"
 #ifdef __linux__ // & Android
 #include <GLES2/gl2.h>
+#include <GLES2/gl2ext.h>
 #else // APPLE
 #include <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
@@ -42,8 +43,7 @@ namespace w
                 float* tmpVertexData,
                 unsigned int vertexCount,
                 Aabb const& aabb):
-            vbo_(0),
-            vaoBased_(true),
+            id_(0),
             strideComponents_(strideComponents),
             tmpVertexData_((GLfloat*)tmpVertexData),
             vertexCount_(vertexCount),
@@ -60,8 +60,7 @@ namespace w
         MeshAssetPrivate::MeshAssetPrivate(float width, float height,
                 float uStart, float uEnd, float vStart, float vEnd,
                 float wOffset, float hOffset):
-            vbo_(0),
-            vaoBased_(true),
+            id_(0),
             strideComponents_(),
             tmpVertexData_(NULL),
             vertexCount_(0),
@@ -154,9 +153,13 @@ namespace w
 
         MeshAssetPrivate::~MeshAssetPrivate()
         {
-            if(vbo_ != 0)
+            if(id_ != 0)
             {
-                glDeleteBuffers(1, &vbo_);
+#ifdef __linux__ // & Android
+                glDeleteBuffers(1, &id_);
+#else // APPLE
+                // TODO
+#endif
             }
 
             if(tmpVertexData_ != NULL)
@@ -179,10 +182,11 @@ namespace w
         void MeshAssetPrivate::bind(w::graphics::ShaderProgramAssetPrivate* program)
         {
             loadGPUData(program);
-            if(vaoBased_)
-                glBindVertexArrayOES(vao_);
-            else
-                glBindBuffer(GL_ARRAY_BUFFER, vbo_);
+#ifdef __linux__ // & Android
+            glBindBuffer(GL_ARRAY_BUFFER, id_);
+#else // APPLE
+            glBindVertexArrayOES(id_);
+#endif
         }
 
         unsigned int MeshAssetPrivate::vertexCount() const
@@ -216,21 +220,21 @@ namespace w
                 return; // we have created the GPU data already
             }
 
-            if(!vaoBased_)
+#ifdef __linux__ // & Android
             {
-                if(vbo_ != 0)
+                if(id_ != 0)
                 {
-                    glDeleteBuffers(1, &vbo_);
+                    glDeleteBuffers(1, &id_);
                 }
-                glGenBuffers(1, &vbo_);
-                glBindBuffer(GL_ARRAY_BUFFER, vbo_);
+                glGenBuffers(1, &id_);
+                glBindBuffer(GL_ARRAY_BUFFER, id_);
                 glBufferData(GL_ARRAY_BUFFER, vertexCount_ * strideByteSize_, tmpVertexData_, GL_STATIC_DRAW);
             }
-            else
+#else // APPLE
             {
                 // Vertex Array Object
-                glGenVertexArraysOES(1, &vao_);
-                glBindVertexArrayOES(vao_);
+                glGenVertexArraysOES(1, &id_);
+                glBindVertexArrayOES(id_);
 
                 // Vertex data
                 GLuint vBuffer;
@@ -257,6 +261,7 @@ namespace w
                 // Vertex Array Object, unbind
                 glBindVertexArrayOES(0);
             }
+#endif
             
             delete [] tmpVertexData_;
             tmpVertexData_ = NULL;

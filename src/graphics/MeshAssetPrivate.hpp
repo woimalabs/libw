@@ -60,12 +60,10 @@ namespace w
             void setData(const std::vector<StrideComponent> & strideComponents, float* vertexData, unsigned int vertexCount, Aabb const& aabb);
 
             Aabb const& aabb() const;
-            bool vaoBased_;
 
         private:
             void loadGPUData(w::graphics::ShaderProgramAssetPrivate* program);
-            GLuint vbo_;
-            GLuint vao_;
+            GLuint id_; // used for VAO with iOS and for VBO with linux
             std::vector<StrideComponent> strideComponents_;
             GLfloat* tmpVertexData_;
             unsigned int vertexCount_;

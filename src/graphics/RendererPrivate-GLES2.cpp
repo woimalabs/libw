@@ -225,7 +225,7 @@ namespace w
             // Use given mesh
             mesh.private_->bind(shaderProgram.private_);
 
-            if(mesh.private_->vaoBased_ == false)
+#ifdef __linux__ // & Android
             {
                 // Find out needed data for shader
                 const std::vector<StrideComponent>& uniforms = mesh.private_->strideComponents();
@@ -261,17 +261,16 @@ namespace w
                         (GLvoid*)((*i).byteOffset));
                 }
             }
-
+#endif
             // Use given texture
             texture.private_->bind();
 
             // Draw
             glDrawArrays(GL_TRIANGLES, 0, mesh.private_->vertexCount());
 
-            if(mesh.private_->vaoBased_ == true)
-            {
-                glBindVertexArrayOES(0);
-            }
+#ifdef __APPLE__
+            glBindVertexArrayOES(0); // unbinds the mesh vao
+#endif
         }
 
         void RendererPrivate::draw(const PolygonAsset & polygon, const ShaderProgramAsset & shaderProgram)
@@ -295,7 +294,7 @@ namespace w
             // Use given mesh
             mesh.private_->bind(shaderProgram.private_);
             
-            if(mesh.private_->vaoBased_ == false)
+#ifdef __linux__ // & Android
             {
                 // Find out needed data for shader
                 const std::vector<StrideComponent>& uniforms = mesh.private_->strideComponents();
@@ -331,17 +330,17 @@ namespace w
                         (GLvoid*)((*i).byteOffset));
                 }
             }
+#endif
 
             // Use given texture
             ((FrameBufferPrivate*)(frameBuffer.pointer()))->bindAsTexture();
 
             // Draw
             glDrawArrays(GL_TRIANGLES, 0, mesh.private_->vertexCount());
-            
-            if(mesh.private_->vaoBased_ == true)
-            {
-                glBindVertexArrayOES(0);
-            }
+
+#ifdef __APPLE__
+            glBindVertexArrayOES(0); // unbinds the mesh vao
+#endif
         }
 
         void RendererPrivate::drawLine(float p0x, float p0y, float p1x, float p1y, const ShaderProgramAsset & shaderProgram)
