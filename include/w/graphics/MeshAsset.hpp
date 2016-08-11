@@ -73,7 +73,7 @@ namespace w
             void setData(const std::vector<StrideComponent> & strideComponents, float* vertexData, unsigned int vertexCount, Aabb const& aabb);
 
             Aabb const& aabb() const;
-
+            
         private:
             friend class RendererPrivate;
             class MeshAssetPrivate* private_;

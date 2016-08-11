@@ -50,16 +50,14 @@ namespace w
 
             MeshAssetPrivate(const std::vector<StrideComponent> & strideComponents, float* tmpVertexData, unsigned int vertexCount, const Aabb& aabb);
             MeshAssetPrivate(float width, float height, float uStart, float uEnd, float vStart, float vEnd, float wOffset, float hOffset);
-
             virtual ~MeshAssetPrivate();
-
             const std::vector<StrideComponent>& strideComponents() const;
             unsigned int strideByteSize() const;
             void bind(w::graphics::ShaderProgramAssetPrivate* = NULL);
             unsigned int vertexCount() const;
             void setData(const std::vector<StrideComponent> & strideComponents, float* vertexData, unsigned int vertexCount, Aabb const& aabb);
-
             Aabb const& aabb() const;
+            static void fillWithRectangleData(GLfloat* vertexData, float x, float y, float w, float h, float uStart, float uEnd, float vStart, float vEnd);
 
         private:
             void loadGPUData(w::graphics::ShaderProgramAssetPrivate* program);
