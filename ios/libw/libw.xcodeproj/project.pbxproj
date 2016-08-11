@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E43A33911C2D6FA800BD7308 /* Condition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E43A33901C2D6FA800BD7308 /* Condition.cpp */; };
+		E49F8F0E1D5D1760000784E0 /* BatchableRectangleMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E49F8F0D1D5D1760000784E0 /* BatchableRectangleMesh.cpp */; };
 		FB19B9EB18146F13001351D2 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB19B9EA18146F13001351D2 /* OpenGLES.framework */; };
 		FB3EC1481B36FF35003E1663 /* Bitmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB3EC1451B36FF35003E1663 /* Bitmap.cpp */; };
 		FB3EC1491B36FF35003E1663 /* BitmapPrivate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB3EC1461B36FF35003E1663 /* BitmapPrivate.cpp */; };
@@ -97,6 +98,7 @@
 
 /* Begin PBXFileReference section */
 		E43A33901C2D6FA800BD7308 /* Condition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Condition.cpp; path = ../../src/base/Condition.cpp; sourceTree = "<group>"; };
+		E49F8F0D1D5D1760000784E0 /* BatchableRectangleMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BatchableRectangleMesh.cpp; path = ../../src/graphics/BatchableRectangleMesh.cpp; sourceTree = "<group>"; };
 		E4F6DAF21C2B5117005A1CCC /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		FB19B9EA18146F13001351D2 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		FB19B9ED18146F27001351D2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -254,6 +256,7 @@
 		FBF866F31AC80D5E001C29F6 /* graphics */ = {
 			isa = PBXGroup;
 			children = (
+				E49F8F0D1D5D1760000784E0 /* BatchableRectangleMesh.cpp */,
 				FB3EC1451B36FF35003E1663 /* Bitmap.cpp */,
 				FB3EC1461B36FF35003E1663 /* BitmapPrivate.cpp */,
 				FB3EC1471B36FF35003E1663 /* BitmapPrivate.hpp */,
@@ -451,6 +454,7 @@
 				E43A33911C2D6FA800BD7308 /* Condition.cpp in Sources */,
 				FBF8670B1AC80D8B001C29F6 /* FrameBuffer.cpp in Sources */,
 				FBF867D81AC850F2001C29F6 /* Component.cpp in Sources */,
+				E49F8F0E1D5D1760000784E0 /* BatchableRectangleMesh.cpp in Sources */,
 				FBF867D31AC850BA001C29F6 /* PathAnimation.cpp in Sources */,
 				FBF8673A1AC816B4001C29F6 /* Referenced.cpp in Sources */,
 				FBF867D21AC850BA001C29F6 /* BezierCubicAnimation.cpp in Sources */,
