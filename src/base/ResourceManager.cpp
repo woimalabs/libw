@@ -80,11 +80,27 @@ namespace w
 
     bool ResourceManager::exists(const std::string& filename)
     {
+        static const std::string textureEnding = ".png";
+        static const std::string mappingEnding = ".mapping";
+
+        if(filename.compare (filename.length() - textureEnding.length(), textureEnding.length(), textureEnding) == 0)
+            return ResourceManagerPrivate::textureExists(filename);
+        if(filename.compare (filename.length() - mappingEnding.length(), mappingEnding.length(), mappingEnding) == 0)
+            return ResourceManagerPrivate::textureExists(filename);
+
         return ResourceManagerPrivate::exists(filename);
     }
 
     ReferencedPointer<FileHandle> ResourceManager::bundledFile(const std::string& filename)
     {
+        static const std::string textureEnding = ".png";
+        static const std::string mappingEnding = ".mapping";
+
+        if(filename.compare (filename.length() - textureEnding.length(), textureEnding.length(), textureEnding) == 0)
+            return ReferencedPointer<FileHandle>(ResourceManagerPrivate::textureBundledFile(filename));
+        if(filename.compare (filename.length() - mappingEnding.length(), mappingEnding.length(), mappingEnding) == 0)
+            return ReferencedPointer<FileHandle>(ResourceManagerPrivate::textureBundledFile(filename));
+
         return ReferencedPointer<FileHandle>(ResourceManagerPrivate::bundledFile(filename));
     }
 

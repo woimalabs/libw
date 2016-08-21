@@ -131,6 +131,20 @@ namespace w
         }
     }
 
+    FileHandle* ResourceManagerPrivate::textureBundledFile(const std::string& filename)
+    {
+        std::string tmp;
+        if(graphicsDownScale() == 2)
+        {
+            tmp = "graphics_half/" + filename;
+        }
+        else
+        {
+            tmp = "graphics_full/" + filename;
+        }
+        return bundledFile(tmp);
+    }
+
     FileHandle* ResourceManagerPrivate::bundledFile(const std::string& filename)
     {
         #ifdef ANDROID
@@ -179,6 +193,20 @@ namespace w
             androidAssetManager_ = assetManager;
         }
     #endif
+
+    bool ResourceManagerPrivate::textureExists(const std::string& filename)
+    {
+        std::string tmp;
+        if(graphicsDownScale() == 2)
+        {
+            tmp = "graphics_half/" + filename;
+        }
+        else
+        {
+            tmp = "graphics_full/" + filename;
+        }
+        return exists(tmp);
+    }
 
     bool ResourceManagerPrivate::exists(const std::string& filename)
     {

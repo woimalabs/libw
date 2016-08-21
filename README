@@ -3,11 +3,19 @@ libw
 
 Author: Antti Peuhkurinen (antti.peuhkurinen@woimasolutions.com)
 
-Design principles
-=================
-1) Hide platform differences for graphics, input and audio for next platforms:
+
+Platform support
+================
+Hide platform differences for graphics, input and audio for next platforms:
 - iOS 7.0 or newer
 - Android x.x (to be defined) or newer
 - Linux Desktop: Ubuntu 16 LTS with gles2-mesa and pulse API
 
-2) Offer C++ helper classes for libraries using libw
+
+Assets/ folder
+==============
+Supported asset types:
+.png for texture data
+.mapping for texture atlas
+
+Note: graphics assets (.png and .mapping) should be placed separately to graphics_full (1:1 "full" bitmaps) and graphics_half (1:2 scaled bitmaps) folders
