@@ -70,7 +70,8 @@ namespace w
             void loadFileData(bool bundledFile);
             void loadBitmap(const w::graphics::Bitmap& bitmap);
             void loadGPUData();
-
+            bool isAssetFile_;
+            
             /* loaded data will be downsized */
             void halfSize();
 

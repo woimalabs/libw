@@ -41,6 +41,7 @@ namespace w
 
         TextureAssetPrivate::TextureAssetPrivate(const std::string& file, TextureAsset::Clamp::Enum clamp, bool bundledFile):
             Resource(file),
+            isAssetFile_(true),
             bytesPerPixel_(0),
             width_(0),
             height_(0),
@@ -57,6 +58,7 @@ namespace w
         
         TextureAssetPrivate::TextureAssetPrivate(const w::graphics::Bitmap& bitmap, TextureAsset::Clamp::Enum clamp):
             Resource("bitmap"),
+            isAssetFile_(false),
             bytesPerPixel_(0),
             width_(0),
             height_(0),
@@ -307,12 +309,18 @@ namespace w
 
         unsigned int TextureAssetPrivate::sourceBitmapWidth() const
         {
-            return sourceBitmapWidth_ * (float)ResourceManager::graphicsDownScale();
+            if(isAssetFile_)
+                return sourceBitmapWidth_ * (float)ResourceManager::graphicsDownScale();
+            else
+                return sourceBitmapWidth_;
         }
 
         unsigned int TextureAssetPrivate::sourceBitmapHeight() const
         {
-            return sourceBitmapHeight_ * (float)ResourceManager::graphicsDownScale();
+            if(isAssetFile_)
+                return sourceBitmapHeight_ * (float)ResourceManager::graphicsDownScale();
+            else
+                return sourceBitmapHeight_;
         }
 
         void TextureAssetPrivate::loadGPUData()
