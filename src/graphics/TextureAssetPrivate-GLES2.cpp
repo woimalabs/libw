@@ -234,10 +234,10 @@ namespace w
                 memcpy(&(tmpData_)[width_ * bytesPerPixel_ * i], rows[sourceBitmapHeight_ - i - 1], sourceBitmapWidth_ * bytesPerPixel_);
             }
 
-            if(ResourceManager::graphicsDownScale() == 2)
+            /*if(ResourceManager::graphicsDownScale() == 2)
             {
                 halfSize();
-            }
+            }*/
 
             // Free libpng's struct
             png_destroy_read_struct(&png, &info, 0);
@@ -307,12 +307,12 @@ namespace w
 
         unsigned int TextureAssetPrivate::sourceBitmapWidth() const
         {
-            return sourceBitmapWidth_;
+            return sourceBitmapWidth_ * (float)ResourceManager::graphicsDownScale();
         }
 
         unsigned int TextureAssetPrivate::sourceBitmapHeight() const
         {
-            return sourceBitmapHeight_;
+            return sourceBitmapHeight_ * (float)ResourceManager::graphicsDownScale();
         }
 
         void TextureAssetPrivate::loadGPUData()

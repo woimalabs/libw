@@ -90,15 +90,18 @@ namespace w
             TextureAsset(const w::graphics::Bitmap& bitmap, Clamp::Enum clamp = Clamp::ToEdge);
             ~TextureAsset();
 
-            unsigned int width() const;
-            unsigned int height() const;
             bool hasAlpha() const;
             float xUsage() const;
             float yUsage() const;
             unsigned int sourceBitmapWidth() const;
             unsigned int sourceBitmapHeight() const;
 
+            friend class BatchableRectangleMesh;
+            friend class BatchableRectangleMeshAtlas;
+            unsigned int width() const;
+            unsigned int height() const;
         private:
+
             friend class RendererPrivate;
             class TextureAssetPrivate* private_;
         };
