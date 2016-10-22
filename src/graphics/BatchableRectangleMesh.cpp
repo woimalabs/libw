@@ -205,10 +205,11 @@ namespace w
             auto i = atlas_.find(key);
             if(i != atlas_.end())
             {
-                LOGD("found key: %s", key.c_str());
+                //LOGD("found key: %s", key.c_str());
                 return ReferencedPointer<w::graphics::BatchableRectangleMesh>(i->second.pointer()->copy());
             }
 
+            LOGE("batchable key not found: %s", key.c_str());
             return ReferencedPointer<w::graphics::BatchableRectangleMesh>(NULL);
         }
     }
