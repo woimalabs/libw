@@ -27,22 +27,26 @@
 #define LIBW_STORAGE_STORAGEPRIVATE
 
 #include "StorageItem.hpp"
+#include "w/base/Referenced.hpp"
+#include "w/base/Class.hpp"
 #include <string>
 #include <list>
 #include <vector>
 
 namespace w
 {
-    class StoragePrivate
+    class StoragePrivate: public Referenced
     {
     public:
+        UNCOPYABLE(StoragePrivate)
+
         static const std::string BlockHeaderStart;
         static const std::string BlockHeaderEnd;
         static const std::string BlockDataStart;
         static const std::string BlockDataEnd;
         static const char BlockLineChange;
 
-        StoragePrivate(const std::string& id);
+        StoragePrivate(const std::string& name);
         ~StoragePrivate();
         bool hasInt(const std::string& key);
         void setInt(const std::string& key, int value);
@@ -63,7 +67,7 @@ namespace w
         std::string filePath();
         std::string serialize();
         std::list<StorageItem*> list_;
-        std::string id_;
+        std::string name_;
     };
 }
 

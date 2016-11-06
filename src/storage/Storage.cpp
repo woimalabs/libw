@@ -29,123 +29,109 @@
 
 namespace w
 {
-    StoragePrivate* Storage::singleton_ = NULL;
-
-    Storage::Storage(std::string const& id)
-    {
-        if (singleton_ == NULL)
+    Storage::Storage(std::string const& id):
+        private_(new StoragePrivate(id))
+    {            
+        if (private_ != NULL)
         {
-            singleton_ = new StoragePrivate(id);
-            try
-            {
-                singleton_->load();
-            }
-            catch (Exception& e)
-            {
-                LOGE("Could not load Storage:\n%s\n", e.what());
-            }
+            private_->increment();
         }
         else
         {
-            throw Exception("Only one Storage can exist in one application.");
+            LOGE("storage having NULL private, internal ERROR!");
         }
     }
 
     Storage::~Storage()
     {
-        if (singleton_ != NULL)
+        private_->decrement();
+    }
+
+    Storage::Storage(Storage const& r):
+        private_(r.private_)
+    {
+        if (private_ != NULL)
         {
-            delete singleton_;
+            private_->increment();
         }
-        singleton_ = NULL;
+        else
+        {
+            LOGE("Storage having NULL private, internal ERROR!");
+        }
+    }
+
+    Storage& Storage::operator=(Storage const& r)
+    {
+        if (this != &r)
+        {
+            // If privates differ-> we can decrement our private
+            if (private_ != r.private_)
+            {
+                if (private_ != NULL)
+                {
+                    private_->decrement();
+                    private_ = NULL;
+                }
+            }
+            
+            // Assign r instance if it's other than NULL. NULL is our initial value.
+            if (r.private_ != NULL)
+            {
+                private_ = r.private_;
+                private_->increment();
+            }
+            else
+            {
+                LOGE("Storage having NULL private, internal ERROR!");
+            }
+        }
+        return *this;
     }
 
     bool Storage::hasInt(const std::string& id)
     {
-        bool r = 0;
-        if (singleton_ == NULL)
-        {
-            throw Exception("Create Storage singleton!");
-        }
-        r = singleton_->hasInt(id);
-        return r;
+        return private_->hasInt(id);
     }
 
     void Storage::setInt(const std::string& id, int value)
     {
-        if (singleton_ == NULL)
-        {
-            throw Exception("Create Storage singleton!");
-        }
-        singleton_->setInt(id, value);
-        singleton_->save();
+        private_->setInt(id, value);
+        private_->save();
     }
 
     int Storage::getInt(const std::string& id)
     {
-        if (singleton_ == NULL)
-        {
-            throw Exception("Create Storage singleton!");
-        }
-        int r = singleton_->getInt(id);
-
-        return r;
+        return private_->getInt(id);
     }
 
     bool Storage::hasString(const std::string& id)
     {
-        bool r = 0;
-        if (singleton_ == NULL)
-        {
-            throw Exception("Create Storage singleton!");
-        }
-        r = singleton_->hasString(id);
-        return r;
+        return private_->hasString(id);
     }
 
     void Storage::setString(const std::string& id, const std::string& value)
     {
-        if (singleton_ == NULL)
-        {
-            throw Exception("Create Storage singleton!");
-        }
-        singleton_->setString(id, value);
-        singleton_->save();
+        private_->setString(id, value);
+        private_->save();
     }
 
     std::string Storage::getString(const std::string& id)
     {
-        if (singleton_ == NULL)
-        {
-            throw Exception("Create Storage singleton!");
-        }
-        return singleton_->getString(id);
+        return private_->getString(id);
     }
 
     std::string Storage::getString(const std::string& id, const std::string& defaultValue)
     {
-        if (singleton_ == NULL)
-        {
-            throw Exception("Create Storage singleton!");
-        }
-        return singleton_->getString(id, defaultValue);
+        return private_->getString(id, defaultValue);
     }
     
     void Storage::remove(const std::string &key)
     {
-        if (singleton_ == NULL)
-        {
-            throw Exception("Create Storage singleton!");
-        }
-        singleton_->remove(key);
+        private_->remove(key);
     }
     
     void Storage::serializeItem(const std::string& keyToSerialize, std::string& target)
     {
-        if (singleton_ == NULL)
-        {
-            throw Exception("Create Storage singleton!");
-        }
-        singleton_->serializeItem(keyToSerialize, target);
+        private_->serializeItem(keyToSerialize, target);
     }
 }

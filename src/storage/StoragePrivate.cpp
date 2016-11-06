@@ -41,8 +41,9 @@ namespace w
     const std::string StoragePrivate::BlockDataEnd("]");
     const char StoragePrivate::BlockLineChange = '\n';
 
-    StoragePrivate::StoragePrivate(const std::string& id):
-        id_(id)
+    StoragePrivate::StoragePrivate(const std::string& name):
+        Referenced(),
+        name_(name)
     {
     }
 
@@ -355,7 +356,7 @@ namespace w
     std::string StoragePrivate::filePath()
     {
         // id will be the file name
-        return id_;
+        return name_;
     }
 
 }

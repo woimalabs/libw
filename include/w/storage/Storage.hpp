@@ -1,7 +1,7 @@
 /**
  * libw
  *
- * Copyright (C) 2012-2014 Woima Solutions
+ * Copyright (C) 2012-2016 Woima Solutions
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
@@ -35,12 +35,12 @@ namespace w
     class Storage
     {
     public:
-        UNCOPYABLE(Storage);
+        COPYABLE(Storage);
 
         /**
          * Creates storage with given name.
          *
-         * @param [in]  name    Storage name to be set. Use application name to avoid conflicts.
+         * @param [in]  name    Storage name to be set.
          */
         Storage(const std::string& name);
         ~Storage();
@@ -51,7 +51,7 @@ namespace w
          * @param [in]  key     Key name
          * @return              TRUE if storage has int with given key. FALSE otherwise.
          */
-        static bool hasInt(const std::string& key);
+        bool hasInt(const std::string& key);
 
         /**
          * Sets new value to int.
@@ -60,7 +60,7 @@ namespace w
          * @param [in]  key     Key to set.
          * @param [in]  value   New value to set to the key.
          */
-        static void setInt(const std::string& key, int value);
+        void setInt(const std::string& key, int value);
 
         /**
          * Gets value with given key.
@@ -69,7 +69,7 @@ namespace w
          * @param [in]  key     Key to get.
          * @return              Value of the key.
          */
-        static int getInt(const std::string& key);
+        int getInt(const std::string& key);
 
         /**
          * Checks if storage has given key.
@@ -77,7 +77,7 @@ namespace w
          * @param [in]  key     Key name
          * @return              TRUE if storage has int with given key. FALSE otherwise.
          */
-        static bool hasString(const std::string& key);
+        bool hasString(const std::string& key);
 
         /**
          * Sets new value to int.
@@ -86,7 +86,7 @@ namespace w
          * @param [in]  key     Key to set.
          * @param [in]  value   New value to set to the key.
          */
-        static void setString(const std::string& key, const std::string& value);
+        void setString(const std::string& key, const std::string& value);
 
         /**
          * Gets value with given key.
@@ -95,7 +95,7 @@ namespace w
          * @param [in]  key     Key to get.
          * @return              Value of the key.
          */
-        static std::string getString(const std::string& key);
+        std::string getString(const std::string& key);
 
         /**
          * Gets value with given key. Sets given value for key if key not found
@@ -105,14 +105,14 @@ namespace w
          * @param [in]  defaultValue    Default value set if no key was present.
          * @return                      Value of the key.
          */
-        static std::string getString(const std::string& key, const std::string& defaultValue);
+        std::string getString(const std::string& key, const std::string& defaultValue);
         
         /**
          * Removed item with given key. If key does not exist - nothing is done.
          *
          * @param [in]  key             Key to get.
          */
-        static void remove(const std::string& key);
+        void remove(const std::string& key);
 
         /**
          * Serializes data from local storage.
@@ -120,10 +120,10 @@ namespace w
          * @param [in]  keyToSerialize  Key to be serialized from local storage if found.
          * @param [out] target          String to hold the serialized data.
          */
-        static void serializeItem(const std::string& key, std::string& target);
+        void serializeItem(const std::string& key, std::string& target);
 
     private:
-        static class StoragePrivate* singleton_;
+        class StoragePrivate* private_;
     };
 }
 
