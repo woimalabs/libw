@@ -45,6 +45,7 @@ namespace w
         Referenced(),
         name_(name)
     {
+        load();
     }
 
     StoragePrivate::~StoragePrivate()

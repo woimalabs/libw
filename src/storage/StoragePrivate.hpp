@@ -56,11 +56,11 @@ namespace w
         std::string getString(const std::string& key);
         std::string getString(const std::string& key, const std::string& defaultValue);
         void remove(const std::string& key);
-        void load();
         void save();
         void serializeItem(const std::string& keyToSerialize, std::string& target);
 
     private:
+        void load();
         bool has(StorageItem::Type::Enum type, const std::string& key);
         void loadFile(char** target, unsigned int& length);
         void saveFile(const char* data, unsigned int length);
