@@ -45,7 +45,10 @@ namespace w
         Referenced(),
         name_(name)
     {
-        load();
+        if(ResourceManager::exists(filePath()))
+        {
+            load();
+        }
     }
 
     StoragePrivate::~StoragePrivate()
