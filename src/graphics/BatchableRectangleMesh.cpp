@@ -190,7 +190,7 @@ namespace w
                                 (float)(locationY + sizeY) / h)
                             )
                         );
-                    LOGD("adding to atlas: %s", key.c_str());
+                    //LOGD("adding to atlas: %s", key.c_str());
                     atlas_.insert(batchable);
                 }
             }

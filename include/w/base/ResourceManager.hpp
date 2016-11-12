@@ -57,7 +57,8 @@ namespace w
         static unsigned int graphicsDownScale();
         static void setGaphicsDownScale(unsigned int value);
 
-        static bool exists(const std::string& filename);
+        static bool bundledFileExists(const std::string& filename);
+        static bool dynamicFileExists(const std::string& filename);
 
         /* fixed bundled resource files of the app */
         static ReferencedPointer<FileHandle> bundledFile(const std::string& filename);

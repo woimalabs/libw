@@ -45,9 +45,14 @@ namespace w
         Referenced(),
         name_(name)
     {
-        if(ResourceManager::exists(filePath()))
+        if(ResourceManager::dynamicFileExists(name_))
         {
+            LOGD("loading storage: %s", filePath().c_str())
             load();
+        }
+        else
+        {
+            LOGD("creating storage after first save: %s", filePath().c_str())
         }
     }
 

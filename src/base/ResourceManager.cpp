@@ -78,7 +78,7 @@ namespace w
          ResourceManagerPrivate::setGraphicsDownScale(value);
     }
 
-    bool ResourceManager::exists(const std::string& filename)
+    bool ResourceManager::bundledFileExists(const std::string& filename)
     {
         static const std::string textureEnding = ".png";
         static const std::string mappingEnding = ".mapping";
@@ -88,7 +88,12 @@ namespace w
         if(filename.compare (filename.length() - mappingEnding.length(), mappingEnding.length(), mappingEnding) == 0)
             return ResourceManagerPrivate::textureExists(filename);
 
-        return ResourceManagerPrivate::exists(filename);
+        return ResourceManagerPrivate::bundledFileExists(filename);
+    }
+    
+    bool ResourceManager::dynamicFileExists(const std::string& filename)
+    {
+        return ResourceManagerPrivate::dynamicFileExists(filename);
     }
 
     ReferencedPointer<FileHandle> ResourceManager::bundledFile(const std::string& filename)

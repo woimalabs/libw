@@ -57,7 +57,8 @@ namespace w
             static void setAndroidAssetManager(AAssetManager* androidAssetManager);
         #endif
         static bool textureExists(const std::string& filename);
-        static bool exists(const std::string& filename);
+        static bool bundledFileExists(const std::string& filename);
+        static bool dynamicFileExists(const std::string& filename);
         static unsigned int graphicsDownScale();
         static void setGraphicsDownScale(unsigned int value);
 

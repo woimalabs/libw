@@ -205,10 +205,10 @@ namespace w
         {
             tmp = "graphics_full/" + filename;
         }
-        return exists(tmp);
+        return bundledFileExists(tmp);
     }
 
-    bool ResourceManagerPrivate::exists(const std::string& filename)
+    bool ResourceManagerPrivate::bundledFileExists(const std::string& filename)
     {
         bool r = false;
 
@@ -244,7 +244,44 @@ namespace w
 
         return r;
     }
+    
+    bool ResourceManagerPrivate::dynamicFileExists(const std::string& filename)
+    {
+        bool r = false;
 
+#ifdef ANDROID
+        AAsset* asset = AAssetManager_open(assetManager_, filename, AASSET_MODE_STREAMING);
+        if(asset != NULL)
+        {
+            r = true;
+            AAsset_close(asset);
+        }
+#elif __linux__
+        // TODO: this is now bit heavy, file opening can be polished away
+        std::string fullName;
+        fullName += singleton_->basePath_;
+        fullName += "/";
+        fullName += std::string(filename);
+        FILE *file = fopen(fullName.c_str(), "rb");
+        if(file)
+        {
+            r = true;
+            fclose(file);
+        }
+#elif __APPLE__
+        // TODO: Check NSArray and NSString-> do they leak here?
+        NSArray* appDocumentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString* docsDirectory = [appDocumentPaths objectAtIndex: 0];
+        std::string tmp = "/" + filename;
+        NSString* fileAndPath = [docsDirectory stringByAppendingPathComponent:@(tmp.c_str())];
+        if([[NSFileManager defaultManager] fileExistsAtPath: fileAndPath])
+        {
+            r = true;
+        }
+#endif
+        return r;
+    }
+    
     void ResourceManagerPrivate::setGraphicsDownScale(unsigned int value)
     {
         if(value != 1 && value != 2 && value != 4)
