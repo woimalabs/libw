@@ -46,6 +46,9 @@ namespace w
                 unsigned int vertexCount,
                 Aabb const& aabb):
             id_(0),
+#ifdef __APPLE__
+            id2_(0),
+#endif
             strideComponents_(strideComponents),
             tmpVertexData_((GLfloat*)tmpVertexData),
             vertexCount_(vertexCount),
@@ -63,6 +66,9 @@ namespace w
                 float uStart, float uEnd, float vStart, float vEnd,
                 float wOffset, float hOffset):
             id_(0),
+#ifdef __APPLE__
+            id2_(0),
+#endif
             strideComponents_(),
             tmpVertexData_(NULL),
             vertexCount_(0),
@@ -89,7 +95,8 @@ namespace w
 #ifdef __linux__ // & Android
                 glDeleteBuffers(1, &id_);
 #else // APPLE
-                // TODO
+                glDeleteVertexArraysOES(1, &id_);
+                glDeleteBuffers(1, &id2_);
 #endif
             }
 
@@ -168,9 +175,8 @@ namespace w
                 glBindVertexArrayOES(id_);
 
                 // Vertex data
-                GLuint vBuffer;
-                glGenBuffers(1, &vBuffer);
-                glBindBuffer(GL_ARRAY_BUFFER, vBuffer);
+                glGenBuffers(1, &id2_);
+                glBindBuffer(GL_ARRAY_BUFFER, id2_);
                 glBufferData(GL_ARRAY_BUFFER, vertexCount_ * strideByteSize_, tmpVertexData_, GL_STATIC_DRAW);
                 
                 // Attributes

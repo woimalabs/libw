@@ -62,6 +62,9 @@ namespace w
         private:
             void loadGPUData(w::graphics::ShaderProgramAssetPrivate* program);
             GLuint id_; // used for VAO with iOS and for VBO with linux
+#ifdef __APPLE__
+            GLuint id2_; // used for VBO with iOS
+#endif
             std::vector<StrideComponent> strideComponents_;
             GLfloat* tmpVertexData_;
             unsigned int vertexCount_;
