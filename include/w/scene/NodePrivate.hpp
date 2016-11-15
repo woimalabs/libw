@@ -160,7 +160,8 @@ namespace w
                 return &componentNodesEmpty_;
             }   
             static void printTreeComponentNode();
-
+            static unsigned int totalComponentCount();
+            
         private:
             unsigned int treeId_;
 

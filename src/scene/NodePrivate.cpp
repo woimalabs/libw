@@ -414,6 +414,19 @@ namespace w
             LOGD("### printTreeComponentNode, end ###");
         }
 
+        unsigned int NodePrivate::totalComponentCount()
+        {
+            unsigned int r = 0;
+            for(auto i: treeComponentNodes_)
+            {
+                for(auto j: i.second)
+                {
+                    r += j.second.size();
+                }
+            }
+            return r;
+        }
+
         void NodePrivate::treeComponentNodesAdd(unsigned int treeId, const std::type_info& key, NodePrivate* node)
         {
             auto i = treeComponentNodes_.find(treeId);
