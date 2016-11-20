@@ -281,10 +281,10 @@ namespace w
             // Shader attributes
             std::string tmp("xyz");
             GLint positionXyz = shaderProgram.private_->attribute(tmp);
-            //glEnableVertexAttribArray(positionXyz);
+            
+            // Draw
+            glEnableVertexAttribArray(positionXyz);
             glVertexAttribPointer(positionXyz, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-
-            // Draw the line
             glDrawArrays(GL_LINE_STRIP, 0, pointCount);
             glDisableVertexAttribArray(positionXyz);
         }
