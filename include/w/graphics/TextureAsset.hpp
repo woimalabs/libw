@@ -100,8 +100,13 @@ namespace w
             friend class BatchableRectangleMeshAtlas;
             unsigned int width() const;
             unsigned int height() const;
+            
+            /*
+             * Force load to GPU memory. Otherwise loading happens when Renderer uses this asset.
+             */
+            void load();
+            
         private:
-
             friend class RendererPrivate;
             class TextureAssetPrivate* private_;
         };

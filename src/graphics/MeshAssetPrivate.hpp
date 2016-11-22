@@ -58,7 +58,7 @@ namespace w
             void setData(const std::vector<StrideComponent> & strideComponents, float* vertexData, unsigned int vertexCount, Aabb const& aabb);
             Aabb const& aabb() const;
             static void fillWithRectangleData(GLfloat* vertexData, float x, float y, float w, float h, float uStart, float uEnd, float vStart, float vEnd);
-
+            
         private:
             void loadGPUData(w::graphics::ShaderProgramAssetPrivate* program);
             GLuint id_; // used for VAO with iOS and for VBO with linux

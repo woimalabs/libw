@@ -97,6 +97,11 @@ namespace w
         {
             return height_;
         }
+        
+        void TextureAssetPrivate::load()
+        {
+            loadGPUData();
+        }
 
         void TextureAssetPrivate::halfSize()
         {

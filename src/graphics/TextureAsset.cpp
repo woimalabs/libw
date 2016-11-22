@@ -116,6 +116,11 @@ namespace w
         {
             return private_->height();
         }
+        
+        void TextureAsset::load()
+        {
+            private_->load();
+        }
 
         float TextureAsset::xUsage() const
         {

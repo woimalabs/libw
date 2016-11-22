@@ -50,9 +50,10 @@ namespace w
             TextureAssetPrivate(const w::graphics::Bitmap& bitmap, TextureAsset::Clamp::Enum clamp);
             ~TextureAssetPrivate();
 
-            // GL texture height
+            // GL texture sizes
             unsigned int width() const;
             unsigned int height() const;
+            void load();
             bool hasAlpha() const
             {
                 return bytesPerPixel_ == 4;
