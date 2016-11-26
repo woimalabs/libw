@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E40646E41DEA52170062A19B /* MeshAssetFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E40646E31DEA52170062A19B /* MeshAssetFactory.cpp */; };
 		E43A33911C2D6FA800BD7308 /* Condition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E43A33901C2D6FA800BD7308 /* Condition.cpp */; };
 		E49F8F0E1D5D1760000784E0 /* BatchableRectangleMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E49F8F0D1D5D1760000784E0 /* BatchableRectangleMesh.cpp */; };
 		FB19B9EB18146F13001351D2 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB19B9EA18146F13001351D2 /* OpenGLES.framework */; };
@@ -97,6 +98,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E40646E31DEA52170062A19B /* MeshAssetFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MeshAssetFactory.cpp; path = ../../src/graphics/MeshAssetFactory.cpp; sourceTree = "<group>"; };
 		E43A33901C2D6FA800BD7308 /* Condition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Condition.cpp; path = ../../src/base/Condition.cpp; sourceTree = "<group>"; };
 		E49F8F0D1D5D1760000784E0 /* BatchableRectangleMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BatchableRectangleMesh.cpp; path = ../../src/graphics/BatchableRectangleMesh.cpp; sourceTree = "<group>"; };
 		E4F6DAF21C2B5117005A1CCC /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -256,6 +258,7 @@
 		FBF866F31AC80D5E001C29F6 /* graphics */ = {
 			isa = PBXGroup;
 			children = (
+				E40646E31DEA52170062A19B /* MeshAssetFactory.cpp */,
 				E49F8F0D1D5D1760000784E0 /* BatchableRectangleMesh.cpp */,
 				FB3EC1451B36FF35003E1663 /* Bitmap.cpp */,
 				FB3EC1461B36FF35003E1663 /* BitmapPrivate.cpp */,
@@ -438,6 +441,7 @@
 				FB3EC1481B36FF35003E1663 /* Bitmap.cpp in Sources */,
 				FBF8670E1AC80D8B001C29F6 /* MeshAssetPrivate-GLES2.cpp in Sources */,
 				FB3EC1491B36FF35003E1663 /* BitmapPrivate.cpp in Sources */,
+				E40646E41DEA52170062A19B /* MeshAssetFactory.cpp in Sources */,
 				FBF867741AC84043001C29F6 /* EventBuffer.cpp in Sources */,
 				FBF8670C1AC80D8B001C29F6 /* FrameBufferPrivate-GLES2.cpp in Sources */,
 				FBF867C61AC84881001C29F6 /* StoragePrivate.cpp in Sources */,
