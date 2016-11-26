@@ -27,7 +27,6 @@
 #define LIBW_GRAPHICS_AABB
 
 #include <Eigen/Geometry>
-
 #include <ostream>
 
 namespace w

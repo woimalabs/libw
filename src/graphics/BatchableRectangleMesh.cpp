@@ -28,6 +28,7 @@
 #include <w/base/ResourceManager.hpp>
 #include <w/base/String.hpp>
 #include "MeshAssetPrivate.hpp"
+#include "w/graphics/MeshAssetFactory.hpp"
 
 namespace w
 {
@@ -71,7 +72,7 @@ namespace w
                 i++)
             {
                 auto j = (*i).pointer();
-                MeshAssetPrivate::fillWithRectangleData(&vertexData[vI], j->x_, j->y_, j->w_, j->h_, j->uStart_, j->uEnd_, j->vStart_, j->vEnd_);
+                MeshAssetFactory::fillWithRectangleData(&vertexData[vI], j->x_, j->y_, j->w_, j->h_, j->uStart_, j->uEnd_, j->vStart_, j->vEnd_);
                 vI += 30;
             }
 

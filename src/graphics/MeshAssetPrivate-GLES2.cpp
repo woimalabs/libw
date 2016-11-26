@@ -24,6 +24,7 @@
  */
 
 #include "MeshAssetPrivate.hpp"
+#include "w/graphics/MeshAssetFactory.hpp"
 #include "w/base/Log.hpp"
 #include "w/base/Exception.hpp"
 #ifdef __linux__ // & Android
@@ -38,8 +39,6 @@ namespace w
 {
     namespace graphics
     {
-        
-
         MeshAssetPrivate::MeshAssetPrivate(
                 const std::vector<StrideComponent> & strideComponents,
                 float* tmpVertexData,
@@ -77,7 +76,7 @@ namespace w
         {
             // fill
             tmpVertexData_ = new GLfloat[30];
-            fillWithRectangleData(tmpVertexData_, wOffset, hOffset, width, height, uStart, uEnd, vStart, vEnd);
+            MeshAssetFactory::fillWithRectangleData(tmpVertexData_, wOffset, hOffset, width, height, uStart, uEnd, vStart, vEnd);
 
             // Set stride format
             StrideComponent xyz(std::string("xyz"), 0, 3, StrideType::Float32);
@@ -202,82 +201,6 @@ namespace w
             
             delete [] tmpVertexData_;
             tmpVertexData_ = NULL;
-        }
-
-        void MeshAssetPrivate::fillWithRectangleData(GLfloat* vertexData, float x, float y, float w, float h, float uStart, float uEnd, float vStart, float vEnd)
-        {
-            /*
-             * For rectangle, we create has two triangles:
-             *
-             * 1_____2
-             *  |  /|
-             *  | / |
-             *  |/__|
-             * 0     3
-             *
-             */
-
-            // Bottom left corner
-            float p0x = x;
-            float p0y = y;
-            float p0u = uStart;
-            float p0v = vStart;
-
-            // Top left corner
-            float p1x = x;
-            float p1y = h + y;
-            float p1u = uStart;
-            float p1v = vEnd;
-
-            // Top right corner
-            float p2x = w + x;
-            float p2y = h + y;
-            float p2u = uEnd;
-            float p2v = vEnd;
-
-            // Bottom right corner
-            float p3x = w + x;
-            float p3y = y;
-            float p3u = uEnd;
-            float p3v = vStart;
-
-            // Fill vertex data
-            vertexData[0] = p0x;
-            vertexData[1] = p0y;
-            vertexData[2] = 0.0f;
-            vertexData[3] = p0u;
-            vertexData[4] = p0v;
-
-            vertexData[5] = p1x;
-            vertexData[6] = p1y;
-            vertexData[7] = 0.0f;
-            vertexData[8] = p1u;
-            vertexData[9] = p1v;
-
-            vertexData[10] = p2x;
-            vertexData[11] = p2y;
-            vertexData[12] = 0.0f;
-            vertexData[13] = p2u;
-            vertexData[14] = p2v;
-
-            // Second triangle
-            vertexData[15] = p0x;
-            vertexData[16] = p0y;
-            vertexData[17] = 0.0f;
-            vertexData[18] = p0u;
-            vertexData[19] = p0v;
-
-            vertexData[20] = p2x;
-            vertexData[21] = p2y;
-            vertexData[22] = 0.0f;
-            vertexData[23] = p2u;
-            vertexData[24] = p2v;
-
-            vertexData[25] = p3x;
-            vertexData[26] = p3y;
-            vertexData[27] = 0.0f;
-            vertexData[28] = p3u;
-            vertexData[29] = p3v;
         }
     }
 }
