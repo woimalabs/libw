@@ -116,6 +116,12 @@ namespace w
             return r;
         }
 
+        static float toFloat(std::string const& str)
+        {
+            float r = std::stof(str);
+            return r;
+        }
+
         static std::vector<std::string> & split(const std::string &s, char delim, std::vector<std::string> &elems)
         {
             std::stringstream ss(s);
