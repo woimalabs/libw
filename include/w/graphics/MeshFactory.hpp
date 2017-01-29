@@ -23,11 +23,14 @@
  * @author antti.peuhkurinen@woimasolutions.com
  */
 
+/* XXX: dead code!
+
 #ifndef LIBW_GRAPHICS_MESHASSETFACTORY
 #define LIBW_GRAPHICS_MESHASSETFACTORY
 
 #include <w/base/Class.hpp>
 #include <vector>
+
 
 namespace w
 {
@@ -40,15 +43,22 @@ namespace w
         public:
             UNCOPYABLE(MeshAssetFactory)
 
-            /**
-             * Creates a grid mesh from given data
+            **
+             * Creates a grid mesh.
              *
-             * @param [in]  width    Stride components per vertex
-             * @param [in]  height          Raw data buffer. MeshAsset has the ownership of the data pointer after this constructor!
-             */
+             * @param [in]  width of the mesh.
+             * @param [in]  height of the mesh.
+             *
             static MeshAsset createGridWithRepeatedTextureUV(float width, float height, float grid);
 
-            
+            **
+             * Creates a 3x3 grid mesh.
+             *
+             * @param [in]  width of the mesh.
+             * @param [in]  height of the mesh.
+             * @param [in]  side size. Note that the center rectangle size is now -2*side size from width and height.
+             *
+            static MeshAsset createRectangleWithCaps(float width, float height, float side);
         private:
             MeshFactory;
             ~MeshFactory;
@@ -57,3 +67,5 @@ namespace w
 }
 
 #endif
+
+*/

@@ -1,7 +1,7 @@
 /**
  * libw
  *
- * Copyright (C) 2013-2016 Woima Solutions
+ * Copyright (C) 2013-2017 Woima Solutions
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
@@ -145,6 +145,98 @@ namespace w
             vertexData[27] = 0.0f;
             vertexData[28] = p3u;
             vertexData[29] = p3v;
+        }
+
+        MeshAsset MeshAssetFactory::createResizableTextureMeshWithCaps(float width, float height, float side, float textureSideSize)
+        {
+            std::vector<StrideComponent> strideComponents;
+            StrideComponent xyz(std::string("xyz"), 0, 3, StrideType::Float32);
+            StrideComponent uv(std::string("uv"), 3 * sizeof(GLfloat), 2, StrideType::Float32);
+            strideComponents.push_back(xyz);
+            strideComponents.push_back(uv);
+
+            unsigned int vertexCount = 3 * 3 * 6;
+            Aabb aabb = Aabb(Eigen::Vector3f(0.0f, 0.0f, 0.0f), Eigen::Vector3f(width, height, 0.0f));
+            float* vertexData = new float[vertexCount * 5];
+
+            // fill grid
+            unsigned int i = 0;
+            float yCurrent = 0.0f;
+
+            // bottom row
+            {
+                // first col
+                float xCurrent = 0.0f; 
+                fillWithRectangleData(&vertexData[i], xCurrent, yCurrent,
+                    side, side,
+                    0.0f, textureSideSize, 0.0f, textureSideSize);
+
+                // second col
+                xCurrent = side;
+                i += 30;
+                fillWithRectangleData(&vertexData[i], xCurrent, yCurrent,
+                    (width - 2.0f * side), side,
+                    textureSideSize, 1.0f - textureSideSize, 0.0f, textureSideSize);
+
+                // third col
+                xCurrent = width - side;
+                i += 30;
+                fillWithRectangleData(&vertexData[i], xCurrent, yCurrent,
+                    side, side,
+                    1.0f - textureSideSize, 1.0f, 0.0f, textureSideSize);
+            }
+            yCurrent += side;
+
+            // center row
+            {
+                // first col
+                float xCurrent = 0.0f; 
+                i += 30;
+                fillWithRectangleData(&vertexData[i], xCurrent, yCurrent,
+                    side, (height - 2.0f * side),
+                    0.0f, textureSideSize, textureSideSize, 1.0f - textureSideSize);
+
+                // second col
+                xCurrent = side;
+                i += 30;
+                fillWithRectangleData(&vertexData[i], xCurrent, yCurrent,
+                    (width - 2.0f * side), (height - 2.0f * side),
+                    textureSideSize, 1.0f - textureSideSize, textureSideSize, 1.0f - textureSideSize);
+
+                // third col
+                xCurrent = width - side;
+                i += 30;
+                fillWithRectangleData(&vertexData[i], xCurrent, yCurrent,
+                    side, (height - 2.0f * side),
+                    1.0f - textureSideSize, 1.0f, textureSideSize, 1.0f - textureSideSize);
+            }
+            yCurrent += (height - 2.0f * side);
+
+            // top row
+            {
+                // first col
+                float xCurrent = 0.0f; 
+                i += 30;
+                fillWithRectangleData(&vertexData[i], xCurrent, yCurrent,
+                    side, side,
+                    0.0f, textureSideSize, 1.0f - textureSideSize, 1.0f);
+
+                // second col
+                xCurrent = side;
+                i += 30;
+                fillWithRectangleData(&vertexData[i], xCurrent, yCurrent,
+                    (width - 2.0f * side), side,
+                    textureSideSize, 1.0f - textureSideSize, 1.0f - textureSideSize, 1.0f);
+
+                // third col
+                xCurrent = width - side;
+                i += 30;
+                fillWithRectangleData(&vertexData[i], xCurrent, yCurrent,
+                    side, side,
+                    1.0f - textureSideSize, 1.0f, 1.0f - textureSideSize, 1.0f);
+            }
+            
+            return MeshAsset(strideComponents, vertexData, vertexCount, aabb);
         }
     }
 }

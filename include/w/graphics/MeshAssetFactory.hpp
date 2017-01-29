@@ -1,7 +1,7 @@
 /**
  * libw
  *
- * Copyright (C) 2013-2016 Woima Solutions
+ * Copyright (C) 2013-2017 Woima Solutions
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
@@ -27,7 +27,7 @@
 #define LIBW_GRAPHICS_MESHASSETFACTORY
 
 #include <w/base/Class.hpp>
-#include "w/graphics/MeshAsset.hpp"
+#include <w/graphics/MeshAsset.hpp>
 #ifdef __linux__ // & Android
     #include <GLES2/gl2.h>
 #else // APPLE
@@ -44,9 +44,27 @@ namespace w
             UNCOPYABLE(MeshAssetFactory)
 
             /**
-             * Creates a mesh grid.
+             * Creates a grid mesh.
+             *
+             * @param [in] width of the mesh.
+             * @param [in] height of the mesh.
+             * @param [in] rows in the mesh.
+             * @param [in] cols in the mesh.
              */
             static MeshAsset createGridWithRepeatedTexture(float width, float height, unsigned int rows, unsigned int cols);
+
+            /**
+             * Creates a 3x3 grid mesh for resizable textures with caps similar to "nine patch".
+             *
+             * @note assumes that the TextureAsset used with this MeshAsset will be a square.
+             * @note assumes that the TextureAsset is power-of-two sized.
+             *
+             * @param [in] width of the mesh.
+             * @param [in] height of the mesh.
+             * @param [in] worldSideSize is the sides world size. Note that the center rectangle size is now -2*side size from width and height.
+             * @param [in] textureUVSideSize size of the side in overall texture.
+             */
+            static MeshAsset createResizableTextureMeshWithCaps(float width, float height, float side, float textureSideSize);
 
         private:
             friend class BatchableRectangleMesh;
