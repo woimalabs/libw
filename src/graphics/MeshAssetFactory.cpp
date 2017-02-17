@@ -167,21 +167,21 @@ namespace w
             {
                 // first col
                 float xCurrent = 0.0f; 
-                fillWithRectangleData(&vertexData[i], xCurrent, yCurrent,
+                fillWithRectangleData(&vertexData[i], xCurrent + xOffset, yCurrent + yOffset,
                     side, side,
                     0.0f, textureSideSize, 0.0f, textureSideSize);
 
                 // second col
                 xCurrent = side;
                 i += 30;
-                fillWithRectangleData(&vertexData[i], xCurrent, yCurrent,
+                fillWithRectangleData(&vertexData[i], xCurrent + xOffset, yCurrent + yOffset,
                     (width - 2.0f * side), side,
                     textureSideSize, 1.0f - textureSideSize, 0.0f, textureSideSize);
 
                 // third col
                 xCurrent = width - side;
                 i += 30;
-                fillWithRectangleData(&vertexData[i], xCurrent, yCurrent,
+                fillWithRectangleData(&vertexData[i], xCurrent + xOffset, yCurrent + yOffset,
                     side, side,
                     1.0f - textureSideSize, 1.0f, 0.0f, textureSideSize);
             }
@@ -192,21 +192,21 @@ namespace w
                 // first col
                 float xCurrent = 0.0f; 
                 i += 30;
-                fillWithRectangleData(&vertexData[i], xCurrent, yCurrent,
+                fillWithRectangleData(&vertexData[i], xCurrent + xOffset, yCurrent + yOffset,
                     side, (height - 2.0f * side),
                     0.0f, textureSideSize, textureSideSize, 1.0f - textureSideSize);
 
                 // second col
                 xCurrent = side;
                 i += 30;
-                fillWithRectangleData(&vertexData[i], xCurrent, yCurrent,
+                fillWithRectangleData(&vertexData[i], xCurrent + xOffset, yCurrent + yOffset,
                     (width - 2.0f * side), (height - 2.0f * side),
                     textureSideSize, 1.0f - textureSideSize, textureSideSize, 1.0f - textureSideSize);
 
                 // third col
                 xCurrent = width - side;
                 i += 30;
-                fillWithRectangleData(&vertexData[i], xCurrent, yCurrent,
+                fillWithRectangleData(&vertexData[i], xCurrent + xOffset, yCurrent + yOffset,
                     side, (height - 2.0f * side),
                     1.0f - textureSideSize, 1.0f, textureSideSize, 1.0f - textureSideSize);
             }
@@ -217,21 +217,21 @@ namespace w
                 // first col
                 float xCurrent = 0.0f; 
                 i += 30;
-                fillWithRectangleData(&vertexData[i], xCurrent, yCurrent,
+                fillWithRectangleData(&vertexData[i], xCurrent + xOffset, yCurrent + yOffset,
                     side, side,
                     0.0f, textureSideSize, 1.0f - textureSideSize, 1.0f);
 
                 // second col
                 xCurrent = side;
                 i += 30;
-                fillWithRectangleData(&vertexData[i], xCurrent, yCurrent,
+                fillWithRectangleData(&vertexData[i], xCurrent + xOffset, yCurrent + yOffset,
                     (width - 2.0f * side), side,
                     textureSideSize, 1.0f - textureSideSize, 1.0f - textureSideSize, 1.0f);
 
                 // third col
                 xCurrent = width - side;
                 i += 30;
-                fillWithRectangleData(&vertexData[i], xCurrent, yCurrent,
+                fillWithRectangleData(&vertexData[i], xCurrent + xOffset, yCurrent + yOffset,
                     side, side,
                     1.0f - textureSideSize, 1.0f, 1.0f - textureSideSize, 1.0f);
             }
