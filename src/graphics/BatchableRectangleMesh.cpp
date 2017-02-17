@@ -59,7 +59,6 @@ namespace w
             StrideComponent uv(std::string("uv"), 3 * sizeof(GLfloat), 2, StrideType::Float32);
             strideComponents.push_back(xyz);
             strideComponents.push_back(uv);
-            //strideByteSize_ = 5 * sizeof(GLfloat); // (xyzuv => 5)floats * 4 byte/float = 20 bytes
             unsigned int vertexCount = list.size() * 6; // 6: 2 triangles * 3 points each;
 
             // Vertex data
@@ -95,58 +94,6 @@ namespace w
         {
             return w_;
         }
-
-        /*std::map<std::string, ReferencedPointer<w::graphics::BatchableRectangleMesh> > BatchableRectangleMesh::loadAtlas(std::string const& mappingFile, w::graphics::TextureAsset const& texture)
-        {
-            std::map<std::string, ReferencedPointer<w::graphics::BatchableRectangleMesh> > r;
-
-            float w = texture.width() * ResourceManager::graphicsDownScale();
-            float h = texture.height() * ResourceManager::graphicsDownScale();
-
-            // load atlas file
-            ReferencedPointer<FileHandle> file = ResourceManager::bundledFile(mappingFile);
-            unsigned int size = file.pointer()->byteSize();
-            char* buffer = new char[size + 1];
-            file.pointer()->read(buffer, size);
-            buffer[size] = 0;
-            std::string tmp(buffer); // TODO: remove this copy
-            delete [] buffer;
-            std::vector<std::string> list = w::String::split(tmp, '\n');
-
-            // atlas items
-            for(std::vector<std::string>::iterator i = list.begin(); i != list.end(); i++)
-            {
-                std::vector<std::string> tmp = w::String::split(*i, ':');
-                std::string key = tmp[0];
-                std::vector<std::string> tmp2 = w::String::split(tmp[1], ' ');
-                std::vector<std::string> location = w::String::split(tmp2[0], ',');
-                std::vector<std::string> size = w::String::split(tmp2[1], ',');
-                unsigned int locationX = w::String::toInt(location[0]);
-                unsigned int locationY = w::String::toInt(location[1]);
-                unsigned int sizeX = w::String::toInt(size[0]);
-                unsigned int sizeY = w::String::toInt(size[1]);
-
-                // create batchable mesh
-                {
-                    std::pair<std::string, ReferencedPointer<w::graphics::BatchableRectangleMesh> > batchable = std::make_pair(key, 
-                        ReferencedPointer<w::graphics::BatchableRectangleMesh>(
-                            new w::graphics::BatchableRectangleMesh(
-                                0.0f,
-                                0.0f,
-                                (float)sizeX,
-                                (float)sizeY,
-                                (float)(locationX) / w,
-                                (float)(locationX + sizeX) / w,
-                                (float)(locationY) / h,
-                                (float)(locationY + sizeY) / h)
-                            )
-                        );
-                    r.insert(batchable);
-                }
-            }
-
-            return r;
-        }*/
 
         BatchableRectangleMeshAtlas::BatchableRectangleMeshAtlas(std::string const& mappingFile, w::graphics::TextureAsset const& atlasTexture)
         {
