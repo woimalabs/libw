@@ -147,7 +147,7 @@ namespace w
             vertexData[29] = p3v;
         }
 
-        MeshAsset MeshAssetFactory::createResizableTextureMeshWithCaps(float width, float height, float side, float textureSideSize)
+        MeshAsset MeshAssetFactory::createResizableTextureMeshWithCaps(float width, float height, float side, float textureSideSize, float xOffset, float yOffset)
         {
             std::vector<StrideComponent> strideComponents;
             StrideComponent xyz(std::string("xyz"), 0, 3, StrideType::Float32);

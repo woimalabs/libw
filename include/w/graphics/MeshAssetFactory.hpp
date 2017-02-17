@@ -64,7 +64,7 @@ namespace w
              * @param [in] worldSideSize is the sides world size. Note that the center rectangle size is now -2*side size from width and height.
              * @param [in] textureUVSideSize size of the side in overall texture.
              */
-            static MeshAsset createResizableTextureMeshWithCaps(float width, float height, float side, float textureSideSize);
+            static MeshAsset createResizableTextureMeshWithCaps(float width, float height, float side, float textureSideSize, float xOffset = 0.0f, float yOffset = 0.0f);
 
         private:
             friend class BatchableRectangleMesh;
