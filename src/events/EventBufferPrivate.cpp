@@ -85,7 +85,7 @@ namespace w
                 Event* event = new Event;
                 event->handled = false;
 
-                if (xEvent.type == KeyPress)
+                if (xEvent.type == KeyPress || xEvent.type == KeyRelease)
                 {
                     event->type = EventType::Keyboard;
                     if(XLookupKeysym(&xEvent.xkey, 0) == XK_Escape)
@@ -116,6 +116,7 @@ namespace w
                     {
                         event->keyboard.symbol = KeyboardSymbol::p;
                     }
+                    event->keyboard.pressed = (xEvent.type == KeyPress);
                 }
                 else if (xEvent.type == ClientMessage)
                 {

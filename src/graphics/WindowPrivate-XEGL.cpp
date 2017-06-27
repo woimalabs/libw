@@ -361,7 +361,7 @@ namespace w
             attributes.background_pixel = 0;
             attributes.border_pixel = 0;
             attributes.colormap = XCreateColormap(xDisplay_, root, visualInfo->visual, AllocNone);
-            attributes.event_mask = KeyPressMask | PointerMotionMask | ButtonPressMask | ButtonReleaseMask;
+            attributes.event_mask = KeyPressMask | KeyReleaseMask | PointerMotionMask | ButtonPressMask | ButtonReleaseMask;
             mask = CWBackPixel | CWBorderPixel | CWColormap | CWEventMask;
             xWindow_ = XCreateWindow(xDisplay_, root, 0, 0, width_, height_,
                 0, visualInfo->depth, InputOutput, visualInfo->visual, mask,
