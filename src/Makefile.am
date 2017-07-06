@@ -41,9 +41,7 @@ libw_la_SOURCES = \
 	animation/PathAnimation.cpp \
 	animation/BezierCubicAnimation.cpp \
 	storage/Storage.cpp \
-	storage/StoragePrivate.cpp \
-	network/Request.cpp \
-	network/Response.cpp
+	storage/StoragePrivate.cpp
 
 libw_la_CPPFLAGS = -I$(top_srcdir)/include -Wall -Wextra -std=c++0x
 
