@@ -1,19 +1,33 @@
 libw
 ====
-
 Author: Antti Peuhkurinen (antti.peuhkurinen@woimasolutions.com)
 
 
+
 Platform support
-================
+================================
 Hide platform differences for graphics, input and audio for next platforms:
 - iOS 7.0 or newer
 - Android x.x (to be defined) or newer
 - Linux Desktop: Ubuntu 16 LTS with gles2-mesa and pulse API
 
 
-Assets/ folder
-==============
+
+
+Description from src subfolders
+================================
+base: base helper classes, for example: file based resource sharing, basic classes for other components
+graphics: mesh, texture and shader abstraction. Using GLES2 on linux and Apple's extended GLES on iOS.
+events: touch (linux: mouse) abstraction
+animation: path animation, easing. animation management
+events: touch and mouse abstraction, keyboard events for linux
+scene: base classes for tree based scene structure foir entity-component like scene creation
+math: helpers for Eigen
+
+
+
+Assets/ folder (texture and shaders)
+==============================
 Supported asset types:
 .png for texture data
 .mapping for texture atlas
