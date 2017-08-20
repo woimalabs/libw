@@ -38,7 +38,7 @@ namespace w
         Window::Window(const std::string& name, unsigned int width, unsigned int height, const Eigen::Vector4f& clearColor):
             private_(new WindowPrivate(name, width, height, clearColor))
         {
-            LOGD("window!: %d, %d", private_->width(), private_->height());
+            //LOGD("window!: %d, %d", private_->width(), private_->height());
             private_->increment();
         }
 

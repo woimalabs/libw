@@ -101,7 +101,7 @@ namespace w
                 }
             }
 
-            // Craete window
+            // Create window
             width_ = width;
             height_ = height;
             if (!createXWindow())
@@ -277,6 +277,7 @@ namespace w
                 eglGetConfigAttrib(EGLDisplay_, EGLConfig_, EGL_NATIVE_VISUAL_ID, &nativeId);
                 eglGetConfigAttrib(EGLDisplay_, EGLConfig_, EGL_SAMPLE_BUFFERS, &sampleBuffers);
                 eglGetConfigAttrib(EGLDisplay_, EGLConfig_, EGL_SAMPLES, &samples);
+                /*
                 LOGI("EGL Config Attibutes:\n"
                     " EGL_RED_SIZE: %d\n"
                     " EGL_GREEN_SIZE: %d\n"
@@ -289,6 +290,7 @@ namespace w
                     " EGL_SAMPLE_BUFFERS: %d\n"
                     " EGL_SAMPLES: %d",
                     red, green, blue, alpha, depth, buf, configId, nativeId, sampleBuffers, samples);
+                    */
             }
 
             return true;
@@ -351,8 +353,7 @@ namespace w
                 return false;
             }
 
-            LOGI("Creating XWindow W:%d H:%d VisualID:0x%x", width_, height_,
-                visualInfo->visualid);
+            //LOGI("Creating XWindow W:%d H:%d VisualID:0x%x", width_, height_, visualInfo->visualid);
 
             // Create X Window
             XSetWindowAttributes attributes;
