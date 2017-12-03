@@ -55,6 +55,9 @@ namespace w
         #ifdef ANDROID
             static AAssetManager* androidAssetManager();
             static void setAndroidAssetManager(AAssetManager* androidAssetManager);
+        #elif __APPLE__
+            static std::string appDirectory;
+            static const std::string& getAppDirectory();
         #endif
         static bool textureExists(const std::string& filename);
         static bool bundledFileExists(const std::string& filename);

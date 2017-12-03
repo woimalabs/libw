@@ -36,6 +36,8 @@ namespace w
     ResourceManagerPrivate* ResourceManagerPrivate::singleton_ = NULL;
     #ifdef ANDROID
         AAssetManager* ResourceManagerPrivate::androidAssetManager_ = NULL;
+    #elif __APPLE__
+        std::string ResourceManagerPrivate::appDirectory = "";
     #endif
 
     ResourceManagerPrivate::ResourceManagerPrivate(const std::string& basePath):
@@ -73,7 +75,7 @@ namespace w
         }
         singleton_ = NULL;
     }
-
+    
     Referenced* ResourceManagerPrivate::assetPrivate(const std::string& id)
     {
         if (singleton_ == NULL)
@@ -170,15 +172,12 @@ namespace w
         #elif __linux__
             return new FileHandle(singleton_->basePath_ + "/" + filename, openType);
         #elif __APPLE__
-            // TODO: Check NSArray and NSString-> do they leak here?
-            NSArray* appDocumentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-            NSString* docsDirectory = [appDocumentPaths objectAtIndex: 0];
-            const char* tmp = [docsDirectory UTF8String];
-            return new FileHandle(std::string(tmp) + "/" + filename, openType);
-#endif
+            return new FileHandle(ResourceManagerPrivate::getAppDirectory() + "/" + filename, openType);
+        #endif
     }
 
     #ifdef ANDROID
+    
         AAssetManager* ResourceManagerPrivate::androidAssetManager()
         {
             if (androidAssetManager_ == NULL)
@@ -192,6 +191,41 @@ namespace w
         {
             androidAssetManager_ = assetManager;
         }
+    
+    #elif __APPLE__
+    
+        const std::string& ResourceManagerPrivate::getAppDirectory()
+        {
+            if (ResourceManagerPrivate::appDirectory.empty())
+            {
+                NSString* bundleID = [[NSBundle mainBundle] bundleIdentifier];
+                NSFileManager* fm = [NSFileManager defaultManager];
+                NSURL* dirPath = nil;
+                
+                NSArray* appSupportDir = [fm URLsForDirectory:NSApplicationSupportDirectory
+                                                    inDomains:NSUserDomainMask];
+                if ([appSupportDir count] > 0)
+                {
+                    dirPath = [[appSupportDir objectAtIndex:0] URLByAppendingPathComponent:bundleID];
+                    
+                    NSError* theError = nil;
+                    if (![fm createDirectoryAtURL:dirPath withIntermediateDirectories:YES
+                                       attributes:nil error:&theError])
+                    {
+                        // Something went very wrong, fallback to documents dir.
+                        NSArray* appDocumentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+                        ResourceManagerPrivate::appDirectory = std::string([[appDocumentPaths objectAtIndex:0] UTF8String]);
+                    }
+                    else
+                    {
+                        ResourceManagerPrivate::appDirectory = std::string([[dirPath relativePath] UTF8String]);
+                    }
+                }
+            }
+            
+            return ResourceManagerPrivate::appDirectory;
+        }
+    
     #endif
 
     bool ResourceManagerPrivate::textureExists(const std::string& filename)
@@ -269,11 +303,8 @@ namespace w
             fclose(file);
         }
 #elif __APPLE__
-        // TODO: Check NSArray and NSString-> do they leak here?
-        NSArray* appDocumentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString* docsDirectory = [appDocumentPaths objectAtIndex: 0];
-        std::string tmp = "/" + filename;
-        NSString* fileAndPath = [docsDirectory stringByAppendingPathComponent:@(tmp.c_str())];
+        std::string tmp = ResourceManagerPrivate::getAppDirectory() + "/" + filename;
+        NSString* fileAndPath = [NSString stringWithCString:(tmp.c_str()) encoding:NSUTF8StringEncoding];
         if([[NSFileManager defaultManager] fileExistsAtPath: fileAndPath])
         {
             r = true;
