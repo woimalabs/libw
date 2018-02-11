@@ -42,6 +42,49 @@ namespace w
                 const Eigen::Vector2f & vertex3, const Eigen::Vector2f & vertex4, float & r, float & s);
         }
 
+        // Calculate determinant of matrix:
+        // [a b]
+        // [c d]
+        inline float det(float a, float b, float c, float d)
+        {
+            return a*d - b*c;
+        }
+
+        // Intersection of two lines.
+        // Returns true if found, false if not found or error
+        static bool lineToLineIntersect(Eigen::Vector2f& p1, // Line 1 start
+            Eigen::Vector2f& p2, // Line 1 end
+            Eigen::Vector2f& p3, // Line 2 start
+            Eigen::Vector2f& p4, // Line 2 end
+            Eigen::Vector2f& out) // Output
+        {
+
+            float detL1 = det(p1.x(), p1.y(), p2.x(), p2.y());
+            float detL2 = det(p3.x(), p3.y(), p4.x(), p4.y());
+            float x1mx2 = p1.x() - p2.x();
+            float x3mx4 = p3.x() - p4.x();
+            float y1my2 = p1.y() - p2.y();
+            float y3my4 = p3.y() - p4.y();
+
+            float xnom = det(detL1, x1mx2, detL2, x3mx4);
+            float ynom = det(detL1, y1my2, detL2, y3my4);
+            float denom = det(x1mx2, y1my2, x3mx4, y3my4);
+
+            float ixOut = 0;
+            float iyOut = 0;
+            if(denom == 0.0f) // Lines don't cross
+            {
+                return false;
+            }
+
+            ixOut = xnom / denom;
+            iyOut = ynom / denom;
+            out.x() = ixOut;
+            out.y() = iyOut;
+
+            return true;
+        }
+
         static Eigen::Matrix4f lookAt(const Eigen::Vector3f& position2, const Eigen::Vector3f& target, const Eigen::Vector3f& up)
         {
             /*

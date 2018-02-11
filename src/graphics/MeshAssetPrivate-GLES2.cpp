@@ -60,7 +60,7 @@ namespace w
             StrideComponent tmp = strideComponents.back();
             strideByteSize_ = tmp.byteOffset + tmp.numberOfComponents * sizeof(GLfloat);
         }
-        
+
         MeshAssetPrivate::MeshAssetPrivate(float width, float height,
                 float uStart, float uEnd, float vStart, float vEnd,
                 float wOffset, float hOffset):
@@ -177,13 +177,13 @@ namespace w
                 glGenBuffers(1, &id2_);
                 glBindBuffer(GL_ARRAY_BUFFER, id2_);
                 glBufferData(GL_ARRAY_BUFFER, vertexCount_ * strideByteSize_, tmpVertexData_, GL_STATIC_DRAW);
-                
+
                 // Attributes
                 for (auto iter = strideComponents_.begin(); iter != strideComponents_.end(); iter++)
                 {
                     GLint tmp = program->attribute((*iter).shaderSymbolName);
                     glEnableVertexAttribArray(tmp);
-                    
+
                     //LOGD("index: %d, symbol id: %d", index, program->attribute((*iter).shaderSymbolName));
                     glVertexAttribPointer(
                                           tmp,
@@ -198,7 +198,7 @@ namespace w
                 glBindVertexArrayOES(0);
             }
 #endif
-            
+
             delete [] tmpVertexData_;
             tmpVertexData_ = NULL;
         }
