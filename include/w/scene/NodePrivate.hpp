@@ -70,7 +70,7 @@ namespace w
                 std::map<const std::type_info*, ReferencedPointer<ComponentPrivate> >::iterator i = components_.find(&key);
                 if(i == components_.end())
                 {
-                    LOGE("NodePrivate::removeComponent(), did not have component with type. Doing nothing");;
+                    LOGD("NodePrivate::removeComponent(), did not have component with type. Doing nothing");;
                 }
                 else
                 {

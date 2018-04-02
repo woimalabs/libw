@@ -293,7 +293,7 @@ namespace w
             else
             {
                 // We had this component already
-                LOGE("NodePrivate::addComponent(), trying to overwrite existing component with type. Doing nothing.");
+                LOGD("NodePrivate::addComponent(), trying to overwrite existing component with type. Doing nothing.");
             }
         }
 

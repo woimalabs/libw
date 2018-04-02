@@ -28,11 +28,11 @@
 
 #ifdef __APPLE__
 #include <stdio.h>
+// Don't define DEBUG here, control its definition with xcodeproj build settings on iOS
 #else
 #include <cstdio>
-#endif
-
 #define DEBUG 1
+#endif
 
 #define LOG w::Log::D("%s:%s:%d", __FILE__, __FUNCTION__, __LINE__);
 #define LOGD(...) w::Log::D(__VA_ARGS__);
@@ -46,10 +46,12 @@ namespace w
     public:
 #ifdef DEBUG
         static void D(const char *fmt, ...);
+        static void I(const char *fmt, ...);
 #else
         static void D(const char *fmt, ...) {}
+        static void I(const char *fmt, ...) {}
 #endif
-        static void I(const char *fmt, ...);
+        
         static void E(const char *fmt, ...);
     };
 }

@@ -114,7 +114,7 @@ namespace w
                 
                 GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER) ;
                 if(status != GL_FRAMEBUFFER_COMPLETE) {
-                    NSLog(@"XXX XXX failed to make complete framebuffer object %x", status);
+                    NSLog(@"failed to make complete framebuffer object %x", status);
                 }
                 
                 // create the texture
