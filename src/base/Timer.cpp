@@ -1,7 +1,8 @@
+
 /**
  * libw
  *
- * Copyright (C) 2012-2015 Woima Solutions
+ * Copyright (C) 2012-2018 Woima Solutions
  *
  * This software is provided 'as-is', without any express or implied warranty. In
  * no event will the authors be held liable for any damages arising from the use
@@ -24,17 +25,27 @@
  */
 
 #include "w/base/Timer.hpp"
-#include <time.h>
-#include <unistd.h>
-#include <ctime>
-#ifdef __APPLE__
-#include <mach/mach_time.h>
-#endif
+#include <chrono>
 #include "w/base/Exception.hpp"
 #include "w/base/Log.hpp"
 
 namespace w
 {
+    static std::chrono::milliseconds millisecondsSinceEpoch()
+    {
+        std::chrono::system_clock::time_point t = std::chrono::system_clock::now();
+        const std::chrono::duration<double> timeSinceEpoch = t.time_since_epoch();
+        return std::chrono::duration_cast<std::chrono::milliseconds>(timeSinceEpoch);
+    }
+    static std::chrono::nanoseconds nanosecondsSinceEpoch()
+    {
+        std::chrono::system_clock::time_point t = std::chrono::system_clock::now();
+        const std::chrono::duration<double> timeSinceEpoch = t.time_since_epoch();
+        return std::chrono::duration_cast<std::chrono::nanoseconds>(timeSinceEpoch);
+    }
+    std::chrono::milliseconds Timer::startTimeMilliseconds_ = millisecondsSinceEpoch();
+    std::chrono::nanoseconds Timer::startTimeNanoseconds_ = nanosecondsSinceEpoch();
+
     Timer::Timer()
     {
     }
@@ -45,31 +56,14 @@ namespace w
 
     unsigned int Timer::milliseconds()
     {
-    #ifdef __APPLE__
-        return nanoseconds() / 1000000LL;
-    #else // Android and Linux
-        struct timespec now;
-        clock_gettime(CLOCK_MONOTONIC, &now);
-        return now.tv_sec * 1000LL + now.tv_nsec / 1000000LL;
-    #endif
+        auto tmp = (millisecondsSinceEpoch() - Timer::startTimeMilliseconds_).count();
+        return (unsigned int)tmp;
     }
 
     uint64_t Timer::nanoseconds()
     {
-    #ifdef __APPLE__
-        mach_timebase_info_data_t info;
-        mach_timebase_info(&info);
-
-        uint64_t tmp = mach_absolute_time();
-        tmp *= info.numer;
-        tmp /= info.denom;
-
-        return tmp;
-    #else // Android and Linux
-        struct timespec now;
-        clock_gettime(CLOCK_MONOTONIC, &now);
-        return now.tv_sec * 1000000000LL + now.tv_nsec;
-    #endif
+        auto tmp = (nanosecondsSinceEpoch() - Timer::startTimeNanoseconds_).count();
+        return (uint64_t)tmp;
     }
 
     void Timer::sleepMilliseconds(unsigned int ms)

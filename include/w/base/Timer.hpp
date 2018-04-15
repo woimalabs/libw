@@ -28,6 +28,7 @@
 
 #include <time.h>
 #include <stdint.h> // For uint64_t
+#include <chrono>
 
 namespace w
 {
@@ -53,6 +54,8 @@ namespace w
 
     private:
         static void nanoSleepFromMilliseconds(unsigned int milliseconds);
+        static std::chrono::milliseconds startTimeMilliseconds_;
+        static std::chrono::nanoseconds startTimeNanoseconds_;
     };
 }
 
