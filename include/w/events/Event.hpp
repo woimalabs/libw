@@ -94,8 +94,11 @@ namespace w
                 ArrowDown,
                 ArrowRight,
                 ArrowLeft,
-                d,
-                p
+                p,
+                w,
+                a,
+                s,
+                d
             };
         };
 

@@ -116,6 +116,22 @@ namespace w
                     {
                         event->keyboard.symbol = KeyboardSymbol::p;
                     }
+                    else if(XLookupKeysym(&xEvent.xkey, 0) == XK_w)
+                    {
+                        event->keyboard.symbol = KeyboardSymbol::w;
+                    }
+                    else if(XLookupKeysym(&xEvent.xkey, 0) == XK_a)
+                    {
+                        event->keyboard.symbol = KeyboardSymbol::a;
+                    }
+                    else if(XLookupKeysym(&xEvent.xkey, 0) == XK_s)
+                    {
+                        event->keyboard.symbol = KeyboardSymbol::s;
+                    }
+                    else if(XLookupKeysym(&xEvent.xkey, 0) == XK_d)
+                    {
+                        event->keyboard.symbol = KeyboardSymbol::d;
+                    }
                     event->keyboard.pressed = (xEvent.type == KeyPress);
                 }
                 else if (xEvent.type == ClientMessage)
